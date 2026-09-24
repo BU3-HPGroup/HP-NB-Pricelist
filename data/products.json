@@ -1,0 +1,1269 @@
+{
+  "generatedAt": "2026-09-24T21:13:11",
+  "sourceFile": "Current Pricelist - HPNB.xlsx",
+  "sourceHash": "d6f5762512",
+  "currency": "PHP",
+  "count": 21,
+  "products": [
+    {
+      "id": "15-fc0930au",
+      "model": "HP Laptop 15-fc0930AU",
+      "sku": "15-fc0930AU",
+      "type": "HP 15",
+      "platform": "Otto 23C1",
+      "srp": 56990,
+      "dp": 45592,
+      "cpu": "Ryzen 5-7530U (Copilot)",
+      "cpuBrand": "AMD",
+      "ram": "8GB DDR4 1DM 3200",
+      "storage": "512GB PCIe Value",
+      "graphics": "AMD Radeon Graphics",
+      "display": "15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "OST W11H6 SL APACPPP",
+      "color": "Natural Silver (FF+)",
+      "camera": "720p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP Laptop Clamshell | Otto 23C1 | Ryzen 5-7530U (Copilot) | 8GB DDR4 1DM 3200 | 512GB PCIe Value | AMD Radeon Graphics | 15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border | OST W11H6 SL APACPPP | Natural Silver (FF+) - 720p TNR PVCY ST | 45 Watt (Copilot) | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fc0930au-front.webp",
+          "thumb": "assets/images/products/15-fc0930au-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fc0930AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fc0930au-front-right.webp",
+          "thumb": "assets/images/products/15-fc0930au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fc0930AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fc0930au-rear-left.webp",
+          "thumb": "assets/images/products/15-fc0930au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fc0930AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fc0930au-left-profile.webp",
+          "thumb": "assets/images/products/15-fc0930au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP Laptop 15-fc0930AU - Left Profile.png"
+        }
+      ],
+      "row": 1
+    },
+    {
+      "id": "15-fd1618tu",
+      "model": "HP Laptop 15-fd1618TU",
+      "sku": "15-fd1618TU",
+      "type": "HP 15",
+      "platform": "Sebastian 24C1",
+      "srp": 62990,
+      "dp": 50392,
+      "cpu": "Core 5-120U (Copilot)",
+      "cpuBrand": "Intel",
+      "ram": "8GB DDR4 1DM 3200",
+      "storage": "512GB PCIe value",
+      "graphics": "Intel Graphics",
+      "display": "15.6 FHD (1920x1080) AG SVA 250 nits Narrow border ultraslim",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "OST W11H6 SL APACPPP",
+      "color": "Natural Silver (FF+)",
+      "camera": "1080p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP Laptop Clamshell | Sebastian 24C1 | Core 5-120U (Copilot) | 8GB DDR4 1DM 3200 | 512GB PCIe value | Intel Graphics | 15.6 FHD (1920x1080) AG SVA 250 nits Narrow border ultraslim | OST W11H6 SL APACPPP | Natural Silver (FF+) - 1080p TNR PVCY ST | 45 Watt (Copilot) | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fd1618tu-front.webp",
+          "thumb": "assets/images/products/15-fd1618tu-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fd1618TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fd1618tu-front-right.webp",
+          "thumb": "assets/images/products/15-fd1618tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fd1618TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fd1618tu-rear-left.webp",
+          "thumb": "assets/images/products/15-fd1618tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fd1618TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fd1618tu-left-profile.webp",
+          "thumb": "assets/images/products/15-fd1618tu-left-profile-thumb.webp",
+          "width": 800,
+          "height": 70,
+          "sourceFile": "HP Laptop 15-fd1618TU - Left Profile.png"
+        }
+      ],
+      "row": 2
+    },
+    {
+      "id": "15-fc0947au",
+      "model": "HP Laptop 15-fc0947AU",
+      "sku": "15-fc0947AU",
+      "type": "HP 15",
+      "platform": "Otto 23C1",
+      "srp": 58990,
+      "dp": 47192,
+      "cpu": "Ryzen 7-7730U (Copilot)",
+      "cpuBrand": "AMD",
+      "ram": "8GB DDR4 1DM 3200",
+      "storage": "512GB PCIe Value",
+      "graphics": "AMD Radeon Graphics",
+      "display": "15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "OST W11H6 PLS SL APACPPP",
+      "color": "Natural Silver (FF+)",
+      "camera": "1080p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP Laptop Clamshell | Otto 23C1 | Ryzen 7-7730U (Copilot) | 8GB DDR4 1DM 3200 | 512GB PCIe Value | AMD Radeon Graphics | 15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border | OST W11H6 PLS SL APACPPP | Natural Silver (FF+) - 1080p TNR PVCY ST | 45 Watt (Copilot) | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fc0947au-front.webp",
+          "thumb": "assets/images/products/15-fc0947au-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fc0947AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fc0947au-front-right.webp",
+          "thumb": "assets/images/products/15-fc0947au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fc0947AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fc0947au-rear-left.webp",
+          "thumb": "assets/images/products/15-fc0947au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fc0947AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fc0947au-left-profile.webp",
+          "thumb": "assets/images/products/15-fc0947au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP Laptop 15-fc0947AU - Left Profile.png"
+        }
+      ],
+      "row": 3
+    },
+    {
+      "id": "14-ht0144tu",
+      "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+      "sku": "14-ht0144TU",
+      "type": "OB3",
+      "platform": "AbeI26C1",
+      "srp": 60990,
+      "dp": 48792,
+      "cpu": "Core 3 304 (5C) 15 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "8GB DDR5 1DM 5600",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200)",
+      "os": "OST W11H6 SL APACPPP",
+      "color": "Glacier Silver DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 AI PC Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP OmniBook 3 AI PC Clamshell | Abe-I 26C1 | Core 3 304 (5C) 15 NPU TOPs | 8GB DDR5 1DM 5600 | 512GB PCIe Gen4 Value | Intel Graphics | 14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits | OST W11H6 SL APACPPP | Glacier Silver DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-ht0144tu-front.webp",
+          "thumb": "assets/images/products/14-ht0144tu-front-thumb.webp",
+          "width": 1200,
+          "height": 989,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0144TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-ht0144tu-front-right.webp",
+          "thumb": "assets/images/products/14-ht0144tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0144TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-ht0144tu-rear-left.webp",
+          "thumb": "assets/images/products/14-ht0144tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1012,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0144TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-ht0144tu-left-profile.webp",
+          "thumb": "assets/images/products/14-ht0144tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 108,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0144TU - Left Profile.png"
+        }
+      ],
+      "row": 4
+    },
+    {
+      "id": "14-ht0145tu",
+      "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+      "sku": "14-ht0145TU",
+      "type": "OB3",
+      "platform": "AbeI26C1",
+      "srp": 60990,
+      "dp": 48792,
+      "cpu": "Core 3 304 (5C) 15 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "8GB DDR5 1DM 5600",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200)",
+      "os": "OST W11H6 SL APACPPP",
+      "color": "Starlit Blue DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 AI PC Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP OmniBook 3 AI PC Clamshell | Abe-I 26C1 | Core 3 304 (5C) 15 NPU TOPs | 8GB DDR5 1DM 5600 | 512GB PCIe Gen4 Value | Intel Graphics | 14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits | OST W11H6 SL APACPPP | Starlit Blue DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2| HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-ht0145tu-front.webp",
+          "thumb": "assets/images/products/14-ht0145tu-front-thumb.webp",
+          "width": 1200,
+          "height": 989,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0145TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-ht0145tu-front-right.webp",
+          "thumb": "assets/images/products/14-ht0145tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0145TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-ht0145tu-rear-left.webp",
+          "thumb": "assets/images/products/14-ht0145tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1012,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0145TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-ht0145tu-left-profile.webp",
+          "thumb": "assets/images/products/14-ht0145tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 108,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0145TU - Left Profile.png"
+        }
+      ],
+      "row": 5
+    },
+    {
+      "id": "14-ht0092tu",
+      "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+      "sku": "14-ht0092TU",
+      "type": "OB3",
+      "platform": "AbeI26C1",
+      "srp": 64990,
+      "dp": 51992,
+      "cpu": "Core 5 315 (6C) 15 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "8GB DDR5 1DM 5600",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200)",
+      "os": "OST W11H6 SL APACPPP",
+      "color": "Glacier Silver DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP OmniBook 3 Clamshell | Abe-I 26C1 | Core 5 315 (6C) 15 NPU TOPs | 8GB DDR5 1DM 5600 | 512GB PCIe Gen4 Value | Intel Graphics | 14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits | OST W11H6 SL APACPPP | Glacier Silver DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2| HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-ht0092tu-front.webp",
+          "thumb": "assets/images/products/14-ht0092tu-front-thumb.webp",
+          "width": 1200,
+          "height": 989,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0092TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-ht0092tu-front-right.webp",
+          "thumb": "assets/images/products/14-ht0092tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0092TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-ht0092tu-rear-left.webp",
+          "thumb": "assets/images/products/14-ht0092tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1012,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0092TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-ht0092tu-left-profile.webp",
+          "thumb": "assets/images/products/14-ht0092tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 108,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0092TU - Left Profile.png"
+        }
+      ],
+      "row": 6
+    },
+    {
+      "id": "14-hm0072au",
+      "model": "HP OmniBook 5 14-hm0072AU",
+      "sku": "14-hm0072AU",
+      "type": "OB5",
+      "platform": "DesoA",
+      "srp": 85990,
+      "dp": 68792,
+      "cpu": "Ryzen AI 5 330 (4C) 50 NPU TOPs",
+      "cpuBrand": "AMD",
+      "ram": "16GB LPDDR5X 8000 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "AMD Radeon 820M Graphics",
+      "display": "Touch/14.0 2K (1920x1200) OLED Brightview Low Blue Light 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200) OLED Touch",
+      "os": "OST W11H6 NG STD SL APACPPP",
+      "color": "Starlit Blue AI logo",
+      "camera": "1080p IR TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 5 Clamshell",
+      "adapter": "65 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP OmniBook 5 Clamshell | Deso-A 26C1 | Ryzen AI 5 330 (4C) 50 NPU TOPs | 16GB LPDDR5X 8000 on-board | 512GB PCIe Gen4 Value | AMD Radeon 820M Graphics | Touch/14.0 2K (1920x1200) OLED Brightview Low Blue Light 300 nits | OST W11H6 NG STD SL APACPPP | Starlit Blue AI logo - 1080p IR TNR | 65 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-hm0072au-front.webp",
+          "thumb": "assets/images/products/14-hm0072au-front-thumb.webp",
+          "width": 1200,
+          "height": 970,
+          "sourceFile": "HP OmniBook 5 14-hm0072AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-hm0072au-front-right.webp",
+          "thumb": "assets/images/products/14-hm0072au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1002,
+          "sourceFile": "HP OmniBook 5 14-hm0072AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-hm0072au-rear-left.webp",
+          "thumb": "assets/images/products/14-hm0072au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1028,
+          "sourceFile": "HP OmniBook 5 14-hm0072AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-hm0072au-left-profile.webp",
+          "thumb": "assets/images/products/14-hm0072au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 104,
+          "sourceFile": "HP OmniBook 5 14-hm0072AU - Left Profile.png"
+        }
+      ],
+      "row": 7
+    },
+    {
+      "id": "14-kf0002tu",
+      "model": "HP OmniBook 5 AI PC 14-kf0002TU",
+      "sku": "14-kf0002TU",
+      "type": "OB5",
+      "platform": "Deso I",
+      "srp": 87990,
+      "dp": 70392,
+      "cpu": "Core 5 320 (6C) 16 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 7467 on-board",
+      "storage": "512GB PCIe Gen4 value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 2K (1920x1200) OLED Brightview Low Blue Light 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200) OLED Touch",
+      "os": "OST W11H6 PLS SL APACPPP",
+      "color": "Glacier Silver",
+      "camera": "1080p IR TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 5 AI PC Clamshell",
+      "adapter": "65 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP OmniBook 5 AI PC Clamshell | Deso-I 26C1 | Core 5 320 (6C) 16 NPU TOPs | 16GB LPDDR5X 7467 on-board | 512GB PCIe Gen4 value | Intel Graphics | Touch/14.0 2K (1920x1200) OLED Brightview Low Blue Light 300 nits | OST W11H6 PLS SL APACPPP | Glacier Silver - 1080p IR TNR | 65 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kf0002tu-front.webp",
+          "thumb": "assets/images/products/14-kf0002tu-front-thumb.webp",
+          "width": 1200,
+          "height": 961,
+          "sourceFile": "HP OmniBook 5 AI PC 14-kf0002TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kf0002tu-front-right.webp",
+          "thumb": "assets/images/products/14-kf0002tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 999,
+          "sourceFile": "HP OmniBook 5 AI PC 14-kf0002TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kf0002tu-rear-left.webp",
+          "thumb": "assets/images/products/14-kf0002tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1006,
+          "sourceFile": "HP OmniBook 5 AI PC 14-kf0002TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kf0002tu-left-profile.webp",
+          "thumb": "assets/images/products/14-kf0002tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 101,
+          "sourceFile": "HP OmniBook 5 AI PC 14-kf0002TU - Left Profile.png"
+        }
+      ],
+      "row": 8
+    },
+    {
+      "id": "14-fp0162tu",
+      "model": "HP OmniBook 5 Flip 14-fp0162TU",
+      "sku": "14-fp0162TU",
+      "type": "OB5 FLIP",
+      "platform": "Salute 25C1",
+      "srp": 80990,
+      "dp": 64792,
+      "cpu": "Core 5-120U (10C)",
+      "cpuBrand": "Intel",
+      "ram": "8GB LPDDR5 5200 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 2K (1920x1200) IPS Low Power 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200) Touch",
+      "os": "OST W11H6 SL APACPPP",
+      "color": "Powder Pink",
+      "camera": "5MP IR TNR PVCY ST",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook 5 Flip x360",
+      "adapter": "65 Watt USB C",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP OmniBook 5 Flip x360 | Salute 25C1 | Core 5-120U (10C) | 8GB LPDDR5 5200 on-board | 512GB PCIe Gen4 Value | Intel Graphics | Touch/14.0 2K (1920x1200) IPS Low Power 300 nits | OST W11H6 SL APACPPP | Powder Pink - 5MP IR TNR PVCY ST | 65 Watt USB C | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-fp0162tu-front.webp",
+          "thumb": "assets/images/products/14-fp0162tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1006,
+          "sourceFile": "HP OmniBook 5 Flip 14-fp0162TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-fp0162tu-front-right.webp",
+          "thumb": "assets/images/products/14-fp0162tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1023,
+          "sourceFile": "HP OmniBook 5 Flip 14-fp0162TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-fp0162tu-rear-left.webp",
+          "thumb": "assets/images/products/14-fp0162tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1030,
+          "sourceFile": "HP OmniBook 5 Flip 14-fp0162TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-fp0162tu-left-profile.webp",
+          "thumb": "assets/images/products/14-fp0162tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 116,
+          "sourceFile": "HP OmniBook 5 Flip 14-fp0162TU - Left Profile.png"
+        }
+      ],
+      "row": 9
+    },
+    {
+      "id": "14-kb0105tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0105TU",
+      "sku": "14-kb0105TU",
+      "type": "OBX",
+      "platform": "KentoI-26C1",
+      "srp": 103990,
+      "dp": 83192,
+      "cpu": "Ultra 5 325 (8C) 47 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 7467 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 2K (1920x1200) Brightview 400 nits",
+      "displayShort": "14.0\" 2K (1920x1200) Touch",
+      "os": "OST W11H6 NG STD SL APACPPP",
+      "color": "Meteor Silver",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-I 26C1 | Ultra 5 325 (8C) 47 NPU TOPs | 16GB LPDDR5X 7467 on-board | 512GB PCIe Gen4 Value | Intel Graphics | Touch/14.0 2K (1920x1200) Brightview 400 nits | OST W11H6 NG STD SL APACPPP | Meteor Silver - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kb0105tu-front.webp",
+          "thumb": "assets/images/products/14-kb0105tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0105TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kb0105tu-front-right.webp",
+          "thumb": "assets/images/products/14-kb0105tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1017,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0105TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kb0105tu-rear-left.webp",
+          "thumb": "assets/images/products/14-kb0105tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0105TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kb0105tu-left-profile.webp",
+          "thumb": "assets/images/products/14-kb0105tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0105TU - Left Profile.png"
+        }
+      ],
+      "row": 10
+    },
+    {
+      "id": "14-kb0106tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0106TU",
+      "sku": "14-kb0106TU",
+      "type": "OBX",
+      "platform": "KentoI-26C1",
+      "srp": 113990,
+      "dp": 91192,
+      "cpu": "Ultra 7 355 (8C) 49 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 7467 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 2K (1920x1200) Brightview 400 nits",
+      "displayShort": "14.0\" 2K (1920x1200) Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Meteor Silver",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-I 26C1 | Ultra 7 355 (8C) 49 NPU TOPs | 16GB LPDDR5X 7467 on-board | 512GB PCIe Gen4 Value | Intel Graphics | Touch/14.0 2K (1920x1200) Brightview 400 nits | OST W11H6 NG PRE SL APACPPP | Meteor Silver - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kb0106tu-front.webp",
+          "thumb": "assets/images/products/14-kb0106tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0106TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kb0106tu-front-right.webp",
+          "thumb": "assets/images/products/14-kb0106tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1017,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0106TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kb0106tu-rear-left.webp",
+          "thumb": "assets/images/products/14-kb0106tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0106TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kb0106tu-left-profile.webp",
+          "thumb": "assets/images/products/14-kb0106tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0106TU - Left Profile.png"
+        }
+      ],
+      "row": 11
+    },
+    {
+      "id": "14-kb0112tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0112TU",
+      "sku": "14-kb0112TU",
+      "type": "OBX",
+      "platform": "KentoI-26C1",
+      "srp": 138990,
+      "dp": 111192,
+      "cpu": "Ultra 7 355 (8C) 49 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "24GB LPDDR5X 6800 on-board",
+      "storage": "1TB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 2K (1920x1200) Brightview 400 nits",
+      "displayShort": "14.0\" 2K (1920x1200) Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Meteor Silver",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-I 26C1 | Ultra 7 355 (8C) 49 NPU TOPs | 24GB LPDDR5X 6800 on-board | 1TB PCIe Gen4 Value | Intel Graphics | Touch/14.0 2K (1920x1200) Brightview 400 nits | OST W11H6 NG PRE SL APACPPP | Meteor Silver - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kb0112tu-front.webp",
+          "thumb": "assets/images/products/14-kb0112tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0112TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kb0112tu-front-right.webp",
+          "thumb": "assets/images/products/14-kb0112tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1017,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0112TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kb0112tu-rear-left.webp",
+          "thumb": "assets/images/products/14-kb0112tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0112TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kb0112tu-left-profile.webp",
+          "thumb": "assets/images/products/14-kb0112tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0112TU - Left Profile.png"
+        }
+      ],
+      "row": 12
+    },
+    {
+      "id": "14-kb0107tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0107TU",
+      "sku": "14-kb0107TU",
+      "type": "OBX",
+      "platform": "KentoI-26C1",
+      "srp": 159990,
+      "dp": 127992,
+      "cpu": "Ultra 9 386H (16C) 50 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "32GB LPDDR5X 8533 on-board",
+      "storage": "1TB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 2K (1920x1200) Brightview 400 nits",
+      "displayShort": "14.0\" 2K (1920x1200) Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Meteor Silver",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-I 26C1 | Ultra 9 386H (16C) 50 NPU TOPs | 32GB LPDDR5X 8533 on-board | 1TB PCIe Gen4 Value | Intel Graphics | Touch/14.0 2K (1920x1200) Brightview 400 nits | OST W11H6 NG PRE SL APACPPP | Meteor Silver - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2| HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kb0107tu-front.webp",
+          "thumb": "assets/images/products/14-kb0107tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0107TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kb0107tu-front-right.webp",
+          "thumb": "assets/images/products/14-kb0107tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1017,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0107TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kb0107tu-rear-left.webp",
+          "thumb": "assets/images/products/14-kb0107tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0107TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kb0107tu-left-profile.webp",
+          "thumb": "assets/images/products/14-kb0107tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0107TU - Left Profile.png"
+        }
+      ],
+      "row": 13
+    },
+    {
+      "id": "14-kc0081au",
+      "model": "HP OmniBook X Flip NG AI PC 14-kc0081AU",
+      "sku": "14-kc0081AU",
+      "type": "OBX",
+      "platform": "KentoA 26C1",
+      "srp": 101990,
+      "dp": 81592,
+      "cpu": "Ryzen AI 7 445 (6C) 50 NPU TOPs",
+      "cpuBrand": "AMD",
+      "ram": "16GB LPDDR5X 8000 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "AMD Radeon 840M Graphics",
+      "display": "Touch/14.0 2K (1920x1200) Brightview 400 nits",
+      "displayShort": "14.0\" 2K (1920x1200) Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Deep Espresso",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-A 26C1 | Ryzen AI 7 445 (6C) 50 NPU TOPs | 16GB LPDDR5X 8000 on-board | 512GB PCIe Gen4 Value | AMD Radeon 840M Graphics | Touch/14.0 2K (1920x1200) Brightview 400 nits | OST W11H6 NG PRE SL APACPPP | Deep Espresso - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kc0081au-front.webp",
+          "thumb": "assets/images/products/14-kc0081au-front-thumb.webp",
+          "width": 1200,
+          "height": 988,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0081AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kc0081au-front-right.webp",
+          "thumb": "assets/images/products/14-kc0081au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1017,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0081AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kc0081au-rear-left.webp",
+          "thumb": "assets/images/products/14-kc0081au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0081AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kc0081au-left-profile.webp",
+          "thumb": "assets/images/products/14-kc0081au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0081AU - Left Profile.png"
+        }
+      ],
+      "row": 14
+    },
+    {
+      "id": "14-kb0100tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
+      "sku": "14-kb0100TU",
+      "type": "OBX",
+      "platform": "KentoI-26C1",
+      "srp": 112990,
+      "dp": 90392,
+      "cpu": "Ultra 5 325 (8C) 47 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 7467 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits",
+      "displayShort": "14.0\" 3K (2880x1800) OLED Touch",
+      "os": "OST W11H6 NG STD SL APACPPP",
+      "color": "Athmospheric Blue",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-I 26C1 | Ultra 5 325 (8C) 47 NPU TOPs | 16GB LPDDR5X 7467 on-board | 512GB PCIe Gen4 Value | Intel Graphics | Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits | OST W11H6 NG STD SL APACPPP | Athmospheric Blue - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2| HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kb0100tu-front.webp",
+          "thumb": "assets/images/products/14-kb0100tu-front-thumb.webp",
+          "width": 1200,
+          "height": 988,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0100TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kb0100tu-front-right.webp",
+          "thumb": "assets/images/products/14-kb0100tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0100TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kb0100tu-rear-left.webp",
+          "thumb": "assets/images/products/14-kb0100tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0100TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kb0100tu-left-profile.webp",
+          "thumb": "assets/images/products/14-kb0100tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0100TU - Left Profile.png"
+        }
+      ],
+      "row": 15
+    },
+    {
+      "id": "14-kb0101tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0101TU",
+      "sku": "14-kb0101TU",
+      "type": "OBX",
+      "platform": "KentoI-26C1",
+      "srp": 122990,
+      "dp": 98392,
+      "cpu": "Ultra 7 355 (8C) 49 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 7467 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits",
+      "displayShort": "14.0\" 3K (2880x1800) OLED Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Athmospheric Blue",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-I 26C1 | Ultra 7 355 (8C) 49 NPU TOPs | 16GB LPDDR5X 7467 on-board | 512GB PCIe Gen4 Value | Intel Graphics | Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits | OST W11H6 NG PRE SL APACPPP | Athmospheric Blue - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kb0101tu-front.webp",
+          "thumb": "assets/images/products/14-kb0101tu-front-thumb.webp",
+          "width": 1200,
+          "height": 988,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0101TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kb0101tu-front-right.webp",
+          "thumb": "assets/images/products/14-kb0101tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0101TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kb0101tu-rear-left.webp",
+          "thumb": "assets/images/products/14-kb0101tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0101TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kb0101tu-left-profile.webp",
+          "thumb": "assets/images/products/14-kb0101tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0101TU - Left Profile.png"
+        }
+      ],
+      "row": 16
+    },
+    {
+      "id": "14-kb0102tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0102TU",
+      "sku": "14-kb0102TU",
+      "type": "OBX",
+      "platform": "KentoI-26C1",
+      "srp": 169990,
+      "dp": 135992,
+      "cpu": "Ultra 9 386H (16C) 50 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "32GB LPDDR5X 8533 on-board",
+      "storage": "1TB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits",
+      "displayShort": "14.0\" 3K (2880x1800) OLED Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Athmospheric Blue",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-I 26C1 | Ultra 9 386H (16C) 50 NPU TOPs | 32GB LPDDR5X 8533 on-board | 1TB PCIe Gen4 Value | Intel Graphics | Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits | OST W11H6 NG PRE SL APACPPP | Athmospheric Blue - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kb0102tu-front.webp",
+          "thumb": "assets/images/products/14-kb0102tu-front-thumb.webp",
+          "width": 1200,
+          "height": 988,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0102TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kb0102tu-front-right.webp",
+          "thumb": "assets/images/products/14-kb0102tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0102TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kb0102tu-rear-left.webp",
+          "thumb": "assets/images/products/14-kb0102tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0102TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kb0102tu-left-profile.webp",
+          "thumb": "assets/images/products/14-kb0102tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kb0102TU - Left Profile.png"
+        }
+      ],
+      "row": 17
+    },
+    {
+      "id": "14-kc0079au",
+      "model": "HP OmniBook X Flip NG AI PC 14-kc0079AU",
+      "sku": "14-kc0079AU",
+      "type": "OBX",
+      "platform": "KentoA 26C1",
+      "srp": 106990,
+      "dp": 85592,
+      "cpu": "Ryzen AI 5 430 (4C) 50 NPU TOPs",
+      "cpuBrand": "AMD",
+      "ram": "16GB LPDDR5X 8000 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "AMD Radeon 840M Graphics",
+      "display": "Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits",
+      "displayShort": "14.0\" 3K (2880x1800) OLED Touch",
+      "os": "OST W11H6 NG STD SL APACPPP",
+      "color": "Athmospheric Blue",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-A 26C1 | Ryzen AI 5 430 (4C) 50 NPU TOPs | 16GB LPDDR5X 8000 on-board | 512GB PCIe Gen4 Value | AMD Radeon 840M Graphics | Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits | OST W11H6 NG STD SL APACPPP | Athmospheric Blue - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kc0079au-front.webp",
+          "thumb": "assets/images/products/14-kc0079au-front-thumb.webp",
+          "width": 1200,
+          "height": 988,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0079AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kc0079au-front-right.webp",
+          "thumb": "assets/images/products/14-kc0079au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0079AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kc0079au-rear-left.webp",
+          "thumb": "assets/images/products/14-kc0079au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0079AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kc0079au-left-profile.webp",
+          "thumb": "assets/images/products/14-kc0079au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0079AU - Left Profile.png"
+        }
+      ],
+      "row": 18
+    },
+    {
+      "id": "14-kc0039au",
+      "model": "HP OmniBook X Flip NG AI PC 14-kc0039AU",
+      "sku": "14-kc0039AU",
+      "type": "OBX",
+      "platform": "KentoA 26C1",
+      "srp": 109990,
+      "dp": 87992,
+      "cpu": "Ryzen AI 7 445 (6C) 50 NPU TOPs",
+      "cpuBrand": "AMD",
+      "ram": "16GB LPDDR5X 8000 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "AMD Radeon 840M Graphics",
+      "display": "Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits",
+      "displayShort": "14.0\" 3K (2880x1800) OLED Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Athmospheric Blue",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-A 26C1 | Ryzen AI 7 445 (6C) 50 NPU TOPs | 16GB LPDDR5X 8000 on-board | 512GB PCIe Gen4 Value | AMD Radeon 840M Graphics | Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits | OST W11H6 NG PRE SL APACPPP | Athmospheric Blue - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kc0039au-front.webp",
+          "thumb": "assets/images/products/14-kc0039au-front-thumb.webp",
+          "width": 1200,
+          "height": 988,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0039AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kc0039au-front-right.webp",
+          "thumb": "assets/images/products/14-kc0039au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0039AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kc0039au-rear-left.webp",
+          "thumb": "assets/images/products/14-kc0039au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0039AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kc0039au-left-profile.webp",
+          "thumb": "assets/images/products/14-kc0039au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0039AU - Left Profile.png"
+        }
+      ],
+      "row": 19
+    },
+    {
+      "id": "14-kc0078au",
+      "model": "HP OmniBook X Flip NG AI PC 14-kc0078AU",
+      "sku": "14-kc0078AU",
+      "type": "OBX",
+      "platform": "KentoA 26C1",
+      "srp": 158990,
+      "dp": 127192,
+      "cpu": "Ryzen AI 9 465 (10C) 50 NPU TOPs",
+      "cpuBrand": "AMD",
+      "ram": "32GB LPDDR5X 8533 on-board",
+      "storage": "1TB PCIe Gen4 Value",
+      "graphics": "AMD Radeon 880M Graphics",
+      "display": "Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits",
+      "displayShort": "14.0\" 3K (2880x1800) OLED Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Athmospheric Blue",
+      "camera": "5MP IR TNR",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB-C Wall-Mount GaN (Fixed)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Kento-A 26C1 | Ryzen AI 9 465 (10C) 50 NPU TOPs | 32GB LPDDR5X 8533 on-board | 1TB PCIe Gen4 Value | AMD Radeon 880M Graphics | Touch/14.0 3K (2880x1800) OLED Brightview Low Blue Light VRR 120Hz 500 nits | OST W11H6 NG PRE SL APACPPP | Athmospheric Blue - 5MP IR TNR | 65 Watt USB-C Wall-Mount GaN (Fixed) | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-kc0078au-front.webp",
+          "thumb": "assets/images/products/14-kc0078au-front-thumb.webp",
+          "width": 1200,
+          "height": 988,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0078AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-kc0078au-front-right.webp",
+          "thumb": "assets/images/products/14-kc0078au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0078AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-kc0078au-rear-left.webp",
+          "thumb": "assets/images/products/14-kc0078au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1019,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0078AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-kc0078au-left-profile.webp",
+          "thumb": "assets/images/products/14-kc0078au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-kc0078AU - Left Profile.png"
+        }
+      ],
+      "row": 20
+    },
+    {
+      "id": "15-fc0932au",
+      "model": "HP Laptop 15-fc0932AU",
+      "sku": "15-fc0932AU",
+      "type": "HP 15",
+      "platform": "Otto 23C1",
+      "srp": 57990,
+      "dp": 46392,
+      "cpu": "Ryzen 7-7730U (Copilot)",
+      "cpuBrand": "AMD",
+      "ram": "8GB DDR4 1DM 3200",
+      "storage": "256GB PCIe Value",
+      "graphics": "AMD Radeon Graphics",
+      "display": "15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "OST W11H6 PLS SL APACPPP",
+      "color": "Natural Silver (FF+)",
+      "camera": "1080p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "WARR 1/1/0 A/P",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP Laptop Clamshell | Otto 23C1 | Ryzen 7-7730U (Copilot) | 8GB DDR4 1DM 3200 | 256GB PCIe Value | AMD Radeon Graphics | 15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border | OST W11H6 PLS SL APACPPP | Natural Silver (FF+) - 1080p TNR PVCY ST | 45 Watt (Copilot) | WARR 1/1/0 A/P | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fc0932au-front.webp",
+          "thumb": "assets/images/products/15-fc0932au-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fc0932AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fc0932au-front-right.webp",
+          "thumb": "assets/images/products/15-fc0932au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fc0932AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fc0932au-rear-left.webp",
+          "thumb": "assets/images/products/15-fc0932au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fc0932AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fc0932au-left-profile.webp",
+          "thumb": "assets/images/products/15-fc0932au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP Laptop 15-fc0932AU - Left Profile.png"
+        }
+      ],
+      "row": 21
+    }
+  ]
+}

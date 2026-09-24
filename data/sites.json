@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Product Content Browser",
+    "description": "Official HP product content — datasheets, QuickSpecs, marketing images and SKU-level specifications for Asia Pacific (English).",
+    "url": "https://pcb.inc.hp.com/webapp/#/ap-en?hierarchy=F&status=L&status=O",
+    "icon": "catalog"
+  },
+  {
+    "name": "HP Service Center",
+    "description": "Find authorized HP service centers in the Philippines for repairs, walk-in support and warranty service.",
+    "url": "https://support.hp.com/ph-en/help/service-center",
+    "icon": "service"
+  },
+  {
+    "name": "HP Warranty Extension Inquiry",
+    "description": "Check warranty coverage and extension eligibility for HP products purchased in the Philippines.",
+    "url": "https://cpc2.ext.hp.com/?countries=PH",
+    "icon": "warranty"
+  }
+]

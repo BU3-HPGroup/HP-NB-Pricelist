@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HP Product Pricelist · Iontech</title>
+  <meta name="description" content="HP notebook pricelist for Iontech sales teams and dealers — models, specifications, SRP and DP.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="data/products.json" as="fetch" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to products</a>
+
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <a class="brand" href="#/" aria-label="HP Product Pricelist home">
+        <img class="logo-hp" src="assets/logos/hp-logo.png" width="48" height="48" alt="HP">
+        <img class="logo-iontech" src="assets/logos/iontech-logo.png" width="55" height="18" alt="Iontech">
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-title">HP Product Pricelist</span>
+      </a>
+
+      <div class="search" role="search">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="search" type="search" placeholder="Search model, SKU, processor…" autocomplete="off" spellcheck="false" aria-label="Search products">
+        <button class="search-clear" id="searchClear" type="button" aria-label="Clear search" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Product types">
+      <div class="nav-inner">
+        <ul class="nav-list" id="navList">
+          <li><a class="nav-link" href="#/" data-nav="all">All</a></li>
+        </ul>
+        <a class="nav-link nav-sites" href="#/sites" data-nav="sites">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+          HP Related Sites
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Product catalog view -->
+    <section id="catalogView" class="view" aria-labelledby="catTitle">
+      <div class="category-hero">
+        <div class="container">
+          <p class="eyebrow" id="catEyebrow">HP Notebooks</p>
+          <h1 id="catTitle">All Products</h1>
+          <p class="category-desc" id="catDesc">Browse every model on the current pricelist. Search, filter and compare SRP and DP at a glance.</p>
+        </div>
+      </div>
+
+      <div class="container catalog">
+        <aside class="filters" id="filters" aria-label="Product filters">
+          <div class="filters-head">
+            <h2>Filters</h2>
+            <button type="button" class="link-btn" id="clearFilters">Clear all</button>
+            <button type="button" class="icon-btn filters-close" id="filtersClose" aria-label="Close filters">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+            </button>
+          </div>
+          <div class="filters-body">
+            <fieldset class="filter-group">
+              <legend>Type</legend>
+              <div id="fType" class="filter-options"></div>
+            </fieldset>
+            <fieldset class="filter-group">
+              <legend>Processor</legend>
+              <div id="fCpu" class="filter-options"></div>
+            </fieldset>
+            <fieldset class="filter-group">
+              <legend>Price band <span class="legend-note">(SRP)</span></legend>
+              <div id="fPrice" class="filter-options"></div>
+            </fieldset>
+          </div>
+          <div class="filters-foot">
+            <button type="button" class="btn btn-primary btn-block" id="filtersApply">Show results</button>
+          </div>
+        </aside>
+        <div class="filters-backdrop" id="filtersBackdrop" hidden></div>
+
+        <div class="results">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <button type="button" class="btn btn-outline filters-toggle" id="filtersToggle" aria-controls="filters" aria-expanded="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+                Filters <span class="badge" id="filterBadge" hidden>0</span>
+              </button>
+              <p class="result-count" id="resultCount" aria-live="polite">Loading products…</p>
+            </div>
+            <div class="toolbar-right">
+              <label class="sort">
+                <span class="visually-hidden">Sort by</span>
+                <select id="sort">
+                  <option value="default">Sort: Pricelist order</option>
+                  <option value="srp-asc">SRP: Low to high</option>
+                  <option value="srp-desc">SRP: High to low</option>
+                  <option value="model-asc">Model: A–Z</option>
+                </select>
+              </label>
+              <div class="view-toggle" role="group" aria-label="View mode">
+                <button type="button" class="vt-btn" data-view="grid" aria-pressed="true" title="Grid view">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg>
+                  <span>Grid</span>
+                </button>
+                <button type="button" class="vt-btn" data-view="list" aria-pressed="false" title="List view">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><rect x="3.5" y="4.5" width="3" height="3" rx=".5"/><rect x="3.5" y="10.5" width="3" height="3" rx=".5"/><rect x="3.5" y="16.5" width="3" height="3" rx=".5"/></svg>
+                  <span>List</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="active-chips" id="activeChips" aria-label="Active filters"></div>
+
+          <div id="products" class="products grid" aria-live="polite"></div>
+
+          <div class="empty" id="emptyState" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8.5 11h5"/></svg>
+            <h3>No matching products</h3>
+            <p>Try a different model number or remove some filters.</p>
+            <button type="button" class="btn btn-outline" id="emptyReset">Clear search &amp; filters</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HP Related Sites view -->
+    <section id="sitesView" class="view" aria-labelledby="sitesTitle" hidden>
+      <div class="category-hero">
+        <div class="container">
+          <p class="eyebrow">Resources</p>
+          <h1 id="sitesTitle">HP Related Sites</h1>
+          <p class="category-desc">Quick links to official HP tools for product content, service and warranty. Each site opens in a new tab.</p>
+        </div>
+      </div>
+      <div class="container">
+        <div class="sites-grid" id="sitesGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logos/hp-logo.png" width="28" height="28" alt="HP">
+        <img src="assets/logos/iontech-logo.png" width="33" height="11" alt="Iontech">
+      </div>
+      <p class="footer-note">Prices in Philippine Peso (₱). SRP = suggested retail price; DP = dealer price. For internal sales and dealer reference only — prices and specifications are subject to change without notice.</p>
+      <p class="footer-meta" id="footerMeta"></p>
+    </div>
+  </footer>
+
+  <!-- Product details -->
+  <div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="dmTitle" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="document">
+      <button type="button" class="icon-btn modal-close" data-close aria-label="Close details">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="modal-body" id="detailBody"></div>
+    </div>
+  </div>
+
+  <!-- Enlarged image -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged product image" hidden>
+    <button type="button" class="icon-btn lb-close" id="lbClose" aria-label="Close enlarged image">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <button type="button" class="icon-btn lb-nav lb-prev" id="lbPrev" aria-label="Previous image">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+    </button>
+    <figure class="lb-figure">
+      <img id="lbImg" alt="">
+      <figcaption id="lbCaption"></figcaption>
+    </figure>
+    <button type="button" class="icon-btn lb-nav lb-next" id="lbNext" aria-label="Next image">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <noscript><p class="noscript">This pricelist needs JavaScript enabled to display products.</p></noscript>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

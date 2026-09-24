@@ -1,0 +1,27 @@
+[
+  {
+    "code": "HP 15",
+    "label": "HP Laptop 15",
+    "description": "Everyday 15.6-inch laptops for home, school and small-office productivity."
+  },
+  {
+    "code": "OB3",
+    "label": "OmniBook 3",
+    "description": "Designed for everyday productivity with a balance of performance, portability, and value."
+  },
+  {
+    "code": "OB5",
+    "label": "OmniBook 5",
+    "description": "Thin-and-light 14-inch laptops for mainstream productivity and on-the-go work."
+  },
+  {
+    "code": "OB5 FLIP",
+    "label": "OmniBook 5 Flip",
+    "description": "Convertible 2-in-1 laptops that switch between laptop and tablet modes for work, study and creative tasks."
+  },
+  {
+    "code": "OBX",
+    "label": "OmniBook X",
+    "description": "Premium OmniBook X Flip convertible AI PCs for professionals who want performance in a versatile 2-in-1 design."
+  }
+]
