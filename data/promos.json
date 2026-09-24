@@ -1,0 +1,373 @@
+{
+  "note": "Edit this file to add, change or remove promotions. Dates use YYYY-MM-DD; a promo is hidden automatically after its end date.",
+  "freebie": {
+    "name": "HP Everyday 16-inch Laptop Briefcase",
+    "sku": "A08JTAA",
+    "label": "FREE",
+    "appliesTo": "All laptops",
+    "image": "assets/images/freebie-a08jtaa.webp",
+    "thumb": "assets/images/freebie-a08jtaa-thumb.webp",
+    "caption": "Standard freebie with every HP laptop on this pricelist.",
+    "shortName": "HP Everyday 16\" Laptop Briefcase"
+  },
+  "promos": [
+    {
+      "id": "gcash",
+      "name": "GCash",
+      "title": "HP PC Summer Promo 2026 — up to ₱8,000 GCash",
+      "image": "assets/images/promos/gcash-promo-kv.webp",
+      "imageAlt": "HP GCash promo: Buy HP OmniBook and get up to PHP 8,000 GCash",
+      "start": "2026-08-01",
+      "end": "2026-10-31",
+      "caption": "Buy an eligible HP OmniBook and your customer gets up to ₱8,000 in GCash credits. Easy online claim — a strong closer for back-to-school buyers.",
+      "highlights": [
+        "GCash credits of ₱2,000 to ₱8,000, depending on the model",
+        "Customer claims online with invoice, serial-number barcode cut-out and ID",
+        "Claims accepted until December 30, 2026 (5pm PHT)"
+      ],
+      "claimDeadline": "2026-12-30",
+      "permit": "Per DTI Fair Trade Permit No. FTEB-263614 Series of 2026",
+      "url": "https://h41201.www4.hp.com/WMCF.Web/ph/en/promotion/16376/Home/",
+      "cta": "View Promo Details",
+      "rewardLabel": "GCash",
+      "eligible": [
+        {
+          "productNumber": "DW7W9PA#UUF",
+          "name": "HP OmniBook 3 AI PC 14-ht0092TU",
+          "sku": "14-HT0092TU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "DW4U8PA#UUF",
+          "name": "HP OmniBook 3 AI PC 14-ht0144TU",
+          "sku": "14-HT0144TU",
+          "reward": 2000
+        },
+        {
+          "productNumber": "DW4U9PA#UUF",
+          "name": "HP OmniBook 3 AI PC 14-ht0145TU",
+          "sku": "14-HT0145TU",
+          "reward": 2000
+        },
+        {
+          "productNumber": "DU6D6PA#UUF",
+          "name": "HP OmniBook 3 AI PC 16-bw0039AU",
+          "sku": "16-BW0039AU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "DX4J7PA#UUF",
+          "name": "HP OmniBook 5 AI PC 14-kf0002TU",
+          "sku": "14-KF0002TU",
+          "reward": 4000
+        },
+        {
+          "productNumber": "DU5U4PA#UUF",
+          "name": "HP OmniBook 5 Flip NG AI PC 14-km0062TU",
+          "sku": "14-KM0062TU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "DU5U5PA#UUF",
+          "name": "HP OmniBook 5 Flip NG AI PC 14-km0063TU",
+          "sku": "14-KM0063TU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "D6TH4PA#UUF",
+          "name": "HP OmniBook Ultra NG AI PC 14-kd0010TU",
+          "sku": "14-KD0010TU",
+          "reward": 6000
+        },
+        {
+          "productNumber": "D6TH5PA#UUF",
+          "name": "HP OmniBook Ultra NG AI PC 14-kd0029TU",
+          "sku": "14-KD0029TU",
+          "reward": 8000
+        },
+        {
+          "productNumber": "DU5T9PA#UUF",
+          "name": "HP OmniBook Ultra NG AI PC 14-kd0040TU",
+          "sku": "14-KD0040TU",
+          "reward": 6000
+        },
+        {
+          "productNumber": "DU5U0PA#UUF",
+          "name": "HP OmniBook Ultra NG AI PC 14-kd0111TU",
+          "sku": "14-KD0111TU",
+          "reward": 8000
+        },
+        {
+          "productNumber": "DU5S6PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC",
+          "sku": null,
+          "reward": 5000
+        },
+        {
+          "productNumber": "D93DRPA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-fm0178TU",
+          "sku": "14-FM0178TU",
+          "reward": 4000
+        },
+        {
+          "productNumber": "D8YL5PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-fm0181TU",
+          "sku": "14-FM0181TU",
+          "reward": 4000
+        },
+        {
+          "productNumber": "DU5S1PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
+          "sku": "14-KB0100TU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "DU5S4PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kb0101TU",
+          "sku": "14-KB0101TU",
+          "reward": 6000
+        },
+        {
+          "productNumber": "DU5S5PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kb0102TU",
+          "sku": "14-KB0102TU",
+          "reward": 8000
+        },
+        {
+          "productNumber": "DU5S7PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kb0106TU",
+          "sku": "14-KB0106TU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "DU5S8PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kb0107TU",
+          "sku": "14-KB0107TU",
+          "reward": 8000
+        },
+        {
+          "productNumber": "DU5T2PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kb0112TU",
+          "sku": "14-KB0112TU",
+          "reward": 6000
+        },
+        {
+          "productNumber": "DW8J8PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kc0039AU",
+          "sku": "14-KC0039AU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "DU5T3PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kc0078AU",
+          "sku": "14-KC0078AU",
+          "reward": 8000
+        },
+        {
+          "productNumber": "DU5T4PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kc0079AU",
+          "sku": "14-KC0079AU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "DU5T6PA#UUF",
+          "name": "HP OmniBook X Flip NG AI PC 14-kc0081AU",
+          "sku": "14-KC0081AU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "D6TH3PA#UUF",
+          "name": "HP OmniBook 3 14-hy0025AU",
+          "sku": "14-HY0025AU",
+          "reward": 2000
+        },
+        {
+          "productNumber": "E08ZLPA#UUF",
+          "name": "HP OmniBook 3 16-bu0334TU",
+          "sku": "16-BU0334TU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "D6TK0PA#UUF",
+          "name": "HP OmniBook 3 16-by0036AU",
+          "sku": "16-BY0036AU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "D6TN0PA#UUF",
+          "name": "HP OmniBook 3 16-by0055AU",
+          "sku": "16-BY0055AU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "D40T5PA#UUF",
+          "name": "HP OmniBook 3 NGAI 15-fn0046AU",
+          "sku": "15-FN0046AU",
+          "reward": 2000
+        },
+        {
+          "productNumber": "DJ8T4PA#UUF",
+          "name": "HP OmniBook 5 14-hm0072AU",
+          "sku": "14-HM0072AU",
+          "reward": 4000
+        },
+        {
+          "productNumber": "BX9C3PA#UUF",
+          "name": "HP OMNIBOOK 5 FLIP 14-FP0060TU ALL",
+          "sku": "14-FP0060TU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "BX9J7PA#UUF",
+          "name": "HP OMNIBOOK 5 FLIP 14-FP0061TU ALL",
+          "sku": "14-FP0061TU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "C00YZPA#UUF",
+          "name": "HP OMNIBOOK 5 FLIP 14-FP0092TU ALL",
+          "sku": "14-FP0092TU",
+          "reward": 2000
+        },
+        {
+          "productNumber": "C00YWPA#UUF",
+          "name": "HP OMNIBOOK 5 FLIP 14-FP0093TU ALL",
+          "sku": "14-FP0093TU",
+          "reward": 2000
+        },
+        {
+          "productNumber": "DU5R6PA#UUF",
+          "name": "HP OmniBook 5 Flip 14-fp0162TU",
+          "sku": "14-FP0162TU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "BX9J9PA#UUF",
+          "name": "HP OMNIBOOK 5 LAPTOP16-BC1014AU ALL",
+          "sku": "16-BC1014AU",
+          "reward": 2000
+        },
+        {
+          "productNumber": "BX9E6PA#UUF",
+          "name": "HP OMNIBOOK 5 LAPTOP16-BC1015AU ALL",
+          "sku": "16-BC1015AU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "D07CFPA#UUF",
+          "name": "HP OMNIBOOK 5 NGAI 16-AG1106AU ALL",
+          "sku": "16-AG1106AU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "D07C2PA#UUF",
+          "name": "HP OmniBook X FlipNGAI 14-fk0111AU",
+          "sku": "14-FK0111AU",
+          "reward": 4000
+        },
+        {
+          "productNumber": "D07C4PA#UUF",
+          "name": "HP OmniBook X FlipNGAI 14-fm0124TU",
+          "sku": "14-FM0124TU",
+          "reward": 4000
+        },
+        {
+          "productNumber": "B14Z9PA#UUF",
+          "name": "HP OMNIBOOK X LAPTOP14-FE0015QU A/P",
+          "sku": "14-FE0015QU",
+          "reward": 4000
+        },
+        {
+          "productNumber": "B14ZBPA#UUF",
+          "name": "HP OMNIBOOK X LAPTOP14-FE0028QU ALL",
+          "sku": "14-FE0028QU",
+          "reward": 4000
+        },
+        {
+          "productNumber": "B14ZCPA#UUF",
+          "name": "HP OMNIBOOK X LAPTOP14-FE1009QU ALL",
+          "sku": "14-FE1009QU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "BX9D8PA#UUF",
+          "name": "HP OMNIBOOK5LAPTOPAI16-AF1062TU ALL",
+          "sku": "16-AF1062TU",
+          "reward": 2000
+        },
+        {
+          "productNumber": "BX9D9PA#UUF",
+          "name": "HP OMNIBOOK5LAPTOPAI16-AF1063TU ALL",
+          "sku": "16-AF1063TU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "BJ0J8PA#UUF",
+          "name": "HP OMNIBOOK7AERONGAI13-BG1055AU ALL",
+          "sku": "13-BG1055AU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "BJ0J9PA#UUF",
+          "name": "HP OMNIBOOK7AERONGAI13-BG1056AU ALL",
+          "sku": "13-BG1056AU",
+          "reward": 3000
+        },
+        {
+          "productNumber": "B49VYPA#UUF",
+          "name": "HP OMNIBOOKULTRAFLIP14-FH0062TU ALL",
+          "sku": "14-FH0062TU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "B49VZPA#UUF",
+          "name": "HP OMNIBOOKULTRAFLIP14-FH0063TU ALL",
+          "sku": "14-FH0063TU",
+          "reward": 6000
+        },
+        {
+          "productNumber": "B49W0PA#UUF",
+          "name": "HP OMNIBOOKULTRAFLIP14-FH0064TU ALL",
+          "sku": "14-FH0064TU",
+          "reward": 6000
+        },
+        {
+          "productNumber": "BJ0K5PA#UUF",
+          "name": "HP OMNIBOOKULTRAFLIP14-FH0087TU A/P",
+          "sku": "14-FH0087TU",
+          "reward": 5000
+        },
+        {
+          "productNumber": "BJ0K6PA#UUF",
+          "name": "HP OMNIBOOKULTRAFLIP14-FH0088TU A/P",
+          "sku": "14-FH0088TU",
+          "reward": 6000
+        },
+        {
+          "productNumber": "BJ0K7PA#UUF",
+          "name": "HP OMNIBOOKULTRAFLIP14-FH0089TU A/P",
+          "sku": "14-FH0089TU",
+          "reward": 6000
+        }
+      ],
+      "source": "Official HP promotion page, T&C and eligible products list (checked 24 Sep 2026)"
+    },
+    {
+      "id": "home-credit",
+      "name": "Home Credit",
+      "title": "Bring home an HP PC today — 0% interest",
+      "image": "assets/images/promos/home-credit-promo.webp",
+      "imageAlt": "HP x Home Credit promo: 0% interest up to 18 months",
+      "start": "2026-08-01",
+      "end": "2026-10-31",
+      "caption": "Make it easier to say yes: 0% interest for up to 18 months when customers buy an HP PC through Home Credit.",
+      "highlights": [
+        "0% interest, up to 18 months",
+        "Financing through Home Credit",
+        "See the HP Philippines Facebook page for full details"
+      ],
+      "url": null,
+      "source": "Official promo flyer (Q426 HP CPS Home Credit Promo)"
+    }
+  ]
+}

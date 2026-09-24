@@ -3,7 +3,7 @@
 A static, responsive product catalog and pricelist for HP notebooks, built for Iontech sales teams and dealers.
 It is plain HTML, CSS and JavaScript with no backend, database or build server, so it runs directly on **GitHub Pages**.
 
-- **Source of truth:** `source/Current Pricelist - HPNB.xlsx`
+- **Source of truth:** `source/Current Pricelist - HPNB.xlsx` and `source/Last-time-buy models.xlsx`
 - **Generated data:** `data/products.json` (models, specs, SRP, DP, images) and `data/types.json` (type labels and descriptions)
 - **Product photos:** `assets/images/products/` (WebP, generated from the *Image assets* folder)
 
@@ -71,6 +71,29 @@ Navigation tabs are created automatically from the Excel **Type** column. A new 
 
 `code` must match the Type value in Excel exactly. Your edits are kept the next time the script runs.
 
+### Promos
+
+Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YYYY-MM-DD`), `caption`, `highlights`, `image` (put the file in `assets/images/promos/`) and `url`.
+
+- Set `url` to `null` when there is no official page (like Home Credit). The card then only opens the flyer.
+- A promo hides itself automatically after its `end` date. To run a new promo, add a new entry.
+- `eligible` (GCash) is the official list of qualifying models and rewards. Models on our pricelist that match a SKU get a small reward badge.
+- `freebie` is the standard freebie shown beside every laptop (currently the HP Everyday 16-inch Laptop Briefcase, A08JTAA). Remove the `freebie` block to hide it everywhere.
+
+### Last-time-buy
+
+1. Replace `source/Last-time-buy models.xlsx` and keep the same column headers.
+2. Run:
+
+   ```bash
+   python tools/build_data.py --only-ltb --ltb-images "C:/path/to/LTB photos"
+   ```
+
+   Photos use the same naming as above: `<exact Model from Excel> - <Angle>.png`. Leave out `--ltb-images` to keep the existing photos.
+3. Commit `data/ltb.json`, `assets/images/ltb/` and `source/`.
+
+SALE PRICE is shown as the main price, with SRP struck through. Stock is shown from the **Qty** column (a low-stock warning appears at 10 units or fewer). Models without a photo show a grey laptop silhouette. At the moment that applies to 16-H1015TX, 14-FP0061TU, 14-FP0060TU and 14-FE0028QU.
+
 ### HP Related Sites
 
 Edit `data/sites.json` to add or change links. The available `icon` values are `catalog`, `service`, `warranty` and `link`.
@@ -97,6 +120,9 @@ Then open <http://localhost:8000/>.
 - **Sorting**: pricelist order, SRP low→high or high→low, or model name
 - **Product details**: every spec from the Excel, SRP and DP shown prominently, and a gallery with thumbnails, swipe on touch screens, an enlarge (lightbox) view, and keyboard ← → / Esc
 - **Shareable links**: for example `#/type/OBX` for a category or `#/type/OBX/product/14-kb0105tu` for one product
+- **Promos tab**: active promos with validity dates, flyer view, a link to the official mechanics (when there is one), and the list of eligible models
+- **Last-time-buy tab**: its own filters (Type, Processor, Sale price), with the sale price shown most prominently, the original price struck through, and stock from the Excel
+- **Standard freebie**: shown on every laptop card and in the product details
 - **Mobile layout**: hamburger menu, full-width search, filters in a bottom drawer, two-column cards, and large touch targets
 
 ## 5. Project structure
@@ -107,6 +133,8 @@ Then open <http://localhost:8000/>.
 ├── .nojekyll
 ├── assets/
 │   ├── images/products/   # optimized WebP photos + thumbnails (generated)
+│   ├── images/ltb/        # Last-time-buy photos (generated)
+│   ├── images/promos/     # promo flyers
 │   ├── logos/             # HP and Iontech logos (supplied)
 │   └── fonts/             # Inter variable font (SIL Open Font License)
 ├── css/styles.css
@@ -114,6 +142,8 @@ Then open <http://localhost:8000/>.
 ├── data/
 │   ├── products.json      # generated from the Excel file
 │   ├── types.json         # Type labels + descriptions
+│   ├── ltb.json           # generated from Last-time-buy models.xlsx
+│   ├── promos.json        # promos + standard freebie (edit by hand)
 │   └── sites.json         # HP Related Sites
 ├── source/                # the Excel pricelist (source of truth)
 └── tools/

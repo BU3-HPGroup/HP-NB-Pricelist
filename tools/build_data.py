@@ -143,7 +143,8 @@ def display_short(d):
 
 
 def sku_from_model(model):
-    m = re.search(r"(\d{2}-[A-Za-z]{2}\d{4}[A-Za-z]{2})\s*$", model)
+    m = re.search(r"(\d{2}-[A-Za-z]{2}\d{4}[A-Za-z]{2})\s*$", model) or \
+        re.search(r"\b(\d{2}-[A-Za-z]{1,2}\d{4}[A-Za-z]{2})\b", model)
     return m.group(1) if m else model.split()[-1]
 
 
@@ -177,10 +178,11 @@ def angle_key(a):
     return (ANGLE_ORDER.index(a) if a in ANGLE_ORDER else len(ANGLE_ORDER), a)
 
 
-def build_images(models, img_dir, max_px=1200, thumb_px=360):
+def build_images(models, img_dir, max_px=1200, thumb_px=360, out_dir=None, url_prefix="assets/images/products"):
     """Return {model: [ {angle, src, thumb}, ... ]} using exact model-name prefix matching."""
     from PIL import Image
-    os.makedirs(IMG_OUT, exist_ok=True)
+    out_dir = out_dir or IMG_OUT
+    os.makedirs(out_dir, exist_ok=True)
     result = {m: [] for m in models}
     unmatched = []
     files = sorted(f for f in os.listdir(img_dir) if f.lower().endswith((".png", ".jpg", ".jpeg", ".webp")))
@@ -197,8 +199,8 @@ def build_images(models, img_dir, max_px=1200, thumb_px=360):
         sku = sku_from_model(owner)
         base = f"{slug(sku)}-{slug(angle)}"
         src_path = os.path.join(img_dir, f)
-        out_main = os.path.join(IMG_OUT, base + ".webp")
-        out_thumb = os.path.join(IMG_OUT, base + "-thumb.webp")
+        out_main = os.path.join(out_dir, base + ".webp")
+        out_thumb = os.path.join(out_dir, base + "-thumb.webp")
         with open(src_path, "rb") as fh:
             h = hashlib.md5(fh.read()).hexdigest()
         if h in cache:
@@ -206,8 +208,8 @@ def build_images(models, img_dir, max_px=1200, thumb_px=360):
             prev_main, prev_thumb, w, hh = cache[h]
             shutil.copyfile(prev_main, out_main)
             shutil.copyfile(prev_thumb, out_thumb)
-            result[owner].append({"angle": angle, "src": f"assets/images/products/{base}.webp",
-                                  "thumb": f"assets/images/products/{base}-thumb.webp",
+            result[owner].append({"angle": angle, "src": f"{url_prefix}/{base}.webp",
+                                  "thumb": f"{url_prefix}/{base}-thumb.webp",
                                   "width": w, "height": hh, "sourceFile": f})
             continue
         with Image.open(src_path) as im:
@@ -225,8 +227,8 @@ def build_images(models, img_dir, max_px=1200, thumb_px=360):
         cache[h] = (out_main, out_thumb, w, hgt)
         result[owner].append({
             "angle": angle,
-            "src": f"assets/images/products/{base}.webp",
-            "thumb": f"assets/images/products/{base}-thumb.webp",
+            "src": f"{url_prefix}/{base}.webp",
+            "thumb": f"{url_prefix}/{base}-thumb.webp",
             "width": w, "height": hgt,
             "sourceFile": f,
         })
@@ -235,11 +237,155 @@ def build_images(models, img_dir, max_px=1200, thumb_px=360):
     return result, unmatched
 
 
+# ---------------------------------------------------------------------------
+# Last-time-buy (separate Excel)
+# ---------------------------------------------------------------------------
+def parse_php(v):
+    """'PHP 48,310.00' -> 48310 ; numbers pass through ; anything else -> None."""
+    if v is None:
+        return None
+    if isinstance(v, (int, float)):
+        return int(v) if float(v).is_integer() else float(v)
+    t = re.sub(r"[^0-9.]", "", str(v))
+    if not t:
+        return None
+    f = float(t)
+    return int(f) if f.is_integer() else f
+
+
+def ltb_cpu_brand(cpu):
+    c = (cpu or "").upper()
+    if re.search(r"\b(RAI|RYZEN|R[3579]|R[3579]-|AMD)\b", c) or re.match(r"R[3579][ -]", c):
+        return "AMD"
+    if re.search(r"\b(I[3579]|U[3579]|C[3579]|CORE|ULTRA|INTEL|CELERON|PENTIUM)\b", c) or re.match(r"(I|U|C)[3579]-", c):
+        return "Intel"
+    if re.search(r"\b(QC|SD|SNAPDRAGON|X1E|X1P|X1)\b", c) or c.startswith("QC-"):
+        return "Qualcomm"
+    return None
+
+
+def parse_ltb_specs(spec):
+    """Split the short spec string ('RAI 5 330 16GB 512GB 15.6 IPS W11 OPI') into
+    processor / memory / storage / the rest. Nothing is rewritten, only split."""
+    out = {}
+    if not spec:
+        return out
+    m_ram = re.search(r"\b(\d{1,2}GB)\b((?:\s+(?:D5|D4|DDR5|DDR4|5X|LPDDR5X?|OB))*)", spec)
+    if not m_ram:
+        out["rest"] = spec
+        return out
+    cpu = spec[:m_ram.start()].strip()
+    out["cpu"] = cpu or None
+    out["ram"] = (m_ram.group(1) + m_ram.group(2)).strip()
+    after = spec[m_ram.end():]
+    m_sto = re.search(r"\b(\d{3,4}GB|\d(?:\.\d)?TB)\b", after)
+    if m_sto:
+        out["storage"] = m_sto.group(1)
+        rest = (after[:m_sto.start()] + " " + after[m_sto.end():]).strip()
+    else:
+        rest = after.strip()
+    rest = re.sub(r"\s+", " ", rest)
+    out["rest"] = rest or None
+    disp = []
+    m_size = re.search(r'\b(1[1-7](?:\.\d)?)(?:"|\b|(?=WUXGA|WQXGA|FHD|OLED))', rest)
+    if m_size:
+        disp.append(m_size.group(1) + '"')
+    for tok in re.findall(r"(?:\b|(?<=\d))(2\.2K|2K|3K|WQXGA|WUXGA|FHD|OLED|IPS|TOUCH|120HZ)\b", rest, re.I):
+        disp.append(tok.upper().replace("TOUCH", "Touch").replace("120HZ", "120Hz"))
+    if disp:
+        out["displayShort"] = " ".join(dict.fromkeys(disp))
+    return out
+
+
+def build_ltb(excel_path, images_dir=None):
+    wb = openpyxl.load_workbook(excel_path, data_only=True)
+    ws = wb.worksheets[0]
+    rows = list(ws.iter_rows(values_only=True))
+    hi = next(i for i, r in enumerate(rows) if r and any(str(c).strip().lower() == "model" for c in r if c))
+    headers = [clean(h) for h in rows[hi]]
+    recs = []
+    for r in rows[hi + 1:]:
+        rec = {str(h): clean(v) for h, v in zip(headers, r) if h}
+        if rec.get("Model"):
+            recs.append(rec)
+    seen, uniq, dups = set(), [], []
+    for r in recs:
+        if r["Model"] in seen:
+            dups.append(r["Model"]); continue
+        seen.add(r["Model"]); uniq.append(r)
+    if dups:
+        print("WARNING duplicate LTB models skipped:", dups)
+
+    images = {}
+    if images_dir:
+        images, unmatched = build_images([r["Model"] for r in uniq], images_dir,
+                                         out_dir=os.path.join(ROOT, "assets", "images", "ltb"),
+                                         url_prefix="assets/images/ltb")
+        if unmatched:
+            print("LTB image files NOT matched (skipped):", unmatched)
+    else:
+        prev = os.path.join(DATA_OUT, "ltb.json")
+        if os.path.exists(prev):
+            with open(prev, encoding="utf-8") as fh:
+                for p in json.load(fh).get("products", []):
+                    images[p["model"]] = p.get("images", [])
+
+    out = []
+    for i, r in enumerate(uniq):
+        tag = r.get("Tagging") or ""
+        seg, _, cat = tag.partition(" - ")
+        spec = parse_ltb_specs(r.get("Specs"))
+        sku = sku_from_model(r["Model"])
+        p = {
+            "id": "ltb-" + slug(sku),
+            "model": r["Model"],
+            "sku": sku,
+            "matNo": str(r["Mat No."]) if r.get("Mat No.") is not None else None,
+            "tagging": tag or None,
+            "segment": seg.strip() if cat else None,
+            "type": (cat or tag).strip() or "Other",
+            "cpu": spec.get("cpu"),
+            "cpuBrand": ltb_cpu_brand(spec.get("cpu")),
+            "ram": spec.get("ram"),
+            "storage": spec.get("storage"),
+            "displayShort": spec.get("displayShort"),
+            "otherSpecs": [spec["rest"]] if spec.get("rest") else None,
+            "specsRaw": r.get("Specs"),
+            "dp": parse_php(r.get("DP")),
+            "srp": parse_php(r.get("SRP")),
+            "sale": parse_php(r.get("Special Price")),
+            "qty": r.get("Qty") if isinstance(r.get("Qty"), (int, float)) else None,
+            "priceText": {"dp": r.get("DP"), "srp": r.get("SRP"), "sale": r.get("Special Price")},
+            "images": images.get(r["Model"], []),
+            "row": i + 1,
+        }
+        out.append({k: v for k, v in p.items() if v not in (None, [], "")})
+
+    with open(excel_path, "rb") as fh:
+        digest = hashlib.sha1(fh.read()).hexdigest()[:10]
+    payload = {"generatedAt": datetime.now().isoformat(timespec="seconds"),
+               "sourceFile": os.path.basename(excel_path), "sourceHash": digest,
+               "currency": "PHP", "count": len(out), "products": out}
+    with open(os.path.join(DATA_OUT, "ltb.json"), "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=2)
+    no_img = [p["model"] for p in out if not p.get("images")]
+    print(f"Wrote {len(out)} last-time-buy products." + (f" Without photos (silhouette shown): {no_img}" if no_img else ""))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--excel", default=os.path.join(ROOT, "source", "Current Pricelist - HPNB.xlsx"))
     ap.add_argument("--images", default=None, help="Folder of product photos named '<Model> - <Angle>.png'")
+    ap.add_argument("--ltb-excel", default=os.path.join(ROOT, "source", "Last-time-buy models.xlsx"))
+    ap.add_argument("--ltb-images", default=None, help="Folder of Last-time-buy photos named '<Model> - <Angle>.png'")
+    ap.add_argument("--only-ltb", action="store_true", help="Only rebuild data/ltb.json")
     args = ap.parse_args()
+    if os.path.exists(args.ltb_excel):
+        build_ltb(args.ltb_excel, args.ltb_images)
+    else:
+        print("No Last-time-buy Excel found at", args.ltb_excel, "(skipped)")
+    if args.only_ltb:
+        return
 
     headers, rows = read_excel(args.excel)
     print(f"Read {len(rows)} rows from {os.path.basename(args.excel)}; columns: {[h for h in headers if h]}")

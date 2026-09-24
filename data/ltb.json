@@ -1,0 +1,601 @@
+{
+  "generatedAt": "2026-09-24T22:57:37",
+  "sourceFile": "Last-time-buy models.xlsx",
+  "sourceHash": "e785cd8f3d",
+  "currency": "PHP",
+  "count": 12,
+  "products": [
+    {
+      "id": "ltb-15-fn0046au",
+      "model": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU",
+      "sku": "15-FN0046AU",
+      "matNo": "432115036610",
+      "tagging": "Entry Premium - Omnibook 3",
+      "segment": "Entry Premium",
+      "type": "Omnibook 3",
+      "cpu": "RAI 5 330",
+      "cpuBrand": "AMD",
+      "ram": "16GB",
+      "storage": "512GB",
+      "displayShort": "15.6\" IPS",
+      "otherSpecs": [
+        "15.6 IPS W11 OPI"
+      ],
+      "specsRaw": "RAI 5 330 16GB 512GB 15.6 IPS W11 OPI",
+      "dp": 48310,
+      "srp": 60990,
+      "sale": 46861,
+      "qty": 96,
+      "priceText": {
+        "dp": "PHP 48,310.00",
+        "srp": "PHP 60,990.00",
+        "sale": "PHP 46,861"
+      },
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/ltb/15-fn0046au-front.webp",
+          "thumb": "assets/images/ltb/15-fn0046au-front-thumb.webp",
+          "width": 1200,
+          "height": 933,
+          "sourceFile": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/ltb/15-fn0046au-front-right.webp",
+          "thumb": "assets/images/ltb/15-fn0046au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 970,
+          "sourceFile": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU - Front Right.png"
+        },
+        {
+          "angle": "Front Left",
+          "src": "assets/images/ltb/15-fn0046au-front-left.webp",
+          "thumb": "assets/images/ltb/15-fn0046au-front-left-thumb.webp",
+          "width": 1200,
+          "height": 970,
+          "sourceFile": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU - Front Left.png"
+        }
+      ],
+      "row": 1
+    },
+    {
+      "id": "ltb-16-h1015tx",
+      "model": "HP-NB 86J71PA ENVY 16-H1015TX",
+      "sku": "16-H1015TX",
+      "matNo": "432115035011",
+      "tagging": "Premium - Envy",
+      "segment": "Premium",
+      "type": "Envy",
+      "cpu": "I5-13500H",
+      "cpuBrand": "Intel",
+      "ram": "16GB",
+      "storage": "512GB",
+      "displayShort": "16\" WQXGA 120Hz",
+      "otherSpecs": [
+        "A370M4GB 16 WQXGA 120HZ NSV"
+      ],
+      "specsRaw": "I5-13500H 16GB 512GB A370M4GB 16 WQXGA 120HZ NSV",
+      "dp": 78840,
+      "srp": 98990,
+      "sale": 76475,
+      "qty": 1,
+      "priceText": {
+        "dp": "PHP 78,840.00",
+        "srp": "PHP 98,990.00",
+        "sale": "PHP 76,475"
+      },
+      "row": 2
+    },
+    {
+      "id": "ltb-16-af1062tu",
+      "model": "HP-NB BX9D8PA OMNIBOOK 5 AI 16-AF1062TU",
+      "sku": "16-AF1062TU",
+      "matNo": "432115036319",
+      "tagging": "Premium - Omnibook 5",
+      "segment": "Premium",
+      "type": "Omnibook 5",
+      "cpu": "U5-225U",
+      "cpuBrand": "Intel",
+      "ram": "16GB",
+      "storage": "512GB",
+      "displayShort": "16\" 2K",
+      "otherSpecs": [
+        "16\" 2K SKYBLUE OFFICE W11"
+      ],
+      "specsRaw": "U5-225U 16GB 512GB 16\" 2K SKYBLUE OFFICE W11",
+      "dp": 54310,
+      "srp": 67990,
+      "sale": 52681,
+      "qty": 103,
+      "priceText": {
+        "dp": "PHP 54,310.00",
+        "srp": "PHP 67,990.00",
+        "sale": "PHP 52,681"
+      },
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/ltb/16-af1062tu-front.webp",
+          "thumb": "assets/images/ltb/16-af1062tu-front-thumb.webp",
+          "width": 596,
+          "height": 502,
+          "sourceFile": "HP-NB BX9D8PA OMNIBOOK 5 AI 16-AF1062TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/ltb/16-af1062tu-front-right.webp",
+          "thumb": "assets/images/ltb/16-af1062tu-front-right-thumb.webp",
+          "width": 632,
+          "height": 525,
+          "sourceFile": "HP-NB BX9D8PA OMNIBOOK 5 AI 16-AF1062TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/ltb/16-af1062tu-rear-left.webp",
+          "thumb": "assets/images/ltb/16-af1062tu-rear-left-thumb.webp",
+          "width": 800,
+          "height": 666,
+          "sourceFile": "HP-NB BX9D8PA OMNIBOOK 5 AI 16-AF1062TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/ltb/16-af1062tu-left-profile.webp",
+          "thumb": "assets/images/ltb/16-af1062tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 103,
+          "sourceFile": "HP-NB BX9D8PA OMNIBOOK 5 AI 16-AF1062TU - Left Profile.png"
+        }
+      ],
+      "row": 3
+    },
+    {
+      "id": "ltb-16-bc1014au",
+      "model": "HP-NB BX9J9PA OMNIBOOK 5 16-BC1014AU",
+      "sku": "16-BC1014AU",
+      "matNo": "432115036318",
+      "tagging": "Premium - Omnibook 5",
+      "segment": "Premium",
+      "type": "Omnibook 5",
+      "cpu": "R5 8540U",
+      "cpuBrand": "AMD",
+      "ram": "16GB",
+      "storage": "512GB",
+      "displayShort": "16\" 2K",
+      "otherSpecs": [
+        "16\" 2K SILVER OFFICE W11"
+      ],
+      "specsRaw": "R5 8540U 16GB 512GB 16\" 2K SILVER OFFICE W11",
+      "dp": 51490,
+      "srp": 64990,
+      "sale": 49945,
+      "qty": 49,
+      "priceText": {
+        "dp": "PHP 51,490.00",
+        "srp": "PHP 64,990.00",
+        "sale": "PHP 49,945"
+      },
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/ltb/16-bc1014au-front.webp",
+          "thumb": "assets/images/ltb/16-bc1014au-front-thumb.webp",
+          "width": 1200,
+          "height": 1011,
+          "sourceFile": "HP-NB BX9J9PA OMNIBOOK 5 16-BC1014AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/ltb/16-bc1014au-front-right.webp",
+          "thumb": "assets/images/ltb/16-bc1014au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 998,
+          "sourceFile": "HP-NB BX9J9PA OMNIBOOK 5 16-BC1014AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/ltb/16-bc1014au-rear-left.webp",
+          "thumb": "assets/images/ltb/16-bc1014au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1000,
+          "sourceFile": "HP-NB BX9J9PA OMNIBOOK 5 16-BC1014AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/ltb/16-bc1014au-left-profile.webp",
+          "thumb": "assets/images/ltb/16-bc1014au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 103,
+          "sourceFile": "HP-NB BX9J9PA OMNIBOOK 5 16-BC1014AU - Left Profile.png"
+        }
+      ],
+      "row": 4
+    },
+    {
+      "id": "ltb-14-he0046qu",
+      "model": "HP-NB D09H9PA OMNI5 NGAI 14-HE0046QU",
+      "sku": "14-HE0046QU",
+      "matNo": "432115036562",
+      "tagging": "Premium - Omnibook 5",
+      "segment": "Premium",
+      "type": "Omnibook 5",
+      "cpu": "QC-X1",
+      "cpuBrand": "Qualcomm",
+      "ram": "16GB",
+      "storage": "1TB",
+      "displayShort": "14\" OLED",
+      "otherSpecs": [
+        "ADRENO 14\" OLED OFFICE"
+      ],
+      "specsRaw": "QC-X1 16GB 1TB ADRENO 14\" OLED OFFICE",
+      "dp": 60140,
+      "srp": 75990,
+      "sale": 58336,
+      "qty": 39,
+      "priceText": {
+        "dp": "PHP 60,140.00",
+        "srp": "PHP 75,990.00",
+        "sale": "PHP 58,336"
+      },
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/ltb/14-he0046qu-front.webp",
+          "thumb": "assets/images/ltb/14-he0046qu-front-thumb.webp",
+          "width": 1200,
+          "height": 982,
+          "sourceFile": "HP-NB D09H9PA OMNI5 NGAI 14-HE0046QU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/ltb/14-he0046qu-front-right.webp",
+          "thumb": "assets/images/ltb/14-he0046qu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 983,
+          "sourceFile": "HP-NB D09H9PA OMNI5 NGAI 14-HE0046QU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/ltb/14-he0046qu-rear-left.webp",
+          "thumb": "assets/images/ltb/14-he0046qu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1002,
+          "sourceFile": "HP-NB D09H9PA OMNI5 NGAI 14-HE0046QU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/ltb/14-he0046qu-left-profile.webp",
+          "thumb": "assets/images/ltb/14-he0046qu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 96,
+          "sourceFile": "HP-NB D09H9PA OMNI5 NGAI 14-HE0046QU - Left Profile.png"
+        }
+      ],
+      "row": 5
+    },
+    {
+      "id": "ltb-14-fp0061tu",
+      "model": "HP-NB BX9J7PA OMNIBOOK5 FLIP 14-FP0061TU",
+      "sku": "14-FP0061TU",
+      "matNo": "432115036328",
+      "tagging": "Premium - Omnibook 5 Flip",
+      "segment": "Premium",
+      "type": "Omnibook 5 Flip",
+      "cpu": "C7-150U",
+      "cpuBrand": "Intel",
+      "ram": "16GB",
+      "storage": "1TB",
+      "displayShort": "14\" 2K Touch",
+      "otherSpecs": [
+        "14\" 2K TOUCH OFFICE W11"
+      ],
+      "specsRaw": "C7-150U 16GB 1TB 14\" 2K TOUCH OFFICE W11",
+      "dp": 66080,
+      "srp": 82990,
+      "sale": 64098,
+      "qty": 128,
+      "priceText": {
+        "dp": "PHP 66,080.00",
+        "srp": "PHP 82,990.00",
+        "sale": "PHP 64,098"
+      },
+      "row": 6
+    },
+    {
+      "id": "ltb-14-fp0060tu",
+      "model": "HP-NB BX9C3PA OMNIBOOK5 FLIP 14-FP0060TU",
+      "sku": "14-FP0060TU",
+      "matNo": "432115036327",
+      "tagging": "Premium - Omnibook 5 Flip",
+      "segment": "Premium",
+      "type": "Omnibook 5 Flip",
+      "cpu": "C5-120U",
+      "cpuBrand": "Intel",
+      "ram": "16GB",
+      "storage": "512GB",
+      "displayShort": "14\" 2K Touch",
+      "otherSpecs": [
+        "14\" 2K TOUCH OFFICE W11"
+      ],
+      "specsRaw": "C5-120U 16GB 512GB 14\" 2K TOUCH OFFICE W11",
+      "dp": 57770,
+      "srp": 72990,
+      "sale": 56037,
+      "qty": 78,
+      "priceText": {
+        "dp": "PHP 57,770.00",
+        "srp": "PHP 72,990.00",
+        "sale": "PHP 56,037"
+      },
+      "row": 7
+    },
+    {
+      "id": "ltb-13-bg1055au",
+      "model": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU",
+      "sku": "13-BG1055AU",
+      "matNo": "432115036321",
+      "tagging": "Premium - Omnibook 7 Aero",
+      "segment": "Premium",
+      "type": "Omnibook 7 Aero",
+      "cpu": "R5 AI 340",
+      "cpuBrand": "AMD",
+      "ram": "16GB",
+      "storage": "512GB",
+      "displayShort": "13.3\"",
+      "otherSpecs": [
+        "13.3\" WHITE OFFICE W11"
+      ],
+      "specsRaw": "R5 AI 340 16GB 512GB 13.3\" WHITE OFFICE W11",
+      "dp": 58750,
+      "srp": 73990,
+      "sale": 56988,
+      "qty": 23,
+      "priceText": {
+        "dp": "PHP 58,750.00",
+        "srp": "PHP 73,990.00",
+        "sale": "PHP 56,988"
+      },
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/ltb/13-bg1055au-front.webp",
+          "thumb": "assets/images/ltb/13-bg1055au-front-thumb.webp",
+          "width": 1200,
+          "height": 998,
+          "sourceFile": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/ltb/13-bg1055au-front-right.webp",
+          "thumb": "assets/images/ltb/13-bg1055au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 984,
+          "sourceFile": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/ltb/13-bg1055au-rear-left.webp",
+          "thumb": "assets/images/ltb/13-bg1055au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 997,
+          "sourceFile": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/ltb/13-bg1055au-left-profile.webp",
+          "thumb": "assets/images/ltb/13-bg1055au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 107,
+          "sourceFile": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU - Left Profile.png"
+        }
+      ],
+      "row": 8
+    },
+    {
+      "id": "ltb-14-fe0028qu",
+      "model": "HP-NB B14ZBPA OMNIBOOK X 14-FE0028QU",
+      "sku": "14-FE0028QU",
+      "matNo": "432115035942",
+      "tagging": "Premium - Omnibook X",
+      "segment": "Premium",
+      "type": "Omnibook X",
+      "cpu": "SD X1E-78-100 (12C)",
+      "cpuBrand": "Qualcomm",
+      "ram": "32GB",
+      "storage": "1TB",
+      "displayShort": "Touch 2.2K",
+      "otherSpecs": [
+        "TOUCH 2.2K MSV OPI"
+      ],
+      "specsRaw": "SD X1E-78-100 (12C) 32GB 1TB TOUCH 2.2K MSV OPI",
+      "dp": 86620,
+      "srp": 108990,
+      "sale": 84021,
+      "qty": 19,
+      "priceText": {
+        "dp": "PHP 86,620.00",
+        "srp": "PHP 108,990.00",
+        "sale": "PHP 84,021"
+      },
+      "row": 9
+    },
+    {
+      "id": "ltb-14-ew1009tu",
+      "model": "HP-NB A46T3PA PAV PLUS 14-EW1009TU U5",
+      "sku": "14-EW1009TU",
+      "matNo": "432115035713",
+      "tagging": "Premium - Pav",
+      "segment": "Premium",
+      "type": "Pav",
+      "cpu": "U5-125H",
+      "cpuBrand": "Intel",
+      "ram": "16GB 5X OB",
+      "storage": "512GB",
+      "displayShort": "14\" WQXGA",
+      "otherSpecs": [
+        "INTEL ARC 14 WQXGA MB"
+      ],
+      "specsRaw": "U5-125H 16GB 5X OB 512GB INTEL ARC 14 WQXGA MB",
+      "dp": 61060,
+      "srp": 76990,
+      "sale": 59228,
+      "qty": 27,
+      "priceText": {
+        "dp": "PHP 61,060.00",
+        "srp": "PHP 76,990.00",
+        "sale": "PHP 59,228"
+      },
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/ltb/14-ew1009tu-front.webp",
+          "thumb": "assets/images/ltb/14-ew1009tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1024,
+          "sourceFile": "HP-NB A46T3PA PAV PLUS 14-EW1009TU U5 - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/ltb/14-ew1009tu-front-right.webp",
+          "thumb": "assets/images/ltb/14-ew1009tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 997,
+          "sourceFile": "HP-NB A46T3PA PAV PLUS 14-EW1009TU U5 - Front Right.png"
+        },
+        {
+          "angle": "Front Left",
+          "src": "assets/images/ltb/14-ew1009tu-front-left.webp",
+          "thumb": "assets/images/ltb/14-ew1009tu-front-left-thumb.webp",
+          "width": 1200,
+          "height": 997,
+          "sourceFile": "HP-NB A46T3PA PAV PLUS 14-EW1009TU U5 - Front Left.png"
+        }
+      ],
+      "row": 10
+    },
+    {
+      "id": "ltb-16-af0063tu",
+      "model": "HP-NB B49W8PA PAVILION 16-AF0063TU U5",
+      "sku": "16-AF0063TU",
+      "matNo": "432115035987",
+      "tagging": "Premium - Pav",
+      "segment": "Premium",
+      "type": "Pav",
+      "cpu": "U5-125U",
+      "cpuBrand": "Intel",
+      "ram": "16GB D5",
+      "storage": "512GB",
+      "displayShort": "16\" WUXGA",
+      "otherSpecs": [
+        "16WUXGA W11 NSV OPI"
+      ],
+      "specsRaw": "U5-125U 16GB D5 512GB 16WUXGA W11 NSV OPI",
+      "dp": 51930,
+      "srp": 64990,
+      "sale": 50372,
+      "qty": 18,
+      "priceText": {
+        "dp": "PHP 51,930.00",
+        "srp": "PHP 64,990.00",
+        "sale": "PHP 50,372"
+      },
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/ltb/16-af0063tu-front.webp",
+          "thumb": "assets/images/ltb/16-af0063tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1011,
+          "sourceFile": "HP-NB B49W8PA PAVILION 16-AF0063TU U5 - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/ltb/16-af0063tu-front-right.webp",
+          "thumb": "assets/images/ltb/16-af0063tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 999,
+          "sourceFile": "HP-NB B49W8PA PAVILION 16-AF0063TU U5 - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/ltb/16-af0063tu-rear-left.webp",
+          "thumb": "assets/images/ltb/16-af0063tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1000,
+          "sourceFile": "HP-NB B49W8PA PAVILION 16-AF0063TU U5 - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/ltb/16-af0063tu-left-profile.webp",
+          "thumb": "assets/images/ltb/16-af0063tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 103,
+          "sourceFile": "HP-NB B49W8PA PAVILION 16-AF0063TU U5 - Left Profile.png"
+        }
+      ],
+      "row": 11
+    },
+    {
+      "id": "ltb-16-ag0034au",
+      "model": "HP-NB B49WBPA PAVILION 16-AG0034AU R5",
+      "sku": "16-AG0034AU",
+      "matNo": "432115035989",
+      "tagging": "Premium - Pav",
+      "segment": "Premium",
+      "type": "Pav",
+      "cpu": "R5-8540U",
+      "cpuBrand": "AMD",
+      "ram": "16GB D5",
+      "storage": "512GB",
+      "displayShort": "16\" WUXGA",
+      "otherSpecs": [
+        "16WUXGA W11 SKB OPI"
+      ],
+      "specsRaw": "R5-8540U 16GB D5 512GB 16WUXGA W11 SKB OPI",
+      "dp": 50100,
+      "srp": 62990,
+      "sale": 48597,
+      "qty": 6,
+      "priceText": {
+        "dp": "PHP 50,100.00",
+        "srp": "PHP 62,990.00",
+        "sale": "PHP 48,597"
+      },
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/ltb/16-ag0034au-front.webp",
+          "thumb": "assets/images/ltb/16-ag0034au-front-thumb.webp",
+          "width": 1200,
+          "height": 1011,
+          "sourceFile": "HP-NB B49WBPA PAVILION 16-AG0034AU R5 - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/ltb/16-ag0034au-front-right.webp",
+          "thumb": "assets/images/ltb/16-ag0034au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 998,
+          "sourceFile": "HP-NB B49WBPA PAVILION 16-AG0034AU R5 - Front Right.png"
+        },
+        {
+          "angle": "Front Left",
+          "src": "assets/images/ltb/16-ag0034au-front-left.webp",
+          "thumb": "assets/images/ltb/16-ag0034au-front-left-thumb.webp",
+          "width": 1200,
+          "height": 998,
+          "sourceFile": "HP-NB B49WBPA PAVILION 16-AG0034AU R5 - Front Left.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/ltb/16-ag0034au-rear-left.webp",
+          "thumb": "assets/images/ltb/16-ag0034au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1000,
+          "sourceFile": "HP-NB B49WBPA PAVILION 16-AG0034AU R5 - Rear Left.png"
+        }
+      ],
+      "row": 12
+    }
+  ]
+}

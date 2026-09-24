@@ -135,6 +135,82 @@ with sync_playwright() as pw:
     check("links open new tab", all(l[1] == "_blank" and "noopener" in l[2] for l in links))
     pg.screenshot(path=f"{SHOTS}/desktop-sites.png")
 
+
+    # ---------- Promos ----------
+    promos = json.load(open(os.path.join(ROOT, "data", "promos.json"), encoding="utf-8"))
+    pg.goto(BASE + "#/promos"); pg.wait_for_selector(".promo-card")
+    check("promos tab shows both promos", pg.locator(".promo-card").count() == 2)
+    txt = pg.inner_text("#promosGrid")
+    check("promo period shown", txt.count("August 1 – October 31, 2026") == 2, "")
+    gl = pg.get_attribute("#promo-gcash .promo-actions a", "href")
+    check("GCash links to official page", gl == "https://h41201.www4.hp.com/WMCF.Web/ph/en/promotion/16376/Home/" and pg.get_attribute("#promo-gcash .promo-actions a", "target") == "_blank")
+    check("Home Credit has no external link", pg.locator("#promo-home-credit a[href^='http']").count() == 0)
+    pg.click("#promo-home-credit .promo-actions button"); pg.wait_for_selector("#lightbox:not([hidden])")
+    check("Home Credit flyer opens enlarged", "home-credit" in pg.get_attribute("#lbImg", "src"))
+    pg.keyboard.press("Escape")
+    check("freebie banner shown", "A08JTAA" in txt)
+    pg.evaluate("window._opened = []; window.open = (u, t) => { window._opened.push([u, t]); }")
+    pg.locator("#promo-gcash .promo-caption").click()
+    op = pg.evaluate("window._opened")
+    check("whole GCash card opens promo in new tab", any(o and o[0] and "promotion/16376" in o[0] and o[1] == "_blank" for o in op), str(op))
+    pg.evaluate("window._opened = []"); pg.locator("#promo-home-credit .promo-caption").click()
+    check("Home Credit card is not a link", not any(o and o[0] for o in pg.evaluate("window._opened")))
+    elig = {e["sku"]: e["reward"] for e in promos["promos"][0]["eligible"] if e["sku"]}
+    pg.goto(BASE + "#/"); pg.wait_for_selector(".card")
+    bad_badge = []
+    for p in data:
+        want = elig.get(p["sku"].upper())
+        loc = pg.locator(f'.card[data-id="{p["id"]}"] .promo-badge')
+        got = loc.inner_text().strip() if loc.count() else None
+        if (want is None) != (got is None) or (want and f"₱{want:,}" not in got):
+            bad_badge.append((p["sku"], want, got))
+    check("GCash badges match official eligible list", not bad_badge, str(bad_badge[:4]))
+    check("freebie shown on every laptop card", pg.locator(".card .freebie-line").count() == len(data))
+
+    # ---------- Last-time-buy ----------
+    wb2 = openpyxl.load_workbook(os.path.join(ROOT, "source", "Last-time-buy models.xlsx"), data_only=True)
+    r2 = list(wb2.worksheets[0].iter_rows(values_only=True)); h2 = r2[0]
+    xl2 = [dict(zip(h2, r)) for r in r2[1:] if r and r[h2.index("Model")]]
+    ltb = json.load(open(os.path.join(ROOT, "data", "ltb.json"), encoding="utf-8"))["products"]
+    num = lambda v: float(re.sub(r"[^0-9.]", "", str(v)))
+    by2 = {p["model"]: p for p in ltb}
+    check("LTB: every Excel model present, no duplicates", len(by2) == len(ltb) == len(xl2) and all(r["Model"] in by2 for r in xl2))
+    check("LTB: sale/DP/SRP/Qty match Excel", all(num(r["Special Price"]) == by2[r["Model"]]["sale"] and num(r["DP"]) == by2[r["Model"]]["dp"]
+          and num(r["SRP"]) == by2[r["Model"]]["srp"] and r["Qty"] == by2[r["Model"]]["qty"] for r in xl2))
+    check("LTB: specs text preserved", all(by2[r["Model"]]["specsRaw"] == r["Specs"] for r in xl2))
+    check("LTB: images only by exact model name", all(im["sourceFile"].startswith(p["model"] + " - ") for p in ltb for im in p.get("images", [])))
+    pg.goto(BASE + "#/ltb"); pg.wait_for_selector(".ltb-card")
+    check("LTB tab renders all models", pg.locator(".ltb-card").count() == len(ltb))
+    check("LTB: badge + sale price on every card", pg.locator(".ltb-card .ltb-badge").count() == len(ltb) and pg.locator(".ltb-card .sale-box").count() == len(ltb))
+    first = pg.locator(".ltb-card").first
+    check("LTB: first sale price visible without scrolling (desktop)", first.locator(".sale-box").bounding_box()["y"] < 900)
+    fs = pg.eval_on_selector(".ltb-card .sale-box .val", "e => parseFloat(getComputedStyle(e).fontSize)")
+    fdp = pg.eval_on_selector(".ltb-card .was", "e => parseFloat(getComputedStyle(e).fontSize)")
+    check("LTB: sale price is the most prominent price", fs > fdp * 1.6, f"{fs} vs {fdp}")
+    tick("cpu", "AMD")
+    check("LTB: CPU filter", count() == sum(1 for p in ltb if p.get("cpuBrand") == "AMD"))
+    tick("cpu", "AMD", False); tick("type", "Pav")
+    check("LTB: type filter", count() == sum(1 for p in ltb if p["type"] == "Pav"))
+    tick("type", "Pav", False); tick("price", "50000")
+    check("LTB: price band uses sale price", count() == sum(1 for p in ltb if 50000 <= p["sale"] < 60000))
+    pg.click("#clearFilters"); pg.wait_for_timeout(100)
+    r = search("fp0061"); check("LTB: search", r == ["ltb-14-fp0061tu"], str(r)); search("")
+    pg.click('.vt-btn[data-view="list"]'); pg.wait_for_timeout(100)
+    check("LTB: list view", pg.locator("#products.list .ltb-row").count() == len(ltb))
+    pg.click('.vt-btn[data-view="grid"]')
+    pg.locator('.ltb-card[data-id="ltb-14-fe0028qu"] .btn').click(); pg.wait_for_selector("#detailModal:not([hidden])")
+    dt = pg.inner_text("#detailBody")
+    check("LTB detail: sale, DP, SRP, stock, material no.", all(x in dt for x in ["₱84,021", "₱86,620", "₱108,990", "19 units", "432115035942"]))
+    check("LTB detail: silhouette when no photo", "laptop-placeholder" in pg.get_attribute("#gallery img", "src"))
+    pg.keyboard.press("Escape")
+    pg.goto(BASE + "#/ltb/product/ltb-13-bg1055au"); pg.wait_for_selector("#detailModal:not([hidden])")
+    check("LTB: deep link + gallery", pg.locator(".thumb").count() == 4)
+    pg.keyboard.press("Escape")
+    pg.click('.nav-link[data-nav="all"]'); pg.wait_for_timeout(200)
+    check("back to main list after LTB", count() == len(data) and pg.locator(".ltb-card").count() == 0)
+    bad2 = pg.eval_on_selector_all("img", "els => els.filter(e => e.complete && e.naturalWidth === 0).map(e => e.src)")
+    check("no broken images (after new tabs)", not bad2, str(bad2[:3]))
+
     # broken images on all product images
     pg.goto(BASE + "#/"); pg.wait_for_selector(".card")
     pg.evaluate("window.scrollTo(0, document.body.scrollHeight)"); pg.wait_for_timeout(800)
@@ -187,6 +263,22 @@ with sync_playwright() as pw:
     mp.screenshot(path=f"{SHOTS}/mobile-detail.png")
     mp.locator(".modal-panel").evaluate("e => e.scrollTop = 600"); mp.wait_for_timeout(100)
     mp.screenshot(path=f"{SHOTS}/mobile-detail-specs.png")
+
+    mp.goto(BASE + "#/ltb"); mp.wait_for_selector(".ltb-row, .ltb-card"); mp.keyboard.press("Escape")
+    mp.click('.vt-btn[data-view="grid"]'); mp.wait_for_selector(".ltb-card"); mp.evaluate("window.scrollTo(0,0)"); mp.wait_for_timeout(300)
+    sb = mp.locator(".ltb-card .sale-box").first.bounding_box()
+    check("mobile LTB: sale price visible on first screen", sb["y"] + sb["height"] < 844, str(sb))
+    check("mobile LTB: no horizontal scroll", not mp.evaluate("document.documentElement.scrollWidth > window.innerWidth"))
+    mp.screenshot(path=f"{SHOTS}/mobile-ltb.png")
+    mp.goto(BASE + "#/promos"); mp.wait_for_selector(".promo-card"); mp.wait_for_timeout(300)
+    check("mobile promos: no horizontal scroll", not mp.evaluate("document.documentElement.scrollWidth > window.innerWidth"))
+    cta = mp.locator("#promo-gcash .promo-actions .btn").bounding_box()
+    check("mobile promos: CTA easy to tap", cta["height"] >= 44 and cta["width"] > 300, str(cta))
+    mp.screenshot(path=f"{SHOTS}/mobile-promos.png", full_page=True)
+    mp.click("#menuToggle"); mp.wait_for_timeout(150)
+    check("mobile: menu has Promos + Last-time-buy", mp.is_visible('.nav-link[data-nav="promos"]') and mp.is_visible('.nav-link[data-nav="ltb"]'))
+    mp.click('.nav-link[data-nav="ltb"]'); mp.wait_for_timeout(200)
+    check("mobile: nav to LTB works", mp.locator(".ltb-card").count() > 0)
     small = mp.eval_on_selector_all(".btn, .vt-btn, .menu-toggle, .thumb", "els => els.filter(e => e.offsetParent && e.getBoundingClientRect().height < 36).map(e => e.className)")
     check("mobile: touch targets >= 36px", not small, str(small[:4]))
     check("mobile: no JS errors", not merr, str(merr[:3]))
