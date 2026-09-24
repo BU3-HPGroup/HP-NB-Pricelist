@@ -46,7 +46,7 @@ Then turn on Pages as described in steps 6–8 above.
 
 The site never hard-codes products. Everything comes from the Excel file through one script.
 
-1. Replace `source/Current Pricelist - HPNB.xlsx` with the new pricelist. Keep the same column headers: **Platform, Type, Model, Specs, SRP, DP** (Qty is ignored).
+1. Replace `source/Current Pricelist - HPNB.xlsx` with the new pricelist. Keep the same column headers: **Part Number, Material Number, Platform, Type, Model, Specs, SRP, DP** (Qty is ignored). The table can start anywhere in the first 20 rows. Part and material numbers are shown under each model name, in the product details, and can be searched.
 2. Put the product photos in a folder, named **`<exact Model from Excel> - <Angle>.png`**, for example:
    `HP OmniBook 5 AI PC 14-kf0002TU - Front.png`
    Supported angles are shown in this order: Front, Front Right, Front Left, Rear Left, Rear Right, Left Profile, Right Profile, Open. Any other angle name also works.
@@ -69,7 +69,11 @@ Navigation tabs are created automatically from the Excel **Type** column. A new 
 { "code": "OB3", "label": "OmniBook 3", "description": "Designed for everyday productivity…" }
 ```
 
-`code` must match the Type value in Excel exactly. Your edits are kept the next time the script runs.
+`code` must match the Type value in Excel exactly. Your edits are kept the next time the script runs. `aliases` (optional) keeps old links working, for example `#/type/OBX` still opens *Omnibook X Flip*.
+
+### Browser tab icon
+
+The tab icon combines the HP and Iontech logos: `favicon.ico` plus `assets/logos/favicon-32.png`, `favicon-192.png` and `apple-touch-icon.png` (phone home screen). Browsers cache icons, so a hard refresh (Ctrl+F5) may be needed to see a change.
 
 ### Promos
 
@@ -78,7 +82,8 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
 - Set `url` to `null` when there is no official page (like Home Credit). The card then only opens the flyer.
 - A promo hides itself automatically after its `end` date. To run a new promo, add a new entry.
 - `eligible` (GCash) is the official list of qualifying models and rewards. Models on our pricelist that match a SKU get a small reward badge.
-- `freebie` is the standard freebie shown beside every laptop (currently the HP Everyday 16-inch Laptop Briefcase, A08JTAA). Remove the `freebie` block to hide it everywhere.
+- `freebie` is the standard freebie shown beside each laptop (currently the HP Everyday 16-inch Laptop Briefcase, A08JTAA). Remove the `freebie` block to hide it everywhere.
+- `freebie.excluded` lists the models that do **not** get the freebie (`productNumber`, `sku`, `name`). Matching uses `sku` (for example `14-kb0105TU`), so add the SKU when you add a product number. Right now every OmniBook X Flip on the pricelist is excluded.
 
 ### Last-time-buy
 

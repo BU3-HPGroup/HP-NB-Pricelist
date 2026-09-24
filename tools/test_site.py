@@ -27,6 +27,8 @@ check("every Excel model present", all(r["Model"].strip() in by_model for r in x
 check("no duplicate models", len(by_model) == len(data))
 check("SRP matches Excel", all(by_model[r["Model"].strip()]["srp"] == r["SRP"] for r in xl))
 check("DP matches Excel", all(by_model[r["Model"].strip()]["dp"] == r["DP"] for r in xl))
+check("Part number matches Excel", all(by_model[r["Model"].strip()].get("partNo") == str(r["Part Number"]).strip() for r in xl))
+check("Material number matches Excel", all(by_model[r["Model"].strip()].get("matNo") == str(r["Material Number"]).strip() for r in xl))
 check("Type matches Excel", all(by_model[r["Model"].strip()]["type"] == r["Type"].strip() for r in xl))
 img_ok = all(all(im["sourceFile"].startswith(p["model"] + " - ") for im in p["images"]) for p in data)
 check("images only assigned by exact model name", img_ok)
@@ -78,8 +80,8 @@ with sync_playwright() as pw:
     exp = [p for p in data if p["srp"] >= 100000]
     check("price band 100k+", count() == len(exp), f"{count()} vs {len(exp)}")
     tick("price", "100000plus", False)
-    tick("type", "OB3"); tick("cpu", "Intel"); tick("price", "60000")
-    exp = [p for p in data if p["type"] == "OB3" and p.get("cpuBrand") == "Intel" and 60000 <= p["srp"] <= 69999]
+    tick("type", "Omnibook 3"); tick("cpu", "Intel"); tick("price", "60000")
+    exp = [p for p in data if p["type"] == "Omnibook 3" and p.get("cpuBrand") == "Intel" and 60000 <= p["srp"] <= 69999]
     check("combined Type+CPU+Price", count() == len(exp) and len(exp) > 0, f"{count()} vs {len(exp)}")
     check("result count text", str(len(exp)) in pg.inner_text("#resultCount"))
     pg.click("#clearFilters"); pg.wait_for_timeout(150)
@@ -122,6 +124,9 @@ with sync_playwright() as pw:
     pg.keyboard.press("Escape"); pg.keyboard.press("Escape"); pg.wait_for_timeout(100)
     check("modal closes", pg.is_hidden("#detailModal"))
     pg.goto(BASE + "#/type/OBX/product/14-kc0081au"); pg.wait_for_selector("#detailModal:not([hidden])")
+    dtxt = pg.inner_text("#detailBody")
+    check("detail shows part + material number", "DU5T6PA" in dtxt and "432115036919" in dtxt)
+    check("old #/type/OBX link still opens the OmniBook X Flip tab", pg.locator('.nav-link.active[data-nav="Omnibook X Flip"], .nav-link[aria-current="page"][data-nav="Omnibook X Flip"]').count() == 1)
     check("deep link to product", "14-kc0081AU" in pg.inner_text("#dmTitle"))
     pg.keyboard.press("Escape")
 
@@ -149,6 +154,8 @@ with sync_playwright() as pw:
     check("Home Credit flyer opens enlarged", "home-credit" in pg.get_attribute("#lbImg", "src"))
     pg.keyboard.press("Escape")
     check("freebie banner shown", "A08JTAA" in txt)
+    ico = pg.evaluate("[...document.querySelectorAll('link[rel~=icon]')].map(l => l.href)")
+    check("favicon files exist", len(ico) >= 2 and all(os.path.exists(os.path.join(ROOT, u.split(BASE, 1)[-1])) for u in ico), str(ico))
     pg.evaluate("window._opened = []; window.open = (u, t) => { window._opened.push([u, t]); }")
     pg.locator("#promo-gcash .promo-caption").click()
     op = pg.evaluate("window._opened")
@@ -165,7 +172,23 @@ with sync_playwright() as pw:
         if (want is None) != (got is None) or (want and f"₱{want:,}" not in got):
             bad_badge.append((p["sku"], want, got))
     check("GCash badges match official eligible list", not bad_badge, str(bad_badge[:4]))
-    check("freebie shown on every laptop card", pg.locator(".card .freebie-line").count() == len(data))
+    nofree = {x["sku"].upper() for x in promos["freebie"].get("excluded", [])}
+    bad_free = []
+    for p in data:
+        has = pg.locator(f'.card[data-id="{p["id"]}"] .freebie-line').count() == 1
+        if has == (p["sku"].upper() in nofree): bad_free.append(p["sku"])
+    check("freebie shown on all cards except excluded models", not bad_free, str(bad_free))
+    check("OmniBook X Flip models have no freebie", pg.locator('.card:has-text("OmniBook X Flip") .freebie-line').count() == 0)
+    xp = next(p for p in data if p["sku"].upper() in nofree)
+    pg.click(f'.card[data-id="{xp["id"]}"] .card-media'); pg.wait_for_selector("#detailModal:not([hidden])")
+    check("excluded model detail has no freebie", "A08JTAA" not in pg.inner_text("#detailBody"))
+    pg.keyboard.press("Escape")
+    fp = next(p for p in data if p["sku"].upper() not in nofree)
+    pg.goto(BASE + "#/product/" + fp["id"]); pg.wait_for_selector("#detailModal:not([hidden])")
+    check("other model detail still has freebie", "A08JTAA" in pg.inner_text("#detailBody"))
+    pg.keyboard.press("Escape")
+    pg.goto(BASE + "#/promos"); pg.wait_for_selector(".freebie-banner")
+    check("promos banner lists excluded models", "Not included with 22 models" in pg.inner_text(".freebie-banner"))
 
     # ---------- Last-time-buy ----------
     wb2 = openpyxl.load_workbook(os.path.join(ROOT, "source", "Last-time-buy models.xlsx"), data_only=True)
@@ -233,9 +256,9 @@ with sync_playwright() as pw:
     check("mobile: search full width", mp.evaluate("document.querySelector('.search').getBoundingClientRect().width") > 340)
     mp.screenshot(path=f"{SHOTS}/mobile-grid.png")
     mp.click("#menuToggle"); mp.wait_for_timeout(150)
-    check("mobile: hamburger opens nav", mp.is_visible('.nav-link[data-nav="OB5"]'))
+    check("mobile: hamburger opens nav", mp.is_visible('.nav-link[data-nav="Omnibook 5"]'))
     mp.screenshot(path=f"{SHOTS}/mobile-menu.png")
-    mp.click('.nav-link[data-nav="OB5"]'); mp.wait_for_timeout(200)
+    mp.click('.nav-link[data-nav="Omnibook 5"]'); mp.wait_for_timeout(200)
     check("mobile: nav closes after pick", not mp.is_visible("#primaryNav") and mp.locator("#products > article").count() == 2)
     mp.click("#filtersToggle"); mp.wait_for_timeout(350)
     check("mobile: filter drawer opens", mp.is_visible("#filtersApply"))

@@ -5,23 +5,27 @@
     "description": "Everyday 15.6-inch laptops for home, school and small-office productivity."
   },
   {
-    "code": "OB3",
+    "code": "Omnibook 3",
     "label": "OmniBook 3",
+    "aliases": ["OB3"],
     "description": "Designed for everyday productivity with a balance of performance, portability, and value."
   },
   {
-    "code": "OB5",
+    "code": "Omnibook 5",
     "label": "OmniBook 5",
+    "aliases": ["OB5"],
     "description": "Thin-and-light 14-inch laptops for mainstream productivity and on-the-go work."
   },
   {
-    "code": "OB5 FLIP",
+    "code": "Omnibook 5 Flip",
     "label": "OmniBook 5 Flip",
+    "aliases": ["OB5 FLIP"],
     "description": "Convertible 2-in-1 laptops that switch between laptop and tablet modes for work, study and creative tasks."
   },
   {
-    "code": "OBX",
-    "label": "OmniBook X",
+    "code": "Omnibook X Flip",
+    "label": "OmniBook X Flip",
+    "aliases": ["OBX"],
     "description": "Premium OmniBook X Flip convertible AI PCs for professionals who want performance in a versatile 2-in-1 design."
   }
 ]

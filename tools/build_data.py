@@ -297,6 +297,14 @@ def parse_ltb_specs(spec):
     return out
 
 
+def part_from_ltb_model(model):
+    """LTB Model text looks like 'HP-NB D40T5PA OMNIBOOK3 15-FN0046AU' - the HP part number is the 2nd word."""
+    w = str(model or "").split()
+    if len(w) > 1 and w[0].upper().startswith("HP-") and re.fullmatch(r"[A-Z0-9]{6,8}", w[1].upper()):
+        return w[1].upper()
+    return None
+
+
 def build_ltb(excel_path, images_dir=None):
     wb = openpyxl.load_workbook(excel_path, data_only=True)
     ws = wb.worksheets[0]
@@ -340,6 +348,7 @@ def build_ltb(excel_path, images_dir=None):
             "id": "ltb-" + slug(sku),
             "model": r["Model"],
             "sku": sku,
+            "partNo": part_from_ltb_model(r["Model"]),
             "matNo": str(r["Mat No."]) if r.get("Mat No.") is not None else None,
             "tagging": tag or None,
             "segment": seg.strip() if cat else None,
@@ -420,7 +429,7 @@ def main():
         with open(types_path, encoding="utf-8") as fh:
             type_info = {t["code"]: t for t in json.load(fh)}
 
-    known_cols = {"Platform", "Type", "Model", "Specs", "SRP", "DP", "Qty"}
+    known_cols = {"Platform", "Type", "Model", "Specs", "SRP", "DP", "Qty", "Part Number", "Material Number"}
     out, type_order = [], []
     for i, r in enumerate(products):
         spec = parse_specs(r.get("Specs"))
@@ -436,6 +445,8 @@ def main():
             "id": slug(sku_from_model(r["Model"])),
             "model": r["Model"],
             "sku": sku_from_model(r["Model"]),
+            "partNo": str(r["Part Number"]).strip() if r.get("Part Number") is not None else None,
+            "matNo": str(r["Material Number"]).strip() if r.get("Material Number") is not None else None,
             "type": t,
             "platform": r.get("Platform"),
             "srp": srp if isinstance(srp, (int, float)) else None,

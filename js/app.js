@@ -67,6 +67,7 @@
     saved: {},           // filter selections remembered per dataset
     promos: [],
     freebie: null,
+    noFreebie: {},
     rewards: {},         // SKU (upper case) -> { amount, label, promoId }
   };
 
@@ -107,7 +108,7 @@
     const t = state.typeMap[p.type];
     const fields = [p.model, p.sku, p.type, t && t.label, p.platform, p.cpu, p.cpuBrand, p.ram, p.storage, p.graphics,
       p.display, p.displayShort, p.os, p.color, p.camera, p.formFactor, p.series, p.specsRaw,
-      p.extra && Object.values(p.extra).join(" "), p.tagging, p.matNo, p.segment, p.otherSpecs && p.otherSpecs.join(" ")];
+      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, p.segment, p.otherSpecs && p.otherSpecs.join(" ")];
     p._hay = norm(fields.filter(Boolean).join(" | "));
     p._hayC = compact(p._hay);
     p._band = bandOf(priceKey(p));
@@ -199,6 +200,11 @@
     return `<img src="${esc(img.thumb)}" srcset="${esc(img.thumb)} 360w, ${esc(img.src)} 1200w" sizes="${sizes}" alt="${esc(p.model)} — ${esc(img.angle)}" loading="lazy" decoding="async" width="360" height="${Math.round(360 * img.height / img.width)}"${cls ? ` class="${cls}"` : ""}>`;
   }
 
+  function idsHTML(p, cls) {
+    if (!p.partNo && !p.matNo) return "";
+    return `<p class="pn-line${cls ? " " + cls : ""}">${p.partNo ? `<span title="Part number"><i>PN</i>${esc(p.partNo)}</span>` : ""}${p.matNo ? `<span title="Material number"><i>Mat</i>${esc(p.matNo)}</span>` : ""}</p>`;
+  }
+
   function skuTitle(p) {
     const name = p.sku && p.model.endsWith(p.sku) ? p.model.slice(0, -p.sku.length).trim() : p.model;
     return p.sku && p.model.endsWith(p.sku)
@@ -229,9 +235,15 @@
     return r ? `<span class="promo-badge" title="${esc(r.title)}">${ICONS.gift}${fmtPrice(r.amount)} ${esc(r.label)}</span>` : "";
   }
 
-  function freebieHTML() {
+  function hasFreebie(p) {
     const f = state.freebie;
-    if (!f) return "";
+    if (!f) return false;
+    return !(p && (state.noFreebie[skuKey(p.sku)] || (p.partNo && state.noFreebie[skuKey(p.partNo)])));
+  }
+
+  function freebieHTML(p) {
+    const f = state.freebie;
+    if (!hasFreebie(p)) return "";
     return `<div class="freebie-line" title="${esc(f.caption || "")}">
       <img src="${esc(f.thumb || f.image)}" alt="" width="40" height="32" loading="lazy" decoding="async">
       <span><b>${esc(f.label || "FREE")}</b> ${esc(f.shortName || f.name)}</span>
@@ -269,10 +281,11 @@
       <div class="card-body">
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
+        ${idsHTML(p)}
         ${salePriceHTML(p)}
         <ul class="spec-list">${keySpecs(p).map((s) => `<li title="${esc(s.label)}">${ICONS[s.k]}<span>${esc(s.v)}</span></li>`).join("")}</ul>
         ${stockHTML(p)}
-        ${freebieHTML()}
+        ${freebieHTML(p)}
         <button type="button" class="btn btn-outline" data-open="${esc(p.id)}">View Details</button>
       </div>
     </article>`;
@@ -284,6 +297,7 @@
       <div class="row-main">
         <span class="ltb-badge inline">${ICONS.clock}Last time to buy</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
+        ${idsHTML(p)}
         <span class="row-meta">${esc(typeLabel(p))}${p.qty != null ? " · " : ""}${stockHTML(p)}</span>
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
@@ -306,8 +320,9 @@
       <div class="card-body">
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
+        ${idsHTML(p)}
         <ul class="spec-list">${keySpecs(p).map((s) => `<li title="${esc(s.label)}">${ICONS[s.k]}<span>${esc(s.v)}</span></li>`).join("")}</ul>
-        ${freebieHTML()}
+        ${freebieHTML(p)}
         <div class="prices">${priceHTML(p)}</div>
         <button type="button" class="btn btn-outline" data-open="${esc(p.id)}">View Details</button>
       </div>
@@ -322,7 +337,8 @@
       <div class="row-main">
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
-        <div class="row-extras">${rw}${freebieHTML()}</div>
+        ${idsHTML(p)}
+        <div class="row-extras">${rw}${freebieHTML(p)}</div>
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
       <div class="row-side">
@@ -474,9 +490,12 @@
     }).join("");
     $("#promosGrid").innerHTML = (f ? `<aside class="freebie-banner">
         <img src="${esc(f.image)}" alt="${esc(f.name)}" width="160" height="128" loading="lazy">
-        <div><span class="freebie-tag">${esc(f.label || "FREE")} with every laptop</span>
+        <div><span class="freebie-tag">${esc(f.label || "FREE")} with HP laptops</span>
         <h2>${esc(f.name)}${f.sku ? ` <small>${esc(f.sku)}</small>` : ""}</h2>
-        <p>${esc(f.caption || "")}</p></div>
+        <p>${esc(f.caption || "")}</p>
+        ${(f.excluded || []).length ? `<details class="eligible excluded"><summary>Not included with ${f.excluded.length} models</summary>
+          <ul>${f.excluded.map((x) => `<li><span>${esc(x.name)}</span><b>${esc(x.productNumber)}</b></li>`).join("")}</ul>
+        </details>` : ""}</div>
       </aside>` : "") + (cards || '<p class="empty-note">No active promotions right now.</p>');
   }
 
@@ -486,7 +505,7 @@
 
   function inclusionsHTML(p) {
     const r = state.rewards[skuKey(p.sku)];
-    const f = state.freebie;
+    const f = hasFreebie(p) ? state.freebie : null;
     if (!r && !f) return "";
     return `<div class="inclusions">
       <h3 class="detail-h">Promos &amp; inclusions</h3>
@@ -499,9 +518,10 @@
     const rows = [
       ["Model", p.model],
       ["SKU", p.sku],
-      ["Material no.", p.matNo],
+      ["Part number", p.partNo],
+      ["Material number", p.matNo],
       ["Tagging", p.tagging],
-      ["Type", p.type ? `${typeLabel(p)}${typeLabel(p) !== p.type ? " (" + p.type + ")" : ""}` : null],
+      ["Type", p.type ? `${typeLabel(p)}${typeLabel(p).toLowerCase() !== String(p.type).toLowerCase() ? " (" + p.type + ")" : ""}` : null],
       ["Platform", p.platform],
       ["Series / form factor", p.series],
       ["Processor", p.cpu],
@@ -553,6 +573,8 @@
           <h2 id="dmTitle">${p.sku && p.model.endsWith(p.sku) ? esc(p.model.slice(0, -p.sku.length)) + `<span class="nowrap">${esc(p.sku)}</span>` : esc(p.model)}</h2>
         </div>
         <div class="detail-sku">SKU <b>${esc(p.sku)}</b>
+          ${p.partNo ? `<span class="sep">·</span><span class="nowrap">Part no. <b>${esc(p.partNo)}</b></span>` : ""}
+          ${p.matNo ? `<span class="sep">·</span><span class="nowrap">Material no. <b>${esc(p.matNo)}</b></span>` : ""}
           <button type="button" class="copy-btn" id="copyModel" data-copy="${esc(p.model)}">${ICONS.copy}<span>Copy model</span></button>
         </div>
         ${p.sale != null ? `<div class="ltb-detail">
@@ -653,6 +675,14 @@
   }
 
   // ---------- Routing ----------
+  // old links such as #/type/OBX keep working through the "aliases" in data/types.json
+  function resolveType(code) {
+    if (state.typeMap[code]) return code;
+    const lc = String(code).toLowerCase();
+    const t = Object.values(state.typeMap).find((x) => x.code.toLowerCase() === lc || (x.aliases || []).some((a) => a.toLowerCase() === lc));
+    return t ? t.code : code;
+  }
+
   function currentRoute() {
     const h = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
     const parts = h.split("/").filter(Boolean);
@@ -660,7 +690,7 @@
     if (parts[0] === "sites") r.view = "sites";
     else if (parts[0] === "promos") r.view = "promos";
     else if (parts[0] === "ltb") r.view = "ltb";
-    else if (parts[0] === "type" && parts[1]) { r.view = "type"; r.type = parts[1]; }
+    else if (parts[0] === "type" && parts[1]) { r.view = "type"; r.type = resolveType(parts[1]); }
     const pi = parts.indexOf("product");
     if (pi >= 0 && parts[pi + 1]) r.product = parts[pi + 1];
     return r;
@@ -913,6 +943,8 @@
       // Promotions (hidden automatically after their end date) + standard freebie
       const today = todayISO();
       state.freebie = promos && promos.freebie ? promos.freebie : null;
+      state.noFreebie = {};
+      if (state.freebie) (state.freebie.excluded || []).forEach((x) => { if (x.sku) state.noFreebie[skuKey(x.sku)] = true; if (x.productNumber) state.noFreebie[skuKey(x.productNumber)] = true; });
       state.promos = ((promos && promos.promos) || []).filter((pr) => !pr.end || pr.end >= today);
       state.promos.forEach((pr) => (pr.eligible || []).forEach((el) => {
         if (!el.sku) return;

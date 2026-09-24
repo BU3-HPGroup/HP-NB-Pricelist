@@ -4,11 +4,124 @@
     "name": "HP Everyday 16-inch Laptop Briefcase",
     "sku": "A08JTAA",
     "label": "FREE",
-    "appliesTo": "All laptops",
+    "appliesTo": "All laptops except the models in 'excluded'",
     "image": "assets/images/freebie-a08jtaa.webp",
     "thumb": "assets/images/freebie-a08jtaa-thumb.webp",
-    "caption": "Standard freebie with every HP laptop on this pricelist.",
-    "shortName": "HP Everyday 16\" Laptop Briefcase"
+    "caption": "Standard freebie with HP laptops on this pricelist, except the models listed below.",
+    "shortName": "HP Everyday 16\" Laptop Briefcase",
+    "excludedNote": "Product numbers supplied by Iontech; model names matched from HP product pages. Match is by SKU (e.g. 14-kb0105TU).",
+    "excluded": [
+      {
+        "productNumber": "DU5R9PA",
+        "sku": "14-FP0165TU",
+        "name": "HP OmniBook 5 Flip 14-fp0165TU"
+      },
+      {
+        "productNumber": "DW8J6PA",
+        "sku": "14-FP0166TU",
+        "name": "HP OmniBook 5 Flip 14-fp0166TU"
+      },
+      {
+        "productNumber": "DU5U5PA",
+        "sku": "14-KM0063TU",
+        "name": "HP OmniBook 5 Flip Next Gen AI 14-km0063TU"
+      },
+      {
+        "productNumber": "DU5U4PA",
+        "sku": "14-KM0062TU",
+        "name": "HP OmniBook 5 Flip Next Gen AI 14-km0062TU"
+      },
+      {
+        "productNumber": "DU5U1PA",
+        "sku": "14-KM0060TU",
+        "name": "HP OmniBook 5 Flip Next Gen AI 14-km0060TU"
+      },
+      {
+        "productNumber": "DU5U2PA",
+        "sku": "14-KM0061TU",
+        "name": "HP OmniBook 5 Flip Next Gen AI 14-km0061TU"
+      },
+      {
+        "productNumber": "E2HE0PA",
+        "sku": "14-HG0079TU",
+        "name": "HP OmniBook 7 Next Gen AI 14-hg0079TU"
+      },
+      {
+        "productNumber": "E2HE1PA",
+        "sku": "14-HG0080TU",
+        "name": "HP OmniBook 7 Next Gen AI 14-hg0080TU"
+      },
+      {
+        "productNumber": "DU5S6PA",
+        "sku": "14-KB0105TU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kb0105TU"
+      },
+      {
+        "productNumber": "DU5S7PA",
+        "sku": "14-KB0106TU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kb0106TU"
+      },
+      {
+        "productNumber": "DU5T2PA",
+        "sku": "14-KB0112TU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kb0112TU"
+      },
+      {
+        "productNumber": "DU5S8PA",
+        "sku": "14-KB0107TU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kb0107TU"
+      },
+      {
+        "productNumber": "DU5T5PA",
+        "sku": "14-KC0080AU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kc0080AU"
+      },
+      {
+        "productNumber": "DU5T6PA",
+        "sku": "14-KC0081AU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kc0081AU"
+      },
+      {
+        "productNumber": "DU5T8PA",
+        "sku": "14-KC0085AU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kc0085AU"
+      },
+      {
+        "productNumber": "DU5T7PA",
+        "sku": "14-KC0082AU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kc0082AU"
+      },
+      {
+        "productNumber": "DU5S1PA",
+        "sku": "14-KB0100TU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kb0100TU"
+      },
+      {
+        "productNumber": "DU5S4PA",
+        "sku": "14-KB0101TU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kb0101TU"
+      },
+      {
+        "productNumber": "DU5S5PA",
+        "sku": "14-KB0102TU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kb0102TU"
+      },
+      {
+        "productNumber": "DU5T4PA",
+        "sku": "14-KC0079AU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kc0079AU"
+      },
+      {
+        "productNumber": "DW8J8PA",
+        "sku": "14-KC0039AU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kc0039AU"
+      },
+      {
+        "productNumber": "DU5T3PA",
+        "sku": "14-KC0078AU",
+        "name": "HP OmniBook X Flip Next Gen AI 14-kc0078AU"
+      }
+    ]
   },
   "promos": [
     {
