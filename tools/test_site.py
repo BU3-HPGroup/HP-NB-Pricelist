@@ -193,6 +193,14 @@ with sync_playwright() as pw:
         if not want and rnd(p["dp"]) not in card.locator(".price.dp").inner_text():
             bad_pdp.append(p["sku"] + " dp")
     check("cards show Promo DP only where set, DP rounded to peso", not bad_pdp, str(bad_pdp))
+    check("status chip on every card that has a Status", pg.locator(".card .stock").count() == sum(1 for p in data if p.get("status")))
+    ctx.grant_permissions(["clipboard-read", "clipboard-write"])
+    pg.locator('.card[data-id="14-kf0002tu"] [data-copyspec]').click(); pg.wait_for_timeout(300)
+    clip = pg.evaluate("navigator.clipboard.readText()")
+    kp = next(p for p in data if p["id"] == "14-kf0002tu")
+    want = [kp["model"], f"SRP: ₱{int(kp['srp'] + 0.5):,}", f"DP: ₱{int(kp['dp'] + 0.5):,}", f"Promo DP: ₱{int(kp['promoDp'] + 0.5):,}", "Availability: On hand", kp["partNo"], "Freebie"]
+    check("copy button copies model, specs, SRP, DP, promo DP, availability", all(w in clip for w in want), clip)
+    check("copy shows confirmation", pg.locator("#toast.show").count() == 1)
     check("OmniBook X Flip models have no freebie", pg.locator('.card:has-text("OmniBook X Flip") .freebie-line').count() == 0)
     xp = next(p for p in data if p["sku"].upper() in nofree)
     pg.click(f'.card[data-id="{xp["id"]}"] .card-media'); pg.wait_for_selector("#detailModal:not([hidden])")
@@ -213,12 +221,17 @@ with sync_playwright() as pw:
     num = lambda v: float(re.sub(r"[^0-9.]", "", str(v)))
     by2 = {p["model"]: p for p in ltb}
     check("LTB: every Excel model present, no duplicates", len(by2) == len(ltb) == len(xl2) and all(r["Model"] in by2 for r in xl2))
-    check("LTB: sale/DP/SRP/Qty match Excel", all(num(r["Special Price"]) == by2[r["Model"]]["sale"] and num(r["DP"]) == by2[r["Model"]]["dp"]
-          and num(r["SRP"]) == by2[r["Model"]]["srp"] and r["Qty"] == by2[r["Model"]]["qty"] for r in xl2))
+    lvl = lambda q: None if not isinstance(q, (int, float)) else "Sold out" if q <= 0 else "Very limited" if q <= 10 else "Limited" if q <= 30 else "On hand"
+    check("LTB: sale/DP/SRP match Excel, availability label from Qty", all(num(r["Special Price"]) == by2[r["Model"]]["sale"] and num(r["DP"]) == by2[r["Model"]]["dp"]
+          and num(r["SRP"]) == by2[r["Model"]]["srp"] and lvl(r["Qty"]) == by2[r["Model"]].get("availability") for r in xl2))
+    check("LTB: actual quantities are not published", all("qty" not in p for p in ltb) and '"qty"' not in open(os.path.join(ROOT, "data", "ltb.json"), encoding="utf-8").read())
     check("LTB: specs text preserved", all(by2[r["Model"]]["specsRaw"] == r["Specs"] for r in xl2))
     check("LTB: images only by exact model name", all(im["sourceFile"].startswith(p["model"] + " - ") for p in ltb for im in p.get("images", [])))
     pg.goto(BASE + "#/ltb"); pg.wait_for_selector(".ltb-card")
     check("LTB tab renders all models", pg.locator(".ltb-card").count() == len(ltb))
+    ltxt = pg.inner_text("#main")
+    check("LTB: availability disclaimer shown", "check with their account manager for actual availability" in ltxt)
+    check("LTB: no unit counts on page", not re.search(r"\d+ units?\b", ltxt) and "units available" not in ltxt)
     check("LTB: badge + sale price on every card", pg.locator(".ltb-card .ltb-badge").count() == len(ltb) and pg.locator(".ltb-card .sale-box").count() == len(ltb))
     first = pg.locator(".ltb-card").first
     check("LTB: first sale price visible without scrolling (desktop)", first.locator(".sale-box").bounding_box()["y"] < 900)
@@ -236,9 +249,9 @@ with sync_playwright() as pw:
     pg.click('.vt-btn[data-view="list"]'); pg.wait_for_timeout(100)
     check("LTB: list view", pg.locator("#products.list .ltb-row").count() == len(ltb))
     pg.click('.vt-btn[data-view="grid"]')
-    pg.locator('.ltb-card[data-id="ltb-14-fe0028qu"] .btn').click(); pg.wait_for_selector("#detailModal:not([hidden])")
+    pg.locator('.ltb-card[data-id="ltb-14-fe0028qu"] .btn[data-open]').click(); pg.wait_for_selector("#detailModal:not([hidden])")
     dt = pg.inner_text("#detailBody")
-    check("LTB detail: sale, DP, SRP, stock, material no.", all(x in dt for x in ["₱84,021", "₱86,620", "₱108,990", "19 units", "432115035942"]))
+    check("LTB detail: sale, DP, SRP, stock, material no.", all(x in dt for x in ["₱84,021", "₱86,620", "₱108,990", by2["HP-NB B14ZBPA OMNIBOOK X 14-FE0028QU"]["availability"], "432115035942", "account manager"]))
     check("LTB detail: silhouette when no photo", "laptop-placeholder" in pg.get_attribute("#gallery img", "src"))
     pg.keyboard.press("Escape")
     pg.goto(BASE + "#/ltb/product/ltb-13-bg1055au"); pg.wait_for_selector("#detailModal:not([hidden])")

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-28T18:22:42",
+  "generatedAt": "2026-09-28T19:04:32",
   "sourceFile": "Last-time-buy models.xlsx",
-  "sourceHash": "e785cd8f3d",
+  "sourceHash": "c07b853b57",
   "currency": "PHP",
-  "count": 12,
+  "count": 11,
   "products": [
     {
       "id": "ltb-15-fn0046au",
@@ -26,7 +26,7 @@
       "dp": 48310,
       "srp": 60990,
       "sale": 46861,
-      "qty": 96,
+      "availability": "On hand",
       "priceText": {
         "dp": "PHP 48,310.00",
         "srp": "PHP 60,990.00",
@@ -81,7 +81,7 @@
       "dp": 78840,
       "srp": 98990,
       "sale": 76475,
-      "qty": 1,
+      "availability": "Very limited",
       "priceText": {
         "dp": "PHP 78,840.00",
         "srp": "PHP 98,990.00",
@@ -110,7 +110,7 @@
       "dp": 54310,
       "srp": 67990,
       "sale": 52681,
-      "qty": 103,
+      "availability": "On hand",
       "priceText": {
         "dp": "PHP 54,310.00",
         "srp": "PHP 67,990.00",
@@ -173,7 +173,7 @@
       "dp": 51490,
       "srp": 64990,
       "sale": 49945,
-      "qty": 49,
+      "availability": "Limited",
       "priceText": {
         "dp": "PHP 51,490.00",
         "srp": "PHP 64,990.00",
@@ -236,7 +236,7 @@
       "dp": 60140,
       "srp": 75990,
       "sale": 58336,
-      "qty": 39,
+      "availability": "On hand",
       "priceText": {
         "dp": "PHP 60,140.00",
         "srp": "PHP 75,990.00",
@@ -299,7 +299,7 @@
       "dp": 66080,
       "srp": 82990,
       "sale": 64098,
-      "qty": 128,
+      "availability": "On hand",
       "priceText": {
         "dp": "PHP 66,080.00",
         "srp": "PHP 82,990.00",
@@ -328,7 +328,7 @@
       "dp": 57770,
       "srp": 72990,
       "sale": 56037,
-      "qty": 78,
+      "availability": "On hand",
       "priceText": {
         "dp": "PHP 57,770.00",
         "srp": "PHP 72,990.00",
@@ -357,7 +357,7 @@
       "dp": 58750,
       "srp": 73990,
       "sale": 56988,
-      "qty": 23,
+      "availability": "Very limited",
       "priceText": {
         "dp": "PHP 58,750.00",
         "srp": "PHP 73,990.00",
@@ -420,68 +420,13 @@
       "dp": 86620,
       "srp": 108990,
       "sale": 84021,
-      "qty": 19,
+      "availability": "Limited",
       "priceText": {
         "dp": "PHP 86,620.00",
         "srp": "PHP 108,990.00",
         "sale": "PHP 84,021"
       },
       "row": 9
-    },
-    {
-      "id": "ltb-14-ew1009tu",
-      "model": "HP-NB A46T3PA PAV PLUS 14-EW1009TU U5",
-      "sku": "14-EW1009TU",
-      "partNo": "A46T3PA",
-      "matNo": "432115035713",
-      "tagging": "Premium - Pav",
-      "segment": "Premium",
-      "type": "Pav",
-      "cpu": "U5-125H",
-      "cpuBrand": "Intel",
-      "ram": "16GB 5X OB",
-      "storage": "512GB",
-      "displayShort": "14\" WQXGA",
-      "otherSpecs": [
-        "INTEL ARC 14 WQXGA MB"
-      ],
-      "specsRaw": "U5-125H 16GB 5X OB 512GB INTEL ARC 14 WQXGA MB",
-      "dp": 61060,
-      "srp": 76990,
-      "sale": 59228,
-      "qty": 27,
-      "priceText": {
-        "dp": "PHP 61,060.00",
-        "srp": "PHP 76,990.00",
-        "sale": "PHP 59,228"
-      },
-      "images": [
-        {
-          "angle": "Front",
-          "src": "assets/images/ltb/14-ew1009tu-front.webp",
-          "thumb": "assets/images/ltb/14-ew1009tu-front-thumb.webp",
-          "width": 1200,
-          "height": 1024,
-          "sourceFile": "HP-NB A46T3PA PAV PLUS 14-EW1009TU U5 - Front.png"
-        },
-        {
-          "angle": "Front Right",
-          "src": "assets/images/ltb/14-ew1009tu-front-right.webp",
-          "thumb": "assets/images/ltb/14-ew1009tu-front-right-thumb.webp",
-          "width": 1200,
-          "height": 997,
-          "sourceFile": "HP-NB A46T3PA PAV PLUS 14-EW1009TU U5 - Front Right.png"
-        },
-        {
-          "angle": "Front Left",
-          "src": "assets/images/ltb/14-ew1009tu-front-left.webp",
-          "thumb": "assets/images/ltb/14-ew1009tu-front-left-thumb.webp",
-          "width": 1200,
-          "height": 997,
-          "sourceFile": "HP-NB A46T3PA PAV PLUS 14-EW1009TU U5 - Front Left.png"
-        }
-      ],
-      "row": 10
     },
     {
       "id": "ltb-16-af0063tu",
@@ -504,7 +449,7 @@
       "dp": 51930,
       "srp": 64990,
       "sale": 50372,
-      "qty": 18,
+      "availability": "Very limited",
       "priceText": {
         "dp": "PHP 51,930.00",
         "srp": "PHP 64,990.00",
@@ -544,7 +489,7 @@
           "sourceFile": "HP-NB B49W8PA PAVILION 16-AF0063TU U5 - Left Profile.png"
         }
       ],
-      "row": 11
+      "row": 10
     },
     {
       "id": "ltb-16-ag0034au",
@@ -567,7 +512,7 @@
       "dp": 50100,
       "srp": 62990,
       "sale": 48597,
-      "qty": 6,
+      "availability": "Very limited",
       "priceText": {
         "dp": "PHP 50,100.00",
         "srp": "PHP 62,990.00",
@@ -607,7 +552,7 @@
           "sourceFile": "HP-NB B49WBPA PAVILION 16-AG0034AU R5 - Rear Left.png"
         }
       ],
-      "row": 12
+      "row": 11
     }
   ]
 }

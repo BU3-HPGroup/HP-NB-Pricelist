@@ -46,7 +46,7 @@ Then turn on Pages as described in steps 6–8 above.
 
 The site never hard-codes products. Everything comes from the Excel file through one script.
 
-1. Replace `source/Current Pricelist - HPNB.xlsx` with the new pricelist. Keep the same column headers: **Part Number, Material Number, Platform, Type, Model, Specs, SRP, DP, Promo DP** (Qty is ignored). Leave **Promo DP** empty for models without a dealer promo; when it is lower than DP, the site shows it as the deal (DP struck through, savings, a Promo DP badge, and a list on the Promos page). Prices with centavos are shown rounded to the whole peso. The table can start anywhere in the first 20 rows. Part and material numbers are shown under each model name, in the product details, and can be searched.
+1. Replace `source/Current Pricelist - HPNB.xlsx` with the new pricelist. Keep the same column headers: **Part Number, Material Number, Platform, Type, Model, Specs, SRP, DP, Promo DP** (Qty is ignored). **Status** (e.g. Onhand, Limited, Very limited, Incoming, Out of stock) is shown as a colored availability label on each product. Leave **Promo DP** empty for models without a dealer promo; when it is lower than DP, the site shows it as the deal (DP struck through, savings, a Promo DP badge, and a list on the Promos page). Prices with centavos are shown rounded to the whole peso. The table can start anywhere in the first 20 rows. Part and material numbers are shown under each model name, in the product details, and can be searched.
 2. Put the product photos in a folder, named **`<exact Model from Excel> - <Angle>.png`**, for example:
    `HP OmniBook 5 AI PC 14-kf0002TU - Front.png`
    Supported angles are shown in this order: Front, Front Right, Front Left, Rear Left, Rear Right, Left Profile, Right Profile, Open. Any other angle name also works.
@@ -101,7 +101,7 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
    Photos use the same naming as above: `<exact Model from Excel> - <Angle>.png`. Leave out `--ltb-images` to keep the existing photos.
 3. Commit `data/ltb.json`, `assets/images/ltb/` and `source/`.
 
-SALE PRICE is shown as the main price, with SRP struck through. Stock is shown from the **Qty** column (a low-stock warning appears at 10 units or fewer). Models without a photo show a grey laptop silhouette. At the moment that applies to 16-H1015TX, 14-FP0061TU, 14-FP0060TU and 14-FE0028QU.
+SALE PRICE is shown as the main price, with the regular DP struck through. The **Qty** column is never published: the script turns it into a label only (more than 30 = On hand, 11–30 = Limited, 1–10 = Very limited, 0 = Sold out), and the page tells dealers to confirm actual availability with their account manager. Models without a photo show a grey laptop silhouette. At the moment that applies to 16-H1015TX, 14-FP0061TU, 14-FP0060TU and 14-FE0028QU.
 
 ### HP Related Sites
 
@@ -132,6 +132,7 @@ Then open <http://localhost:8000/>.
 - **Promos tab**: active promos with validity dates, flyer view, a link to the official mechanics (when there is one), and the list of eligible models
 - **Last-time-buy tab**: its own filters (Type, Processor, Sale price), with the sale price shown most prominently, the original price struck through, and stock from the Excel
 - **Standard freebie**: shown on every laptop card and in the product details
+- **Copy button** on every product (card, list and details): copies model, part number, key specs, SRP, DP / Promo DP, availability, freebie and promo in a short text ready to paste into a chat or email
 - **Mobile layout**: hamburger menu, full-width search, filters in a bottom drawer, two-column cards, and large touch targets
 
 ## 5. Project structure

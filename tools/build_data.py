@@ -297,6 +297,19 @@ def parse_ltb_specs(spec):
     return out
 
 
+def ltb_availability(qty):
+    """Last-time-buy stock is published as a label only - the actual quantity is never written to the site."""
+    if not isinstance(qty, (int, float)):
+        return None
+    if qty <= 0:
+        return "Sold out"
+    if qty <= 10:
+        return "Very limited"
+    if qty <= 30:
+        return "Limited"
+    return "On hand"
+
+
 def part_from_ltb_model(model):
     """LTB Model text looks like 'HP-NB D40T5PA OMNIBOOK3 15-FN0046AU' - the HP part number is the 2nd word."""
     w = str(model or "").split()
@@ -363,7 +376,7 @@ def build_ltb(excel_path, images_dir=None):
             "dp": parse_php(r.get("DP")),
             "srp": parse_php(r.get("SRP")),
             "sale": parse_php(r.get("Special Price")),
-            "qty": r.get("Qty") if isinstance(r.get("Qty"), (int, float)) else None,
+            "availability": ltb_availability(r.get("Qty")),
             "priceText": {"dp": r.get("DP"), "srp": r.get("SRP"), "sale": r.get("Special Price")},
             "images": images.get(r["Model"], []),
             "row": i + 1,
@@ -429,7 +442,7 @@ def main():
         with open(types_path, encoding="utf-8") as fh:
             type_info = {t["code"]: t for t in json.load(fh)}
 
-    known_cols = {"Platform", "Type", "Model", "Specs", "SRP", "DP", "Promo DP", "Qty", "Part Number", "Material Number"}
+    known_cols = {"Platform", "Type", "Model", "Specs", "SRP", "DP", "Promo DP", "Qty", "Status", "Part Number", "Material Number"}
     out, type_order = [], []
     for i, r in enumerate(products):
         spec = parse_specs(r.get("Specs"))
@@ -452,6 +465,7 @@ def main():
             "srp": srp if isinstance(srp, (int, float)) else None,
             "dp": dp if isinstance(dp, (int, float)) else None,
             "promoDp": r.get("Promo DP") if isinstance(r.get("Promo DP"), (int, float)) else None,
+            "status": str(r["Status"]).strip() if r.get("Status") not in (None, "") else None,
             "cpu": spec.get("cpu"),
             "cpuBrand": cpu_brand(spec.get("cpu")),
             "ram": spec.get("ram"),

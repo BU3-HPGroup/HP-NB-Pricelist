@@ -254,11 +254,89 @@
     </div>`;
   }
 
-  function stockHTML(p) {
-    if (typeof p.qty !== "number") return "";
-    const low = p.qty <= 10;
-    return `<span class="stock${low ? " low" : ""}"><i></i>${low ? `Only ${fmtNum(p.qty)} unit${p.qty === 1 ? "" : "s"} left` : `${fmtNum(p.qty)} units available`}</span>`;
+  // Availability label: "Status" column (current pricelist) or the LTB label made from Qty at build time.
+  const AVAIL = {
+    onhand: ["On hand", "ok"], instock: ["On hand", "ok"], available: ["On hand", "ok"],
+    limited: ["Limited", "warn"], limitedstock: ["Limited", "warn"],
+    verylimited: ["Very limited", "low"], lowstock: ["Very limited", "low"],
+    incoming: ["Incoming", "info"], arriving: ["Incoming", "info"], onorder: ["On order", "info"], pipeline: ["Incoming", "info"],
+    soldout: ["Sold out", "out"], outofstock: ["Out of stock", "out"], nostock: ["Out of stock", "out"],
+  };
+  function availability(p) {
+    const raw = p.availability || p.status;
+    if (!raw) return null;
+    const hit = AVAIL[String(raw).toLowerCase().replace(/[^a-z]/g, "")];
+    return hit ? { label: hit[0], level: hit[1] } : { label: String(raw), level: "neutral" };
   }
+  const AVAIL_NOTE = "Availability is indicative only. Please check with your account manager for actual stock before confirming an order.";
+  function stockHTML(p) {
+    const a = availability(p);
+    return a ? `<span class="stock lvl-${a.level}" title="${esc(AVAIL_NOTE)}"><i></i>${esc(a.label)}</span>` : "";
+  }
+
+  // ---------- Copy a short product summary to share with sales / staff ----------
+  function shareText(p) {
+    const L = [p.model];
+    if (p.partNo) L.push("Part no.: " + p.partNo);
+    const specs = [p.cpu, p.ram, p.storage, p.displayShort || p.display, p.graphics, p.color].filter(Boolean);
+    if (specs.length) L.push("Specs: " + specs.join(" | "));
+    if (p.sale != null) {
+      L.push("LAST TIME TO BUY - Sale price: " + fmtPrice(p.sale));
+      if (p.dp != null) L.push("Regular DP: " + fmtPrice(p.dp));
+      if (p.srp != null) L.push("SRP: " + fmtPrice(p.srp));
+    } else {
+      if (p.srp != null) L.push("SRP: " + fmtPrice(p.srp));
+      if (p.dp != null) L.push("DP: " + fmtPrice(p.dp));
+      if (hasPromoDp(p)) L.push("Promo DP: " + fmtPrice(p.promoDp) + " (save " + fmtPrice(p.dp - p.promoDp) + ")");
+    }
+    const a = availability(p);
+    if (a) L.push("Availability: " + a.label + " (subject to confirmation with account manager)");
+    if (hasFreebie(p)) L.push("Freebie: " + (state.freebie.shortName || state.freebie.name));
+    const r = state.rewards[skuKey(p.sku)];
+    if (r) L.push("Promo: " + fmtPrice(r.amount) + " " + r.label + " - " + r.title + " (" + r.period + ")");
+    return L.join("\n");
+  }
+  function copyBtnHTML(p, cls) {
+    return `<button type="button" class="btn btn-outline copy-spec${cls ? " " + cls : ""}" data-copyspec="${esc(p.id)}" title="Copy model, specs, SRP and DP to paste in a chat or email" aria-label="Copy details of ${esc(p.model)}">${ICONS.copy}<span>Copy</span></button>`;
+  }
+  function viewAndCopy(p) {
+    return `<div class="card-actions"><button type="button" class="btn btn-outline" data-open="${esc(p.id)}">View Details</button>${copyBtnHTML(p)}</div>`;
+  }
+  function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+    return legacyCopy(text);
+  }
+  function legacyCopy(text) {
+    return new Promise((res, rej) => {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy") ? res() : rej(); } catch (e) { rej(e); } finally { ta.remove(); }
+    });
+  }
+  let toastTimer = null;
+  function toast(msg) {
+    let t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toast"; t.setAttribute("role", "status"); t.setAttribute("aria-live", "polite"); document.body.appendChild(t); }
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+  }
+  function findProduct(id) {
+    for (const m of ["main", "ltb"]) { const ds = state.ds[m]; const p = ds && ds.products.find((x) => x.id === id); if (p) return p; }
+    return null;
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-copyspec]");
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    const p = findProduct(b.dataset.copyspec);
+    if (!p) return;
+    copyToClipboard(shareText(p)).then(() => {
+      toast("Copied - paste it in a chat or email");
+      b.classList.add("done"); const sp = b.querySelector("span"); const old = sp.textContent; sp.textContent = "Copied";
+      setTimeout(() => { b.classList.remove("done"); sp.textContent = old; }, 1600);
+    }, () => toast("Couldn't copy - please select the text manually"));
+  }, true);
 
   function salePriceHTML(p, big) {
     const save = p.dp != null && p.sale != null && p.dp > p.sale ? p.dp - p.sale : null;
@@ -291,7 +369,7 @@
         <ul class="spec-list">${keySpecs(p).map((s) => `<li title="${esc(s.label)}">${ICONS[s.k]}<span>${esc(s.v)}</span></li>`).join("")}</ul>
         ${stockHTML(p)}
         ${freebieHTML(p)}
-        <button type="button" class="btn btn-outline" data-open="${esc(p.id)}">View Details</button>
+        ${viewAndCopy(p)}
       </div>
     </article>`;
   }
@@ -303,12 +381,12 @@
         <span class="ltb-badge inline">${ICONS.clock}Last time to buy</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
-        <span class="row-meta">${esc(typeLabel(p))}${p.qty != null ? " · " : ""}${stockHTML(p)}</span>
+        <span class="row-meta">${esc(typeLabel(p))}${availability(p) ? " · " : ""}${stockHTML(p)}</span>
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
       <div class="row-side ltb-side">
         ${salePriceHTML(p)}
-        <button type="button" class="btn btn-outline" data-open="${esc(p.id)}">View Details</button>
+        ${viewAndCopy(p)}
       </div>
     </article>`;
   }
@@ -328,9 +406,10 @@
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
         <ul class="spec-list">${keySpecs(p).map((s) => `<li title="${esc(s.label)}">${ICONS[s.k]}<span>${esc(s.v)}</span></li>`).join("")}</ul>
+        ${stockHTML(p)}
         ${freebieHTML(p)}
         <div class="prices">${priceHTML(p)}</div>
-        <button type="button" class="btn btn-outline" data-open="${esc(p.id)}">View Details</button>
+        ${viewAndCopy(p)}
       </div>
     </article>`;
   }
@@ -344,12 +423,12 @@
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
-        <div class="row-extras">${hasPromoDp(p) ? `<span class="pdp-badge inline">${ICONS.tag}Promo DP</span>` : ""}${rw}${freebieHTML(p)}</div>
+        <div class="row-extras">${p.sale == null ? stockHTML(p) : ""}${hasPromoDp(p) ? `<span class="pdp-badge inline">${ICONS.tag}Promo DP</span>` : ""}${rw}${freebieHTML(p)}</div>
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
       <div class="row-side">
         ${priceHTML(p)}
-        <button type="button" class="btn btn-outline" data-open="${esc(p.id)}">View Details</button>
+        ${viewAndCopy(p)}
       </div>
     </article>`;
   }
@@ -550,7 +629,7 @@
       ["Power adapter", p.adapter],
       ["Warranty", p.warranty],
       ["Care Pack / service", p.carePack],
-      ["Stock", typeof p.qty === "number" ? fmtNum(p.qty) + " units" : null],
+      ["Availability", availability(p) ? availability(p).label + " (indicative - confirm with account manager)" : null],
     ];
     (p.otherSpecs || []).forEach((o) => rows.push(["Other", o]));
     if (p.extra) Object.entries(p.extra).forEach(([k, v]) => rows.push([k, v]));
@@ -589,7 +668,7 @@
         <div class="detail-sku">SKU <b>${esc(p.sku)}</b>
           ${p.partNo ? `<span class="sep">·</span><span class="nowrap">Part no. <b>${esc(p.partNo)}</b></span>` : ""}
           ${p.matNo ? `<span class="sep">·</span><span class="nowrap">Material no. <b>${esc(p.matNo)}</b></span>` : ""}
-          <button type="button" class="copy-btn" id="copyModel" data-copy="${esc(p.model)}">${ICONS.copy}<span>Copy model</span></button>
+          ${copyBtnHTML(p, "copy-detail")}
         </div>
         ${p.sale != null ? `<div class="ltb-detail">
             <span class="ltb-badge inline">${ICONS.clock}Last time to buy</span>
@@ -601,6 +680,8 @@
           ${p.dp != null ? `<div class="price-box dp${hasPromoDp(p) ? " was-dp" : ""}"><span class="lbl">DP <span class="sub">Dealer price</span></span><span class="val">${hasPromoDp(p) ? `<s>${fmtPrice(p.dp)}</s>` : fmtPrice(p.dp)}</span></div>` : ""}
           ${hasPromoDp(p) ? `<div class="price-box promo-dp"><span class="lbl">Promo DP <span class="sub">Dealer promo price · save ${fmtPrice(p.dp - p.promoDp)}</span></span><span class="val">${fmtPrice(p.promoDp)}</span></div>` : ""}
         </div>`}
+        ${p.sale == null && availability(p) ? `<div class="avail-line">${stockHTML(p)}</div>` : ""}
+        ${availability(p) ? `<p class="avail-note">${ICONS.clock}${esc(AVAIL_NOTE)}</p>` : ""}
         ${inclusionsHTML(p)}
         <h3 class="detail-h">Specifications</h3>
         <table class="spec-table"><tbody>
@@ -720,6 +801,8 @@
     $("#promosView").hidden = r.view !== "promos";
     if (!sites) setMode(r.view === "ltb" ? "ltb" : "main");
     document.body.classList.toggle("mode-ltb", !sites && state.mode === "ltb");
+    // lets the stylesheet give each model family its own look (e.g. premium OmniBook pages)
+    if (r.view === "type" && r.type) document.body.dataset.type = r.type; else delete document.body.dataset.type;
     const key = r.view + ":" + (r.type || "");
     if (!sites && key !== lastRouteKey && r.view !== "ltb") {
       // only reset the type selection when the page (All / a Type tab) actually changes,
