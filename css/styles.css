@@ -660,3 +660,55 @@ details.eligible.excluded li b { color: var(--muted); font-weight: 600; white-sp
   .nav-extra .nav-promos .count, .nav-extra .nav-ltb .count { display: none; }
   .nav-list { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); }
 }
+
+/* ---------- Promo DP (dealer promo price) ---------- */
+.pdp-badge { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--promo-2), var(--promo)); color: #fff; font-size: 11.5px; font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,.18); }
+.pdp-badge svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; }
+.pdp-badge.inline { position: static; box-shadow: none; }
+.price.was-dp .val s, .price-box.was-dp .val s { color: var(--muted); font-weight: 600; text-decoration-thickness: 1.5px; }
+.price.was-dp .val { font-size: 15px; }
+.price.promo-dp { grid-column: 1 / -1; padding: 8px 10px; border-radius: 10px; background: var(--promo-50); border: 1px solid #fbd3b0; }
+.price.promo-dp .lbl { display: inline-flex; align-items: center; gap: 4px; color: var(--promo); }
+.price.promo-dp .lbl svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+.price.promo-dp .val { color: var(--promo); font-size: 21px; font-weight: 800; }
+.price.promo-dp .save { font-size: 12px; font-weight: 700; color: #1b7f3b; }
+.row-side .price.promo-dp .val { font-size: 18px; }
+.price-panel:has(.promo-dp) { grid-template-columns: 1fr 1fr; }
+.price-box.promo-dp { grid-column: 1 / -1; background: var(--promo-50); border-color: #fbd3b0; }
+.price-box.promo-dp .lbl, .price-box.promo-dp .val { color: var(--promo); }
+.price-box.promo-dp .val { font-size: clamp(26px, 3vw, 32px); }
+.price-box.was-dp { background: #fff; border-color: var(--line); }
+
+.pdp-panel { grid-column: 1 / -1; border: 1px solid #fbd3b0; border-radius: var(--radius); background: linear-gradient(180deg, var(--promo-50), #fff 70%); padding: 18px 20px; }
+.pdp-head h2 { margin: 6px 0 4px; font-size: 20px; letter-spacing: -.01em; }
+.pdp-head p { margin: 0 0 12px; color: var(--ink-2); font-size: 14px; }
+.pdp-tag { display: inline-flex; align-items: center; gap: 5px; background: var(--promo) !important; }
+.pdp-tag svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+.pdp-panel ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 8px; }
+.pdp-panel a { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none; min-height: 44px; }
+.pdp-panel a:hover { border-color: var(--promo); }
+.pdp-panel .m { font-size: 13.5px; font-weight: 600; }
+.pdp-panel .nums { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pdp-panel .nums s { color: var(--muted); font-size: 12.5px; }
+.pdp-panel .nums b { color: var(--promo); font-size: 16px; }
+.pdp-panel .nums em { font-style: normal; font-size: 11.5px; font-weight: 700; color: #1b7f3b; }
+@media (max-width: 600px) {
+  .pdp-panel { padding: 14px; }
+  .pdp-panel ul { grid-template-columns: 1fr; }
+  .pdp-panel a { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .price.promo-dp .val { font-size: 18px; }
+}
+.prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.price { min-width: 0; }
+.price.promo-dp .save { display: block; }
+@media (max-width: 720px) {
+  .prices { grid-template-columns: minmax(0, 1fr); }
+  .price.promo-dp { flex-direction: column; align-items: flex-start; gap: 0; padding: 6px 8px; }
+  .price.promo-dp .lbl { font-size: 10px; }
+  .price.promo-dp .val { font-size: 18px; }
+  .price.promo-dp .save { font-size: 11px; }
+}
+@media (max-width: 380px) {
+  .prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

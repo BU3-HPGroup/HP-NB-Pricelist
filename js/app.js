@@ -11,10 +11,11 @@
   const PAGE_SIZE_ALL = Infinity;
 
   const pesoWhole = new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  const pesoCents = new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // prices are shown rounded to the whole peso (Excel may hold centavos, e.g. SRP x 0.85)
   const fmtPrice = (v) => (typeof v === "number"
-    ? (Number.isInteger(v) ? pesoWhole : pesoCents).format(v).replace("PHP", "₱").replace(/\s/g, "")
+    ? pesoWhole.format(Math.round(v)).replace("PHP", "₱").replace(/\s/g, "")
     : "—");
+  const hasPromoDp = (p) => typeof p.promoDp === "number" && typeof p.dp === "number" && p.promoDp < p.dp;
   const fmtNum = (v) => new Intl.NumberFormat("en-PH").format(v);
 
   const ICONS = {
@@ -108,7 +109,7 @@
     const t = state.typeMap[p.type];
     const fields = [p.model, p.sku, p.type, t && t.label, p.platform, p.cpu, p.cpuBrand, p.ram, p.storage, p.graphics,
       p.display, p.displayShort, p.os, p.color, p.camera, p.formFactor, p.series, p.specsRaw,
-      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, p.segment, p.otherSpecs && p.otherSpecs.join(" ")];
+      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", p.segment, p.otherSpecs && p.otherSpecs.join(" ")];
     p._hay = norm(fields.filter(Boolean).join(" | "));
     p._hayC = compact(p._hay);
     p._band = bandOf(priceKey(p));
@@ -224,7 +225,10 @@
   function priceHTML(p) {
     const out = [];
     if (p.srp != null) out.push(`<div class="price srp"><span class="lbl">SRP</span><span class="val">${fmtPrice(p.srp)}</span></div>`);
-    if (p.dp != null) out.push(`<div class="price dp"><span class="lbl">DP</span><span class="val">${fmtPrice(p.dp)}</span></div>`);
+    if (hasPromoDp(p)) {
+      out.push(`<div class="price dp was-dp"><span class="lbl">DP</span><span class="val"><s>${fmtPrice(p.dp)}</s></span></div>`);
+      out.push(`<div class="price promo-dp"><span class="lbl">${ICONS.tag}Promo DP</span><span class="val">${fmtPrice(p.promoDp)}</span><span class="save">Save ${fmtPrice(p.dp - p.promoDp)}</span></div>`);
+    } else if (p.dp != null) out.push(`<div class="price dp"><span class="lbl">DP</span><span class="val">${fmtPrice(p.dp)}</span></div>`);
     return out.join("");
   }
 
@@ -276,6 +280,7 @@
         ${heroImg(p, "", "(max-width: 720px) 50vw, 300px")}
         <span class="ltb-badge">${ICONS.clock}Last time to buy</span>
         ${rewardBadge(p)}
+        ${hasPromoDp(p) ? `<span class="pdp-badge">${ICONS.tag}Promo DP</span>` : ""}
         ${imgs > 1 ? `<span class="img-count">${ICONS.photos}${imgs}</span>` : ""}
       </button>
       <div class="card-body">
@@ -315,6 +320,7 @@
       <button type="button" class="card-media" data-open="${esc(p.id)}" aria-label="View details for ${esc(p.model)}">
         ${heroImg(p, "", "(max-width: 720px) 50vw, 300px")}
         ${rewardBadge(p)}
+        ${hasPromoDp(p) ? `<span class="pdp-badge">${ICONS.tag}Promo DP</span>` : ""}
         ${imgs > 1 ? `<span class="img-count">${ICONS.photos}${imgs}</span>` : ""}
       </button>
       <div class="card-body">
@@ -338,7 +344,7 @@
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
-        <div class="row-extras">${rw}${freebieHTML(p)}</div>
+        <div class="row-extras">${hasPromoDp(p) ? `<span class="pdp-badge inline">${ICONS.tag}Promo DP</span>` : ""}${rw}${freebieHTML(p)}</div>
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
       <div class="row-side">
@@ -488,7 +494,15 @@
         </div>
       </article>`;
     }).join("");
-    $("#promosGrid").innerHTML = (f ? `<aside class="freebie-banner">
+    const pdp = (state.ds.main ? state.ds.main.products : []).filter(hasPromoDp);
+    const pdpPanel = pdp.length ? `<section class="pdp-panel" aria-labelledby="pdpTitle">
+        <div class="pdp-head"><span class="freebie-tag pdp-tag">${ICONS.tag}Dealer promo</span>
+          <h2 id="pdpTitle">Promo DP on ${pdp.length} model${pdp.length === 1 ? "" : "s"}</h2>
+          <p>Special dealer prices from the current pricelist. Regular DP shown struck through.</p></div>
+        <ul>${pdp.map((p) => `<li><a href="#/product/${encodeURIComponent(p.id)}"><span class="m">${esc(p.model)}</span>
+          <span class="nums"><s>${fmtPrice(p.dp)}</s><b>${fmtPrice(p.promoDp)}</b><em>Save ${fmtPrice(p.dp - p.promoDp)}</em></span></a></li>`).join("")}</ul>
+      </section>` : "";
+    $("#promosGrid").innerHTML = pdpPanel + (f ? `<aside class="freebie-banner">
         <img src="${esc(f.image)}" alt="${esc(f.name)}" width="160" height="128" loading="lazy">
         <div><span class="freebie-tag">${esc(f.label || "FREE")} with HP laptops</span>
         <h2>${esc(f.name)}${f.sku ? ` <small>${esc(f.sku)}</small>` : ""}</h2>
@@ -584,7 +598,8 @@
             ${stockHTML(p)}
           </div>` : `<div class="price-panel">
           ${p.srp != null ? `<div class="price-box srp"><span class="lbl">SRP <span class="sub">Suggested retail price</span></span><span class="val">${fmtPrice(p.srp)}</span></div>` : ""}
-          ${p.dp != null ? `<div class="price-box dp"><span class="lbl">DP <span class="sub">Dealer price</span></span><span class="val">${fmtPrice(p.dp)}</span></div>` : ""}
+          ${p.dp != null ? `<div class="price-box dp${hasPromoDp(p) ? " was-dp" : ""}"><span class="lbl">DP <span class="sub">Dealer price</span></span><span class="val">${hasPromoDp(p) ? `<s>${fmtPrice(p.dp)}</s>` : fmtPrice(p.dp)}</span></div>` : ""}
+          ${hasPromoDp(p) ? `<div class="price-box promo-dp"><span class="lbl">Promo DP <span class="sub">Dealer promo price · save ${fmtPrice(p.dp - p.promoDp)}</span></span><span class="val">${fmtPrice(p.promoDp)}</span></div>` : ""}
         </div>`}
         ${inclusionsHTML(p)}
         <h3 class="detail-h">Specifications</h3>

@@ -29,6 +29,7 @@ check("SRP matches Excel", all(by_model[r["Model"].strip()]["srp"] == r["SRP"] f
 check("DP matches Excel", all(by_model[r["Model"].strip()]["dp"] == r["DP"] for r in xl))
 check("Part number matches Excel", all(by_model[r["Model"].strip()].get("partNo") == str(r["Part Number"]).strip() for r in xl))
 check("Material number matches Excel", all(by_model[r["Model"].strip()].get("matNo") == str(r["Material Number"]).strip() for r in xl))
+check("Promo DP matches Excel", all(by_model[r["Model"].strip()].get("promoDp") == r.get("Promo DP") for r in xl))
 check("Type matches Excel", all(by_model[r["Model"].strip()]["type"] == r["Type"].strip() for r in xl))
 img_ok = all(all(im["sourceFile"].startswith(p["model"] + " - ") for im in p["images"]) for p in data)
 check("images only assigned by exact model name", img_ok)
@@ -111,7 +112,8 @@ with sync_playwright() as pw:
     pg.wait_for_selector("#detailModal:not([hidden])")
     check("detail modal title", pg.inner_text("#dmTitle") == by_model["HP OmniBook X Flip NG AI PC 14-kb0100TU"]["model"])
     txt = pg.inner_text("#detailBody")
-    check("detail shows SRP/DP", "₱112,990" in txt and "₱90,392" in txt)
+    _p = by_model["HP OmniBook X Flip NG AI PC 14-kb0100TU"]
+    check("detail shows SRP/DP", f"₱{int(_p['srp'] + 0.5):,}" in txt and f"₱{int(_p['dp'] + 0.5):,}" in txt)
     src0 = pg.get_attribute("#gMain img", "src")
     pg.locator(".thumb").nth(2).click(); pg.wait_for_timeout(100)
     src2 = pg.get_attribute("#gMain img", "src")
@@ -154,6 +156,8 @@ with sync_playwright() as pw:
     check("Home Credit flyer opens enlarged", "home-credit" in pg.get_attribute("#lbImg", "src"))
     pg.keyboard.press("Escape")
     check("freebie banner shown", "A08JTAA" in txt)
+    pdps = [p for p in data if p.get("promoDp") is not None and p["promoDp"] < p["dp"]]
+    check("promos page lists Promo DP models", pg.locator(".pdp-panel li").count() == len(pdps), str(len(pdps)))
     ico = pg.evaluate("[...document.querySelectorAll('link[rel~=icon]')].map(l => l.href)")
     check("favicon files exist", len(ico) >= 2 and all(os.path.exists(os.path.join(ROOT, u.split(BASE, 1)[-1])) for u in ico), str(ico))
     pg.evaluate("window._opened = []; window.open = (u, t) => { window._opened.push([u, t]); }")
@@ -178,6 +182,17 @@ with sync_playwright() as pw:
         has = pg.locator(f'.card[data-id="{p["id"]}"] .freebie-line').count() == 1
         if has == (p["sku"].upper() in nofree): bad_free.append(p["sku"])
     check("freebie shown on all cards except excluded models", not bad_free, str(bad_free))
+    rnd = lambda v: f"₱{int(v + 0.5):,}"
+    bad_pdp = []
+    for p in data:
+        card = pg.locator(f'.card[data-id="{p["id"]}"]')
+        has = card.locator(".price.promo-dp").count() == 1
+        want = p.get("promoDp") is not None and p["promoDp"] < p["dp"]
+        if has != want or (want and rnd(p["promoDp"]) not in card.locator(".price.promo-dp").inner_text()):
+            bad_pdp.append(p["sku"])
+        if not want and rnd(p["dp"]) not in card.locator(".price.dp").inner_text():
+            bad_pdp.append(p["sku"] + " dp")
+    check("cards show Promo DP only where set, DP rounded to peso", not bad_pdp, str(bad_pdp))
     check("OmniBook X Flip models have no freebie", pg.locator('.card:has-text("OmniBook X Flip") .freebie-line').count() == 0)
     xp = next(p for p in data if p["sku"].upper() in nofree)
     pg.click(f'.card[data-id="{xp["id"]}"] .card-media'); pg.wait_for_selector("#detailModal:not([hidden])")

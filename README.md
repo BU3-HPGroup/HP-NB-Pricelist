@@ -46,7 +46,7 @@ Then turn on Pages as described in steps 6–8 above.
 
 The site never hard-codes products. Everything comes from the Excel file through one script.
 
-1. Replace `source/Current Pricelist - HPNB.xlsx` with the new pricelist. Keep the same column headers: **Part Number, Material Number, Platform, Type, Model, Specs, SRP, DP** (Qty is ignored). The table can start anywhere in the first 20 rows. Part and material numbers are shown under each model name, in the product details, and can be searched.
+1. Replace `source/Current Pricelist - HPNB.xlsx` with the new pricelist. Keep the same column headers: **Part Number, Material Number, Platform, Type, Model, Specs, SRP, DP, Promo DP** (Qty is ignored). Leave **Promo DP** empty for models without a dealer promo; when it is lower than DP, the site shows it as the deal (DP struck through, savings, a Promo DP badge, and a list on the Promos page). Prices with centavos are shown rounded to the whole peso. The table can start anywhere in the first 20 rows. Part and material numbers are shown under each model name, in the product details, and can be searched.
 2. Put the product photos in a folder, named **`<exact Model from Excel> - <Angle>.png`**, for example:
    `HP OmniBook 5 AI PC 14-kf0002TU - Front.png`
    Supported angles are shown in this order: Front, Front Right, Front Left, Rear Left, Rear Right, Left Profile, Right Profile, Open. Any other angle name also works.
@@ -70,6 +70,10 @@ Navigation tabs are created automatically from the Excel **Type** column. A new 
 ```
 
 `code` must match the Type value in Excel exactly. Your edits are kept the next time the script runs. `aliases` (optional) keeps old links working, for example `#/type/OBX` still opens *Omnibook X Flip*.
+
+### After changing CSS or JavaScript
+
+Browsers keep `css/styles.css` and `js/app.js` for a few minutes. When you change either file, bump the `?v=` number on both lines in `index.html` (for example `?v=20260924-3` → `?v=20261001-1`) so everyone gets the new version straight away. Data files (`data/*.json`) are always re-checked, so price updates need nothing extra.
 
 ### Browser tab icon
 
