@@ -38,7 +38,7 @@ check("all asset paths relative", all(not re.match(r"^(/|https?:)", im["src"]) f
 
 with sync_playwright() as pw:
     b = pw.chromium.launch()
-    ctx = b.new_context(viewport={"width": 1440, "height": 900})
+    ctx = b.new_context(viewport={"width": 1440, "height": 900}, accept_downloads=True)
     pg = ctx.new_page()
     bad = []
     pg.on("response", lambda r: bad.append(r.url) if r.status >= 400 else None)
@@ -213,6 +213,49 @@ with sync_playwright() as pw:
     pg.goto(BASE + "#/promos"); pg.wait_for_selector(".freebie-banner")
     check("promos banner lists excluded models", "Not included with 22 models" in pg.inner_text(".freebie-banner"))
 
+    # ---------- Alignment + downloads ----------
+    pg.goto(BASE + "#/"); pg.wait_for_selector(".card"); pg.wait_for_timeout(300)
+    rows_y = pg.evaluate("""() => { const g = {}; document.querySelectorAll('#products .card').forEach(c => {
+        const t = Math.round(c.getBoundingClientRect().top); const p = c.querySelector('.prices').getBoundingClientRect(); const b = c.querySelector('.card-actions').getBoundingClientRect();
+        (g[t] = g[t] || []).push([Math.round(p.top), Math.round(b.top)]); }); return Object.values(g); }""")
+    misaligned = [r for r in rows_y if len(set(x[0] for x in r)) > 1 or len(set(x[1] for x in r)) > 1]
+    check("grid: prices and buttons line up across each row", not misaligned, str(misaligned[:2]))
+    pg.goto(BASE + "#/type/Omnibook%203"); pg.wait_for_selector(".card"); pg.wait_for_timeout(200)
+    rows_y = pg.evaluate("""() => { const g = {}; document.querySelectorAll('#products .card').forEach(c => {
+        const t = Math.round(c.getBoundingClientRect().top); const p = c.querySelector('.prices').getBoundingClientRect();
+        (g[t] = g[t] || []).push([Math.round(p.top), Math.round(p.height)]); }); return Object.values(g); }""")
+    check("grid: promo DP price block same height as regular", all(len(set(tuple(x) for x in r)) == 1 for r in rows_y), str(rows_y))
+    db = pg.locator("#downloadOpen").bounding_box()
+    check("download button visible in toolbar", db and db["width"] > 80 and db["y"] < 900, str(db))
+    import zipfile, io
+    got = {}
+    for fmt in ("pdf-list", "pdf-catalog", "xlsx", "xlsx-photos"):
+        pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])")
+        with pg.expect_download(timeout=60000) as dl:
+            pg.click(f'.dl-format[data-format="{fmt}"]')
+        path = dl.value.path(); data_ = open(path, "rb").read(); got[fmt] = (dl.value.suggested_filename, data_)
+        pg.keyboard.press("Escape")
+    check("downloads: all four files created", all(len(v[1]) > 3000 for v in got.values()), str({k: len(v[1]) for k, v in got.items()}))
+    check("downloads: PDFs are PDFs", got["pdf-list"][1][:4] == b"%PDF" and got["pdf-catalog"][1][:4] == b"%PDF")
+    check("downloads: file names say scope + copy", got["xlsx"][0].startswith("HP Pricelist - OmniBook 3 - Dealer"), got["xlsx"][0])
+    wbx = openpyxl.load_workbook(io.BytesIO(got["xlsx"][1]))
+    wsx = wbx.worksheets[0]
+    hdrs = [c.value for c in wsx[5]]
+    om3 = [p for p in data if p["type"] == "Omnibook 3"]
+    rowsx = [dict(zip(hdrs, [c.value for c in r])) for r in wsx.iter_rows(min_row=6) if r[0].value]
+    check("excel: rows = models on screen", len(rowsx) == len(om3), f"{len(rowsx)} vs {len(om3)}")
+    check("excel: SRP/DP/Promo DP rounded and correct", all(
+        rx["SRP"] == round(p["srp"]) and rx["DP"] == round(p["dp"] + 0.0001) and rx["Promo DP"] == (round(p["promoDp"]) if p.get("promoDp") else None)
+        for rx, p in zip(rowsx, om3)), str(rowsx[:1]))
+    check("excel with photos: images embedded", sum(1 for n in zipfile.ZipFile(io.BytesIO(got["xlsx-photos"][1])).namelist() if n.startswith("xl/media/")) >= len(om3))
+    pg.click("#downloadOpen"); pg.check('input[name="dlPrices"][value="customer"]')
+    with pg.expect_download(timeout=60000) as dl:
+        pg.click('.dl-format[data-format="xlsx"]')
+    wsc = openpyxl.load_workbook(io.BytesIO(open(dl.value.path(), "rb").read())).worksheets[0]
+    hc = [c.value for c in wsc[5]]
+    check("customer copy: no DP / Promo DP / material no.", "SRP" in hc and not any(h in hc for h in ("DP", "Promo DP", "Material No.")), str(hc))
+    pg.keyboard.press("Escape")
+
     # ---------- Last-time-buy ----------
     wb2 = openpyxl.load_workbook(os.path.join(ROOT, "source", "Last-time-buy models.xlsx"), data_only=True)
     r2 = list(wb2.worksheets[0].iter_rows(values_only=True)); h2 = r2[0]
@@ -312,7 +355,7 @@ with sync_playwright() as pw:
     mp.wait_for_timeout(100)
     check("mobile: swipe changes image", mp.get_attribute("#gMain img", "src") != s0)
     mp.screenshot(path=f"{SHOTS}/mobile-detail.png")
-    mp.locator(".modal-panel").evaluate("e => e.scrollTop = 600"); mp.wait_for_timeout(100)
+    mp.locator("#detailModal .modal-panel").evaluate("e => e.scrollTop = 600"); mp.wait_for_timeout(100)
     mp.screenshot(path=f"{SHOTS}/mobile-detail-specs.png")
 
     mp.goto(BASE + "#/ltb"); mp.wait_for_selector(".ltb-row, .ltb-card"); mp.keyboard.press("Escape")
@@ -332,6 +375,12 @@ with sync_playwright() as pw:
     check("mobile: nav to LTB works", mp.locator(".ltb-card").count() > 0)
     small = mp.eval_on_selector_all(".btn, .vt-btn, .menu-toggle, .thumb", "els => els.filter(e => e.offsetParent && e.getBoundingClientRect().height < 36).map(e => e.className)")
     check("mobile: touch targets >= 36px", not small, str(small[:4]))
+    mp.goto(BASE + "#/"); mp.wait_for_selector(".card"); mp.wait_for_timeout(200)
+    mdb = mp.locator("#downloadOpen").bounding_box()
+    check("mobile: download button visible", mdb and mdb["height"] >= 40 and mdb["y"] < 844, str(mdb))
+    mp.click("#downloadOpen"); mp.wait_for_selector("#dlModal:not([hidden])")
+    check("mobile: download sheet fits screen", not mp.evaluate("document.documentElement.scrollWidth > window.innerWidth"))
+    mp.keyboard.press("Escape")
     check("mobile: no JS errors", not merr, str(merr[:3]))
     t = b.new_context(viewport={"width": 820, "height": 1180}).new_page()
     t.goto(BASE); t.wait_for_selector(".card"); t.screenshot(path=f"{SHOTS}/tablet-grid.png")

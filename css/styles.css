@@ -808,3 +808,104 @@ body.mode-ltb .category-hero { background: transparent; }
   .row-side { grid-template-columns: 1fr 1fr; }
   .row-side .card-actions { grid-column: 1 / -1; }
 }
+
+/* ================= Price block v2: fixed structure so prices and buttons line up ================= */
+.card-body { display: flex; flex-direction: column; }
+.card-foot { margin-top: auto; display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
+.card-foot .prices, .row-side .prices {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start;
+  margin: 0; padding-top: 12px; border-top: 1px solid var(--line-2);
+}
+.prices .price { display: flex; flex-direction: column; gap: 2px; min-width: 0; grid-column: auto; padding: 0; border: 0; border-radius: 0; background: none; }
+.prices .price .lbl { display: flex; align-items: center; gap: 4px; height: 16px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.prices .price .lbl svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+.prices .price .val { font-size: 21px; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink); }
+.prices .price .sub { display: block; min-height: 16px; font-size: 11.5px; line-height: 16px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prices .price.dp .val { color: var(--blue); }
+.prices .price.promo-dp .lbl, .prices .price.promo-dp .val { color: var(--promo); }
+.prices .price.promo-dp .sub s { color: var(--muted); text-decoration-thickness: 1.5px; }
+.prices .price.promo-dp .save { display: inline; font-size: 11.5px; font-weight: 700; color: #1b7f3b; }
+.card-foot .card-actions { margin: 0; }
+/* last-time-buy: sale block pinned to the bottom too */
+.card-foot .sale-wrap { display: flex; flex-direction: column; gap: 6px; }
+.card-foot .sale-box { margin: 0; }
+.card-foot .was { min-height: 36px; align-content: flex-start; }
+
+/* list view: fixed-width price column so every row's prices sit in the same place */
+@media (min-width: 1181px) { .row { grid-template-columns: 112px minmax(0, 1.1fr) minmax(0, 1fr) 300px; } }
+@media (min-width: 721px) and (max-width: 1180px) { .row { grid-template-columns: 100px minmax(0, 1fr) 280px; } }
+.row-side { display: flex; flex-direction: column; gap: 10px; align-self: center; }
+.row-side .prices { padding-top: 0; border-top: 0; }
+.row-side .price .val { font-size: 19px; }
+
+@media (max-width: 720px) {
+  .card-foot { gap: 10px; }
+  .card-foot .prices { grid-template-columns: minmax(0, 1fr); gap: 6px; padding-top: 10px; }
+  .prices .price { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 6px; align-items: baseline; }
+  .prices .price .lbl { font-size: 10px; height: auto; }
+  .prices .price .val { font-size: 16px; text-align: right; }
+  .prices .price .sub { grid-column: 1 / -1; text-align: right; font-size: 10.5px; min-height: 14px; line-height: 14px; }
+  .prices .price.srp .sub { display: none; }
+  .row-side { display: flex; }
+  .row-side .prices { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 8px; border-top: 1px solid var(--line-2); }
+  .row-side .prices .price { display: flex; }
+  .row-side .prices .price .val { text-align: left; }
+  .row-side .prices .price .sub { text-align: left; }
+  .row-side .prices .price.srp .sub { display: block; }
+  .card-foot .was { min-height: 30px; }
+}
+
+/* ================= Download button + dialog ================= */
+.btn-download { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; border: 0;
+  background: linear-gradient(135deg, #1b63f0, var(--blue)); color: #fff; font-weight: 700; font-size: 14px; box-shadow: 0 4px 14px rgba(2,74,216,.28); cursor: pointer; }
+.btn-download:hover { filter: brightness(1.06); box-shadow: 0 6px 18px rgba(2,74,216,.34); }
+.btn-download svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 720px) {
+  .btn-download { order: 1; width: 44px; height: 44px; padding: 0; justify-content: center; font-size: 0; gap: 0; flex: none; }
+  .btn-download svg { width: 20px; height: 20px; }
+  .toolbar-right .sort { order: 0; } .toolbar-right .view-toggle { order: 2; }
+}
+
+.dl-panel { width: min(640px, 100%); }
+.dl-body { padding: 26px 26px 22px; }
+.dl-body h2 { margin: 0 40px 4px 0; font-size: 22px; letter-spacing: -.01em; }
+.dl-lead { margin: 0 0 16px; color: var(--ink-2); font-size: 14px; }
+.dl-group { border: 0; padding: 0; margin: 0 0 16px; min-width: 0; }
+.dl-group legend, .dl-legend { padding: 0; margin: 0 0 8px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.dl-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.dl-opt { display: flex; gap: 10px; align-items: flex-start; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: #fff; }
+.dl-opt:has(input:checked) { border-color: var(--blue); background: var(--blue-50); box-shadow: 0 0 0 1px var(--blue) inset; }
+.dl-opt:has(input:disabled) { opacity: .5; cursor: not-allowed; }
+.dl-opt input { margin-top: 3px; accent-color: var(--blue); }
+.dl-opt b { display: block; font-size: 14px; line-height: 1.3; }
+.dl-opt small, .dl-format small { display: block; font-size: 12px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+.dl-formats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dl-format { display: flex; gap: 12px; align-items: center; text-align: left; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: #fff; cursor: pointer; color: var(--ink); font: inherit; min-height: 64px; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.dl-format:hover:not(:disabled) { border-color: var(--blue); box-shadow: 0 6px 18px rgba(2,74,216,.12); transform: translateY(-1px); }
+.dl-format:disabled { opacity: .55; cursor: progress; }
+.dl-format.working { opacity: 1; border-color: var(--blue); }
+.dl-format b { display: block; font-size: 14.5px; }
+.dl-ico { flex: none; width: 42px; height: 48px; border-radius: 8px; display: grid; place-items: center; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .04em; position: relative; }
+.dl-ico.pdf { background: linear-gradient(160deg, #e5484d, #c8102e); }
+.dl-ico.xls { background: linear-gradient(160deg, #21a366, #107c41); }
+.dl-format.working .dl-ico::after { content: ""; position: absolute; inset: -4px; border-radius: 10px; border: 2px solid var(--blue); border-right-color: transparent; animation: dlspin .8s linear infinite; }
+@keyframes dlspin { to { transform: rotate(360deg); } }
+.dl-status { min-height: 20px; margin: 4px 0 0; font-size: 13px; font-weight: 600; color: #1b7f3b; }
+.dl-status.busy { color: var(--blue); }
+.dl-foot { margin: 8px 0 0; font-size: 12px; color: var(--muted); line-height: 1.45; }
+@media (max-width: 720px) {
+  .dl-modal { padding: 0; place-items: end stretch; }
+  .dl-body { padding: 20px 16px 18px; }
+  .dl-options, .dl-formats { grid-template-columns: 1fr; }
+  .toast { bottom: 84px; }
+}
+/* last-time-buy cards: title area reserves two lines so the sale boxes line up across a row */
+.ltb-card .card-title { min-height: calc(2 * 1.3em + 1.4em); line-height: 1.3; }
+.sale-wrap { display: flex; flex-direction: column; gap: 6px; }
+.sale-wrap .sale-box { margin: 0; }
+.sale-wrap .was { min-height: 36px; align-content: flex-start; }
+@media (max-width: 720px) { .sale-wrap .was { min-height: 30px; } }
+/* every photo box is exactly 4:3 so cards in a row start their text at the same height */
+.card-media { overflow: hidden; }
+.card-media > img { width: 100%; height: 100%; object-fit: contain; }
+@media (max-width: 720px) { .card-media { aspect-ratio: 1 / 1; padding: 30px 8px; } }

@@ -222,14 +222,15 @@
     ].filter(Boolean);
   }
 
+  // Two fixed columns (SRP | DP or Promo DP), each with label, value and one sub-line,
+  // so every card's price block has the same height and lines up across a row.
   function priceHTML(p) {
-    const out = [];
-    if (p.srp != null) out.push(`<div class="price srp"><span class="lbl">SRP</span><span class="val">${fmtPrice(p.srp)}</span></div>`);
+    const srp = `<div class="price srp"><span class="lbl">SRP</span><span class="val">${fmtPrice(p.srp)}</span><span class="sub">Suggested retail</span></div>`;
     if (hasPromoDp(p)) {
-      out.push(`<div class="price dp was-dp"><span class="lbl">DP</span><span class="val"><s>${fmtPrice(p.dp)}</s></span></div>`);
-      out.push(`<div class="price promo-dp"><span class="lbl">${ICONS.tag}Promo DP</span><span class="val">${fmtPrice(p.promoDp)}</span><span class="save">Save ${fmtPrice(p.dp - p.promoDp)}</span></div>`);
-    } else if (p.dp != null) out.push(`<div class="price dp"><span class="lbl">DP</span><span class="val">${fmtPrice(p.dp)}</span></div>`);
-    return out.join("");
+      return srp + `<div class="price promo-dp"><span class="lbl">${ICONS.tag}Promo DP</span><span class="val">${fmtPrice(p.promoDp)}</span>` +
+        `<span class="sub"><s class="was-dp">DP ${fmtPrice(p.dp)}</s> <span class="save">Save ${fmtPrice(p.dp - p.promoDp)}</span></span></div>`;
+    }
+    return srp + `<div class="price dp"><span class="lbl">DP</span><span class="val">${fmtPrice(p.dp)}</span><span class="sub">Dealer price</span></div>`;
   }
 
   function typeLabel(p) { return (state.typeMap[p.type] || {}).label || p.type; }
@@ -365,11 +366,11 @@
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
-        ${salePriceHTML(p)}
+        <div class="sale-wrap">${salePriceHTML(p)}</div>
         <ul class="spec-list">${keySpecs(p).map((s) => `<li title="${esc(s.label)}">${ICONS[s.k]}<span>${esc(s.v)}</span></li>`).join("")}</ul>
         ${stockHTML(p)}
         ${freebieHTML(p)}
-        ${viewAndCopy(p)}
+        <div class="card-foot">${viewAndCopy(p)}</div>
       </div>
     </article>`;
   }
@@ -408,8 +409,10 @@
         <ul class="spec-list">${keySpecs(p).map((s) => `<li title="${esc(s.label)}">${ICONS[s.k]}<span>${esc(s.v)}</span></li>`).join("")}</ul>
         ${stockHTML(p)}
         ${freebieHTML(p)}
-        <div class="prices">${priceHTML(p)}</div>
-        ${viewAndCopy(p)}
+        <div class="card-foot">
+          <div class="prices">${priceHTML(p)}</div>
+          ${viewAndCopy(p)}
+        </div>
       </div>
     </article>`;
   }
@@ -427,7 +430,7 @@
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
       <div class="row-side">
-        ${priceHTML(p)}
+        <div class="prices">${priceHTML(p)}</div>
         ${viewAndCopy(p)}
       </div>
     </article>`;
@@ -435,6 +438,7 @@
 
   function renderProducts() {
     const list = sorted(state.products.filter((p) => passes(p)));
+    state.lastList = list;
     const box = $("#products");
     box.className = "products " + state.view;
     box.innerHTML = list.slice(0, PAGE_SIZE_ALL).map(state.view === "list" ? rowHTML : cardHTML).join("");
@@ -1071,6 +1075,27 @@
       $("#emptyReset").hidden = true;
     }
   }
+
+  // Read-only view of what is on screen, used by js/export.js (downloads)
+  window.HPPL = {
+    context() {
+      const r = currentRoute();
+      const one = state.fTypes.size === 1 ? state.typeMap[Array.from(state.fTypes)[0]] : null;
+      const filtered = !!(state.query || state.fTypes.size || state.fCpu.size || state.fPrice.size);
+      return {
+        mode: state.mode,
+        onScreen: (state.lastList || []).slice(),
+        all: sorted(state.products.slice()),
+        scopeLabel: state.mode === "ltb" ? "Last-time-buy models" : one ? one.label : state.fTypes.size > 1 ? Array.from(state.fTypes).map((c) => (state.typeMap[c] || {}).label || c).join(" + ") : "All products",
+        filtered, query: state.query, onCatalog: r.view !== "sites" && r.view !== "promos",
+        freebie: state.freebie,
+      };
+    },
+    typeLabel, availability, hasFreebie, hasPromoDp, fmtPrice,
+    reward: (p) => state.rewards[skuKey(p.sku)] || null,
+    placeholder: PLACEHOLDER,
+    toast: (m) => toast(m),
+  };
 
   document.addEventListener("DOMContentLoaded", init);
 })();

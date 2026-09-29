@@ -132,6 +132,7 @@ Then open <http://localhost:8000/>.
 - **Promos tab**: active promos with validity dates, flyer view, a link to the official mechanics (when there is one), and the list of eligible models
 - **Last-time-buy tab**: its own filters (Type, Processor, Sale price), with the sale price shown most prominently, the original price struck through, and stock from the Excel
 - **Standard freebie**: shown on every laptop card and in the product details
+- **Download button** (blue, next to Sort): saves what's on screen (current tab, filters and search) or the whole list as a **Price list PDF** (A4 landscape table with photos), **Product catalog PDF** (6 photo cards per A4 page), **Excel – data** or **Excel – with photos**. Choose a **Dealer copy** (SRP, DP, Promo DP / sale price) or a **Customer copy** (SRP only, no material numbers). Files are made in the browser; nothing is uploaded. The libraries (jsPDF, ExcelJS, MIT licence) and the Inter font are in `assets/vendor/` and only load when someone downloads.
 - **Copy button** on every product (card, list and details): copies model, part number, key specs, SRP, DP / Promo DP, availability, freebie and promo in a short text ready to paste into a chat or email
 - **Mobile layout**: hamburger menu, full-width search, filters in a bottom drawer, two-column cards, and large touch targets
 
@@ -149,6 +150,7 @@ Then open <http://localhost:8000/>.
 │   └── fonts/             # Inter variable font (SIL Open Font License)
 ├── css/styles.css
 ├── js/app.js
+├── js/export.js           # Download button: PDF + Excel files
 ├── data/
 │   ├── products.json      # generated from the Excel file
 │   ├── types.json         # Type labels + descriptions

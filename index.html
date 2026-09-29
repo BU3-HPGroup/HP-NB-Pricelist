@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/favicon-192.png">
   <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=20260928-3">
+  <link rel="stylesheet" href="css/styles.css?v=20260929-1">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to products</a>
@@ -114,6 +114,10 @@
               <p class="result-count" id="resultCount" aria-live="polite">Loading products…</p>
             </div>
             <div class="toolbar-right">
+              <button type="button" class="btn btn-download" id="downloadOpen" aria-haspopup="dialog" aria-controls="dlModal">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+                Download
+              </button>
               <label class="sort">
                 <span class="visually-hidden">Sort by</span>
                 <select id="sort">
@@ -218,7 +222,59 @@
     </button>
   </div>
 
+  <!-- Download / export -->
+  <div class="modal dl-modal" id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlTitle" hidden>
+    <div class="modal-backdrop" data-dlclose></div>
+    <div class="modal-panel dl-panel" role="document">
+      <button type="button" class="icon-btn modal-close" data-dlclose aria-label="Close downloads">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="dl-body">
+        <h2 id="dlTitle">Download pricelist</h2>
+        <p class="dl-lead" id="dlLead">Save the pricelist as a PDF or Excel file to share or print.</p>
+
+        <fieldset class="dl-group">
+          <legend>1. Which products?</legend>
+          <div class="dl-options" id="dlScope"></div>
+        </fieldset>
+
+        <fieldset class="dl-group">
+          <legend>2. Which prices?</legend>
+          <div class="dl-options">
+            <label class="dl-opt"><input type="radio" name="dlPrices" value="dealer" checked><span><b>Dealer copy</b><small id="dlDealerNote">SRP, DP and Promo DP</small></span></label>
+            <label class="dl-opt"><input type="radio" name="dlPrices" value="customer"><span><b>Customer copy</b><small>SRP only — no dealer prices</small></span></label>
+          </div>
+        </fieldset>
+
+        <div class="dl-group">
+          <p class="dl-legend">3. Choose a file</p>
+          <div class="dl-formats">
+            <button type="button" class="dl-format" data-format="pdf-list">
+              <span class="dl-ico pdf">PDF</span>
+              <span><b>Price list</b><small>Compact table with photos · A4 landscape</small></span>
+            </button>
+            <button type="button" class="dl-format" data-format="pdf-catalog">
+              <span class="dl-ico pdf">PDF</span>
+              <span><b>Product catalog</b><small>Photo cards with specs · 6 per A4 page</small></span>
+            </button>
+            <button type="button" class="dl-format" data-format="xlsx">
+              <span class="dl-ico xls">XLS</span>
+              <span><b>Excel – data</b><small>All details in columns, ready to filter</small></span>
+            </button>
+            <button type="button" class="dl-format" data-format="xlsx-photos">
+              <span class="dl-ico xls">XLS</span>
+              <span><b>Excel – with photos</b><small>Same columns plus a product photo</small></span>
+            </button>
+          </div>
+        </div>
+        <p class="dl-status" id="dlStatus" role="status" aria-live="polite"></p>
+        <p class="dl-foot">Files are created on this device — nothing is uploaded. Prices are rounded to the whole peso; availability is indicative, so confirm stock with your account manager.</p>
+      </div>
+    </div>
+  </div>
+
   <noscript><p class="noscript">This pricelist needs JavaScript enabled to display products.</p></noscript>
-  <script src="js/app.js?v=20260928-3" defer></script>
+  <script src="js/app.js?v=20260929-1" defer></script>
+  <script src="js/export.js?v=20260929-1" defer></script>
 </body>
 </html>
