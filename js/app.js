@@ -611,6 +611,24 @@
     </div>`;
   }
 
+  // RAM / M.2 upgradeability from data/upgrades.json (researched in HP Maintenance and Service Guides)
+  function upgradeInfo(p) {
+    const u = state.upgrades;
+    const g = u && u.skus && u.groups[u.skus[skuKey(p.sku)]];
+    return g || null;
+  }
+  function upgradeRows(p) {
+    const g = upgradeInfo(p);
+    if (!g) return [];
+    const note = (t) => (t ? `<small class="spec-note">${esc(t)}</small>` : "");
+    return [
+      ["RAM upgradeability", g.ram, `${esc(g.ram)}${note(g.ramNote)}`],
+      ["M.2 SSD slots", g.ssd, `${esc(g.ssd)}${note(g.ssdNote)}`],
+      ["Upgrade info source", g.title, `<a class="spec-src" href="${esc(g.url)}" target="_blank" rel="noopener noreferrer">HP Maintenance and Service Guide</a>` +
+        `<small class="spec-note">${esc(g.title)} · Doc. ${esc(g.docPN)} · ${esc(g.edition)}</small>`],
+    ];
+  }
+
   function specRows(p) {
     const rows = [
       ["Model", p.model],
@@ -625,6 +643,7 @@
       ["Processor brand", p.cpuBrand],
       ["Memory", p.ram],
       ["Storage", p.storage],
+      ...upgradeRows(p),
       ["Graphics", p.graphics],
       ["Display", p.display],
       ["Operating system / software", p.os],
@@ -689,7 +708,7 @@
         ${inclusionsHTML(p)}
         <h3 class="detail-h">Specifications</h3>
         <table class="spec-table"><tbody>
-          ${rows.map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}
+          ${rows.map(([k, v, html]) => `<tr><th scope="row">${esc(k)}</th><td>${html || esc(v)}</td></tr>`).join("")}
         </tbody></table>
         ${p.specsRaw ? `<details class="raw"><summary>Full specification text (from pricelist)</summary><p>${esc(p.specsRaw)}</p></details>` : ""}
       </div>`;
@@ -1011,13 +1030,15 @@
     $$(".vt-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
     bind();
     try {
-      const [data, types, sites, ltb, promos] = await Promise.all([
+      const [data, types, sites, ltb, promos, upgrades] = await Promise.all([
         loadJSON("data/products.json"),
         loadJSON("data/types.json").catch(() => []),
         loadJSON("data/sites.json").catch(() => []),
         loadJSON("data/ltb.json").catch(() => null),
         loadJSON("data/promos.json").catch(() => null),
+        loadJSON("data/upgrades.json").catch(() => null),
       ]);
+      state.upgrades = upgrades;
       state.meta = data;
       state.products = data.products || [];
       // types: keep Excel order, fall back to neutral text for any code missing from types.json

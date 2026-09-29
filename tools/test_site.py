@@ -256,6 +256,18 @@ with sync_playwright() as pw:
     check("customer copy: no DP / Promo DP / material no.", "SRP" in hc and not any(h in hc for h in ("DP", "Promo DP", "Material No.")), str(hc))
     pg.keyboard.press("Escape")
 
+    # ---------- RAM / M.2 upgradeability (data/upgrades.json) ----------
+    upg = json.load(open(os.path.join(ROOT, "data", "upgrades.json"), encoding="utf-8"))
+    ltb_all = json.load(open(os.path.join(ROOT, "data", "ltb.json"), encoding="utf-8"))["products"]
+    every = [p["sku"].upper() for p in data] + [p["sku"].upper() for p in ltb_all]
+    check("upgrades: every pricelist + LTB model has RAM and M.2 info", all(s in upg["skus"] and upg["groups"][upg["skus"][s]].get("ram") and upg["groups"][upg["skus"][s]].get("ssd") for s in every),
+          str([s for s in every if s not in upg["skus"]]))
+    check("upgrades: every group cites an HP service guide", all(g["url"].startswith("https://kaas.hpcloud.hp.com/") and g["docPN"] for g in upg["groups"].values()))
+    pg.goto(BASE + "#/product/14-kb0105tu"); pg.wait_for_selector("#detailModal:not([hidden])")
+    dtu = pg.inner_text("#detailBody")
+    check("upgrades: shown under Specifications", "RAM upgradeability" in dtu and "M.2 SSD slots" in dtu and "Soldered / Not upgradeable" in dtu)
+    pg.keyboard.press("Escape")
+
     # ---------- Last-time-buy ----------
     wb2 = openpyxl.load_workbook(os.path.join(ROOT, "source", "Last-time-buy models.xlsx"), data_only=True)
     r2 = list(wb2.worksheets[0].iter_rows(values_only=True)); h2 = r2[0]

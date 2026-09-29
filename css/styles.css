@@ -909,3 +909,7 @@ body.mode-ltb .category-hero { background: transparent; }
 .card-media { overflow: hidden; }
 .card-media > img { width: 100%; height: 100%; object-fit: contain; }
 @media (max-width: 720px) { .card-media { aspect-ratio: 1 / 1; padding: 30px 8px; } }
+
+/* RAM / M.2 upgradeability rows in Specifications */
+.spec-table .spec-note { display: block; margin-top: 3px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+.spec-table .spec-src { color: var(--blue); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }

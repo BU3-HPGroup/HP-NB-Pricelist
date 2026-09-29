@@ -103,6 +103,10 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
 
 SALE PRICE is shown as the main price, with the regular DP struck through. The **Qty** column is never published: the script turns it into a label only (more than 30 = On hand, 11–30 = Limited, 1–10 = Very limited, 0 = Sold out), and the page tells dealers to confirm actual availability with their account manager. Models without a photo show a grey laptop silhouette. At the moment that applies to 16-H1015TX, 14-FP0061TU, 14-FP0060TU and 14-FE0028QU.
 
+### RAM & M.2 upgradeability
+
+`data/upgrades.json` holds the RAM and M.2 SSD upgrade information shown under **Specifications**, researched in HP's Maintenance and Service Guides (support.hp.com → product number → Setup & User Guides). Each group lists the guide URL, document number and edition; `docs/upgradeability-audit.md` shows which part numbers use which guide. When you add a **new model**, add its SKU under `skus` (pointing to an existing group if it shares that guide, or add a new group). Models without an entry simply don't show these rows.
+
 ### HP Related Sites
 
 Edit `data/sites.json` to add or change links. The available `icon` values are `catalog`, `service`, `warranty` and `link`.
