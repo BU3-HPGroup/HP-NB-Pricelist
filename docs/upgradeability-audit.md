@@ -1,6 +1,6 @@
 # RAM & M.2 upgradeability – audit trail
 
-Checked on 2026-09-29. Source: HP Maintenance and Service Guides, found via support.hp.com → product number → Setup & User Guides.
+Checked on 2026-09-29; new models added 2026-10-07. Source: HP Maintenance and Service Guides, found via support.hp.com → product number → Setup & User Guides.
 
 Models were grouped by the HP Maintenance and Service Guide their HP support page links to (the guide's cover lists the model-number families it covers). One representative part number per group was looked up on support.hp.com; the others were matched by model-number family in the guide title.
 
@@ -18,6 +18,7 @@ Values shown on the website come from `data/upgrades.json`. If the guide does no
   - DM8L5PA · HP Laptop 15-fc0930AU (Pricelist)
   - DU5U6PA · HP Laptop 15-fc0947AU (Pricelist)
   - DM8L6PA · HP Laptop 15-fc0932AU (Pricelist)
+  - E4PN6PA · HP Laptop 15-fc0998AU (Pricelist)
 
 ## HP 15.6 inch Laptop PC — Model 15-fd1xxx
 
@@ -29,6 +30,8 @@ Values shown on the website come from `data/upgrades.json`. If the guide does no
   - Only a primary storage M.2 SSD is listed.
 - **Models:**
   - DJ8T8PA · HP Laptop 15-fd1618TU (Pricelist)
+  - E2HE2PA · HP Laptop 15-fd1655TU (Pricelist)
+  - E2HE3PA · HP Laptop 15-fd1656TU (Pricelist)
 
 ## HP OmniBook 3 14 inch Laptop (AI PC) — 14-hy0xxx/14-hu0xxx, 14-ht0xxx
 
@@ -42,6 +45,8 @@ Values shown on the website come from `data/upgrades.json`. If the guide does no
   - DW4U8PA · HP OmniBook 3 AI PC 14-ht0144TU (Pricelist)
   - DW4U9PA · HP OmniBook 3 AI PC 14-ht0145TU (Pricelist)
   - DW7W9PA · HP OmniBook 3 AI PC 14-ht0092TU (Pricelist)
+  - E6GG0PA · HP OmniBook 3 AI PC 14-ht0270TU (Pricelist)
+  - E6GG2PA · HP OmniBook 3 AI PC 14-ht0271TU (Pricelist)
 
 ## HP OmniBook 5 14 inch — 14-hm0xxx, 14-hh0xxx, 14-hn0xxx, 14-kf0xxx, 14-hk0xxx
 
@@ -167,3 +172,85 @@ Values shown on the website come from `data/upgrades.json`. If the guide does no
   - Only a primary storage M.2 SSD is listed. The guide's SSD specification table gives a 50.8 mm drive length, so the exact M.2 length is unclear.
 - **Models:**
   - B14ZBPA · HP-NB B14ZBPA OMNIBOOK X 14-FE0028QU (Last-time-buy)
+
+## HP 15.6 inch Laptop PC — Model 15-fc0xxx (onboard-memory SKUs)
+
+- **Service guide:** [pdf_7156684_en-US-1.pdf](https://kaas.hpcloud.hp.com/pdf-public/pdf_7156684_en-US-1.pdf) — Doc. N33164-001, First Edition, January 2023
+- **Looked up on HP Support with:** E47WNPA
+- **RAM:** Not upgradeable – onboard memory (LPDDR5-5500)
+  - Guide: models with Ryzen 5 7520U (also 7320U/7220U/7120U) use onboard memory and have no SODIMM slots; the two SODIMM slots apply only to Ryzen 7 7730U / Ryzen 5 7530U models.
+- **M.2 SSD:** 1× M.2 SSD slot (2280 PCIe NVMe; 2230 also listed) – no additional M.2 SSD slot listed
+  - Only a primary storage M.2 SSD is listed (one SSD removal procedure).
+- **Models:**
+  - E47WNPA · HP Laptop 15-fc0289AU (Pricelist)
+  - E47WPPA · HP Laptop 15-fc0523AU (Pricelist)
+
+## HP OmniBook 3 14 inch Laptop (AI PC) — 14-hy0xxx/14-hu0xxx, 14-ht0xxx (AMD 14-hy0 SKU)
+
+- **Service guide:** [pdf_15192454_en-US-1.pdf](https://kaas.hpcloud.hp.com/pdf-public/pdf_15192454_en-US-1.pdf) — Doc. P75216-005, Fourth Edition, July 2026
+- **Looked up on HP Support with:** E47WMPA
+- **RAM:** Upgradeable – removable DDR5 SODIMM module(s), up to 32 GB
+  - Guide (covers 14-hy0xxx) lists removable memory modules, DDR5-4800/5200/5600, 8–32 GB. This SKU ships with DDR5-4800 (one module) per the pricelist. Number of slots not specified in HP Service Guide.
+- **M.2 SSD:** 1× M.2 SSD slot (2280 PCIe Gen4 NVMe) – no additional M.2 SSD slot listed
+  - Only a primary storage M.2 2280 SSD is listed.
+- **Models:**
+  - E47WMPA · HP OmniBook 3 14-hy0100AU (Pricelist)
+
+## HP OmniBook 3 16 inch Laptop PC — 16-bu0xxx, 16-by0xxx (also 16-bv0xxx)
+
+- **Service guide:** [pdf_13159558_en-US-1.pdf](https://kaas.hpcloud.hp.com/pdf-public/pdf_13159558_en-US-1.pdf) — Doc. P80677-002, Second Edition, June 2026
+- **Looked up on HP Support with:** E6RZ4PA
+- **RAM:** Upgradeable – removable DDR5-5600 memory module(s), up to 32 GB
+  - Guide has a 'Memory modules (select products only)' removal procedure with spare DDR5-5600 modules (8/16/24/32 GB). Its spec table also says 'Memory is not accessible or upgradeable' – confirm with HP for a specific unit. Number of slots not specified in HP Service Guide.
+- **M.2 SSD:** 1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed
+  - Only primary storage (PCIe NVMe M.2 2280 SSD) is listed; one SSD removal procedure.
+- **Models:**
+  - E47WSPA · HP OmniBook 3 16-bu0384TU (Pricelist)
+  - E6GG9PA · HP OmniBook 3 16-bu0393TU (Pricelist)
+
+## HP OmniBook 3 16 inch Laptop PC — 16-bu0xxx, 16-by0xxx (also 16-bv0xxx) (LPDDR5X SKUs)
+
+- **Service guide:** [pdf_13159558_en-US-1.pdf](https://kaas.hpcloud.hp.com/pdf-public/pdf_13159558_en-US-1.pdf) — Doc. P80677-002, Second Edition, June 2026
+- **Looked up on HP Support with:** E6RZ4PA
+- **RAM:** Not upgradeable – onboard LPDDR5X (per pricelist spec)
+  - Guide states 'Memory is not accessible or upgradeable' but does not list LPDDR5X configurations (not specified in HP Service Guide). The pricelist lists 16GB LPDDR5X 7467 on-board.
+- **M.2 SSD:** 1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed
+  - Only primary storage (PCIe NVMe M.2 2280 SSD) is listed; one SSD removal procedure.
+- **Models:**
+  - E6RZ4PA · HP OmniBook 3 16-bu0397TU (Pricelist)
+  - E6RZ5PA · HP OmniBook 3 16-bu0398TU (Pricelist)
+
+## HP OmniBook 3 16 inch Laptop PC — 16-bu0xxx, 16-by0xxx (also 16-bv0xxx) (AMD 16-by0 SKU)
+
+- **Service guide:** [pdf_13159558_en-US-1.pdf](https://kaas.hpcloud.hp.com/pdf-public/pdf_13159558_en-US-1.pdf) — Doc. P80677-002, Second Edition, June 2026
+- **Looked up on HP Support with:** E6GG8PA
+- **RAM:** Not specified in HP Service Guide
+  - Pricelist: 16GB DDR5 1DM 4800. The guide lists DDR5-4800 only as onboard memory and removable modules only as DDR5-5600 ('select products only'), and also states memory is not accessible or upgradeable. Check with your account manager before advising an upgrade.
+- **M.2 SSD:** 1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed
+  - Only primary storage (PCIe NVMe M.2 2280 SSD) is listed; one SSD removal procedure.
+- **Models:**
+  - E6GG8PA · HP OmniBook 3 16-by0121AU (Pricelist)
+
+## HP OmniBook 7 14 inch Laptop Next Gen AI PC — 14-hg0xxx
+
+- **Service guide:** [pdf_14225205_en-US-1.pdf](https://kaas.hpcloud.hp.com/pdf-public/pdf_14225205_en-US-1.pdf) — Doc. P75718-001, First Edition, March 2026
+- **Looked up on HP Support with:** E2HE0PA
+- **RAM:** Not upgradeable – onboard LPDDR5X
+  - Guide: LPDDR5X-7467 / LPDDR5-8533 onboard memory, not accessible or upgradeable (16 GB or 32 GB).
+- **M.2 SSD:** 2× M.2 SSD slots (primary + secondary) – M.2 2280 PCIe NVMe listed
+  - Guide removal procedure shows a primary SSD and a secondary SSD socket (same removal process for both). Secondary SSD size not specified in HP Service Guide.
+- **Models:**
+  - E2HE0PA · HP OmniBook 7 NG AI PC 14-hg0079TU (Pricelist)
+  - E2HE1PA · HP OmniBook 7 NG AI PC 14-hg0080TU (Pricelist)
+
+## HP OmniBook X Flip 14 inch 2-in-1 Laptop Next Gen AI PC — 14-fm0xxx
+
+- **Service guide:** [pdf_11912913_en-US-1.pdf](https://kaas.hpcloud.hp.com/pdf-public/pdf_11912913_en-US-1.pdf) — Doc. P24405-001, First Edition, February 2025
+- **Looked up on HP Support with:** E5MC6PA
+- **RAM:** Not upgradeable – onboard LPDDR5x-8533
+  - Guide: on-board system memory, not accessible or upgradeable (16 GB or 32 GB).
+- **M.2 SSD:** 1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed
+  - Only primary storage (PCIe NVMe M.2 2280) is listed.
+- **Models:**
+  - E5MC6PA · HP OmniBook X Flip NG AI PC 14-fm0206TU (Pricelist)
+  - E5MC7PA · HP OmniBook X Flip NG AI PC 14-fm0208TU (Pricelist)

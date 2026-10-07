@@ -201,7 +201,9 @@ with sync_playwright() as pw:
     want = [kp["model"], f"SRP: ₱{int(kp['srp'] + 0.5):,}", f"DP: ₱{int(kp['dp'] + 0.5):,}", f"Promo DP: ₱{int(kp['promoDp'] + 0.5):,}", "Availability: On hand", kp["partNo"], "Freebie"]
     check("copy button copies model, specs, SRP, DP, promo DP, availability", all(w in clip for w in want), clip)
     check("copy shows confirmation", pg.locator("#toast.show").count() == 1)
-    check("OmniBook X Flip models have no freebie", pg.locator('.card:has-text("OmniBook X Flip") .freebie-line').count() == 0)
+    excl = {e["sku"].upper() for e in json.load(open(os.path.join(ROOT, "data", "promos.json"), encoding="utf-8"))["freebie"]["excluded"]}
+    check("models on the freebie exclusion list have no freebie",
+          all(pg.locator(f'.card[data-id="{p["id"]}"] .freebie-line').count() == 0 for p in data if p["sku"].upper() in excl))
     xp = next(p for p in data if p["sku"].upper() in nofree)
     pg.click(f'.card[data-id="{xp["id"]}"] .card-media'); pg.wait_for_selector("#detailModal:not([hidden])")
     check("excluded model detail has no freebie", "A08JTAA" not in pg.inner_text("#detailBody"))
@@ -268,6 +270,30 @@ with sync_playwright() as pw:
     check("upgrades: shown under Specifications", "RAM upgradeability" in dtu and "M.2 SSD slots" in dtu and "Soldered / Not upgradeable" in dtu)
     pg.keyboard.press("Escape")
 
+    # ---------- new models, Order basis, OmniBook 7 tab ----------
+    check("every product has 4 photos", all(len(p.get("images", [])) == 4 for p in data), [p["sku"] for p in data if len(p.get("images", [])) != 4])
+    check("OmniBook 7 tab present, after OmniBook 5 Flip", pg.evaluate("[...document.querySelectorAll('#navList a')].map(a=>a.dataset.nav).join('|')").endswith("Omnibook 5 Flip|Omnibook 7|Omnibook X Flip"))
+    ups = json.load(open(os.path.join(ROOT, "data", "upgrades.json"), encoding="utf-8"))
+    check("RAM/M.2 info for every pricelist model", all(p["sku"].upper() in ups["skus"] for p in data))
+    pg.goto(BASE + "#/type/Omnibook%207"); pg.wait_for_timeout(600)
+    check("Order basis status shown", pg.locator(".card .stock.lvl-order").count() == sum(1 for p in data if p["type"] == "Omnibook 7" and (p.get("status") or "").lower() == "order basis") > 0)
+    # ---------- light / dark mode ----------
+    start = pg.evaluate("document.documentElement.dataset.theme")
+    check("theme set before paint", start in ("light", "dark"))
+    pg.locator("#themeToggle").click(); pg.wait_for_timeout(200)
+    flipped = pg.evaluate("document.documentElement.dataset.theme")
+    check("theme toggle switches mode", flipped != start and flipped in ("light", "dark"))
+    pg.reload(); pg.wait_for_timeout(800)
+    check("theme choice remembered", pg.evaluate("document.documentElement.dataset.theme") == flipped)
+    if flipped != "dark":
+        pg.locator("#themeToggle").click(); pg.wait_for_timeout(200)
+    bg = pg.evaluate("getComputedStyle(document.querySelector('.card')).backgroundColor")
+    check("dark mode: cards are dark", bg not in ("rgb(255, 255, 255)",), bg)
+    check("dark mode: Iontech logo uses light wordmark", pg.locator(".site-header .logo-iontech-dark").is_visible() and not pg.locator(".site-header .logo-iontech-light").is_visible())
+    pg.locator("#themeToggle").click(); pg.wait_for_timeout(200)
+    pg.evaluate("localStorage.removeItem('hppl-theme')")
+    pg.goto(BASE + "#/"); pg.wait_for_timeout(600)
+
     # ---------- Last-time-buy ----------
     wb2 = openpyxl.load_workbook(os.path.join(ROOT, "source", "Last-time-buy models.xlsx"), data_only=True)
     r2 = list(wb2.worksheets[0].iter_rows(values_only=True)); h2 = r2[0]
@@ -278,7 +304,8 @@ with sync_playwright() as pw:
     check("LTB: every Excel model present, no duplicates", len(by2) == len(ltb) == len(xl2) and all(r["Model"] in by2 for r in xl2))
     lvl = lambda q: None if not isinstance(q, (int, float)) else "Sold out" if q <= 0 else "Very limited" if q <= 10 else "Limited" if q <= 30 else "On hand"
     check("LTB: sale/DP/SRP match Excel, availability label from Qty", all(num(r["Special Price"]) == by2[r["Model"]]["sale"] and num(r["DP"]) == by2[r["Model"]]["dp"]
-          and num(r["SRP"]) == by2[r["Model"]]["srp"] and lvl(r["Qty"]) == by2[r["Model"]].get("availability") for r in xl2))
+          and num(r["SRP"]) == by2[r["Model"]]["srp"] and (lvl(r["Qty"]) if "Qty" in r else r.get("Availability")) == by2[r["Model"]].get("availability") for r in xl2))
+    check("LTB: public source Excel has no quantity column or extra sheets", "Qty" not in h2 and len(wb2.worksheets) == 1)
     check("LTB: actual quantities are not published", all("qty" not in p for p in ltb) and '"qty"' not in open(os.path.join(ROOT, "data", "ltb.json"), encoding="utf-8").read())
     check("LTB: specs text preserved", all(by2[r["Model"]]["specsRaw"] == r["Specs"] for r in xl2))
     check("LTB: images only by exact model name", all(im["sourceFile"].startswith(p["model"] + " - ") for p in ltb for im in p.get("images", [])))
@@ -314,13 +341,13 @@ with sync_playwright() as pw:
     pg.keyboard.press("Escape")
     pg.click('.nav-link[data-nav="all"]'); pg.wait_for_timeout(200)
     check("back to main list after LTB", count() == len(data) and pg.locator(".ltb-card").count() == 0)
-    bad2 = pg.eval_on_selector_all("img", "els => els.filter(e => e.complete && e.naturalWidth === 0).map(e => e.src)")
+    bad2 = pg.eval_on_selector_all("img", "els => els.filter(e => e.getAttribute('src') && e.complete && e.naturalWidth === 0).map(e => e.src)")
     check("no broken images (after new tabs)", not bad2, str(bad2[:3]))
 
     # broken images on all product images
     pg.goto(BASE + "#/"); pg.wait_for_selector(".card")
     pg.evaluate("window.scrollTo(0, document.body.scrollHeight)"); pg.wait_for_timeout(800)
-    broken = pg.eval_on_selector_all("img", "els => els.filter(e => e.complete && e.naturalWidth === 0).map(e => e.src)")
+    broken = pg.eval_on_selector_all("img", "els => els.filter(e => e.getAttribute('src') && e.complete && e.naturalWidth === 0).map(e => e.src)")
     check("no broken images", not broken, str(broken[:3]))
     check("no HTTP errors", not bad, str(bad[:3]))
     check("no JS errors", not errs, str(errs[:3]))

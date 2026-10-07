@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-28T19:04:32",
+  "generatedAt": "2026-10-07T12:13:27",
   "sourceFile": "Last-time-buy models.xlsx",
-  "sourceHash": "c07b853b57",
+  "sourceHash": "8d04ca2240",
   "currency": "PHP",
   "count": 11,
   "products": [
@@ -26,7 +26,7 @@
       "dp": 48310,
       "srp": 60990,
       "sale": 46861,
-      "availability": "On hand",
+      "availability": "Limited",
       "priceText": {
         "dp": "PHP 48,310.00",
         "srp": "PHP 60,990.00",

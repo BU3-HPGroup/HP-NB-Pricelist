@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-28T19:04:32",
+  "generatedAt": "2026-10-07T11:49:34",
   "sourceFile": "Current Pricelist - HPNB.xlsx",
-  "sourceHash": "24f0d06997",
+  "sourceHash": "8f549acf09",
   "currency": "PHP",
-  "count": 21,
+  "count": 38,
   "products": [
     {
       "id": "15-fc0930au",
@@ -1281,7 +1281,7 @@
       "platform": "Otto 23C1",
       "srp": 57990,
       "dp": 49291.5,
-      "status": "Onhand",
+      "status": "Incoming",
       "cpu": "Ryzen 7-7730U (Copilot)",
       "cpuBrand": "AMD",
       "ram": "8GB DDR4 1DM 3200",
@@ -1333,6 +1333,1122 @@
         }
       ],
       "row": 21
+    },
+    {
+      "id": "15-fc0289au",
+      "model": "HP Laptop 15-fc0289AU",
+      "sku": "15-fc0289AU",
+      "partNo": "E47WNPA",
+      "matNo": "432115037064",
+      "type": "HP 15",
+      "platform": "Otto 23C1",
+      "srp": 64990,
+      "dp": 55241.5,
+      "status": "Incoming",
+      "cpu": "Ryzen 5-7520U (Copilot)",
+      "cpuBrand": "AMD",
+      "ram": "8GB 5500 LPDDR5 on-board",
+      "storage": "512GB PCIe Value",
+      "graphics": "AMD Radeon Graphics",
+      "display": "15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "HP 2y 3d Onsite Bundle Opp NB SVC Win 11 Home",
+      "color": "Natural Silver (FF+)",
+      "camera": "720p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "2-2-2",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP Laptop Clamshell | Otto 23C1 | Ryzen 5-7520U (Copilot) | 8GB 5500 LPDDR5 on-board | 512GB PCIe Value | AMD Radeon Graphics | 15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border | Natural Silver (FF+) - 720p TNR PVCY ST | 45 Watt (Copilot) | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fc0289au-front.webp",
+          "thumb": "assets/images/products/15-fc0289au-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fc0289AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fc0289au-front-right.webp",
+          "thumb": "assets/images/products/15-fc0289au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fc0289AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fc0289au-rear-left.webp",
+          "thumb": "assets/images/products/15-fc0289au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fc0289AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fc0289au-left-profile.webp",
+          "thumb": "assets/images/products/15-fc0289au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP Laptop 15-fc0289AU - Left Profile.png"
+        }
+      ],
+      "row": 22
+    },
+    {
+      "id": "15-fc0523au",
+      "model": "HP Laptop 15-fc0523AU",
+      "sku": "15-fc0523AU",
+      "partNo": "E47WPPA",
+      "matNo": "432115037065",
+      "type": "HP 15",
+      "platform": "Otto 23C1",
+      "srp": 77990,
+      "dp": 66291.5,
+      "status": "Incoming",
+      "cpu": "Ryzen 5-7520U (Copilot)",
+      "cpuBrand": "AMD",
+      "ram": "16GB 5500 LPDDR5 on-board",
+      "storage": "512GB PCIe Value",
+      "graphics": "AMD Radeon Graphics",
+      "display": "15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "Win 11 Home",
+      "color": "Natural Silver (FF+)",
+      "camera": "720p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP Laptop Clamshell | Otto 23C1 | Ryzen 5-7520U (Copilot) | 16GB 5500 LPDDR5 on-board | 512GB PCIe Value | AMD Radeon Graphics | 15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border | Natural Silver (FF+) - 720p TNR PVCY ST | 45 Watt (Copilot) | 2-2-2| HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fc0523au-front.webp",
+          "thumb": "assets/images/products/15-fc0523au-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fc0523AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fc0523au-front-right.webp",
+          "thumb": "assets/images/products/15-fc0523au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fc0523AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fc0523au-rear-left.webp",
+          "thumb": "assets/images/products/15-fc0523au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fc0523AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fc0523au-left-profile.webp",
+          "thumb": "assets/images/products/15-fc0523au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP Laptop 15-fc0523AU - Left Profile.png"
+        }
+      ],
+      "row": 23
+    },
+    {
+      "id": "15-fd1655tu",
+      "model": "HP Laptop 15-fd1655TU",
+      "sku": "15-fd1655TU",
+      "partNo": "E2HE2PA",
+      "matNo": "432115037067",
+      "type": "HP 15",
+      "platform": "Sebastian 24C1",
+      "srp": 66990,
+      "dp": 56941.5,
+      "status": "Incoming",
+      "cpu": "Core 5-120U (Copilot)",
+      "cpuBrand": "Intel",
+      "ram": "8GB DDR4 1DM 3200",
+      "storage": "512GB PCIe value",
+      "graphics": "Intel Graphics",
+      "display": "15.6 FHD (1920x1080) AG SVA 250 nits Narrow border ultraslim",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "Win 11 Home",
+      "color": "Natural Silver (FF+)",
+      "camera": "1080p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP Laptop Clamshell | Sebastian 24C1 | Core 5-120U (Copilot) | 8GB DDR4 1DM 3200 | 512GB PCIe value | Intel Graphics | 15.6 FHD (1920x1080) AG SVA 250 nits Narrow border ultraslim | Natural Silver (FF+) - 1080p TNR PVCY ST | 45 Watt (Copilot) |2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fd1655tu-front.webp",
+          "thumb": "assets/images/products/15-fd1655tu-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fd1655TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fd1655tu-front-right.webp",
+          "thumb": "assets/images/products/15-fd1655tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fd1655TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fd1655tu-rear-left.webp",
+          "thumb": "assets/images/products/15-fd1655tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fd1655TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fd1655tu-left-profile.webp",
+          "thumb": "assets/images/products/15-fd1655tu-left-profile-thumb.webp",
+          "width": 800,
+          "height": 70,
+          "sourceFile": "HP Laptop 15-fd1655TU - Left Profile.png"
+        }
+      ],
+      "row": 24
+    },
+    {
+      "id": "15-fd1656tu",
+      "model": "HP Laptop 15-fd1656TU",
+      "sku": "15-fd1656TU",
+      "partNo": "E2HE3PA",
+      "matNo": "432115037139",
+      "type": "HP 15",
+      "platform": "Sebastian 24C1",
+      "srp": 78990,
+      "dp": 67141.5,
+      "status": "Incoming",
+      "cpu": "Core 5-120U (Copilot)",
+      "cpuBrand": "Intel",
+      "ram": "16GB DDR4 2DM 3200",
+      "storage": "512GB PCIe value",
+      "graphics": "Intel Graphics",
+      "display": "15.6 FHD (1920x1080) AG SVA 250 nits Narrow border ultraslim",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "OST W11H6 PLS SL APACPPP",
+      "color": "Natural Silver (FF+)",
+      "camera": "1080p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "WARR 1/1/0 A/P",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP Laptop Clamshell | Sebastian 24C1 | Core 5-120U (Copilot) | 16GB DDR4 2DM 3200 | 512GB PCIe value | Intel Graphics | 15.6 FHD (1920x1080) AG SVA 250 nits Narrow border ultraslim | OST W11H6 PLS SL APACPPP | Natural Silver (FF+) - 1080p TNR PVCY ST | 45 Watt (Copilot) | WARR 1/1/0 A/P | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fd1656tu-front.webp",
+          "thumb": "assets/images/products/15-fd1656tu-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fd1656TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fd1656tu-front-right.webp",
+          "thumb": "assets/images/products/15-fd1656tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fd1656TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fd1656tu-rear-left.webp",
+          "thumb": "assets/images/products/15-fd1656tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fd1656TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fd1656tu-left-profile.webp",
+          "thumb": "assets/images/products/15-fd1656tu-left-profile-thumb.webp",
+          "width": 800,
+          "height": 70,
+          "sourceFile": "HP Laptop 15-fd1656TU - Left Profile.png"
+        }
+      ],
+      "row": 25
+    },
+    {
+      "id": "15-fc0998au",
+      "model": "HP Laptop 15-fc0998AU",
+      "sku": "15-fc0998AU",
+      "partNo": "E4PN6PA",
+      "matNo": "432115037068",
+      "type": "HP 15",
+      "platform": "Otto 23C1",
+      "srp": 67990,
+      "dp": 57791.5,
+      "status": "Incoming",
+      "cpu": "Ryzen 7-7730U (Copilot)",
+      "cpuBrand": "AMD",
+      "ram": "8GB DDR4 1DM 3200",
+      "storage": "512GB PCIe Value",
+      "graphics": "AMD Radeon Graphics",
+      "display": "15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border",
+      "displayShort": "15.6\" FHD (1920x1080)",
+      "os": "Win 11 Home",
+      "color": "Natural Silver (FF+)",
+      "camera": "720p TNR PVCY ST",
+      "formFactor": "Clamshell",
+      "series": "HP Laptop Clamshell",
+      "adapter": "45 Watt (Copilot)",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP Laptop Clamshell | Otto 23C1 | Ryzen 7-7730U (Copilot) | 8GB DDR4 1DM 3200 | 512GB PCIe Value | AMD Radeon Graphics | 15.6 FHD (1920x1080) AG ultraslim SVA 250 nits Narrow Border | Natural Silver (FF+) - 720p TNR PVCY ST | 45 Watt (Copilot) |2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/15-fc0998au-front.webp",
+          "thumb": "assets/images/products/15-fc0998au-front-thumb.webp",
+          "width": 1200,
+          "height": 932,
+          "sourceFile": "HP Laptop 15-fc0998AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/15-fc0998au-front-right.webp",
+          "thumb": "assets/images/products/15-fc0998au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 969,
+          "sourceFile": "HP Laptop 15-fc0998AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/15-fc0998au-rear-left.webp",
+          "thumb": "assets/images/products/15-fc0998au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 993,
+          "sourceFile": "HP Laptop 15-fc0998AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/15-fc0998au-left-profile.webp",
+          "thumb": "assets/images/products/15-fc0998au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP Laptop 15-fc0998AU - Left Profile.png"
+        }
+      ],
+      "row": 26
+    },
+    {
+      "id": "14-ht0270tu",
+      "model": "HP OmniBook 3 AI PC 14-ht0270TU",
+      "sku": "14-ht0270TU",
+      "partNo": "E6GG0PA",
+      "matNo": "432115037086",
+      "type": "Omnibook 3",
+      "platform": "Abe-I 26C1",
+      "srp": 63990,
+      "dp": 54391.5,
+      "status": "Order Basis",
+      "cpu": "Core 3 304 (5C) 15 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "8GB DDR5 1DM 5600",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200)",
+      "os": "Win 11 Home",
+      "color": "Glacier Silver DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 AI PC Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 3 AI PC Clamshell | Abe-I 26C1 | Core 3 304 (5C) 15 NPU TOPs | 8GB DDR5 1DM 5600 | 512GB PCIe Gen4 Value | Intel Graphics | 14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits | Glacier Silver DF+ - 1080p TNR | 45 Watt USB-C GaN |2-2-2| HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-ht0270tu-front.webp",
+          "thumb": "assets/images/products/14-ht0270tu-front-thumb.webp",
+          "width": 1200,
+          "height": 989,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0270TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-ht0270tu-front-right.webp",
+          "thumb": "assets/images/products/14-ht0270tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0270TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-ht0270tu-rear-left.webp",
+          "thumb": "assets/images/products/14-ht0270tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1012,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0270TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-ht0270tu-left-profile.webp",
+          "thumb": "assets/images/products/14-ht0270tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 108,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0270TU - Left Profile.png"
+        }
+      ],
+      "row": 27
+    },
+    {
+      "id": "14-ht0271tu",
+      "model": "HP OmniBook 3 AI PC 14-ht0271TU",
+      "sku": "14-ht0271TU",
+      "partNo": "E6GG2PA",
+      "matNo": "432115037087",
+      "type": "Omnibook 3",
+      "platform": "Abe-I 26C1",
+      "srp": 63990,
+      "dp": 54391.5,
+      "status": "Order Basis",
+      "cpu": "Core 3 304 (5C) 15 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "8GB DDR5 1DM 5600",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200)",
+      "os": "Win 11 Home",
+      "color": "Starlit Blue DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 AI PC Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 3 AI PC Clamshell | Abe-I 26C1 | Core 3 304 (5C) 15 NPU TOPs | 8GB DDR5 1DM 5600 | 512GB PCIe Gen4 Value | Intel Graphics | 14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits | Starlit Blue DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-ht0271tu-front.webp",
+          "thumb": "assets/images/products/14-ht0271tu-front-thumb.webp",
+          "width": 1200,
+          "height": 989,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0271TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-ht0271tu-front-right.webp",
+          "thumb": "assets/images/products/14-ht0271tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0271TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-ht0271tu-rear-left.webp",
+          "thumb": "assets/images/products/14-ht0271tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1012,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0271TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-ht0271tu-left-profile.webp",
+          "thumb": "assets/images/products/14-ht0271tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 108,
+          "sourceFile": "HP OmniBook 3 AI PC 14-ht0271TU - Left Profile.png"
+        }
+      ],
+      "row": 28
+    },
+    {
+      "id": "14-hy0100au",
+      "model": "HP OmniBook 3 14-hy0100AU",
+      "sku": "14-hy0100AU",
+      "partNo": "E47WMPA",
+      "matNo": "432115037097",
+      "type": "Omnibook 3",
+      "platform": "Abe-A 26C1",
+      "srp": 69990,
+      "dp": 59491.5,
+      "status": "Order Basis",
+      "cpu": "Ryzen 5 130 (6C)",
+      "cpuBrand": "AMD",
+      "ram": "8GB DDR5 1DM 4800",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "AMD Radeon 660M Graphics",
+      "display": "14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200)",
+      "os": "Win 11 Home",
+      "color": "Mica Silver DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 3 Clamshell | Abe-A 26C1 | Ryzen 5 130 (6C) | 8GB DDR5 1DM 4800 | 512GB PCIe Gen4 Value | AMD Radeon 660M Graphics | 14.0 2K (1920x1200) Antiglare IPS Low Power 300 nits | Mica Silver DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-hy0100au-front.webp",
+          "thumb": "assets/images/products/14-hy0100au-front-thumb.webp",
+          "width": 1200,
+          "height": 989,
+          "sourceFile": "HP OmniBook 3 14-hy0100AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-hy0100au-front-right.webp",
+          "thumb": "assets/images/products/14-hy0100au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 14-hy0100AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-hy0100au-rear-left.webp",
+          "thumb": "assets/images/products/14-hy0100au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1012,
+          "sourceFile": "HP OmniBook 3 14-hy0100AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-hy0100au-left-profile.webp",
+          "thumb": "assets/images/products/14-hy0100au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 108,
+          "sourceFile": "HP OmniBook 3 14-hy0100AU - Left Profile.png"
+        }
+      ],
+      "row": 29
+    },
+    {
+      "id": "16-bu0397tu",
+      "model": "HP OmniBook 3 16-bu0397TU",
+      "sku": "16-bu0397TU",
+      "partNo": "E6RZ4PA",
+      "matNo": "432115037098",
+      "type": "Omnibook 3",
+      "platform": "Bantie-I 26C1",
+      "srp": 79990,
+      "dp": 67991.5,
+      "status": "Order Basis",
+      "cpu": "Core 5 315 (6C) 15 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 7467 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "16.0 2K (1920x1200) Antiglare IPS 300 nits",
+      "displayShort": "16.0\" 2K (1920x1200)",
+      "os": "OST W11H6 PLS SL APACPPP",
+      "color": "Glacier Silver DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "specsRaw": "HP OmniBook 3 Clamshell | Bantie-I 26C1 | Core 5 315 (6C) 15 NPU TOPs | 16GB LPDDR5X 7467 on-board | 512GB PCIe Gen4 Value | Intel Graphics | 16.0 2K (1920x1200) Antiglare IPS 300 nits | OST W11H6 PLS SL APACPPP | Glacier Silver DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/16-bu0397tu-front.webp",
+          "thumb": "assets/images/products/16-bu0397tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1001,
+          "sourceFile": "HP OmniBook 3 16-bu0397TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/16-bu0397tu-front-right.webp",
+          "thumb": "assets/images/products/16-bu0397tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 996,
+          "sourceFile": "HP OmniBook 3 16-bu0397TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/16-bu0397tu-rear-left.webp",
+          "thumb": "assets/images/products/16-bu0397tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 16-bu0397TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/16-bu0397tu-left-profile.webp",
+          "thumb": "assets/images/products/16-bu0397tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook 3 16-bu0397TU - Left Profile.png"
+        }
+      ],
+      "row": 30
+    },
+    {
+      "id": "16-bu0398tu",
+      "model": "HP OmniBook 3 16-bu0398TU",
+      "sku": "16-bu0398TU",
+      "partNo": "E6RZ5PA",
+      "matNo": "432115037088",
+      "type": "Omnibook 3",
+      "platform": "Bantie-I 26C1",
+      "srp": 79990,
+      "dp": 67991.5,
+      "status": "Order Basis",
+      "cpu": "Core 5 315 (6C) 15 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 7467 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "16.0 2K (1920x1200) Antiglare IPS 300 nits",
+      "displayShort": "16.0\" 2K (1920x1200)",
+      "os": "Win 11 Home",
+      "color": "Starlit Blue DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 3 Clamshell | Bantie-I 26C1 | Core 5 315 (6C) 15 NPU TOPs | 16GB LPDDR5X 7467 on-board | 512GB PCIe Gen4 Value | Intel Graphics | 16.0 2K (1920x1200) Antiglare IPS 300 nits | Starlit Blue DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/16-bu0398tu-front.webp",
+          "thumb": "assets/images/products/16-bu0398tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook 3 16-bu0398TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/16-bu0398tu-front-right.webp",
+          "thumb": "assets/images/products/16-bu0398tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1002,
+          "sourceFile": "HP OmniBook 3 16-bu0398TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/16-bu0398tu-rear-left.webp",
+          "thumb": "assets/images/products/16-bu0398tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1006,
+          "sourceFile": "HP OmniBook 3 16-bu0398TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/16-bu0398tu-left-profile.webp",
+          "thumb": "assets/images/products/16-bu0398tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook 3 16-bu0398TU - Left Profile.png"
+        }
+      ],
+      "row": 31
+    },
+    {
+      "id": "16-by0121au",
+      "model": "HP OmniBook 3 16-by0121AU",
+      "sku": "16-by0121AU",
+      "partNo": "E6GG8PA",
+      "matNo": "432115037089",
+      "type": "Omnibook 3",
+      "platform": "Bantie-A 26C1",
+      "srp": 82990,
+      "dp": 70541.5,
+      "status": "Order Basis",
+      "cpu": "Ryzen 5 130 (6C)",
+      "cpuBrand": "AMD",
+      "ram": "16GB DDR5 1DM 4800",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "AMD Radeon 660M Graphics",
+      "display": "16.0 2K (1920x1200) Antiglare IPS 300 nits",
+      "displayShort": "16.0\" 2K (1920x1200)",
+      "os": "Win 11 Home",
+      "color": "Glacier Silver DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 3 Clamshell | Bantie-A 26C1 | Ryzen 5 130 (6C) | 16GB DDR5 1DM 4800 | 512GB PCIe Gen4 Value | AMD Radeon 660M Graphics | 16.0 2K (1920x1200) Antiglare IPS 300 nits | Glacier Silver DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/16-by0121au-front.webp",
+          "thumb": "assets/images/products/16-by0121au-front-thumb.webp",
+          "width": 1200,
+          "height": 1001,
+          "sourceFile": "HP OmniBook 3 16-by0121AU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/16-by0121au-front-right.webp",
+          "thumb": "assets/images/products/16-by0121au-front-right-thumb.webp",
+          "width": 1200,
+          "height": 996,
+          "sourceFile": "HP OmniBook 3 16-by0121AU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/16-by0121au-rear-left.webp",
+          "thumb": "assets/images/products/16-by0121au-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 16-by0121AU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/16-by0121au-left-profile.webp",
+          "thumb": "assets/images/products/16-by0121au-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook 3 16-by0121AU - Left Profile.png"
+        }
+      ],
+      "row": 32
+    },
+    {
+      "id": "16-bu0384tu",
+      "model": "HP OmniBook 3 16-bu0384TU",
+      "sku": "16-bu0384TU",
+      "partNo": "E47WSPA",
+      "matNo": "432115037090",
+      "type": "Omnibook 3",
+      "platform": "Bantie-I 26C1",
+      "srp": 95990,
+      "dp": 81591.5,
+      "status": "Order Basis",
+      "cpu": "Core 7 350 (6C) 17 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB DDR5 1DM 5600",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "16.0 2K (1920x1200) Antiglare IPS 300 nits",
+      "displayShort": "16.0\" 2K (1920x1200)",
+      "os": "Win 11 Home",
+      "color": "Glacier Silver DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 3 Clamshell | Bantie-I 26C1 | Core 7 350 (6C) 17 NPU TOPs | 16GB DDR5 1DM 5600 | 512GB PCIe Gen4 Value | Intel Graphics | 16.0 2K (1920x1200) Antiglare IPS 300 nits | Glacier Silver DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/16-bu0384tu-front.webp",
+          "thumb": "assets/images/products/16-bu0384tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1001,
+          "sourceFile": "HP OmniBook 3 16-bu0384TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/16-bu0384tu-front-right.webp",
+          "thumb": "assets/images/products/16-bu0384tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 996,
+          "sourceFile": "HP OmniBook 3 16-bu0384TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/16-bu0384tu-rear-left.webp",
+          "thumb": "assets/images/products/16-bu0384tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1007,
+          "sourceFile": "HP OmniBook 3 16-bu0384TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/16-bu0384tu-left-profile.webp",
+          "thumb": "assets/images/products/16-bu0384tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook 3 16-bu0384TU - Left Profile.png"
+        }
+      ],
+      "row": 33
+    },
+    {
+      "id": "16-bu0393tu",
+      "model": "HP OmniBook 3 16-bu0393TU",
+      "sku": "16-bu0393TU",
+      "partNo": "E6GG9PA",
+      "matNo": "432115037091",
+      "type": "Omnibook 3",
+      "platform": "Bantie-I 26C1",
+      "srp": 95990,
+      "dp": 81591.5,
+      "status": "Order Basis",
+      "cpu": "Core 7 350 (6C) 17 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB DDR5 1DM 5600",
+      "storage": "512GB PCIe Gen4 Value",
+      "graphics": "Intel Graphics",
+      "display": "16.0 2K (1920x1200) Antiglare IPS 300 nits",
+      "displayShort": "16.0\" 2K (1920x1200)",
+      "os": "Win 11 Home",
+      "color": "Starlit Blue DF+",
+      "camera": "1080p TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 3 Clamshell",
+      "adapter": "45 Watt USB-C GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Opp NB SVC",
+      "otherSpecs": [
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 3 Clamshell | Bantie-I 26C1 | Core 7 350 (6C) 17 NPU TOPs | 16GB DDR5 1DM 5600 | 512GB PCIe Gen4 Value | Intel Graphics | 16.0 2K (1920x1200) Antiglare IPS 300 nits | Starlit Blue DF+ - 1080p TNR | 45 Watt USB-C GaN | 2-2-2 | HP 2y 3d Onsite Bundle Opp NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/16-bu0393tu-front.webp",
+          "thumb": "assets/images/products/16-bu0393tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1018,
+          "sourceFile": "HP OmniBook 3 16-bu0393TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/16-bu0393tu-front-right.webp",
+          "thumb": "assets/images/products/16-bu0393tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1002,
+          "sourceFile": "HP OmniBook 3 16-bu0393TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/16-bu0393tu-rear-left.webp",
+          "thumb": "assets/images/products/16-bu0393tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1006,
+          "sourceFile": "HP OmniBook 3 16-bu0393TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/16-bu0393tu-left-profile.webp",
+          "thumb": "assets/images/products/16-bu0393tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 106,
+          "sourceFile": "HP OmniBook 3 16-bu0393TU - Left Profile.png"
+        }
+      ],
+      "row": 34
+    },
+    {
+      "id": "14-hg0079tu",
+      "model": "HP OmniBook 7 NG AI PC 14-hg0079TU",
+      "sku": "14-hg0079TU",
+      "partNo": "E2HE0PA",
+      "matNo": "432115037092",
+      "type": "Omnibook 7",
+      "platform": "Agusta 26C1",
+      "srp": 149990,
+      "dp": 127491.5,
+      "status": "Order Basis",
+      "cpu": "Ultra X7 358H (16C) 50 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "32GB LPDDR5X 8533 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "display": "14.0 2K (1920x1200) OLED Brightview Low Blue Light 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200) OLED",
+      "os": "Win 11 Home",
+      "color": "Meteor Silver",
+      "camera": "5MP IR TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 7 NG AI PC Clamshell",
+      "adapter": "100 Watt USB-C Wall-Mount GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "otherSpecs": [
+        "Intel Arc Pro B390",
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 7 NG AI PC Clamshell | Agusta 26C1 | Ultra X7 358H (16C) 50 NPU TOPs | 32GB LPDDR5X 8533 on-board | 512GB PCIe Gen4 Value | Intel Arc Pro B390 | 14.0 2K (1920x1200) OLED Brightview Low Blue Light 300 nits | Meteor Silver - 5MP IR TNR | 100 Watt USB-C Wall-Mount GaN | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-hg0079tu-front.webp",
+          "thumb": "assets/images/products/14-hg0079tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1051,
+          "sourceFile": "HP OmniBook 7 NG AI PC 14-hg0079TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-hg0079tu-front-right.webp",
+          "thumb": "assets/images/products/14-hg0079tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1022,
+          "sourceFile": "HP OmniBook 7 NG AI PC 14-hg0079TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-hg0079tu-rear-left.webp",
+          "thumb": "assets/images/products/14-hg0079tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1023,
+          "sourceFile": "HP OmniBook 7 NG AI PC 14-hg0079TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-hg0079tu-left-profile.webp",
+          "thumb": "assets/images/products/14-hg0079tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 132,
+          "sourceFile": "HP OmniBook 7 NG AI PC 14-hg0079TU - Left Profile.png"
+        }
+      ],
+      "row": 35
+    },
+    {
+      "id": "14-hg0080tu",
+      "model": "HP OmniBook 7 NG AI PC 14-hg0080TU",
+      "sku": "14-hg0080TU",
+      "partNo": "E2HE1PA",
+      "matNo": "432115037093",
+      "type": "Omnibook 7",
+      "platform": "Agusta 26C1",
+      "srp": 149990,
+      "dp": 127491.5,
+      "status": "Order Basis",
+      "cpu": "Ultra X7 358H (16C) 50 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "32GB LPDDR5X 8533 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "display": "14.0 2K (1920x1200) OLED Brightview Low Blue Light 300 nits",
+      "displayShort": "14.0\" 2K (1920x1200) OLED",
+      "os": "Win 11 Home",
+      "color": "Powder Pink",
+      "camera": "5MP IR TNR",
+      "formFactor": "Clamshell",
+      "series": "HP OmniBook 7 NG AI PC Clamshell",
+      "adapter": "100 Watt USB-C Wall-Mount GaN",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "otherSpecs": [
+        "Intel Arc Pro B390",
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook 7 NG AI PC Clamshell | Agusta 26C1 | Ultra X7 358H (16C) 50 NPU TOPs | 32GB LPDDR5X 8533 on-board | 512GB PCIe Gen4 Value | Intel Arc Pro B390 | 14.0 2K (1920x1200) OLED Brightview Low Blue Light 300 nits | Powder Pink - 5MP IR TNR | 100 Watt USB-C Wall-Mount GaN | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-hg0080tu-front.webp",
+          "thumb": "assets/images/products/14-hg0080tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1051,
+          "sourceFile": "HP OmniBook 7 NG AI PC 14-hg0080TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-hg0080tu-front-right.webp",
+          "thumb": "assets/images/products/14-hg0080tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 1022,
+          "sourceFile": "HP OmniBook 7 NG AI PC 14-hg0080TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-hg0080tu-rear-left.webp",
+          "thumb": "assets/images/products/14-hg0080tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1023,
+          "sourceFile": "HP OmniBook 7 NG AI PC 14-hg0080TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-hg0080tu-left-profile.webp",
+          "thumb": "assets/images/products/14-hg0080tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 132,
+          "sourceFile": "HP OmniBook 7 NG AI PC 14-hg0080TU - Left Profile.png"
+        }
+      ],
+      "row": 36
+    },
+    {
+      "id": "14-fm0206tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-fm0206TU",
+      "sku": "14-fm0206TU",
+      "partNo": "E5MC6PA",
+      "matNo": "432115037094",
+      "type": "Omnibook X Flip",
+      "platform": "Truevalue",
+      "srp": 98990,
+      "dp": 84141.5,
+      "status": "Incoming",
+      "cpu": "Ultra 7-256V (8C) 47 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 8533 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "display": "Touch/14.0 2K (1920x1200) IPS 400 nits",
+      "displayShort": "14.0\" 2K (1920x1200) Touch",
+      "os": "Win 11 Home",
+      "color": "Atmospheric Blue AI logo",
+      "camera": "5MP IR PVCY ST",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB C",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "otherSpecs": [
+        "Cadet 25C1",
+        "Intel Arc 140V GPU",
+        "MS Office Home 2024 Philippines + 1yr M365 Basic"
+      ],
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Cadet 25C1 | Ultra 7-256V (8C) 47 NPU TOPs | 16GB LPDDR5X 8533 on-board | 512GB PCIe Gen4 Value | Intel Arc 140V GPU | Touch/14.0 2K (1920x1200) IPS 400 nits | Atmospheric Blue AI logo - 5MP IR PVCY ST | 65 Watt USB C | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC |Win 11 Home | MS Office Home 2024 Philippines + 1yr M365 Basic",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-fm0206tu-front.webp",
+          "thumb": "assets/images/products/14-fm0206tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1023,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-fm0206TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-fm0206tu-front-right.webp",
+          "thumb": "assets/images/products/14-fm0206tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 999,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-fm0206TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-fm0206tu-rear-left.webp",
+          "thumb": "assets/images/products/14-fm0206tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1006,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-fm0206TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-fm0206tu-left-profile.webp",
+          "thumb": "assets/images/products/14-fm0206tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 103,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-fm0206TU - Left Profile.png"
+        }
+      ],
+      "row": 37
+    },
+    {
+      "id": "14-fm0208tu",
+      "model": "HP OmniBook X Flip NG AI PC 14-fm0208TU",
+      "sku": "14-fm0208TU",
+      "partNo": "E5MC7PA",
+      "matNo": "432115037095",
+      "type": "Omnibook X Flip",
+      "platform": "Truevalue",
+      "srp": 98990,
+      "dp": 84141.5,
+      "status": "Incoming",
+      "cpu": "Ultra 7-256V (8C) 47 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "16GB LPDDR5X 8533 on-board",
+      "storage": "512GB PCIe Gen4 Value",
+      "display": "Touch/14.0 2K (1920x1200) IPS 400 nits",
+      "displayShort": "14.0\" 2K (1920x1200) Touch",
+      "os": "OST W11H6 NG PRE SL APACPPP",
+      "color": "Meteor Silver AI logo",
+      "camera": "5MP IR PVCY ST",
+      "formFactor": "x360 Convertible (2-in-1)",
+      "series": "HP OmniBook X Flip NG AI PC x360",
+      "adapter": "65 Watt USB C",
+      "warranty": "2-2-2",
+      "carePack": "HP 2y 3d Onsite Bundle Medium NB SVC",
+      "otherSpecs": [
+        "Cadet 25C1",
+        "Intel Arc 140V GPU"
+      ],
+      "specsRaw": "HP OmniBook X Flip NG AI PC x360 | Cadet 25C1 | Ultra 7-256V (8C) 47 NPU TOPs | 16GB LPDDR5X 8533 on-board | 512GB PCIe Gen4 Value | Intel Arc 140V GPU | Touch/14.0 2K (1920x1200) IPS 400 nits | OST W11H6 NG PRE SL APACPPP | Meteor Silver AI logo - 5MP IR PVCY ST | 65 Watt USB C | 2-2-2 | HP 2y 3d Onsite Bundle Medium NB SVC",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/14-fm0208tu-front.webp",
+          "thumb": "assets/images/products/14-fm0208tu-front-thumb.webp",
+          "width": 1200,
+          "height": 1023,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-fm0208TU - Front.png"
+        },
+        {
+          "angle": "Front Right",
+          "src": "assets/images/products/14-fm0208tu-front-right.webp",
+          "thumb": "assets/images/products/14-fm0208tu-front-right-thumb.webp",
+          "width": 1200,
+          "height": 999,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-fm0208TU - Front Right.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/14-fm0208tu-rear-left.webp",
+          "thumb": "assets/images/products/14-fm0208tu-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 1006,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-fm0208TU - Rear Left.png"
+        },
+        {
+          "angle": "Left Profile",
+          "src": "assets/images/products/14-fm0208tu-left-profile.webp",
+          "thumb": "assets/images/products/14-fm0208tu-left-profile-thumb.webp",
+          "width": 1200,
+          "height": 103,
+          "sourceFile": "HP OmniBook X Flip NG AI PC 14-fm0208TU - Left Profile.png"
+        }
+      ],
+      "row": 38
     }
   ]
 }

@@ -261,6 +261,7 @@
     limited: ["Limited", "warn"], limitedstock: ["Limited", "warn"],
     verylimited: ["Very limited", "low"], lowstock: ["Very limited", "low"],
     incoming: ["Incoming", "info"], arriving: ["Incoming", "info"], onorder: ["On order", "info"], pipeline: ["Incoming", "info"],
+    orderbasis: ["Order basis", "order"], basis: ["Order basis", "order"],
     soldout: ["Sold out", "out"], outofstock: ["Out of stock", "out"], nostock: ["Out of stock", "out"],
   };
   function availability(p) {
@@ -978,6 +979,25 @@
       }
     });
 
+    // light / dark theme
+    const themeBtn = $("#themeToggle");
+    const applyTheme = (t, save) => {
+      document.documentElement.setAttribute("data-theme", t);
+      const next = t === "dark" ? "light" : "dark";
+      themeBtn.setAttribute("aria-label", `Switch to ${next} mode`);
+      themeBtn.title = `Switch to ${next} mode`;
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", t === "dark" ? "#111418" : "#ffffff");
+      if (save) { try { localStorage.setItem("hppl-theme", t); } catch (e) { /* private mode: not remembered */ } }
+    };
+    applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light", false);
+    themeBtn.addEventListener("click", () => applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark", true));
+    if (window.matchMedia) {
+      const mq = matchMedia("(prefers-color-scheme: dark)");
+      const follow = (e) => { let saved = null; try { saved = localStorage.getItem("hppl-theme"); } catch (x) {} if (!saved) applyTheme(e.matches ? "dark" : "light", false); };
+      mq.addEventListener ? mq.addEventListener("change", follow) : mq.addListener && mq.addListener(follow);
+    }
+
     // menu & drawer
     $("#menuToggle").addEventListener("click", () => {
       const open = !$("#primaryNav").classList.contains("open");
@@ -1041,10 +1061,11 @@
       state.upgrades = upgrades;
       state.meta = data;
       state.products = data.products || [];
-      // types: keep Excel order, fall back to neutral text for any code missing from types.json
+      // types: order from types.json (entry level -> premium), then any code missing from it in Excel order
       const known = {};
       types.forEach((t) => { known[t.code] = t; });
-      const codes = [];
+      const present = new Set(state.products.map((p) => p.type));
+      const codes = types.map((t) => t.code).filter((c) => present.has(c));
       state.products.forEach((p) => { if (!codes.includes(p.type)) codes.push(p.type); });
       state.types = codes.map((c) => known[c] || { code: c, label: c, description: `HP ${c} models currently on the pricelist.` });
       state.types.forEach((t) => { state.typeMap[t.code] = t; });

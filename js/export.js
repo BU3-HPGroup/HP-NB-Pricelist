@@ -8,7 +8,7 @@
   const VENDOR = "assets/vendor/";
   const BLUE = [2, 74, 216], INK = [26, 26, 26], MUTED = [107, 111, 118], LINE = [228, 230, 234];
   const ORANGE = [232, 93, 4], RED = [200, 16, 46], GREEN = [10, 122, 61], AMBER = [161, 92, 0];
-  const AV_COLOR = { ok: GREEN, warn: AMBER, low: RED, info: BLUE, out: MUTED, neutral: MUTED };
+  const AV_COLOR = { ok: GREEN, warn: AMBER, low: RED, info: BLUE, order: [91, 60, 196], out: MUTED, neutral: MUTED };
   const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   const $ = (s, r = document) => r.querySelector(s);

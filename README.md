@@ -58,6 +58,7 @@ The site never hard-codes products. Everything comes from the Excel file through
    ```
 
    - If only prices or specs changed, you can leave out `--images`. The existing photos are kept.
+   - `--images` can also point to a folder with only the **new** models' photos: any model without a match keeps its existing photos.
    - The script prints any product without photos, and any photo it could not match to a model. Photos are only attached when the file name starts with the model's exact name, so a photo can never land on the wrong SKU.
 4. Upload or commit the changed files (`data/`, `assets/images/products/`, `source/`). GitHub Pages republishes automatically within a minute or two.
 
@@ -87,25 +88,25 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
 - A promo hides itself automatically after its `end` date. To run a new promo, add a new entry.
 - `eligible` (GCash) is the official list of qualifying models and rewards. Models on our pricelist that match a SKU get a small reward badge.
 - `freebie` is the standard freebie shown beside each laptop (currently the HP Everyday 16-inch Laptop Briefcase, A08JTAA). Remove the `freebie` block to hide it everywhere.
-- `freebie.excluded` lists the models that do **not** get the freebie (`productNumber`, `sku`, `name`). Matching uses `sku` (for example `14-kb0105TU`), so add the SKU when you add a product number. Right now every OmniBook X Flip on the pricelist is excluded.
+- `freebie.excluded` lists the models that do **not** get the freebie (`productNumber`, `sku`, `name`). Matching uses `sku` (for example `14-kb0105TU`), so add the SKU when you add a product number. Right now the OmniBook X Flip 14-kb0/14-kc0 models and both OmniBook 7 models are excluded. The new OmniBook X Flip 14-fm0206TU and 14-fm0208TU are **not** on the list yet, so they show the freebie.
 
 ### Last-time-buy
 
-1. Replace `source/Last-time-buy models.xlsx` and keep the same column headers.
-2. Run:
+1. Build from your working Excel **outside** the site folder (it has the real quantities and a full stock sheet):
 
    ```bash
-   python tools/build_data.py --only-ltb --ltb-images "C:/path/to/LTB photos"
+   python tools/build_data.py --only-ltb --ltb-excel "E:/Test Pilot - HP Pricelist/Last-time-buy models.xlsx" --ltb-images "C:/path/to/LTB photos"
    ```
 
    Photos use the same naming as above: `<exact Model from Excel> - <Angle>.png`. Leave out `--ltb-images` to keep the existing photos.
+2. `source/Last-time-buy models.xlsx` in this repo is a **public-safe copy**: first sheet only, with the **Qty** column replaced by an **Availability** label. Never copy the working file into `source/`, because GitHub Pages makes everything in this folder downloadable. The build accepts either a `Qty` column (turned into a label) or an `Availability` column (used as is).
 3. Commit `data/ltb.json`, `assets/images/ltb/` and `source/`.
 
 SALE PRICE is shown as the main price, with the regular DP struck through. The **Qty** column is never published: the script turns it into a label only (more than 30 = On hand, 11–30 = Limited, 1–10 = Very limited, 0 = Sold out), and the page tells dealers to confirm actual availability with their account manager. Models without a photo show a grey laptop silhouette. At the moment that applies to 16-H1015TX, 14-FP0061TU, 14-FP0060TU and 14-FE0028QU.
 
 ### RAM & M.2 upgradeability
 
-`data/upgrades.json` holds the RAM and M.2 SSD upgrade information shown under **Specifications**, researched in HP's Maintenance and Service Guides (support.hp.com → product number → Setup & User Guides). Each group lists the guide URL, document number and edition; `docs/upgradeability-audit.md` shows which part numbers use which guide. When you add a **new model**, add its SKU under `skus` (pointing to an existing group if it shares that guide, or add a new group). Models without an entry simply don't show these rows.
+`data/upgrades.json` holds the RAM and M.2 SSD upgrade information shown under **Specifications**, researched in HP's Maintenance and Service Guides (support.hp.com → product number → Setup & User Guides). Each group lists the guide URL, document number and edition; `docs/upgradeability-audit.md` shows which part numbers use which guide. When you add a **new model**, add its SKU under `skus` (pointing to an existing group if it shares that guide, or add a new group). Models without an entry simply don't show these rows. Every model currently on the pricelist and the Last-time-buy list has an entry (checked 2026-10-07).
 
 ### HP Related Sites
 
@@ -137,6 +138,8 @@ Then open <http://localhost:8000/>.
 - **Last-time-buy tab**: its own filters (Type, Processor, Sale price), with the sale price shown most prominently, the original price struck through, and stock from the Excel
 - **Standard freebie**: shown on every laptop card and in the product details
 - **Download button** (blue, next to Sort): saves what's on screen (current tab, filters and search) or the whole list as a **Price list PDF** (A4 landscape table with photos), **Product catalog PDF** (6 photo cards per A4 page), **Excel – data** or **Excel – with photos**. Choose a **Dealer copy** (SRP, DP, Promo DP / sale price) or a **Customer copy** (SRP only, no material numbers). Files are made in the browser; nothing is uploaded. The libraries (jsPDF, ExcelJS, MIT licence) and the Inter font are in `assets/vendor/` and only load when someone downloads.
+- **Light and dark mode**: the sun/moon button in the header switches the theme. The first visit follows the device setting; after that the choice is remembered in that browser. Downloads (PDF/Excel) always use the light, print-friendly look.
+- **Availability labels** from the Status column: On hand, Incoming, Order basis (purple), Limited, Very limited, Sold out
 - **Copy button** on every product (card, list and details): copies model, part number, key specs, SRP, DP / Promo DP, availability, freebie and promo in a short text ready to paste into a chat or email
 - **Mobile layout**: hamburger menu, full-width search, filters in a bottom drawer, two-column cards, and large touch targets
 

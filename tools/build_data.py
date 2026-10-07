@@ -45,7 +45,11 @@ TYPE_INFO_DEFAULTS = {
     "OB5": ("OmniBook 5", "Thin-and-light 14-inch laptops for mainstream productivity and on-the-go work."),
     "OB5 FLIP": ("OmniBook 5 Flip", "Convertible 2-in-1 laptops that switch between laptop and tablet modes for work, study and creative tasks."),
     "OBX": ("OmniBook X", "Premium OmniBook X Flip convertible AI PCs for professionals who want performance in a versatile 2-in-1 design."),
+    "Omnibook 7": ("OmniBook 7", "Premium 14-inch OmniBook 7 AI PCs with OLED displays for professionals and creators."),
 }
+
+# order of the model tabs (entry level first, premium last); unknown types go to the end in Excel order
+TYPE_RANK = ["HP 15", "Omnibook 3", "Omnibook 5", "Omnibook 5 Flip", "Omnibook 7", "Omnibook X", "Omnibook X Flip"]
 
 
 def clean(v):
@@ -376,7 +380,7 @@ def build_ltb(excel_path, images_dir=None):
             "dp": parse_php(r.get("DP")),
             "srp": parse_php(r.get("SRP")),
             "sale": parse_php(r.get("Special Price")),
-            "availability": ltb_availability(r.get("Qty")),
+            "availability": ltb_availability(r.get("Qty")) or r.get("Availability"),
             "priceText": {"dp": r.get("DP"), "srp": r.get("SRP"), "sale": r.get("Special Price")},
             "images": images.get(r["Model"], []),
             "row": i + 1,
@@ -425,15 +429,20 @@ def main():
 
     images = {}
     unmatched = []
+    # previously generated image list (kept for any model with no photo in --images)
+    prev_images = {}
+    prev = os.path.join(DATA_OUT, "products.json")
+    if os.path.exists(prev):
+        with open(prev, encoding="utf-8") as fh:
+            for p in json.load(fh).get("products", []):
+                prev_images[p["model"]] = p.get("images", [])
     if args.images:
         images, unmatched = build_images([p["Model"] for p in products], args.images)
+        for m, imgs in prev_images.items():
+            if not images.get(m) and imgs:
+                images[m] = imgs
     else:
-        # keep previously generated image list if present
-        prev = os.path.join(DATA_OUT, "products.json")
-        if os.path.exists(prev):
-            with open(prev, encoding="utf-8") as fh:
-                for p in json.load(fh).get("products", []):
-                    images[p["model"]] = p.get("images", [])
+        images = prev_images
 
     # type info (keep any edits made by hand in data/types.json)
     types_path = os.path.join(DATA_OUT, "types.json")
@@ -492,6 +501,9 @@ def main():
             p["extra"] = extra
         out.append({k: v for k, v in p.items() if v not in (None, [], "")})
 
+    rank = {c.lower(): i for i, c in enumerate(TYPE_RANK)}
+    first_seen = list(type_order)
+    type_order.sort(key=lambda c: (rank.get(c.lower(), len(rank)), first_seen.index(c)))
     types = []
     for code in type_order:
         prev = type_info.get(code)

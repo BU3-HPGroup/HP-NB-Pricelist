@@ -1,5 +1,5 @@
 {
-  "checkedOn": "2026-09-29",
+  "checkedOn": "2026-10-07",
   "source": "HP Maintenance and Service Guides, found via support.hp.com → product number → Setup & User Guides",
   "groups": {
     "otto": {
@@ -144,6 +144,83 @@
       "ramNote": "Guide: 'Onboard system memory, not customer accessible or upgradeable.'",
       "ssd": "1× M.2 SSD slot (PCIe NVMe; 2280 per product description) – no additional M.2 SSD slot listed",
       "ssdNote": "Only a primary storage M.2 SSD is listed. The guide's SSD specification table gives a 50.8 mm drive length, so the exact M.2 length is unclear."
+    },
+    "otto-ob": {
+      "title": "HP 15.6 inch Laptop PC — Model 15-fc0xxx",
+      "docPN": "N33164-001",
+      "edition": "First Edition, January 2023",
+      "url": "https://kaas.hpcloud.hp.com/pdf-public/pdf_7156684_en-US-1.pdf",
+      "lookup": "E47WNPA",
+      "ram": "Not upgradeable – onboard memory (LPDDR5-5500)",
+      "ramNote": "Guide: models with Ryzen 5 7520U (also 7320U/7220U/7120U) use onboard memory and have no SODIMM slots; the two SODIMM slots apply only to Ryzen 7 7730U / Ryzen 5 7530U models.",
+      "ssd": "1× M.2 SSD slot (2280 PCIe NVMe; 2230 also listed) – no additional M.2 SSD slot listed",
+      "ssdNote": "Only a primary storage M.2 SSD is listed (one SSD removal procedure)."
+    },
+    "abea": {
+      "title": "HP OmniBook 3 14 inch Laptop (AI PC) — 14-hy0xxx/14-hu0xxx, 14-ht0xxx",
+      "docPN": "P75216-005",
+      "edition": "Fourth Edition, July 2026",
+      "url": "https://kaas.hpcloud.hp.com/pdf-public/pdf_15192454_en-US-1.pdf",
+      "lookup": "E47WMPA",
+      "ram": "Upgradeable – removable DDR5 SODIMM module(s), up to 32 GB",
+      "ramNote": "Guide (covers 14-hy0xxx) lists removable memory modules, DDR5-4800/5200/5600, 8–32 GB. This SKU ships with DDR5-4800 (one module) per the pricelist. Number of slots not specified in HP Service Guide.",
+      "ssd": "1× M.2 SSD slot (2280 PCIe Gen4 NVMe) – no additional M.2 SSD slot listed",
+      "ssdNote": "Only a primary storage M.2 2280 SSD is listed."
+    },
+    "bantie": {
+      "title": "HP OmniBook 3 16 inch Laptop PC — 16-bu0xxx, 16-by0xxx (also 16-bv0xxx)",
+      "docPN": "P80677-002",
+      "edition": "Second Edition, June 2026",
+      "url": "https://kaas.hpcloud.hp.com/pdf-public/pdf_13159558_en-US-1.pdf",
+      "ssd": "1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed",
+      "ssdNote": "Only primary storage (PCIe NVMe M.2 2280 SSD) is listed; one SSD removal procedure.",
+      "lookup": "E6RZ4PA",
+      "ram": "Upgradeable – removable DDR5-5600 memory module(s), up to 32 GB",
+      "ramNote": "Guide has a 'Memory modules (select products only)' removal procedure with spare DDR5-5600 modules (8/16/24/32 GB). Its spec table also says 'Memory is not accessible or upgradeable' – confirm with HP for a specific unit. Number of slots not specified in HP Service Guide."
+    },
+    "bantie-lp": {
+      "title": "HP OmniBook 3 16 inch Laptop PC — 16-bu0xxx, 16-by0xxx (also 16-bv0xxx)",
+      "docPN": "P80677-002",
+      "edition": "Second Edition, June 2026",
+      "url": "https://kaas.hpcloud.hp.com/pdf-public/pdf_13159558_en-US-1.pdf",
+      "ssd": "1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed",
+      "ssdNote": "Only primary storage (PCIe NVMe M.2 2280 SSD) is listed; one SSD removal procedure.",
+      "lookup": "E6RZ4PA",
+      "ram": "Not upgradeable – onboard LPDDR5X (per pricelist spec)",
+      "ramNote": "Guide states 'Memory is not accessible or upgradeable' but does not list LPDDR5X configurations (not specified in HP Service Guide). The pricelist lists 16GB LPDDR5X 7467 on-board."
+    },
+    "bantie-a": {
+      "title": "HP OmniBook 3 16 inch Laptop PC — 16-bu0xxx, 16-by0xxx (also 16-bv0xxx)",
+      "docPN": "P80677-002",
+      "edition": "Second Edition, June 2026",
+      "url": "https://kaas.hpcloud.hp.com/pdf-public/pdf_13159558_en-US-1.pdf",
+      "ssd": "1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed",
+      "ssdNote": "Only primary storage (PCIe NVMe M.2 2280 SSD) is listed; one SSD removal procedure.",
+      "lookup": "E6GG8PA",
+      "ram": "Not specified in HP Service Guide",
+      "ramNote": "Pricelist: 16GB DDR5 1DM 4800. The guide lists DDR5-4800 only as onboard memory and removable modules only as DDR5-5600 ('select products only'), and also states memory is not accessible or upgradeable. Check with your account manager before advising an upgrade."
+    },
+    "ob7": {
+      "title": "HP OmniBook 7 14 inch Laptop Next Gen AI PC — 14-hg0xxx",
+      "docPN": "P75718-001",
+      "edition": "First Edition, March 2026",
+      "url": "https://kaas.hpcloud.hp.com/pdf-public/pdf_14225205_en-US-1.pdf",
+      "lookup": "E2HE0PA",
+      "ram": "Not upgradeable – onboard LPDDR5X",
+      "ramNote": "Guide: LPDDR5X-7467 / LPDDR5-8533 onboard memory, not accessible or upgradeable (16 GB or 32 GB).",
+      "ssd": "2× M.2 SSD slots (primary + secondary) – M.2 2280 PCIe NVMe listed",
+      "ssdNote": "Guide removal procedure shows a primary SSD and a secondary SSD socket (same removal process for both). Secondary SSD size not specified in HP Service Guide."
+    },
+    "cadet": {
+      "title": "HP OmniBook X Flip 14 inch 2-in-1 Laptop Next Gen AI PC — 14-fm0xxx",
+      "docPN": "P24405-001",
+      "edition": "First Edition, February 2025",
+      "url": "https://kaas.hpcloud.hp.com/pdf-public/pdf_11912913_en-US-1.pdf",
+      "lookup": "E5MC6PA",
+      "ram": "Not upgradeable – onboard LPDDR5x-8533",
+      "ramNote": "Guide: on-board system memory, not accessible or upgradeable (16 GB or 32 GB).",
+      "ssd": "1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed",
+      "ssdNote": "Only primary storage (PCIe NVMe M.2 2280) is listed."
     }
   },
   "skus": {
@@ -178,6 +255,23 @@
     "16-AG0034AU": "ag",
     "14-HE0046QU": "he",
     "13-BG1055AU": "bg",
-    "14-FE0028QU": "fe"
+    "14-FE0028QU": "fe",
+    "15-FC0289AU": "otto-ob",
+    "15-FC0523AU": "otto-ob",
+    "15-FC0998AU": "otto",
+    "15-FD1655TU": "sebastian",
+    "15-FD1656TU": "sebastian",
+    "14-HT0270TU": "abei",
+    "14-HT0271TU": "abei",
+    "14-HY0100AU": "abea",
+    "16-BU0384TU": "bantie",
+    "16-BU0393TU": "bantie",
+    "16-BU0397TU": "bantie-lp",
+    "16-BU0398TU": "bantie-lp",
+    "16-BY0121AU": "bantie-a",
+    "14-HG0079TU": "ob7",
+    "14-HG0080TU": "ob7",
+    "14-FM0206TU": "cadet",
+    "14-FM0208TU": "cadet"
   }
 }
