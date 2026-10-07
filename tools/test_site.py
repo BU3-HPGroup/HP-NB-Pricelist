@@ -294,6 +294,66 @@ with sync_playwright() as pw:
     pg.evaluate("localStorage.removeItem('hppl-theme')")
     pg.goto(BASE + "#/"); pg.wait_for_timeout(600)
 
+    # ---------- welcome banner ----------
+    pg.goto(BASE + "#/"); pg.wait_for_timeout(700)
+    check("welcome: banner shown on home page", pg.is_visible("#welcome") and pg.locator("#welcomeStage img").count() == 3)
+    check("welcome: shows model count", f"{len(data)} models" in pg.inner_text("#welcomeStats"))
+    check("welcome: images loaded", pg.eval_on_selector_all("#welcomeStage img", "els => els.every(e => e.complete && e.naturalWidth > 0)"))
+    pg.goto(BASE + "#/type/Omnibook%203"); pg.wait_for_timeout(500)
+    check("welcome: hidden on model tabs", not pg.is_visible("#welcome") and pg.is_visible("#catTitle"))
+    pg.goto(BASE + "#/"); pg.wait_for_timeout(500)
+
+    # ---------- what changed (data/changes.json) ----------
+    chg = json.load(open(os.path.join(ROOT, "data", "changes.json"), encoding="utf-8"))
+    keys = {(p.get("partNo") or p["model"]).upper() for p in data}
+    ev = chg["main"]["events"]
+    check("changes: every event points at a real model", all(e["key"] in keys for e in ev if e["kind"] != "removed"))
+    import datetime as _dt
+    cutoff = (_dt.date.today() - _dt.timedelta(days=chg.get("windowDays", 14))).isoformat()
+    n_new = len({e["key"] for e in ev if e["kind"] == "new" and e["date"] >= cutoff})
+    n_any = len({e["key"] for e in ev if e["kind"] != "removed" and e["date"] >= cutoff})
+    check("changes: New badge on each new model", pg.locator("#products .card .chg-new").count() == n_new, str(n_new))
+    if n_any:
+        pg.click("#welcomeNew"); pg.wait_for_timeout(500)
+        check("changes: What's new button filters to changed models", count() == n_any, f"{count()} vs {n_any}")
+        check("changes: filter chip shown", pg.locator("#activeChips .chip[data-g=chg]").count() >= 1)
+        pg.click("#clearFilters"); pg.wait_for_timeout(300)
+        k = next(e for e in ev if e["kind"] != "removed" and e["date"] >= cutoff)
+        pid = next(p["id"] for p in data if (p.get("partNo") or p["model"]).upper() == k["key"])
+        pg.goto(BASE + "#/product/" + pid); pg.wait_for_selector("#detailModal:not([hidden])")
+        check("changes: product details list recent changes", "Recent changes" in pg.inner_text("#detailBody"))
+        pg.keyboard.press("Escape")
+    check("changes: build script keeps history", os.path.exists(os.path.join(ROOT, "tools", "changes.py")))
+
+    # ---------- Find a laptop ----------
+    pg.goto(BASE + "#/finder/b=100000&u=office&m=ram16,touch"); pg.wait_for_selector("#finderResults .fr, #finderResults .fr-empty")
+    check("finder: page opens from the header button", pg.is_visible(".header-finder") and pg.is_visible("#finderView"))
+    res = pg.eval_on_selector_all("#finderResults .fr:not(.fr-alt)", "els => els.map(e => e.querySelector('[data-fopen]').dataset.fopen)")
+    byid = {p["id"]: p for p in data}
+    ok = res and all(byid[i]["srp"] <= 100000 and "touch" in (byid[i].get("display", "") + byid[i].get("displayShort", "")).lower() and int(re.search(r"(\d+)\s*GB", byid[i]["ram"]).group(1)) >= 16 for i in res)
+    check("finder: every match meets budget and must-haves", bool(ok), str(res))
+    exp = [p["id"] for p in data if p["srp"] <= 100000 and "touch" in (p.get("display", "") + p.get("displayShort", "")).lower() and int(re.search(r"(\d+)\s*GB", p["ram"]).group(1)) >= 16]
+    check("finder: no qualifying model is left out", sorted(res) == sorted(exp) or pg.locator("#frMore").count() == 1, f"{len(res)} vs {len(exp)}")
+    check("finder: top pick highlighted with reasons", pg.locator(".fr-top .fr-ribbon").count() == 1 and pg.locator(".fr-top .fr-why li.ok").count() >= 3)
+    pg.locator(".fr-top [data-fopen]").last.click(); pg.wait_for_selector("#detailModal:not([hidden])")
+    check("finder: View Details opens the product", pg.is_visible("#detailModal") and "/finder/" in pg.evaluate("location.hash"))
+    pg.keyboard.press("Escape"); pg.wait_for_timeout(300)
+    check("finder: closing details keeps the search", pg.evaluate("location.hash").startswith("#/finder/b=100000") and pg.locator("#finderResults .fr").count() > 0)
+    pg.goto(BASE + "#/finder/b=50000&m=oled"); pg.wait_for_timeout(500)
+    alts = pg.eval_on_selector_all(".fr-alt", "els => els.map(e => e.querySelectorAll('.fr-why li.miss').length)")
+    check("finder: impossible request shows close alternatives (one miss each)", pg.locator(".fr-empty").count() == 1 and all(n == 1 for n in alts))
+    pg.goto(BASE + "#/finder"); pg.wait_for_timeout(300)
+    pg.click('[data-use="ai"]'); pg.click('[data-must="copilot"]'); pg.wait_for_timeout(300)
+    check("finder: choices update the address (shareable)", "u=ai" in pg.evaluate("location.hash") and "copilot" in pg.evaluate("location.hash"))
+    tops = pg.eval_on_selector_all("#finderResults .fr:not(.fr-alt) [data-fopen].fr-media", "els => els.map(e => e.dataset.fopen)")
+    check("finder: Copilot+ filter only keeps 40+ TOPS NPUs", tops and all(int((re.search(r"(\d+)\s*NPU", byid[i]["cpu"]) or [0, 0])[1]) >= 40 for i in tops), str(tops[:5]))
+    pg.click(".ff-switch"); pg.wait_for_timeout(300)
+    check("finder: last-time-buy deals can be included", "l=1" in pg.evaluate("location.hash"))
+    pg.click("#ffReset"); pg.wait_for_timeout(300)
+    check("finder: start over clears everything", pg.evaluate("location.hash") == "#/finder" and pg.locator("#finderResults .fr:not(.fr-alt)").count() >= 8)
+    check("finder: no JS errors", not errs, str(errs[:3]))
+    pg.goto(BASE + "#/"); pg.wait_for_timeout(500)
+
     # ---------- Last-time-buy ----------
     wb2 = openpyxl.load_workbook(os.path.join(ROOT, "source", "Last-time-buy models.xlsx"), data_only=True)
     r2 = list(wb2.worksheets[0].iter_rows(values_only=True)); h2 = r2[0]
@@ -420,6 +480,15 @@ with sync_playwright() as pw:
     mp.click("#downloadOpen"); mp.wait_for_selector("#dlModal:not([hidden])")
     check("mobile: download sheet fits screen", not mp.evaluate("document.documentElement.scrollWidth > window.innerWidth"))
     mp.keyboard.press("Escape")
+    mp.goto(BASE + "#/"); mp.wait_for_timeout(500)
+    check("mobile: welcome banner fits", mp.is_visible("#welcome") and not mp.evaluate("document.documentElement.scrollWidth > window.innerWidth"))
+    mp.screenshot(path=f"{SHOTS}/mobile-welcome.png")
+    mp.goto(BASE + "#/finder/b=80000&u=travel"); mp.wait_for_timeout(600)
+    check("mobile finder: no horizontal scroll", not mp.evaluate("document.documentElement.scrollWidth > window.innerWidth"))
+    mp.screenshot(path=f"{SHOTS}/mobile-finder.png", full_page=True)
+    mp.click("#menuToggle"); mp.wait_for_timeout(150)
+    check("mobile: menu has Find a laptop", mp.is_visible('.nav-link[data-nav="finder"]'))
+    mp.click("#menuToggle"); mp.wait_for_timeout(150)
     check("mobile: no JS errors", not merr, str(merr[:3]))
     t = b.new_context(viewport={"width": 820, "height": 1180}).new_page()
     t.goto(BASE); t.wait_for_selector(".card"); t.screenshot(path=f"{SHOTS}/tablet-grid.png")

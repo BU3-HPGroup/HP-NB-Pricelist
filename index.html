@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/favicon-192.png">
   <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=20261007-1">
+  <link rel="stylesheet" href="css/styles.css?v=20261008-1">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to products</a>
@@ -45,6 +45,10 @@
         </button>
       </div>
 
+      <a class="header-finder" href="#/finder" data-nav="finder">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>
+        Find a laptop</a>
+
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
         <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
         <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
@@ -61,6 +65,9 @@
           <li><a class="nav-link" href="#/" data-nav="all">All</a></li>
         </ul>
         <ul class="nav-extra">
+          <li><a class="nav-link nav-finder" href="#/finder" data-nav="finder">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>
+            Find a laptop</a></li>
           <li><a class="nav-link nav-promos" href="#/promos" data-nav="promos">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8H8.5a2.5 2.5 0 1 1 0-5C11 3 12 8 12 8zM12 8h3.5a2.5 2.5 0 1 0 0-5C13 3 12 8 12 8z"/></svg>
             Promos <span class="count" id="navPromoCount"></span></a></li>
@@ -78,6 +85,27 @@
   <main id="main">
     <!-- Product catalog view -->
     <section id="catalogView" class="view" aria-labelledby="catTitle">
+      <div class="welcome" id="welcome" hidden>
+        <div class="container welcome-grid">
+          <div class="welcome-copy">
+            <p class="welcome-eyebrow">Iontech × HP · Notebook pricelist</p>
+            <h1 class="welcome-title">Welcome, partner.<br>Find the right HP laptop fast.</h1>
+            <p class="welcome-lead">Current SRP and dealer prices for every HP notebook we carry — from everyday HP Laptop 15 to the premium OmniBook 7 and X Flip.</p>
+            <div class="welcome-ctas">
+              <a class="wbtn wbtn-primary" href="#catalogStart" id="welcomeBrowse">Browse the pricelist
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              <a class="wbtn" href="#/finder">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/></svg>
+                Find the right laptop</a>
+              <button type="button" class="wbtn" id="welcomeNew" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h3l2-6 4 12 2-6h5"/></svg>
+                What's new <span class="wcount" id="welcomeNewCount"></span></button>
+            </div>
+            <p class="welcome-stats" id="welcomeStats"></p>
+          </div>
+          <div class="welcome-stage" id="welcomeStage" aria-hidden="true"></div>
+        </div>
+      </div>
       <div class="category-hero">
         <div class="container">
           <p class="eyebrow" id="catEyebrow">HP Notebooks</p>
@@ -91,7 +119,7 @@
         </div>
       </div>
 
-      <div class="container catalog">
+      <div class="container catalog" id="catalogStart">
         <aside class="filters" id="filters" aria-label="Product filters">
           <div class="filters-head">
             <h2>Filters</h2>
@@ -108,6 +136,10 @@
             <fieldset class="filter-group">
               <legend>Processor</legend>
               <div id="fCpu" class="filter-options"></div>
+            </fieldset>
+            <fieldset class="filter-group" id="fChgGroup" hidden>
+              <legend>What's new <span class="legend-note" id="chgLegend"></span></legend>
+              <div id="fChg" class="filter-options"></div>
             </fieldset>
             <fieldset class="filter-group">
               <legend>Price band <span class="legend-note" id="priceLegend">(SRP)</span></legend>
@@ -167,6 +199,47 @@
             <button type="button" class="btn btn-outline" id="emptyReset">Clear search &amp; filters</button>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Find a laptop (requirement matcher) -->
+    <section id="finderView" class="view" aria-labelledby="finderTitle" hidden>
+      <div class="category-hero">
+        <div class="container">
+          <p class="eyebrow">Sales tool</p>
+          <h1 id="finderTitle">Find the right laptop</h1>
+          <p class="category-desc">Tell us what your customer needs. Every model on the pricelist is checked against it, ranked, and shown with the reasons it fits — so you can recommend with confidence.</p>
+        </div>
+      </div>
+      <div class="container finder">
+        <form class="finder-form" id="finderForm" autocomplete="off">
+          <fieldset class="ff-group">
+            <legend><span class="ff-step">1</span>Budget</legend>
+            <div class="ff-basis" role="group" aria-label="Budget is based on">
+              <label><input type="radio" name="basis" value="srp" checked><span>SRP</span></label>
+              <label><input type="radio" name="basis" value="dp"><span>DP</span></label>
+            </div>
+            <div class="ff-money">
+              <span aria-hidden="true">₱</span>
+              <input type="text" inputmode="numeric" id="ffBudget" placeholder="No limit" aria-label="Maximum budget in pesos">
+            </div>
+            <div class="ff-quick" id="ffQuick"></div>
+          </fieldset>
+          <fieldset class="ff-group">
+            <legend><span class="ff-step">2</span>What will they use it for?</legend>
+            <div class="ff-chips" id="ffUse"></div>
+          </fieldset>
+          <fieldset class="ff-group">
+            <legend><span class="ff-step">3</span>Must-haves <span class="ff-hint">optional</span></legend>
+            <div class="ff-chips" id="ffMust"></div>
+          </fieldset>
+          <label class="ff-switch">
+            <input type="checkbox" id="ffLtb"><span class="ff-track" aria-hidden="true"></span>
+            <span>Include last-time-buy deals</span>
+          </label>
+          <button type="button" class="btn btn-outline btn-block" id="ffReset">Start over</button>
+        </form>
+        <div class="finder-results" id="finderResults" aria-live="polite"></div>
       </div>
     </section>
 
@@ -291,7 +364,7 @@
   </div>
 
   <noscript><p class="noscript">This pricelist needs JavaScript enabled to display products.</p></noscript>
-  <script src="js/app.js?v=20261007-1" defer></script>
-  <script src="js/export.js?v=20261007-1" defer></script>
+  <script src="js/app.js?v=20261008-1" defer></script>
+  <script src="js/export.js?v=20261008-1" defer></script>
 </body>
 </html>

@@ -141,6 +141,9 @@ Then open <http://localhost:8000/>.
 - **Light and dark mode**: the sun/moon button in the header switches the theme. The first visit follows the device setting; after that the choice is remembered in that browser. Downloads (PDF/Excel) always use the light, print-friendly look.
 - **Availability labels** from the Status column: On hand, Incoming, Order basis (purple), Limited, Very limited, Sold out
 - **Copy button** on every product (card, list and details): copies model, part number, key specs, SRP, DP / Promo DP, availability, freebie and promo in a short text ready to paste into a chat or email
+- **Welcome banner** on the home page (All Products only): a short welcome, three featured laptops, the number of models and series, the last update date, and buttons to browse, open **Find a laptop**, or see **What's new**. The featured models are listed in `WELCOME_PICKS` at the top of the banner code in `js/app.js`; if one leaves the pricelist, another series is picked automatically.
+- **What's new badges**: every time `tools/build_data.py` rebuilds the data it compares the new Excel with the previous version and records new models, SRP/DP/Promo DP/sale price changes and status/availability changes in `data/changes.json`. For 14 days the site shows **New**, **Price drop ↓ ₱x**, **Price up ↑ ₱x** or **Now on hand / incoming…** badges, a **What's new** filter group, and a **Recent changes** row in the product details. The Copy text also mentions the change. Nothing to maintain by hand — just rebuild after each Excel update. (Change `WINDOW_DAYS` in `tools/changes.py` to keep badges longer.)
+- **Find a laptop** (header button, `#/finder`): pick a budget (SRP or DP), what the customer will use it for, and any must-haves (touchscreen, 2-in-1, OLED, 16GB+, 1TB, upgradeable RAM, Copilot+ AI PC, screen size, Intel/AMD, on hand now). Every model is checked using only the pricelist specs and the HP service-guide data; matches are ranked with the reasons they fit, models that miss just one thing are listed as **Close alternatives**, last-time-buy deals can be included, and **Copy top 3** copies a ready-to-send shortlist. The choices are kept in the address, so a search can be shared as a link.
 - **Mobile layout**: hamburger menu, full-width search, filters in a bottom drawer, two-column cards, and large touch targets
 
 ## 5. Project structure
@@ -162,11 +165,13 @@ Then open <http://localhost:8000/>.
 │   ├── products.json      # generated from the Excel file
 │   ├── types.json         # Type labels + descriptions
 │   ├── ltb.json           # generated from Last-time-buy models.xlsx
+│   ├── changes.json       # history of new models / price + status changes (generated)
 │   ├── promos.json        # promos + standard freebie (edit by hand)
 │   └── sites.json         # HP Related Sites
 ├── source/                # the Excel pricelist (source of truth)
 └── tools/
     ├── build_data.py      # Excel + photos → products.json + WebP images
+    ├── changes.py         # used by build_data.py to log what changed
     └── test_site.py       # automated checks (optional)
 ```
 

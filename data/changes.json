@@ -1,0 +1,135 @@
+{
+  "windowDays": 14,
+  "main": {
+    "events": [
+      {
+        "date": "2026-10-07",
+        "key": "DM8L6PA",
+        "model": "HP Laptop 15-fc0932AU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Onhand",
+        "to": "Incoming"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E2HE0PA",
+        "model": "HP OmniBook 7 NG AI PC 14-hg0079TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E2HE1PA",
+        "model": "HP OmniBook 7 NG AI PC 14-hg0080TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E2HE2PA",
+        "model": "HP Laptop 15-fd1655TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E2HE3PA",
+        "model": "HP Laptop 15-fd1656TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E47WMPA",
+        "model": "HP OmniBook 3 14-hy0100AU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E47WNPA",
+        "model": "HP Laptop 15-fc0289AU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E47WPPA",
+        "model": "HP Laptop 15-fc0523AU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E47WSPA",
+        "model": "HP OmniBook 3 16-bu0384TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E4PN6PA",
+        "model": "HP Laptop 15-fc0998AU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E5MC6PA",
+        "model": "HP OmniBook X Flip NG AI PC 14-fm0206TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E5MC7PA",
+        "model": "HP OmniBook X Flip NG AI PC 14-fm0208TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E6GG0PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0270TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E6GG2PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0271TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E6GG8PA",
+        "model": "HP OmniBook 3 16-by0121AU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E6GG9PA",
+        "model": "HP OmniBook 3 16-bu0393TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E6RZ4PA",
+        "model": "HP OmniBook 3 16-bu0397TU",
+        "kind": "new"
+      },
+      {
+        "date": "2026-10-07",
+        "key": "E6RZ5PA",
+        "model": "HP OmniBook 3 16-bu0398TU",
+        "kind": "new"
+      }
+    ],
+    "updatedAt": "2026-10-07"
+  },
+  "ltb": {
+    "events": [
+      {
+        "date": "2026-10-07",
+        "key": "D40T5PA",
+        "model": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU",
+        "kind": "status",
+        "field": "availability",
+        "label": "Availability",
+        "from": "On hand",
+        "to": "Limited"
+      }
+    ],
+    "updatedAt": "2026-10-07"
+  }
+}

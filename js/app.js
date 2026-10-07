@@ -60,6 +60,8 @@
     fTypes: new Set(),
     fCpu: new Set(),
     fPrice: new Set(),
+    fChg: new Set(),     // "What's new" filter: new / price / status
+    changes: { main: { byKey: {} }, ltb: { byKey: {} } },
     sort: "default",
     view: store.get("hpPricelist.view") === "list" ? "list" : "grid",
     meta: null,
@@ -79,12 +81,12 @@
   function setMode(m) {
     if (!state.ds[m]) m = "main";
     if (state.mode === m && state.products === state.ds[m].products) return;
-    state.saved[state.mode] = { t: new Set(state.fTypes), c: new Set(state.fCpu), p: new Set(state.fPrice) };
+    state.saved[state.mode] = { t: new Set(state.fTypes), c: new Set(state.fCpu), p: new Set(state.fPrice), g: new Set(state.fChg) };
     state.mode = m;
     const d = state.ds[m];
     state.products = d.products; state.types = d.types; state.typeMap = d.typeMap;
-    const sv = state.saved[m] || { t: new Set(), c: new Set(), p: new Set() };
-    state.fTypes = sv.t; state.fCpu = sv.c; state.fPrice = sv.p;
+    const sv = state.saved[m] || { t: new Set(), c: new Set(), p: new Set(), g: new Set() };
+    state.fTypes = sv.t; state.fCpu = sv.c; state.fPrice = sv.p; state.fChg = sv.g || new Set();
     searchMode = { q: null, phrase: true };
     document.body.classList.toggle("mode-ltb", m === "ltb");
   }
@@ -137,6 +139,7 @@
     if (skip !== "type" && state.fTypes.size && !state.fTypes.has(p.type)) return false;
     if (skip !== "cpu" && state.fCpu.size && !state.fCpu.has(p.cpuBrand || "Other")) return false;
     if (skip !== "price" && state.fPrice.size && !state.fPrice.has(p._band)) return false;
+    if (skip !== "chg" && state.fChg.size && !chgKinds(p).some((k) => state.fChg.has(k))) return false;
     return true;
   }
 
@@ -174,6 +177,13 @@
     brands.sort((a, b) => order.indexOf(a) - order.indexOf(b));
     $("#fCpu").innerHTML = brands.map((b) => checkHTML("cpu", b, b, cc[b] || 0, state.fCpu.has(b))).join("");
 
+    const kc = {};
+    state.products.forEach((p) => { if (passes(p, "chg")) chgKinds(p).forEach((k) => { kc[k] = (kc[k] || 0) + 1; }); });
+    const kinds = Object.keys(CHG_LABEL).filter((k) => state.products.some((p) => chgKinds(p).includes(k)));
+    $("#fChgGroup").hidden = kinds.length === 0;
+    $("#chgLegend").textContent = `(last ${state.changes.windowDays || 14} days)`;
+    $("#fChg").innerHTML = kinds.map((k) => checkHTML("chg", k, CHG_LABEL[k], kc[k] || 0, state.fChg.has(k))).join("");
+
     const pc = countBy("price", (p) => p._band);
     $("#fPrice").innerHTML = BANDS.map((b) => checkHTML("price", b.id, b.label, pc[b.id] || 0, state.fPrice.has(b.id))).join("");
   }
@@ -184,9 +194,10 @@
     state.fTypes.forEach((v) => chips.push({ g: "type", v, label: (state.typeMap[v] || {}).label || v }));
     state.fCpu.forEach((v) => chips.push({ g: "cpu", v, label: v }));
     state.fPrice.forEach((v) => chips.push({ g: "price", v, label: (BANDS.find((b) => b.id === v) || {}).label || v }));
+    state.fChg.forEach((v) => chips.push({ g: "chg", v, label: CHG_LABEL[v] || v }));
     $("#activeChips").innerHTML = chips.map((c) =>
       `<button type="button" class="chip" data-g="${c.g}" data-v="${esc(c.v)}" aria-label="Remove filter ${esc(c.label)}">${esc(c.label)}${ICONS.x}</button>`).join("");
-    const n = state.fTypes.size + state.fCpu.size + state.fPrice.size;
+    const n = state.fTypes.size + state.fCpu.size + state.fPrice.size + state.fChg.size;
     const badge = $("#filterBadge");
     badge.textContent = n;
     badge.hidden = n === 0;
@@ -276,6 +287,61 @@
     return a ? `<span class="stock lvl-${a.level}" title="${esc(AVAIL_NOTE)}"><i></i>${esc(a.label)}</span>` : "";
   }
 
+  // ---------- What changed in recent updates (data/changes.json, written by tools/build_data.py) ----------
+  const CHG_LABEL = { new: "New models", price: "Price changes", status: "Stock status changes" };
+  const CHG_FIELD = { srp: "SRP", dp: "DP", sale: "Sale price", promoDp: "Promo DP" };
+  const chgKey = (p) => String(p.partNo || p.model || p.id).toUpperCase();
+  const dsOf = (p) => (String(p.id).startsWith("ltb-") ? "ltb" : "main");
+  function chgOf(p) {
+    const c = state.changes[dsOf(p)];
+    return (c && c.byKey[chgKey(p)]) || [];
+  }
+  function chgKinds(p) { return Array.from(new Set(chgOf(p).map((e) => e.kind))); }
+  // the price change sales care about most: sale price (LTB), then SRP, then DP
+  function headlinePrice(ev) {
+    for (const f of ["sale", "srp", "dp"]) {
+      const e = ev.filter((x) => x.kind === "price" && x.field === f && typeof x.from === "number" && typeof x.to === "number").pop();
+      if (e) return e;
+    }
+    return null;
+  }
+  const statusLabel = (v) => { const a = availability({ status: v }); return a ? a.label : String(v); };
+  function chgBadges(p, inline) {
+    const ev = chgOf(p);
+    if (!ev.length) return "";
+    const out = [];
+    const isNew = ev.some((e) => e.kind === "new");
+    if (isNew) out.push(`<span class="chg-badge chg-new" title="Added to the pricelist on ${esc(fmtDate(ev.find((e) => e.kind === "new").date))}">New</span>`);
+    const pe = headlinePrice(ev);
+    if (pe) {
+      const d = pe.to - pe.from;
+      out.push(`<span class="chg-badge ${d < 0 ? "chg-down" : "chg-up"}" title="${esc(CHG_FIELD[pe.field] || pe.field)} was ${esc(fmtPrice(pe.from))} until ${esc(fmtDate(pe.date))}">${d < 0 ? "Price drop" : "Price up"} ${d < 0 ? "↓" : "↑"} ${esc(fmtPrice(Math.abs(d)))}</span>`);
+    }
+    const se = ev.filter((e) => e.kind === "status").pop();
+    if (se && !isNew) {
+      const a = availability({ status: se.to });
+      out.push(`<span class="chg-badge chg-status lvl-${a ? a.level : "neutral"}" title="Was ${esc(statusLabel(se.from))} until ${esc(fmtDate(se.date))}">Now ${esc(statusLabel(se.to).toLowerCase())}</span>`);
+    }
+    return out.length ? `<span class="chg-badges${inline ? " inline" : ""}">${out.join("")}</span>` : "";
+  }
+  function chgText(e) {
+    if (e.kind === "new") return "Added to the pricelist";
+    if (e.kind === "price") {
+      const lbl = CHG_FIELD[e.field] || e.label || e.field;
+      if (typeof e.from !== "number") return `${lbl} added: ${fmtPrice(e.to)}`;
+      if (typeof e.to !== "number") return `${lbl} removed (was ${fmtPrice(e.from)})`;
+      const d = e.to - e.from;
+      return `${lbl} ${fmtPrice(e.from)} → ${fmtPrice(e.to)} (${d < 0 ? "down" : "up"} ${fmtPrice(Math.abs(d))})`;
+    }
+    if (e.kind === "status") return `${e.field === "availability" ? "Availability" : "Status"}: ${statusLabel(e.from)} → ${statusLabel(e.to)}`;
+    return "";
+  }
+  function chgRows(p) {
+    const ev = chgOf(p);
+    if (!ev.length) return [];
+    return [["Recent changes", "x", `<ul class="chg-list">${ev.slice().reverse().map((e) => `<li><time>${esc(fmtDate(e.date))}</time>${esc(chgText(e))}</li>`).join("")}</ul>`]];
+  }
+
   // ---------- Copy a short product summary to share with sales / staff ----------
   function shareText(p) {
     const L = [p.model];
@@ -293,6 +359,7 @@
     }
     const a = availability(p);
     if (a) L.push("Availability: " + a.label + " (subject to confirmation with account manager)");
+    chgOf(p).forEach((e) => { if (e.kind !== "status") L.push("Update " + fmtDate(e.date) + ": " + chgText(e)); });
     if (hasFreebie(p)) L.push("Freebie: " + (state.freebie.shortName || state.freebie.name));
     const r = state.rewards[skuKey(p.sku)];
     if (r) L.push("Promo: " + fmtPrice(r.amount) + " " + r.label + " - " + r.title + " (" + r.period + ")");
@@ -362,6 +429,7 @@
         ${rewardBadge(p)}
         ${hasPromoDp(p) ? `<span class="pdp-badge">${ICONS.tag}Promo DP</span>` : ""}
         ${imgs > 1 ? `<span class="img-count">${ICONS.photos}${imgs}</span>` : ""}
+        ${chgBadges(p)}
       </button>
       <div class="card-body">
         <span class="type-tag">${esc(typeLabel(p))}</span>
@@ -380,7 +448,7 @@
     return `<article class="row ltb-row" data-id="${esc(p.id)}">
       <button type="button" class="row-media" data-open="${esc(p.id)}" aria-label="View details for ${esc(p.model)}">${heroImg(p, "", "112px")}</button>
       <div class="row-main">
-        <span class="ltb-badge inline">${ICONS.clock}Last time to buy</span>
+        <span class="ltb-badge inline">${ICONS.clock}Last time to buy</span>${chgBadges(p, true)}
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
         <span class="row-meta">${esc(typeLabel(p))}${availability(p) ? " · " : ""}${stockHTML(p)}</span>
@@ -402,6 +470,7 @@
         ${rewardBadge(p)}
         ${hasPromoDp(p) ? `<span class="pdp-badge">${ICONS.tag}Promo DP</span>` : ""}
         ${imgs > 1 ? `<span class="img-count">${ICONS.photos}${imgs}</span>` : ""}
+        ${chgBadges(p)}
       </button>
       <div class="card-body">
         <span class="type-tag">${esc(typeLabel(p))}</span>
@@ -427,7 +496,7 @@
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
-        <div class="row-extras">${p.sale == null ? stockHTML(p) : ""}${hasPromoDp(p) ? `<span class="pdp-badge inline">${ICONS.tag}Promo DP</span>` : ""}${rw}${freebieHTML(p)}</div>
+        <div class="row-extras">${chgBadges(p, true)}${p.sale == null ? stockHTML(p) : ""}${hasPromoDp(p) ? `<span class="pdp-badge inline">${ICONS.tag}Promo DP</span>` : ""}${rw}${freebieHTML(p)}</div>
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
       <div class="row-side">
@@ -480,12 +549,14 @@
     $$(".nav-link").forEach((a) => {
       const k = a.dataset.nav;
       let on = false;
-      if (route.view === "sites" || route.view === "promos" || route.view === "ltb") on = k === route.view;
+      if (["sites", "promos", "ltb", "finder"].includes(route.view)) on = k === route.view;
       else if (k === "all") on = state.fTypes.size === 0;
-      else if (!["sites", "promos", "ltb"].includes(k)) on = state.fTypes.size === 1 && state.fTypes.has(k);
+      else if (!["sites", "promos", "ltb", "finder"].includes(k)) on = state.fTypes.size === 1 && state.fTypes.has(k);
       a.classList.toggle("active", on);
       if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
+    const hf = $(".header-finder");
+    if (hf) { hf.classList.toggle("active", route.view === "finder"); if (route.view === "finder") hf.setAttribute("aria-current", "page"); else hf.removeAttribute("aria-current"); }
   }
 
   function render() {
@@ -654,6 +725,7 @@
       ["Warranty", p.warranty],
       ["Care Pack / service", p.carePack],
       ["Availability", availability(p) ? availability(p).label + " (indicative - confirm with account manager)" : null],
+      ...chgRows(p),
     ];
     (p.otherSpecs || []).forEach((o) => rows.push(["Other", o]));
     if (p.extra) Object.entries(p.extra).forEach(([k, v]) => rows.push([k, v]));
@@ -720,7 +792,8 @@
     $(".modal-close", modal).focus({ preventScroll: true });
     if (push) {
       const r = currentRoute();
-      const base = r.view === "type" ? "#/type/" + encodeURIComponent(r.type) : r.view === "ltb" ? "#/ltb/" : r.view === "promos" ? "#/promos/" : "#/";
+      const base = r.view === "type" ? "#/type/" + encodeURIComponent(r.type) : r.view === "ltb" ? "#/ltb/" : r.view === "promos" ? "#/promos/"
+        : r.view === "finder" ? "#/finder/" + (r.params ? r.params + "/" : "") : "#/";
       history.pushState({ product: id }, "", base + (base.endsWith("/") ? "" : "/") + "product/" + encodeURIComponent(id));
     }
   }
@@ -794,6 +867,314 @@
     }, { passive: true });
   }
 
+  // ---------- Welcome banner (home page only) ----------
+  const WELCOME_PICKS = ["16-bu0398tu", "14-hg0079tu", "14-hg0080tu"];   // left, centre, right
+  function welcomeImg(p, cls) {
+    const im = (p.images || []).find((x) => /front right/i.test(x.angle)) || (p.images || [])[0];
+    const front = (p.images || []).find((x) => /^front$/i.test(x.angle));
+    const use = cls === "w-center" && front ? front : im;
+    return use ? `<img class="${cls}" src="${esc(use.src)}" alt="" width="${use.width}" height="${use.height}" decoding="async">` : "";
+  }
+  function renderWelcome(show) {
+    const w = $("#welcome");
+    w.hidden = !show;
+    $("#catalogView").classList.toggle("has-welcome", show);
+    if (!show || w.dataset.ready) return;
+    const main = state.ds.main.products;
+    let picks = WELCOME_PICKS.map((id) => main.find((p) => p.id === id)).filter((p) => p && p.images && p.images.length);
+    if (picks.length < 3) {   // a featured model left the pricelist: fall back to other series
+      const seen = new Set(picks.map((p) => p.type));
+      main.slice().reverse().forEach((p) => { if (picks.length < 3 && p.images && p.images.length && !seen.has(p.type)) { picks.push(p); seen.add(p.type); } });
+    }
+    const [l, c, r] = picks;
+    $("#welcomeStage").innerHTML = (l ? welcomeImg(l, "w-left") : "") + (c ? welcomeImg(c, "w-center") : "") + (r ? welcomeImg(r, "w-right") : "");
+    const d = state.meta && state.meta.generatedAt ? new Date(state.meta.generatedAt) : null;
+    $("#welcomeStats").innerHTML = `<span><b>${main.length}</b> models</span><span><b>${state.ds.main.types.length}</b> series</span>` +
+      (d && !isNaN(d) ? `<span>Updated <b>${esc(d.toLocaleDateString("en-PH", { year: "numeric", month: "short", day: "numeric" }))}</b></span>` : "");
+    const nNew = main.filter((p) => chgKinds(p).length).length;
+    $("#welcomeNew").hidden = nNew === 0;
+    $("#welcomeNewCount").textContent = nNew;
+    w.dataset.ready = "1";
+  }
+  function scrollToCatalog() {
+    const el = $("#catalogStart");
+    const top = el.getBoundingClientRect().top + window.scrollY - ($(".site-header").offsetHeight || 0) - 8;
+    window.scrollTo({ top, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }
+
+  // ---------- Find a laptop (requirement matcher) ----------
+  // Every rule below reads only what is in the pricelist / HP service guides — nothing is guessed.
+  const USES = [
+    { id: "everyday", label: "Everyday & school", hint: "browsing, schoolwork, streaming" },
+    { id: "office", label: "Office & business", hint: "multitasking, video calls, security" },
+    { id: "travel", label: "On the go", hint: "light, compact, works anywhere" },
+    { id: "creative", label: "Creative & entertainment", hint: "photos, video, great screen" },
+    { id: "ai", label: "AI & power users", hint: "Copilot+ features, heavy workloads" },
+  ];
+  const MUSTS = [
+    { id: "touch", label: "Touchscreen", miss: "No touchscreen", test: (a) => a.touch },
+    { id: "flip", label: "2-in-1 convertible", miss: "Not a 2-in-1", test: (a) => a.flip },
+    { id: "oled", label: "OLED display", miss: "No OLED display", test: (a) => a.oled },
+    { id: "ram16", label: "16GB RAM or more", miss: "Less than 16GB RAM", test: (a) => a.ram >= 16 },
+    { id: "tb", label: "1TB storage", miss: "Less than 1TB storage", test: (a) => a.storage >= 1000 },
+    { id: "upg", label: "Upgradeable RAM", miss: "RAM not upgradeable", test: (a) => a.upgradeable },
+    { id: "copilot", label: "Copilot+ AI PC (40+ TOPS)", miss: "Not a Copilot+ AI PC", test: (a) => a.npu >= 40 },
+    { id: "s14", label: "14″ or smaller", miss: "Bigger than 14″", group: "size", test: (a) => a.size && a.size < 14.5 },
+    { id: "s16", label: "15″ – 16″", miss: "Smaller than 15″", group: "size", test: (a) => a.size >= 14.5 },
+    { id: "intel", label: "Intel", miss: "Not Intel", group: "cpu", test: (a) => a.brand === "Intel" },
+    { id: "amd", label: "AMD", miss: "Not AMD", group: "cpu", test: (a) => a.brand === "AMD" },
+    { id: "now", label: "On hand now", miss: "Not on hand now", test: (a) => a.onhand },
+  ];
+  const QUICK = [60000, 80000, 100000, 150000];
+  const finder = { basis: "srp", budget: null, use: "", must: new Set(), ltb: false, showAll: false };
+
+  function attrs(p) {
+    if (p._fa) return p._fa;
+    const txt = [p.display, p.displayShort, p.specsRaw].filter(Boolean).join(" ");
+    const num = (re, s) => { const m = re.exec(s || ""); return m ? parseFloat(m[1]) : 0; };
+    let storage = num(/(\d+(?:\.\d+)?)\s*TB/i, p.storage) * 1000 || num(/(\d+)\s*GB/i, p.storage);
+    const size = num(/(1[0-8](?:\.\d)?)\s*(?:"|″|''|inch|\s)/i, p.displayShort || p.display || "") || num(/\b(1[3-7]\.\d)\b/, p.specsRaw);
+    const cpu = String(p.cpu || "");
+    const tier = /Ultra\s*X?9|Ryzen AI 9|Ultra X7/i.test(cpu) ? 5 : /Ultra\s*7|Ryzen AI 7|Core\s*(i)?7|Ryzen 7/i.test(cpu) ? 4
+      : /Ultra\s*5|Ryzen AI 5|Core\s*(i)?5|Ryzen 5/i.test(cpu) ? 3 : 2;
+    const g = state.upgrades && state.upgrades.skus ? state.upgrades.groups[state.upgrades.skus[String(p.sku || "").toUpperCase()]] : null;
+    const a = {
+      ram: num(/(\d+)\s*GB/i, p.ram), storage, size, tier, brand: p.cpuBrand,
+      touch: /touch/i.test(txt), oled: /OLED/i.test(txt),
+      flip: /x360|flip|2-in-1|convertible/i.test([p.formFactor, p.series, p.model].join(" ")),
+      npu: num(/(\d+)\s*NPU\s*TOPs?/i, cpu),
+      sharp: /2K|2\.8K|3K|1920x1200|2880|WQXGA|WUXGA/i.test(txt),
+      ir: /\bIR\b/i.test([p.camera, p.specsRaw].join(" ")),
+      gan: /GaN|USB[- ]?C/i.test([p.adapter, p.specsRaw].join(" ")),
+      upgradeable: !!(g && /^Upgradeable/i.test(g.ram || "")),
+      onhand: (availability(p) || {}).level === "ok",
+    };
+    p._fa = a;
+    return a;
+  }
+  // points + plain-language reasons per use case
+  function useFit(a, p, use) {
+    const R = [];
+    let pts = 0, max = 1;
+    const add = (ok, n, why, tag) => { if (ok) { pts += n; R.push({ why, tag }); } };
+    if (use === "everyday") {
+      max = 7;
+      add(priceOf(p, "srp") <= 65000, 3, "Great value for everyday use", "price");
+      add(a.size >= 15, 2, `Roomy ${a.size}″ screen`, "size");
+      add(a.ram >= 8, 1, `${a.ram}GB RAM`, "ram");
+      add(a.onhand, 1, "On hand", "now");
+    } else if (use === "office") {
+      max = 8;
+      add(a.ram >= 16, 3, `${a.ram}GB RAM for multitasking`, "ram");
+      add(a.tier >= 3, 2, "Strong processor for work apps", "cpu");
+      add(a.ir, 1, "IR camera (Windows Hello face sign-in)", "ir");
+      add(a.size && a.size < 14.5, 1, `Portable ${a.size}″ size`, "size");
+      add(a.npu >= 40, 1, `AI-ready NPU (${a.npu} TOPS)`, "npu");
+    } else if (use === "travel") {
+      max = 7;
+      add(a.size && a.size < 14.5, 3, `Compact ${a.size}″ size`, "size");
+      add(a.flip, 2, "2-in-1: laptop, tent or tablet", "flip");
+      add(a.gan, 1, "Compact USB-C charger", "gan");
+      add(a.ram >= 16, 1, `${a.ram}GB RAM`, "ram");
+    } else if (use === "creative") {
+      max = 8;
+      add(a.oled, 3, "OLED display — rich colours, deep blacks", "oled");
+      add(a.ram >= 16, 2, `${a.ram}GB RAM for editing`, "ram");
+      add(a.sharp, 1, "Sharp 2K-class screen", "sharp");
+      add(a.touch, 1, "Touchscreen", "touch");
+      add(a.tier >= 4, 1, "High-performance processor", "cpu");
+    } else if (use === "ai") {
+      max = 9;
+      add(a.npu >= 40, 4, `Copilot+ AI PC (${a.npu} TOPS NPU)`, "npu");
+      add(a.ram >= 16, 2, `${a.ram}GB RAM`, "ram");
+      add(a.ram >= 32, 1, "32GB for heavy workloads", "ram32");
+      add(a.tier >= 4, 2, "High-performance processor", "cpu");
+    }
+    return { pts, max, reasons: R };
+  }
+  function priceOf(p, basis) {
+    if (basis === "dp") return p.sale != null ? p.sale : hasPromoDp(p) ? p.promoDp : p.dp;
+    return p.srp;
+  }
+  function evaluate(p) {
+    const a = attrs(p);
+    const fails = [], hits = [];
+    const price = priceOf(p, finder.basis);
+    if (finder.budget) {
+      if (typeof price !== "number") fails.push({ why: "No price on the pricelist", over: Infinity });
+      else if (price > finder.budget) fails.push({ why: `${fmtPrice(price - finder.budget)} over budget`, over: (price - finder.budget) / finder.budget });
+      else hits.push(price >= finder.budget * 0.9 ? "Within budget" : `${fmtPrice(finder.budget - price)} under budget`);
+    }
+    // must-haves: options in the same group (size, cpu) mean "either of these"
+    const groups = {};
+    MUSTS.filter((m) => finder.must.has(m.id)).forEach((m) => { (groups[m.group || m.id] = groups[m.group || m.id] || []).push(m); });
+    Object.values(groups).forEach((ms) => {
+      const ok = ms.find((m) => m.test(a));
+      if (ok) hits.push(ok.label);
+      else fails.push({ why: ms.length > 1 ? "Not " + ms.map((m) => m.label).join(" / ") : ms[0].miss, over: 0 });
+    });
+    const fit = finder.use ? useFit(a, p, finder.use) : { pts: 0, max: 1, reasons: [] };
+    // don't repeat a must-have the use-case already explains (e.g. "16GB RAM or more" + "16GB RAM for multitasking")
+    const MT = { ram16: "ram", touch: "touch", oled: "oled", copilot: "npu", s14: "size", s16: "size", flip: "flip", now: "now" };
+    const covered = new Set(Array.from(finder.must).map((m) => MT[m]).filter(Boolean));
+    const why = fit.reasons.filter((x) => !covered.has(x.tag)).map((x) => x.why);
+    return { p, a, price, hits, fails, fit, why, score: fit.pts / fit.max };
+  }
+  function fitLabel(r) {
+    if (!finder.use) return "";
+    return r.score >= 0.7 ? "Great fit" : r.score >= 0.4 ? "Good fit" : "Basic fit";
+  }
+  function finderPool() {
+    const pool = state.ds.main.products.slice();
+    if (finder.ltb && state.ds.ltb) pool.push(...state.ds.ltb.products);
+    return pool;
+  }
+  function resultHTML(r, i, alt) {
+    const p = r.p;
+    const ltb = p.sale != null;
+    const label = fitLabel(r);
+    const reasons = [...r.hits.map((h) => `<li class="ok">${ICONS.check}${esc(h)}</li>`), ...r.why.map((h) => `<li class="ok">${ICONS.check}${esc(h)}</li>`)];
+    const misses = r.fails.map((f) => `<li class="miss">${ICONS.x}${esc(f.why)}</li>`);
+    const priceBlock = ltb
+      ? `<div class="fr-price"><span><i>Sale</i>${fmtPrice(p.sale)}</span><span><i>SRP</i>${fmtPrice(p.srp)}</span></div>`
+      : `<div class="fr-price"><span><i>SRP</i>${fmtPrice(p.srp)}</span><span><i>${hasPromoDp(p) ? "Promo DP" : "DP"}</i>${fmtPrice(hasPromoDp(p) ? p.promoDp : p.dp)}</span></div>`;
+    return `<article class="fr${!alt && i === 0 ? " fr-top" : ""}${alt ? " fr-alt" : ""}">
+      ${!alt && i === 0 ? `<span class="fr-ribbon">Top pick</span>` : ""}
+      <button type="button" class="fr-media" data-fopen="${esc(p.id)}" aria-label="View details for ${esc(p.model)}">${heroImg(p, "", "160px")}${chgBadges(p)}</button>
+      <div class="fr-main">
+        <div class="fr-head">
+          ${alt ? "" : `<span class="fr-rank">${i + 1}</span>`}
+          <span class="type-tag">${esc(ltb ? "Last-time-buy" : typeLabel(p))}</span>
+          ${label ? `<span class="fr-fit fit-${label.split(" ")[0].toLowerCase()}">${label}</span>` : ""}
+          ${stockHTML(p)}
+        </div>
+        <h3 class="card-title">${skuTitle(p)}</h3>
+        <p class="fr-specs">${keySpecs(p).map((s) => esc(s.v)).join(" · ")}</p>
+        <ul class="fr-why">${misses.join("")}${reasons.join("")}</ul>
+      </div>
+      <div class="fr-side">
+        ${priceBlock}
+        <div class="card-actions"><button type="button" class="btn btn-outline" data-fopen="${esc(p.id)}">View Details</button>${copyBtnHTML(p)}</div>
+      </div>
+    </article>`;
+  }
+  function summaryText() {
+    const parts = [];
+    if (finder.budget) parts.push(`budget up to ${fmtPrice(finder.budget)} ${finder.basis.toUpperCase()}`);
+    if (finder.use) parts.push((USES.find((u) => u.id === finder.use) || {}).label);
+    MUSTS.filter((m) => finder.must.has(m.id)).forEach((m) => parts.push(m.label));
+    return parts.join(" · ");
+  }
+  let finderLast = { top: [] };
+  function renderFinderResults() {
+    const all = finderPool().map(evaluate);
+    const matches = all.filter((r) => !r.fails.length)
+      .sort((x, y) => (y.score - x.score) || ((x.price ?? Infinity) - (y.price ?? Infinity)));
+    // close alternatives: miss only one thing, and never more than 15% over budget
+    const alts = all.filter((r) => r.fails.length === 1 && r.fails[0].over <= 0.15)
+      .sort((x, y) => (y.score - x.score) || ((x.price ?? Infinity) - (y.price ?? Infinity))).slice(0, 4);
+    finderLast = { top: matches.slice(0, 3).map((r) => r.p) };
+    const shown = finder.showAll ? matches : matches.slice(0, 8);
+    const crit = summaryText();
+    let html = `<div class="fr-bar">
+        <p class="fr-count"><strong>${matches.length}</strong> of ${all.length} model${all.length === 1 ? "" : "s"} match${crit ? `<span class="fr-crit">${esc(crit)}</span>` : `<span class="fr-crit">Pick a budget, use or must-have to narrow it down</span>`}</p>
+        ${matches.length ? `<button type="button" class="btn btn-outline" id="frCopyTop">${ICONS.copy}<span>Copy top ${Math.min(3, matches.length)}</span></button>` : ""}
+      </div>`;
+    if (matches.length) {
+      html += `<div class="fr-list">${shown.map((r, i) => resultHTML(r, i, false)).join("")}</div>`;
+      if (matches.length > shown.length) html += `<button type="button" class="btn btn-outline btn-block fr-more" id="frMore">Show all ${matches.length} matches</button>`;
+    } else {
+      html += `<div class="fr-empty"><h3>No exact match</h3><p>Nothing on the pricelist ticks every box. Try a higher budget or remove a must-have${alts.length ? " — or look at the close alternatives below" : ""}.</p></div>`;
+    }
+    if (alts.length) html += `<h3 class="fr-alt-title">Close alternatives <span>miss just one thing</span></h3><div class="fr-list">${alts.map((r, i) => resultHTML(r, i, true)).join("")}</div>`;
+    html += `<p class="fr-note">Rankings use the specs on the pricelist and HP service guides. Availability is indicative — confirm stock with your account manager.</p>`;
+    $("#finderResults").innerHTML = html;
+  }
+  function finderHash() {
+    const q = [];
+    if (finder.budget) q.push("b=" + finder.budget);
+    if (finder.basis !== "srp") q.push("p=" + finder.basis);
+    if (finder.use) q.push("u=" + finder.use);
+    if (finder.must.size) q.push("m=" + Array.from(finder.must).join(","));
+    if (finder.ltb) q.push("l=1");
+    return "#/finder" + (q.length ? "/" + q.join("&") : "");
+  }
+  function readFinderParams(str) {
+    const q = {};
+    String(str || "").split("&").forEach((kv) => { const [k, v] = kv.split("="); if (k) q[k] = v || ""; });
+    finder.budget = q.b && +q.b > 0 ? Math.round(+q.b) : null;
+    finder.basis = q.p === "dp" ? "dp" : "srp";
+    finder.use = USES.some((u) => u.id === q.u) ? q.u : "";
+    finder.must = new Set((q.m || "").split(",").filter((m) => MUSTS.some((x) => x.id === m)));
+    finder.ltb = q.l === "1" && !!state.ds.ltb;
+  }
+  function renderFinderForm() {
+    $("#ffBudget").value = finder.budget ? fmtNum(finder.budget) : "";
+    $$('input[name="basis"]').forEach((i) => { i.checked = i.value === finder.basis; });
+    $("#ffQuick").innerHTML = QUICK.map((v) => `<button type="button" class="ff-chip${finder.budget === v ? " on" : ""}" data-budget="${v}">Up to ${fmtPrice(v).replace(",000", "k")}</button>`).join("") +
+      `<button type="button" class="ff-chip${!finder.budget ? " on" : ""}" data-budget="0">No limit</button>`;
+    $("#ffUse").innerHTML = USES.map((u) => `<button type="button" class="ff-chip ff-use${finder.use === u.id ? " on" : ""}" data-use="${u.id}" aria-pressed="${finder.use === u.id}"><b>${esc(u.label)}</b><small>${esc(u.hint)}</small></button>`).join("");
+    $("#ffMust").innerHTML = MUSTS.map((m) => `<button type="button" class="ff-chip${finder.must.has(m.id) ? " on" : ""}" data-must="${m.id}" aria-pressed="${finder.must.has(m.id)}">${finder.must.has(m.id) ? ICONS.check : ""}${esc(m.label)}</button>`).join("");
+    $("#ffLtb").checked = finder.ltb;
+    $("#ffLtb").closest(".ff-switch").hidden = !state.ds.ltb;
+  }
+  function finderChanged() {
+    finder.showAll = false;
+    history.replaceState({}, "", finderHash());
+    renderFinderForm();
+    renderFinderResults();
+  }
+  function renderFinder(params) {
+    readFinderParams(params);
+    renderFinderForm();
+    renderFinderResults();
+  }
+  function bindFinder() {
+    const form = $("#finderForm");
+    form.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-budget],[data-use],[data-must]");
+      if (!b) return;
+      if (b.dataset.budget != null) finder.budget = +b.dataset.budget || null;
+      else if (b.dataset.use) finder.use = finder.use === b.dataset.use ? "" : b.dataset.use;
+      else { const m = b.dataset.must; if (finder.must.has(m)) finder.must.delete(m); else finder.must.add(m); }
+      finderChanged();
+    });
+    form.addEventListener("change", (e) => {
+      if (e.target.name === "basis") { finder.basis = e.target.value; finderChanged(); }
+      if (e.target.id === "ffLtb") { finder.ltb = e.target.checked; finderChanged(); }
+    });
+    let bt = null;
+    $("#ffBudget").addEventListener("input", (e) => {
+      const v = parseInt(String(e.target.value).replace(/[^\d]/g, ""), 10);
+      clearTimeout(bt);
+      bt = setTimeout(() => {
+        finder.budget = v > 0 ? v : null;
+        finder.showAll = false;
+        history.replaceState({}, "", finderHash());
+        $$("#ffQuick .ff-chip").forEach((c) => c.classList.toggle("on", (+c.dataset.budget || null) === finder.budget));
+        renderFinderResults();
+      }, 250);
+    });
+    $("#ffBudget").addEventListener("blur", (e) => { e.target.value = finder.budget ? fmtNum(finder.budget) : ""; });
+    form.addEventListener("submit", (e) => e.preventDefault());
+    $("#ffReset").addEventListener("click", () => { finder.budget = null; finder.basis = "srp"; finder.use = ""; finder.must.clear(); finder.ltb = false; finderChanged(); });
+    $("#finderResults").addEventListener("click", (e) => {
+      const o = e.target.closest("[data-fopen]");
+      if (o) {
+        const p = findProduct(o.dataset.fopen);
+        if (p) { setMode(dsOf(p)); openDetail(p.id); }
+        return;
+      }
+      if (e.target.closest("#frMore")) { finder.showAll = true; renderFinderResults(); return; }
+      const c = e.target.closest("#frCopyTop");
+      if (c) {
+        const head = "Recommended HP laptops" + (summaryText() ? " (" + summaryText() + ")" : "");
+        const text = head + "\n\n" + finderLast.top.map((p, i) => (i + 1) + ". " + shareText(p)).join("\n\n");
+        copyToClipboard(text).then(() => toast("Top picks copied - paste them in a chat or email"), () => toast("Couldn't copy - please select the text manually"));
+      }
+    });
+  }
+
   // ---------- Routing ----------
   // old links such as #/type/OBX keep working through the "aliases" in data/types.json
   function resolveType(code) {
@@ -810,6 +1191,7 @@
     if (parts[0] === "sites") r.view = "sites";
     else if (parts[0] === "promos") r.view = "promos";
     else if (parts[0] === "ltb") r.view = "ltb";
+    else if (parts[0] === "finder") { r.view = "finder"; r.params = parts[1] && parts[1] !== "product" ? parts[1] : ""; }
     else if (parts[0] === "type" && parts[1]) { r.view = "type"; r.type = resolveType(parts[1]); }
     const pi = parts.indexOf("product");
     if (pi >= 0 && parts[pi + 1]) r.product = parts[pi + 1];
@@ -819,11 +1201,18 @@
   let lastRouteKey = null;
   function applyRoute() {
     const r = currentRoute();
-    const sites = r.view === "sites" || r.view === "promos";
+    const sites = r.view === "sites" || r.view === "promos" || r.view === "finder";
     $("#catalogView").hidden = sites;
     $("#sitesView").hidden = r.view !== "sites";
     $("#promosView").hidden = r.view !== "promos";
+    $("#finderView").hidden = r.view !== "finder";
     if (!sites) setMode(r.view === "ltb" ? "ltb" : "main");
+    // the finder page: re-read its settings from the address, except when only a product popup opens/closes
+    if (r.view === "finder") {
+      if (!r.product) setMode("main");
+      if (!(r.product && lastRouteKey === "finder:")) renderFinder(r.params);
+    }
+    renderWelcome(r.view === "all" && state.mode === "main");
     document.body.classList.toggle("mode-ltb", !sites && state.mode === "ltb");
     // lets the stylesheet give each model family its own look (e.g. premium OmniBook pages)
     if (r.view === "type" && r.type) document.body.dataset.type = r.type; else delete document.body.dataset.type;
@@ -847,7 +1236,7 @@
   function setTypesFromFilters() {
     // keep the URL in sync when a single type is chosen from the filter panel
     const r = currentRoute();
-    if (r.view === "sites" || r.view === "promos" || r.view === "ltb") return;
+    if (r.view === "sites" || r.view === "promos" || r.view === "ltb" || r.view === "finder") return;
     const target = state.fTypes.size === 1 ? "#/type/" + encodeURIComponent(Array.from(state.fTypes)[0]) : "#/";
     if (location.hash !== target && !(target === "#/" && (location.hash === "" || location.hash === "#"))) {
       history.replaceState({}, "", target);
@@ -885,7 +1274,7 @@
     state.query = "";
     $("#search").value = "";
     $("#searchClear").hidden = true;
-    state.fTypes.clear(); state.fCpu.clear(); state.fPrice.clear();
+    state.fTypes.clear(); state.fCpu.clear(); state.fPrice.clear(); state.fChg.clear();
     setTypesFromFilters();
     render();
   }
@@ -900,7 +1289,7 @@
       t = setTimeout(() => {
         state.query = v.trim();
         const v0 = currentRoute().view;
-        if ((v0 === "sites" || v0 === "promos") && state.query) { history.pushState({}, "", "#/"); applyRoute(); return; }
+        if ((v0 === "sites" || v0 === "promos" || v0 === "finder") && state.query) { history.pushState({}, "", "#/"); applyRoute(); return; }
         render();
       }, 80);
     });
@@ -910,19 +1299,19 @@
     $("#filters").addEventListener("change", (e) => {
       const i = e.target;
       if (!i.matches("input[type=checkbox]")) return;
-      const set = { type: state.fTypes, cpu: state.fCpu, price: state.fPrice }[i.dataset.group];
+      const set = { type: state.fTypes, cpu: state.fCpu, price: state.fPrice, chg: state.fChg }[i.dataset.group];
       if (i.checked) set.add(i.value); else set.delete(i.value);
       if (i.dataset.group === "type") setTypesFromFilters();
       render();
     });
-    $("#clearFilters").addEventListener("click", () => { state.fTypes.clear(); state.fCpu.clear(); state.fPrice.clear(); setTypesFromFilters(); render(); });
+    $("#clearFilters").addEventListener("click", () => { state.fTypes.clear(); state.fCpu.clear(); state.fPrice.clear(); state.fChg.clear(); setTypesFromFilters(); render(); });
     $("#emptyReset").addEventListener("click", clearAll);
     $("#activeChips").addEventListener("click", (e) => {
       const c = e.target.closest(".chip");
       if (!c) return;
       const g = c.dataset.g, v = c.dataset.v;
       if (g === "q") { $("#search").value = ""; $("#searchClear").hidden = true; state.query = ""; }
-      else ({ type: state.fTypes, cpu: state.fCpu, price: state.fPrice })[g].delete(v);
+      else ({ type: state.fTypes, cpu: state.fCpu, price: state.fPrice, chg: state.fChg })[g].delete(v);
       if (g === "type") setTypesFromFilters();
       render();
     });
@@ -1018,6 +1407,15 @@
       if (card) window.open(card.dataset.href, "_blank", "noopener");
     });
 
+    $("#welcomeBrowse").addEventListener("click", (e) => { e.preventDefault(); scrollToCatalog(); });
+    $("#welcomeNew").addEventListener("click", () => {
+      state.fTypes.clear();
+      state.fChg = new Set(Object.keys(CHG_LABEL).filter((k) => state.products.some((p) => chgKinds(p).includes(k))));
+      render();
+      scrollToCatalog();
+    });
+    bindFinder();
+
     window.addEventListener("hashchange", applyRoute);
     window.addEventListener("popstate", applyRoute);
   }
@@ -1038,6 +1436,21 @@
     $("#products").innerHTML = Array.from({ length: 8 }, () => '<div class="skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line short"></div></div>').join("");
   }
 
+  function loadChanges(c) {
+    const win = (c && c.windowDays) || 14;
+    const t = new Date(); t.setDate(t.getDate() - win);
+    const cutoff = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, "0") + "-" + String(t.getDate()).padStart(2, "0");
+    state.changes.windowDays = win;
+    ["main", "ltb"].forEach((m) => {
+      const byKey = {};
+      ((c && c[m] && c[m].events) || []).forEach((e) => {
+        if (e.kind === "removed" || e.date < cutoff) return;
+        (byKey[e.key] = byKey[e.key] || []).push(e);
+      });
+      state.changes[m] = { byKey };
+    });
+  }
+
   // ---------- Boot ----------
   async function loadJSON(url) {
     const res = await fetch(url, { cache: "no-cache" });
@@ -1050,15 +1463,17 @@
     $$(".vt-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
     bind();
     try {
-      const [data, types, sites, ltb, promos, upgrades] = await Promise.all([
+      const [data, types, sites, ltb, promos, upgrades, changes] = await Promise.all([
         loadJSON("data/products.json"),
         loadJSON("data/types.json").catch(() => []),
         loadJSON("data/sites.json").catch(() => []),
         loadJSON("data/ltb.json").catch(() => null),
         loadJSON("data/promos.json").catch(() => null),
         loadJSON("data/upgrades.json").catch(() => null),
+        loadJSON("data/changes.json").catch(() => null),
       ]);
       state.upgrades = upgrades;
+      loadChanges(changes);
       state.meta = data;
       state.products = data.products || [];
       // types: order from types.json (entry level -> premium), then any code missing from it in Excel order
@@ -1123,7 +1538,7 @@
     context() {
       const r = currentRoute();
       const one = state.fTypes.size === 1 ? state.typeMap[Array.from(state.fTypes)[0]] : null;
-      const filtered = !!(state.query || state.fTypes.size || state.fCpu.size || state.fPrice.size);
+      const filtered = !!(state.query || state.fTypes.size || state.fCpu.size || state.fPrice.size || state.fChg.size);
       return {
         mode: state.mode,
         onScreen: (state.lastList || []).slice(),

@@ -24,6 +24,9 @@ import re
 import sys
 from datetime import datetime
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import changes  # noqa: E402  (tracks new models / price changes for the website badges)
+
 try:
     import openpyxl
 except ImportError:
@@ -322,6 +325,18 @@ def part_from_ltb_model(model):
     return None
 
 
+def report_changes(dataset, prev_products, new_products):
+    """Log today's differences to data/changes.json (drives the New / Price drop badges)."""
+    evs = changes.update(os.path.join(DATA_OUT, "changes.json"), dataset, prev_products, new_products)
+    if prev_products is None:
+        print(f"[{dataset}] No previous data to compare with - change badges start from the next update.")
+        return
+    kinds = {}
+    for e in evs:
+        kinds[e["kind"]] = kinds.get(e["kind"], 0) + 1
+    print(f"[{dataset}] Changes recorded today: " + (", ".join(f"{v} {k}" for k, v in kinds.items()) or "none"))
+
+
 def build_ltb(excel_path, images_dir=None):
     wb = openpyxl.load_workbook(excel_path, data_only=True)
     ws = wb.worksheets[0]
@@ -392,8 +407,11 @@ def build_ltb(excel_path, images_dir=None):
     payload = {"generatedAt": datetime.now().isoformat(timespec="seconds"),
                "sourceFile": os.path.basename(excel_path), "sourceHash": digest,
                "currency": "PHP", "count": len(out), "products": out}
-    with open(os.path.join(DATA_OUT, "ltb.json"), "w", encoding="utf-8") as fh:
+    ltb_path = os.path.join(DATA_OUT, "ltb.json")
+    prev_products = changes.load_previous(ltb_path)
+    with open(ltb_path, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2)
+    report_changes("ltb", prev_products, out)
     no_img = [p["model"] for p in out if not p.get("images")]
     print(f"Wrote {len(out)} last-time-buy products." + (f" Without photos (silhouette shown): {no_img}" if no_img else ""))
 
@@ -524,8 +542,11 @@ def main():
         "count": len(out),
         "products": out,
     }
-    with open(os.path.join(DATA_OUT, "products.json"), "w", encoding="utf-8") as fh:
+    products_path = os.path.join(DATA_OUT, "products.json")
+    prev_products = changes.load_previous(products_path)
+    with open(products_path, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2)
+    report_changes("main", prev_products, out)
     with open(types_path, "w", encoding="utf-8") as fh:
         json.dump(types, fh, ensure_ascii=False, indent=2)
 
