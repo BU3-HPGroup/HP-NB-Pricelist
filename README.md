@@ -183,3 +183,5 @@ Then open <http://localhost:8000/>.
   - The *OmniBook 5 Flip 14-fp0162TU* photos show the OLED/AI version of the same Powder Pink chassis.
   - The *OmniBook X Flip 14-kc0079AU / kc0039AU / kc0078AU* use Intel-version photos for the Front and Front Right angles.
 - **Optional automated tests:** `pip install playwright openpyxl && playwright install chromium`, start the local server, then run `python tools/test_site.py http://localhost:8000/`.
+
+<!-- last published: 2026-10-07 -->
