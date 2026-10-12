@@ -11,7 +11,7 @@ WINDOW_DAYS = 14      # how long a badge stays on the website
 KEEP_DAYS = 120       # how long events are kept in data/changes.json
 
 TRACK = {
-    "main": [("srp", "SRP"), ("dp", "DP"), ("promoDp", "Promo DP"), ("status", "Status")],
+    "main": [("srp", "SRP"), ("dp", "DP"), ("promoSrp", "Promo SRP"), ("promoDp", "Promo DP"), ("status", "Status")],
     "ltb": [("sale", "Sale price"), ("dp", "DP"), ("srp", "SRP"), ("availability", "Availability")],
 }
 

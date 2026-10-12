@@ -36,6 +36,9 @@ check("images only assigned by exact model name", img_ok)
 check("every image file exists", all(os.path.exists(os.path.join(ROOT, im[k])) for p in data for im in p["images"] for k in ("src", "thumb")))
 check("all asset paths relative", all(not re.match(r"^(/|https?:)", im["src"]) for p in data for im in p["images"]))
 
+# price bands use the price customers pay now: Promo SRP when it is below SRP
+eff = lambda p: p["promoSrp"] if isinstance(p.get("promoSrp"), (int, float)) and p["promoSrp"] < p["srp"] else p["srp"]
+
 with sync_playwright() as pw:
     b = pw.chromium.launch()
     ctx = b.new_context(viewport={"width": 1440, "height": 900}, accept_downloads=True)
@@ -75,14 +78,14 @@ with sync_playwright() as pw:
     check("CPU AMD filter", count() == len(exp), f"{count()} vs {len(exp)}")
     tick("cpu", "AMD", False)
     tick("price", "60000")
-    exp = [p for p in data if 60000 <= p["srp"] <= 69999]
+    exp = [p for p in data if 60000 <= eff(p) <= 69999]
     check("price band 60k-69,999", count() == len(exp), f"{count()} vs {len(exp)}")
     tick("price", "60000", False); tick("price", "100000plus")
     exp = [p for p in data if p["srp"] >= 100000]
     check("price band 100k+", count() == len(exp), f"{count()} vs {len(exp)}")
     tick("price", "100000plus", False)
     tick("type", "Omnibook 3"); tick("cpu", "Intel"); tick("price", "60000")
-    exp = [p for p in data if p["type"] == "Omnibook 3" and p.get("cpuBrand") == "Intel" and 60000 <= p["srp"] <= 69999]
+    exp = [p for p in data if p["type"] == "Omnibook 3" and p.get("cpuBrand") == "Intel" and 60000 <= eff(p) <= 69999]
     check("combined Type+CPU+Price", count() == len(exp) and len(exp) > 0, f"{count()} vs {len(exp)}")
     check("result count text", str(len(exp)) in pg.inner_text("#resultCount"))
     pg.click("#clearFilters"); pg.wait_for_timeout(150)
@@ -293,6 +296,16 @@ with sync_playwright() as pw:
     pg.locator("#themeToggle").click(); pg.wait_for_timeout(200)
     pg.evaluate("localStorage.removeItem('hppl-theme')")
     pg.goto(BASE + "#/"); pg.wait_for_timeout(600)
+
+    # ---------- Promo SRP + promo note (Excel "Promo SRP" / "Comments") ----------
+    ps = [p for p in data if eff(p) != p["srp"]]
+    pg.goto(BASE + "#/"); pg.wait_for_timeout(500)
+    check("promo SRP: shown on every promo model", pg.locator("#products .card .price.promo-srp").count() == len(ps) > 0, str(len(ps)))
+    check("promo SRP: values match Excel", all(f"{p['promoSrp']:,}" in pg.inner_text(f'.card[data-id="{p["id"]}"] .price.promo-srp') for p in ps))
+    check("promo note shown", all((not p.get("note")) or p["note"] in pg.inner_text(f'.card[data-id="{p["id"]}"]') for p in ps))
+    pg.goto(BASE + "#/promos"); pg.wait_for_timeout(500)
+    check("promo SRP: listed on Promos page", pg.locator(".psrp-panel li").count() == len(ps))
+    pg.goto(BASE + "#/"); pg.wait_for_timeout(300)
 
     # ---------- welcome banner ----------
     pg.goto(BASE + "#/"); pg.wait_for_timeout(700)

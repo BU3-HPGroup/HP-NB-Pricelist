@@ -469,7 +469,7 @@ def main():
         with open(types_path, encoding="utf-8") as fh:
             type_info = {t["code"]: t for t in json.load(fh)}
 
-    known_cols = {"Platform", "Type", "Model", "Specs", "SRP", "DP", "Promo DP", "Qty", "Status", "Part Number", "Material Number"}
+    known_cols = {"Platform", "Type", "Model", "Specs", "SRP", "DP", "Promo SRP", "Promo DP", "Qty", "Status", "Comments", "Part Number", "Material Number"}
     out, type_order = [], []
     for i, r in enumerate(products):
         spec = parse_specs(r.get("Specs"))
@@ -491,7 +491,10 @@ def main():
             "platform": r.get("Platform"),
             "srp": srp if isinstance(srp, (int, float)) else None,
             "dp": dp if isinstance(dp, (int, float)) else None,
+            "promoSrp": r.get("Promo SRP") if isinstance(r.get("Promo SRP"), (int, float)) else None,
             "promoDp": r.get("Promo DP") if isinstance(r.get("Promo DP"), (int, float)) else None,
+            # "Comments" column, e.g. "Maximum 50 units only until Oct 31, 2026" - shown with the promo price
+            "note": str(r["Comments"]).strip() if r.get("Comments") not in (None, "") else None,
             "status": str(r["Status"]).strip() if r.get("Status") not in (None, "") else None,
             "cpu": spec.get("cpu"),
             "cpuBrand": cpu_brand(spec.get("cpu")),

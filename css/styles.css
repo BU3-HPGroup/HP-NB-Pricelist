@@ -1255,3 +1255,32 @@ body[data-type="Omnibook 7"] .eyebrow { color: #4b5b6e; }
 .header-inner .search { margin-left: auto; }
 @media (min-width: 981px) { .nav-extra li:has(.nav-finder) { display: none; } }
 @media (max-width: 980px) { .header-finder { display: none; } }
+
+/* ================= Promo SRP (limited-time retail price) + promo note ================= */
+.prices .price.promo-srp .lbl, .prices .price.promo-srp .val { color: var(--sale); }
+.prices .price.promo-srp .sub s { color: var(--muted); text-decoration-thickness: 1.5px; }
+.prices .price.promo-srp .save { display: inline; font-size: 11.5px; font-weight: 700; color: #1b7f3b; }
+.pdp-badge.promo-price { background: var(--sale); color: #fff; }
+.price-box.promo-srp { background: var(--sale-50, #fdecef); border-color: #f6c2cb; }
+.price-box.promo-srp .lbl, .price-box.promo-srp .val { color: var(--sale); }
+.promo-note { display: flex; align-items: flex-start; gap: 6px; margin: 0; padding: 7px 10px; border-radius: 10px; background: var(--sale-50, #fdecef); color: #a3132b;
+  font-size: 12.5px; font-weight: 600; line-height: 1.35; }
+.promo-note svg { width: 15px; height: 15px; flex: none; margin-top: 1px; fill: none; stroke: currentColor; stroke-width: 2; }
+.promo-note.inline { display: inline-flex; margin-top: 6px; padding: 4px 9px; font-size: 12px; }
+.promo-note.detail { margin: 2px 0 4px; font-size: 13.5px; padding: 9px 12px; }
+.psrp-panel { border-color: #f6c2cb; background: linear-gradient(180deg, var(--sale-50, #fdecef), #fff 70%); margin-bottom: 16px; }
+.psrp-panel .pdp-tag { background: var(--sale) !important; }
+.psrp-panel a:hover { border-color: var(--sale); }
+.psrp-panel .m small { display: block; font-weight: 600; font-size: 12px; color: #a3132b; margin-top: 2px; }
+.psrp-panel .nums i { font-style: normal; font-size: 10.5px; font-weight: 700; color: var(--muted); letter-spacing: .05em; }
+.psrp-panel .nums b { color: var(--sale); }
+.psrp-panel .nums b + i { margin-left: 6px; }
+[data-theme="dark"] .promo-note { background: #3a1416; color: #ff9aa8; }
+[data-theme="dark"] .price-box.promo-srp, [data-theme="dark"] .psrp-panel { border-color: #5a2430; }
+[data-theme="dark"] .psrp-panel { background: linear-gradient(180deg, #2d171c, var(--surface) 70%); }
+[data-theme="dark"] .psrp-panel .m small { color: #ff9aa8; }
+[data-theme="dark"] .prices .price.promo-srp .save { color: #4ade80; }
+@media (max-width: 720px) { .prices .price.promo-srp .sub { display: block; } }
+.psrp-panel a { flex-direction: column; align-items: flex-start; gap: 6px; }
+.psrp-panel .nums { flex-wrap: wrap; row-gap: 2px; }
+.card-foot .promo-note { min-height: 44px; align-items: center; }

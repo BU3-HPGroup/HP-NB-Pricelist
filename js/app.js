@@ -16,6 +16,9 @@
     ? pesoWhole.format(Math.round(v)).replace("PHP", "₱").replace(/\s/g, "")
     : "—");
   const hasPromoDp = (p) => typeof p.promoDp === "number" && typeof p.dp === "number" && p.promoDp < p.dp;
+  // "Promo SRP" column: a temporary consumer price below the regular SRP (with an optional note from "Comments")
+  const hasPromoSrp = (p) => typeof p.promoSrp === "number" && typeof p.srp === "number" && p.promoSrp < p.srp;
+  const srpNow = (p) => (hasPromoSrp(p) ? p.promoSrp : p.srp);
   const fmtNum = (v) => new Intl.NumberFormat("en-PH").format(v);
 
   const ICONS = {
@@ -75,7 +78,7 @@
   };
 
   const PLACEHOLDER = "assets/images/laptop-placeholder.svg";
-  const priceKey = (p) => (p.sale != null ? p.sale : p.srp);
+  const priceKey = (p) => (p.sale != null ? p.sale : srpNow(p));
   const skuKey = (s) => String(s || "").toUpperCase();
 
   function setMode(m) {
@@ -111,7 +114,7 @@
     const t = state.typeMap[p.type];
     const fields = [p.model, p.sku, p.type, t && t.label, p.platform, p.cpu, p.cpuBrand, p.ram, p.storage, p.graphics,
       p.display, p.displayShort, p.os, p.color, p.camera, p.formFactor, p.series, p.specsRaw,
-      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", p.segment, p.otherSpecs && p.otherSpecs.join(" ")];
+      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", hasPromoSrp(p) && "promo srp promo price sale", p.note, p.segment, p.otherSpecs && p.otherSpecs.join(" ")];
     p._hay = norm(fields.filter(Boolean).join(" | "));
     p._hayC = compact(p._hay);
     p._band = bandOf(priceKey(p));
@@ -236,12 +239,26 @@
   // Two fixed columns (SRP | DP or Promo DP), each with label, value and one sub-line,
   // so every card's price block has the same height and lines up across a row.
   function priceHTML(p) {
-    const srp = `<div class="price srp"><span class="lbl">SRP</span><span class="val">${fmtPrice(p.srp)}</span><span class="sub">Suggested retail</span></div>`;
+    const srp = hasPromoSrp(p)
+      ? `<div class="price promo-srp"><span class="lbl">${ICONS.tag}Promo SRP</span><span class="val">${fmtPrice(p.promoSrp)}</span>` +
+        `<span class="sub"><s class="was-dp">SRP ${fmtPrice(p.srp)}</s> <span class="save">Save ${fmtPrice(p.srp - p.promoSrp)}</span></span></div>`
+      : `<div class="price srp"><span class="lbl">SRP</span><span class="val">${fmtPrice(p.srp)}</span><span class="sub">Suggested retail</span></div>`;
     if (hasPromoDp(p)) {
       return srp + `<div class="price promo-dp"><span class="lbl">${ICONS.tag}Promo DP</span><span class="val">${fmtPrice(p.promoDp)}</span>` +
         `<span class="sub"><s class="was-dp">DP ${fmtPrice(p.dp)}</s> <span class="save">Save ${fmtPrice(p.dp - p.promoDp)}</span></span></div>`;
     }
     return srp + `<div class="price dp"><span class="lbl">DP</span><span class="val">${fmtPrice(p.dp)}</span><span class="sub">Dealer price</span></div>`;
+  }
+
+  function promoBadge(p, inline) {
+    const cls = "pdp-badge" + (inline ? " inline" : "") + (hasPromoSrp(p) ? " promo-price" : "");
+    if (hasPromoSrp(p)) return `<span class="${cls}">${ICONS.tag}Promo price</span>`;
+    if (hasPromoDp(p)) return `<span class="${cls}">${ICONS.tag}Promo DP</span>`;
+    return "";
+  }
+  // "Comments" from the pricelist, e.g. "Maximum 50 units only until Oct 31, 2026"
+  function noteHTML(p, cls) {
+    return p.note ? `<p class="promo-note${cls ? " " + cls : ""}">${ICONS.clock}<span>${esc(p.note)}</span></p>` : "";
   }
 
   function typeLabel(p) { return (state.typeMap[p.type] || {}).label || p.type; }
@@ -289,7 +306,7 @@
 
   // ---------- What changed in recent updates (data/changes.json, written by tools/build_data.py) ----------
   const CHG_LABEL = { new: "New models", price: "Price changes", status: "Stock status changes" };
-  const CHG_FIELD = { srp: "SRP", dp: "DP", sale: "Sale price", promoDp: "Promo DP" };
+  const CHG_FIELD = { srp: "SRP", dp: "DP", sale: "Sale price", promoSrp: "Promo SRP", promoDp: "Promo DP" };
   const chgKey = (p) => String(p.partNo || p.model || p.id).toUpperCase();
   const dsOf = (p) => (String(p.id).startsWith("ltb-") ? "ltb" : "main");
   function chgOf(p) {
@@ -353,9 +370,11 @@
       if (p.dp != null) L.push("Regular DP: " + fmtPrice(p.dp));
       if (p.srp != null) L.push("SRP: " + fmtPrice(p.srp));
     } else {
-      if (p.srp != null) L.push("SRP: " + fmtPrice(p.srp));
+      if (hasPromoSrp(p)) L.push("PROMO SRP: " + fmtPrice(p.promoSrp) + " (regular SRP " + fmtPrice(p.srp) + ", save " + fmtPrice(p.srp - p.promoSrp) + ")");
+      else if (p.srp != null) L.push("SRP: " + fmtPrice(p.srp));
       if (p.dp != null) L.push("DP: " + fmtPrice(p.dp));
       if (hasPromoDp(p)) L.push("Promo DP: " + fmtPrice(p.promoDp) + " (save " + fmtPrice(p.dp - p.promoDp) + ")");
+      if (p.note) L.push("Note: " + p.note);
     }
     const a = availability(p);
     if (a) L.push("Availability: " + a.label + " (subject to confirmation with account manager)");
@@ -427,7 +446,7 @@
         ${heroImg(p, "", "(max-width: 720px) 50vw, 300px")}
         <span class="ltb-badge">${ICONS.clock}Last time to buy</span>
         ${rewardBadge(p)}
-        ${hasPromoDp(p) ? `<span class="pdp-badge">${ICONS.tag}Promo DP</span>` : ""}
+        ${promoBadge(p)}
         ${imgs > 1 ? `<span class="img-count">${ICONS.photos}${imgs}</span>` : ""}
         ${chgBadges(p)}
       </button>
@@ -468,7 +487,7 @@
       <button type="button" class="card-media" data-open="${esc(p.id)}" aria-label="View details for ${esc(p.model)}">
         ${heroImg(p, "", "(max-width: 720px) 50vw, 300px")}
         ${rewardBadge(p)}
-        ${hasPromoDp(p) ? `<span class="pdp-badge">${ICONS.tag}Promo DP</span>` : ""}
+        ${promoBadge(p)}
         ${imgs > 1 ? `<span class="img-count">${ICONS.photos}${imgs}</span>` : ""}
         ${chgBadges(p)}
       </button>
@@ -480,6 +499,7 @@
         ${stockHTML(p)}
         ${freebieHTML(p)}
         <div class="card-foot">
+          ${noteHTML(p)}
           <div class="prices">${priceHTML(p)}</div>
           ${viewAndCopy(p)}
         </div>
@@ -496,7 +516,8 @@
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
-        <div class="row-extras">${chgBadges(p, true)}${p.sale == null ? stockHTML(p) : ""}${hasPromoDp(p) ? `<span class="pdp-badge inline">${ICONS.tag}Promo DP</span>` : ""}${rw}${freebieHTML(p)}</div>
+        <div class="row-extras">${chgBadges(p, true)}${p.sale == null ? stockHTML(p) : ""}${promoBadge(p, true)}${rw}${freebieHTML(p)}</div>
+        ${noteHTML(p, "inline")}
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
       <div class="row-side">
@@ -649,14 +670,23 @@
         </div>
       </article>`;
     }).join("");
-    const pdp = (state.ds.main ? state.ds.main.products : []).filter(hasPromoDp);
-    const pdpPanel = pdp.length ? `<section class="pdp-panel" aria-labelledby="pdpTitle">
+    const mainList = state.ds.main ? state.ds.main.products : [];
+    const psrp = mainList.filter(hasPromoSrp);
+    const psrpPanel = psrp.length ? `<section class="pdp-panel psrp-panel" aria-labelledby="psrpTitle">
+        <div class="pdp-head"><span class="freebie-tag pdp-tag">${ICONS.tag}Promo price</span>
+          <h2 id="psrpTitle">Promo SRP on ${psrp.length} model${psrp.length === 1 ? "" : "s"}</h2>
+          <p>Limited-time retail prices from the current pricelist, with matching Promo DP. Regular prices shown struck through.</p></div>
+        <ul>${psrp.map((p) => `<li><a href="#/product/${encodeURIComponent(p.id)}"><span class="m">${esc(p.model)}${p.note ? `<small>${esc(p.note)}</small>` : ""}</span>
+          <span class="nums"><i>SRP</i><s>${fmtPrice(p.srp)}</s><b>${fmtPrice(p.promoSrp)}</b>${hasPromoDp(p) ? `<i>DP</i><s>${fmtPrice(p.dp)}</s><b>${fmtPrice(p.promoDp)}</b>` : ""}</span></a></li>`).join("")}</ul>
+      </section>` : "";
+    const pdp = mainList.filter((p) => hasPromoDp(p) && !hasPromoSrp(p));
+    const pdpPanel = psrpPanel + (pdp.length ? `<section class="pdp-panel" aria-labelledby="pdpTitle">
         <div class="pdp-head"><span class="freebie-tag pdp-tag">${ICONS.tag}Dealer promo</span>
           <h2 id="pdpTitle">Promo DP on ${pdp.length} model${pdp.length === 1 ? "" : "s"}</h2>
           <p>Special dealer prices from the current pricelist. Regular DP shown struck through.</p></div>
         <ul>${pdp.map((p) => `<li><a href="#/product/${encodeURIComponent(p.id)}"><span class="m">${esc(p.model)}</span>
           <span class="nums"><s>${fmtPrice(p.dp)}</s><b>${fmtPrice(p.promoDp)}</b><em>Save ${fmtPrice(p.dp - p.promoDp)}</em></span></a></li>`).join("")}</ul>
-      </section>` : "";
+      </section>` : "");
     $("#promosGrid").innerHTML = pdpPanel + (f ? `<aside class="freebie-banner">
         <img src="${esc(f.image)}" alt="${esc(f.name)}" width="160" height="128" loading="lazy">
         <div><span class="freebie-tag">${esc(f.label || "FREE")} with HP laptops</span>
@@ -725,6 +755,7 @@
       ["Warranty", p.warranty],
       ["Care Pack / service", p.carePack],
       ["Availability", availability(p) ? availability(p).label + " (indicative - confirm with account manager)" : null],
+      ["Promo note", p.note],
       ...chgRows(p),
     ];
     (p.otherSpecs || []).forEach((o) => rows.push(["Other", o]));
@@ -772,10 +803,12 @@
             ${salePriceHTML(p, true)}
             ${stockHTML(p)}
           </div>` : `<div class="price-panel">
-          ${p.srp != null ? `<div class="price-box srp"><span class="lbl">SRP <span class="sub">Suggested retail price</span></span><span class="val">${fmtPrice(p.srp)}</span></div>` : ""}
+          ${p.srp != null ? `<div class="price-box srp${hasPromoSrp(p) ? " was-dp" : ""}"><span class="lbl">SRP <span class="sub">Suggested retail price</span></span><span class="val">${hasPromoSrp(p) ? `<s>${fmtPrice(p.srp)}</s>` : fmtPrice(p.srp)}</span></div>` : ""}
+          ${hasPromoSrp(p) ? `<div class="price-box promo-dp promo-srp"><span class="lbl">Promo SRP <span class="sub">Promo retail price · save ${fmtPrice(p.srp - p.promoSrp)}</span></span><span class="val">${fmtPrice(p.promoSrp)}</span></div>` : ""}
           ${p.dp != null ? `<div class="price-box dp${hasPromoDp(p) ? " was-dp" : ""}"><span class="lbl">DP <span class="sub">Dealer price</span></span><span class="val">${hasPromoDp(p) ? `<s>${fmtPrice(p.dp)}</s>` : fmtPrice(p.dp)}</span></div>` : ""}
           ${hasPromoDp(p) ? `<div class="price-box promo-dp"><span class="lbl">Promo DP <span class="sub">Dealer promo price · save ${fmtPrice(p.dp - p.promoDp)}</span></span><span class="val">${fmtPrice(p.promoDp)}</span></div>` : ""}
         </div>`}
+        ${p.sale == null ? noteHTML(p, "detail") : ""}
         ${p.sale == null && availability(p) ? `<div class="avail-line">${stockHTML(p)}</div>` : ""}
         ${availability(p) ? `<p class="avail-note">${ICONS.clock}${esc(AVAIL_NOTE)}</p>` : ""}
         ${inclusionsHTML(p)}
@@ -994,7 +1027,7 @@
   }
   function priceOf(p, basis) {
     if (basis === "dp") return p.sale != null ? p.sale : hasPromoDp(p) ? p.promoDp : p.dp;
-    return p.srp;
+    return p.sale != null ? p.srp : srpNow(p);
   }
   function evaluate(p) {
     const a = attrs(p);
@@ -1037,7 +1070,7 @@
     const misses = r.fails.map((f) => `<li class="miss">${ICONS.x}${esc(f.why)}</li>`);
     const priceBlock = ltb
       ? `<div class="fr-price"><span><i>Sale</i>${fmtPrice(p.sale)}</span><span><i>SRP</i>${fmtPrice(p.srp)}</span></div>`
-      : `<div class="fr-price"><span><i>SRP</i>${fmtPrice(p.srp)}</span><span><i>${hasPromoDp(p) ? "Promo DP" : "DP"}</i>${fmtPrice(hasPromoDp(p) ? p.promoDp : p.dp)}</span></div>`;
+      : `<div class="fr-price"><span><i>${hasPromoSrp(p) ? "Promo SRP" : "SRP"}</i>${fmtPrice(srpNow(p))}</span><span><i>${hasPromoDp(p) ? "Promo DP" : "DP"}</i>${fmtPrice(hasPromoDp(p) ? p.promoDp : p.dp)}</span></div>`;
     return `<article class="fr${!alt && i === 0 ? " fr-top" : ""}${alt ? " fr-alt" : ""}">
       ${!alt && i === 0 ? `<span class="fr-ribbon">Top pick</span>` : ""}
       <button type="button" class="fr-media" data-fopen="${esc(p.id)}" aria-label="View details for ${esc(p.model)}">${heroImg(p, "", "160px")}${chgBadges(p)}</button>
@@ -1051,6 +1084,7 @@
         <h3 class="card-title">${skuTitle(p)}</h3>
         <p class="fr-specs">${keySpecs(p).map((s) => esc(s.v)).join(" · ")}</p>
         <ul class="fr-why">${misses.join("")}${reasons.join("")}</ul>
+        ${noteHTML(p, "inline")}
       </div>
       <div class="fr-side">
         ${priceBlock}
@@ -1548,7 +1582,7 @@
         freebie: state.freebie,
       };
     },
-    typeLabel, availability, hasFreebie, hasPromoDp, fmtPrice,
+    typeLabel, availability, hasFreebie, hasPromoDp, hasPromoSrp, fmtPrice,
     reward: (p) => state.rewards[skuKey(p.sku)] || null,
     placeholder: PLACEHOLDER,
     toast: (m) => toast(m),

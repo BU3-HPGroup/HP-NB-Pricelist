@@ -71,6 +71,7 @@
       const av = a.availability(p);
       const r = a.reward(p);
       const promoDp = a.hasPromoDp(p) ? p.promoDp : null;
+      const promoSrp = a.hasPromoSrp && a.hasPromoSrp(p) ? p.promoSrp : null;
       return {
         p, mode,
         type: a.typeLabel(p) || p.type || "",
@@ -82,7 +83,8 @@
         display: p.displayShort || p.display || "", displayFull: p.display || p.displayShort || "",
         graphics: p.graphics || "", os: p.os || "", color: p.color || "", warranty: p.warranty || "",
         other: (p.otherSpecs || []).join("; "),
-        srp: round(p.srp), dp: round(p.dp), promoDp: round(promoDp), sale: round(p.sale),
+        srp: round(p.srp), dp: round(p.dp), promoSrp: round(promoSrp), promoDp: round(promoDp), sale: round(p.sale),
+        note: p.note || "",
         save: p.sale != null && p.dp != null && p.dp > p.sale ? round(p.dp - p.sale) : null,
         avail: av ? av.label : "", availLevel: av ? av.level : "neutral",
         freebie: a.hasFreebie(p) && a.context().freebie ? (a.context().freebie.shortName || a.context().freebie.name) : "",
@@ -301,13 +303,21 @@
         } else if (c.k === "incl") {
           font(doc, 6.3, "normal", INK);
           const parts = [];
+          if (r.note) parts.push(r.note);
           if (r.freebie) parts.push("FREE " + r.freebie);
           if (r.promo) parts.push(r.promo);
           let yy = y + 4.2;
           parts.forEach((t) => { const ls = clampLines(doc, t, cw, 2); doc.text(ls, cx, yy, { lineHeightFactor: 1.1 }); yy += ls.length * 2.6 + 0.9; });
         } else if (c.num) {
           const rx = c.x + c.w - PAD, my = y + ROW / 2 + 1.2;
-          if (c.k === "srp") { font(doc, 8.4, "bold", INK); doc.text(peso(r.srp), rx, my, { align: "right" }); }
+          if (c.k === "srp") {
+            if (r.promoSrp != null) {
+              font(doc, 6.6, "bold", MUTED); doc.text(peso(r.srp), rx, my - 3.6, { align: "right" });
+              const tw3 = doc.getTextWidth(peso(r.srp)); doc.setDrawColor.apply(doc, MUTED); doc.setLineWidth(0.25); doc.line(rx - tw3, my - 4.4, rx, my - 4.4);
+              font(doc, 8.8, "bold", RED); doc.text(peso(r.promoSrp), rx, my + 0.4, { align: "right" });
+              font(doc, 5.6, "bold", RED); doc.text("PROMO", rx, my + 3.4, { align: "right" });
+            } else { font(doc, 8.4, "bold", INK); doc.text(peso(r.srp), rx, my, { align: "right" }); }
+          }
           if (c.k === "dp") {
             const struck = ltb || r.promoDp != null;
             font(doc, struck ? 7.2 : 8.4, "bold", struck ? MUTED : BLUE); doc.text(peso(r.dp), rx, my, { align: "right" });
@@ -357,6 +367,7 @@
       const ph = photos[i];
       if (ph) { const f = fit(ph.w, ph.h, cw - 12, IMGH - 6); doc.addImage(ph.data, ph.type, cx + (cw - f.w) / 2, cy + (IMGH - f.h) / 2 + 0.3, f.w, f.h); }
       if (ltb) { doc.setFillColor(...RED); doc.roundedRect(cx + 3, cy + 3, 27, 5, 1.2, 1.2, "F"); font(doc, 5.8, "bold", [255, 255, 255]); doc.text("LAST TIME TO BUY", cx + 16.5, cy + 6.4, { align: "center" }); }
+      else if (r.promoSrp != null) { doc.setFillColor(...RED); doc.roundedRect(cx + 3, cy + 3, 22, 5, 1.2, 1.2, "F"); font(doc, 5.8, "bold", [255, 255, 255]); doc.text("PROMO PRICE", cx + 14, cy + 6.4, { align: "center" }); }
       else if (r.promoDp != null && sel.dealer) { doc.setFillColor(...ORANGE); doc.roundedRect(cx + 3, cy + 3, 18, 5, 1.2, 1.2, "F"); font(doc, 5.8, "bold", [255, 255, 255]); doc.text("PROMO DP", cx + 12, cy + 6.4, { align: "center" }); }
       const px = cx + 4, pw = cw - 8;
       let y = cy + IMGH + 5;
@@ -368,7 +379,7 @@
       font(doc, 6.3, "normal", MUTED); doc.text([r.partNo && "PN " + r.partNo, sel.dealer && r.matNo && "Mat " + r.matNo].filter(Boolean).join("  ·  "), px, y); y += 4.2;
       // prices pinned to the bottom of the card so every card lines up; specs and extras fill the space above
       const by = cy + ch - 4;
-      const extras = [r.freebie && "FREE " + r.freebie, r.promo].filter(Boolean).slice(0, 2);
+      const extras = [r.note, r.freebie && "FREE " + r.freebie, r.promo].filter(Boolean).slice(0, 2);
       const extraTop = by - 11 - extras.length * 2.9;
       const specs = specLines(r);
       const room = Math.max(1, Math.floor((extraTop - y + 0.6) / 3.3));
@@ -378,7 +389,8 @@
       extras.forEach((t, k) => doc.text(clampLines(doc, t, pw, 1), px, extraTop + 2.2 + k * 2.9));
       doc.setDrawColor.apply(doc, LINE); doc.setLineWidth(0.2); doc.line(px, by - 9.5, px + pw, by - 9.5);
       const cells = [];
-      cells.push({ l: "SRP", v: peso(r.srp), c: INK });
+      if (r.promoSrp != null) { cells.push({ l: "SRP", v: peso(r.srp), c: MUTED, strike: true }); cells.push({ l: "Promo SRP", v: peso(r.promoSrp), c: RED }); }
+      else cells.push({ l: "SRP", v: peso(r.srp), c: INK });
       if (sel.dealer) {
         if (ltb) { cells.push({ l: "Regular DP", v: peso(r.dp), c: MUTED, strike: true }); cells.push({ l: "Sale price", v: peso(r.sale), c: RED }); }
         else if (r.promoDp != null) { cells.push({ l: "DP", v: peso(r.dp), c: MUTED, strike: true }); cells.push({ l: "Promo DP", v: peso(r.promoDp), c: ORANGE }); }
@@ -414,10 +426,12 @@
     else C.push({ k: "other", h: "Other specs", w: 24 });
     C.push({ k: "avail", h: "Availability", w: 13 });
     C.push({ k: "srp", h: "SRP", w: 12, money: true });
+    if (!ltb && rows.some((r) => r.promoSrp != null)) C.push({ k: "promoSrp", h: "Promo SRP", w: 12, money: true });
     if (sel.dealer) {
       if (ltb) C.push({ k: "dp", h: "Regular DP", w: 12, money: true }, { k: "sale", h: "Sale price", w: 12, money: true }, { k: "save", h: "Save vs DP", w: 11, money: true });
       else C.push({ k: "dp", h: "DP", w: 12, money: true }, { k: "promoDp", h: "Promo DP", w: 12, money: true });
     }
+    if (!ltb && rows.some((r) => r.note)) C.push({ k: "note", h: "Promo note", w: 34 });
     C.push({ k: "freebie", h: "Freebie", w: 30 }, { k: "promo", h: "Promo", w: 40 });
     ws.columns = C.map((c) => ({ key: c.k, width: c.w }));
     const last = C.length;
@@ -468,7 +482,8 @@
         if (c.k === "sale") cell.font = Object.assign({}, cell.font, { bold: true, color: { argb: hex(RED) } });
         if (c.k === "dp" && ((!ltb && r.promoDp != null) || ltb)) cell.font = Object.assign({}, cell.font, { strike: true, color: { argb: "FF6B6F76" } });
         if (c.k === "dp" && !ltb && r.promoDp == null) cell.font = Object.assign({}, cell.font, { bold: true, color: { argb: hex(BLUE) } });
-        if (c.k === "srp") cell.font = Object.assign({}, cell.font, { bold: true });
+        if (c.k === "srp") cell.font = Object.assign({}, cell.font, r.promoSrp != null ? { strike: true, color: { argb: "FF6B6F76" } } : { bold: true });
+        if ((c.k === "promoSrp" && r.promoSrp != null) || (c.k === "note" && r.note)) cell.font = Object.assign({}, cell.font, { bold: true, color: { argb: hex(RED) } });
       });
       row.height = withPhotos ? PHOTO_ROW_PT : 32;
     });

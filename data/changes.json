@@ -113,9 +113,69 @@
         "key": "E6RZ5PA",
         "model": "HP OmniBook 3 16-bu0398TU",
         "kind": "new"
+      },
+      {
+        "date": "2026-10-12",
+        "key": "DW4U8PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 44990
+      },
+      {
+        "date": "2026-10-12",
+        "key": "DW4U8PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 48792,
+        "to": 38242
+      },
+      {
+        "date": "2026-10-12",
+        "key": "DW4U9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 44990
+      },
+      {
+        "date": "2026-10-12",
+        "key": "DW4U9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 48792,
+        "to": 38242
+      },
+      {
+        "date": "2026-10-12",
+        "key": "DW7W9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 60990
+      },
+      {
+        "date": "2026-10-12",
+        "key": "DW7W9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 51992,
+        "to": 51842
       }
     ],
-    "updatedAt": "2026-10-07"
+    "updatedAt": "2026-10-12"
   },
   "ltb": {
     "events": [
@@ -130,6 +190,6 @@
         "to": "Limited"
       }
     ],
-    "updatedAt": "2026-10-07"
+    "updatedAt": "2026-10-12"
   }
 }
