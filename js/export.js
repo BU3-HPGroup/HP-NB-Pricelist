@@ -516,4 +516,6 @@
     if (f && !f.disabled) run(f.dataset.format, f);
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#dlModal").hidden) { e.stopPropagation(); closeDialog(); } }, true);
+  // shared with the requirement matcher (js/match.js) for its compliance sheet
+  window.HPPLX = { VENDOR, loadScript, newDoc, font, logos, header, footers, saveBlob, clampLines, BLUE, INK, MUTED, LINE, RED, GREEN, AMBER };
 })();

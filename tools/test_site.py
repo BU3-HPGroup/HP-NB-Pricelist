@@ -307,6 +307,56 @@ with sync_playwright() as pw:
     check("promo SRP: listed on Promos page", pg.locator(".psrp-panel li").count() == len(ps))
     pg.goto(BASE + "#/"); pg.wait_for_timeout(300)
 
+    # ---------- Match specs (requirement matcher) ----------
+    pg.goto(BASE + "#/"); pg.wait_for_selector(".card"); pg.wait_for_timeout(300)
+    check("match: button in toolbar", pg.is_visible("#matchOpen"))
+    pg.click("#matchOpen"); pg.wait_for_selector("#mtModal:not([hidden])")
+    pg.click("#mtSample"); pg.wait_for_selector(".mt-card")
+    req = pg.evaluate("() => { const n = HPMatch.get().nb; return { cpu: n.cpu && n.cpu.info.cls, ram: n.ram && n.ram.gb, sto: n.storage && n.storage.gb, size: n.size, os: n.os, w: n.warranty && n.warranty.years, qty: HPMatch.get().qty, bud: HPMatch.get().budget }; }")
+    check("match: example requirement read", req == {"cpu": "Core Ultra 5", "ram": 16, "sto": 512, "size": 14, "os": "Windows 11 Pro", "w": 3, "qty": 20, "bud": {"amount": 1500000, "per": "total"}}, str(req))
+    check("match: top cards with match % shown", pg.locator(".mt-card").count() >= 3 and pg.locator(".mt-card .mt-score").count() >= 3)
+    ltb_data = json.load(open(os.path.join(ROOT, "data", "ltb.json"), encoding="utf-8"))["products"]
+    n_all = len(data) + len(ltb_data)
+    check("match: every laptop ranked (pricelist + LTB)", pg.evaluate("HPMatch.results().length") == n_all, str(pg.evaluate("HPMatch.results().length")))
+    cases = {
+        "Laptop, Intel Core i5 or Ryzen 5, 8GB RAM, 512GB SSD, 15.6 inch FHD, Windows 11 Home, MS Office, 2 years onsite warranty, 30 units, ABC Php 1,800,000":
+            lambda r: r[0]["sku"].startswith("15-") and r[0]["pct"] == 100,
+        "Copilot+ PC, Core Ultra 7, 32GB RAM, 1TB SSD, 14\" OLED touch, 2-in-1 convertible, IR camera":
+            lambda r: r[0]["pct"] == 100 and r[0]["flip"],
+        "Intel Core Ultra 5, 16GB, 256GB SSD, 14 inch WUXGA, Windows 11 Pro, RJ-45, fingerprint reader, backlit keyboard":
+            lambda r: r[0]["sku"] == "BQ5B1PT" and "Memory:fix" in r[0]["rows"],
+    }
+    for txt, ok in cases.items():
+        r = pg.evaluate("t => HPMatch.runText(t).then(() => HPMatch.results().slice(0, 3).map(x => ({ sku: x.p.sku, pct: Math.round(x.score * 100), flip: x.a.flip, rows: x.rows.map(r => r.label + ':' + r.st).join('|') })))", txt)
+        check(f"match: {txt[:48]}…", ok(r), str(r[:2])[:300])
+    pg.evaluate("t => HPMatch.runText(t)", "14 inch laptop, 16GB RAM, weight 1.5 kg max")
+    unk = pg.evaluate("() => HPMatch.results().find(x => x.p.sku === '14-hm0072AU').rows.filter(r => r.k === 'kg').map(r => r.st)")
+    check("match: unknown specs shown as Not listed (never guessed)", unk == ["unknown"], str(unk))
+    for fmt in ("xlsx", "pdf"):
+        with pg.expect_download() as d:
+            pg.click(f'[data-compx="{fmt}"]')
+        check(f"match: compliance sheet {fmt}", d.value.suggested_filename.startswith("Iontech Compliance Sheet") and d.value.suggested_filename.endswith(fmt))
+    # reading a PDF file (pdf.js, bundled)
+    try:
+        from reportlab.pdfgen import canvas as _cv
+        fx = os.path.join(SHOTS, "rfq-test.pdf"); c = _cv.Canvas(fx); yy = 800
+        for line in ["Request for Quotation - Laptops (qty 40)", "Processor: AMD Ryzen 5 or Intel Core i5 equivalent", "RAM: 8GB", "SSD: 512GB", 'Screen: 15.6" Full HD', "OS: Windows 11 Home", "Budget per unit: Php 58,000"]:
+            c.drawString(60, yy, line); yy -= 22
+        c.save()
+        pg.set_input_files("#mtFile", fx)
+        pg.wait_for_function("() => /RAM: 8GB/.test(document.querySelector('#mtText').value) && !document.querySelector('#mtDrop').classList.contains('busy')", timeout=60000)
+        pg.wait_for_timeout(500)
+        q = pg.evaluate("() => { const R = HPMatch.get(); return [R.qty, R.budget && R.budget.amount, R.nb.ram && R.nb.ram.gb, R.nb.size]; }")
+        check("match: reads a PDF requirement", q == [40, 58000, 8, 15.6], str(q))
+    except ImportError:
+        pass
+    pg.click('.mt-card [data-mtview]'); pg.wait_for_timeout(500)
+    check("match: View details opens the product", pg.is_visible("#detailModal") and "/product/" in pg.evaluate("location.hash"))
+    pg.keyboard.press("Escape"); pg.wait_for_timeout(200)
+    pg.goto(BASE + "#/finder"); pg.wait_for_timeout(300)
+    check("match: link on Find a laptop page", pg.is_visible(".finder-match [data-matchopen]"))
+    check("match: no JS errors", not errs, str(errs[:3]))
+
     # ---------- welcome banner ----------
     pg.goto(BASE + "#/"); pg.wait_for_timeout(700)
     check("welcome: banner shown on home page", pg.is_visible("#welcome") and pg.locator("#welcomeStage img").count() >= 1)

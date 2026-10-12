@@ -1672,6 +1672,11 @@
     typeLabel, availability, hasFreebie, hasPromoDp, hasPromoSrp, fmtPrice,
     reward: (p) => state.rewards[skuKey(p.sku)] || null,
     addon: (p) => (p.sale == null ? addonFor(p) : null),
+    // for the requirement matcher (js/match.js)
+    dataset: (m) => (state.ds[m] ? state.ds[m].products : []),
+    upgrade: (p) => upgradeInfo(p),
+    priceOf, productLink, srpNow,
+    openProduct: (p, m) => { location.hash = productLink(p, m); },
     placeholder: PLACEHOLDER,
     toast: (m) => toast(m),
   };

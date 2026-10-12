@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/favicon-192.png">
   <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=20261012-2">
+  <link rel="stylesheet" href="css/styles.css?v=20261012-4">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to products</a>
@@ -76,7 +76,7 @@
             Last-time-buy <span class="count" id="navLtbCount"></span></a></li>
           <li><a class="nav-link nav-sites" href="#/sites" data-nav="sites">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
-            HP Related Sites</a></li>
+            HP <span class="nav-sites-long">Related </span>Sites</a></li>
         </ul>
       </div>
     </nav>
@@ -209,6 +209,10 @@
           <p class="eyebrow">Sales tool</p>
           <h1 id="finderTitle">Find the right laptop</h1>
           <p class="category-desc">Tell us what your customer needs. Every model on the pricelist is checked against it, ranked, and shown with the reasons it fits — so you can recommend with confidence.</p>
+          <p class="finder-match"><button type="button" class="btn btn-match" data-matchopen>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6l1 3h3a2 2 0 0 1 2 2v1"/><path d="M4 8V6a2 2 0 0 1 2-2"/><rect x="3" y="8" width="11" height="13" rx="2"/><path d="M6 12h5M6 15.5h5M6 19h3"/><circle cx="17.5" cy="15.5" r="3.5"/><path d="m20 18 2 2"/></svg>
+            <span>Have the client's spec sheet? Match specs</span></button>
+            <small>Drop a picture, PDF or text of the requirement</small></p>
         </div>
       </div>
       <div class="container finder">
@@ -364,7 +368,8 @@
   </div>
 
   <noscript><p class="noscript">This pricelist needs JavaScript enabled to display products.</p></noscript>
-  <script src="js/app.js?v=20261012-2" defer></script>
-  <script src="js/export.js?v=20261012-2" defer></script>
+  <script src="js/app.js?v=20261012-4" defer></script>
+  <script src="js/export.js?v=20261012-4" defer></script>
+  <script src="js/match.js?v=20261012-4" defer></script>
 </body>
 </html>
