@@ -254,3 +254,13 @@ Values shown on the website come from `data/upgrades.json`. If the guide does no
 - **Models:**
   - E5MC6PA · HP OmniBook X Flip NG AI PC 14-fm0206TU (Pricelist)
   - E5MC7PA · HP OmniBook X Flip NG AI PC 14-fm0208TU (Pricelist)
+
+## HP ProBook 4 G1i 14 inch Notebook AI PC
+
+- **Service guide:** [pdf_11989311_en-US-1.pdf](https://kaas.hpcloud.hp.com/pdf-public/pdf_11989311_en-US-1.pdf) — Doc. P23957-001, First Edition, April 2025
+- **Looked up with:** BQ5B1PT (checked 2026-10-12)
+- **RAM:** Upgradeable – 2 customer-replaceable memory slots (DDR5-5600, up to 32 GB)
+  - Guide: two customer-replaceable memory module slots supporting up to 32 GB, DDR5-5600 dual-channel. HP spec sheet for BQ5B1PT: 2 SODIMM, 1 x 8 GB installed (one slot free).
+- **M.2 SSD:** 1× M.2 2280 PCIe NVMe SSD – no additional M.2 SSD slot listed
+- **Models:**
+  - BQ5B1PT · HP Probook 4 G1I 14 AI Commercial On Retail (Pricelist)

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-12T14:02:00",
+  "generatedAt": "2026-10-12T15:25:59",
   "sourceFile": "Current Pricelist - HPNB.xlsx",
-  "sourceHash": "ec6d7e4179",
+  "sourceHash": "3e6768eec7",
   "currency": "PHP",
-  "count": 38,
+  "count": 39,
   "products": [
     {
       "id": "15-fc0930au",
@@ -2455,6 +2455,231 @@
         }
       ],
       "row": 38
+    },
+    {
+      "id": "bq5b1pt",
+      "model": "HP Probook 4 G1I 14 AI Commercial On Retail",
+      "title": "HP ProBook 4 G1i 14 inch Notebook AI PC",
+      "sku": "BQ5B1PT",
+      "partNo": "BQ5B1PT",
+      "matNo": "432115037006",
+      "type": "Probook",
+      "srp": 77990,
+      "dp": 61706,
+      "promoSrp": 73990,
+      "promoDp": 59000,
+      "status": "Onhand",
+      "cpu": "Core Ultra 5 225U (12C) 12 NPU TOPs",
+      "cpuBrand": "Intel",
+      "ram": "8GB DDR5 5600 (1 x 8GB)",
+      "storage": "256GB PCIe NVMe SSD",
+      "graphics": "Intel® Graphics",
+      "display": "14\" diagonal, WUXGA (1920 x 1200), IPS, anti-glare, 300 nits, low power, 62.5% sRGB",
+      "displayShort": "14\" WUXGA (1920x1200)",
+      "os": "Windows 11 Home Single Language",
+      "color": "Pike silver aluminum",
+      "camera": "1080p FHD camera",
+      "formFactor": "Standard laptop",
+      "series": "HP ProBook 4 G1i 14\" AI",
+      "adapter": "65 W USB Type-C® adapter",
+      "warranty": "1/1/1",
+      "specsRaw": "U5-225U 8GB 256GB W11 HOME 1/1/1 WS BUS",
+      "images": [
+        {
+          "angle": "Front",
+          "src": "assets/images/products/bq5b1pt-front.webp",
+          "thumb": "assets/images/products/bq5b1pt-front-thumb.webp",
+          "width": 1200,
+          "height": 1009,
+          "sourceFile": "BQ5B1PT - Center.png"
+        },
+        {
+          "angle": "Front Left",
+          "src": "assets/images/products/bq5b1pt-front-left.webp",
+          "thumb": "assets/images/products/bq5b1pt-front-left-thumb.webp",
+          "width": 1200,
+          "height": 988,
+          "sourceFile": "BQ5B1PT - Front left.png"
+        },
+        {
+          "angle": "Rear Left",
+          "src": "assets/images/products/bq5b1pt-rear-left.webp",
+          "thumb": "assets/images/products/bq5b1pt-rear-left-thumb.webp",
+          "width": 1200,
+          "height": 997,
+          "sourceFile": "BQ5B1PT - Rear Left.png"
+        },
+        {
+          "angle": "Side Profiles",
+          "src": "assets/images/products/bq5b1pt-side-profiles.webp",
+          "thumb": "assets/images/products/bq5b1pt-side-profiles-thumb.webp",
+          "width": 1200,
+          "height": 376,
+          "sourceFile": "BQ5B1PT - Sides.png"
+        }
+      ],
+      "specSheet": {
+        "name": "HP ProBook 4 G1i 14 inch Notebook AI PC",
+        "productNumber": "BQ5B1PT",
+        "series": "HP ProBook 4 G1i 14\" AI",
+        "usage": "Mainstream business productivity",
+        "rows": [
+          [
+            "Processor",
+            "Intel® Core™ Ultra 5 225U (up to 4.8 GHz with Intel® Turbo Boost Technology, 12 MB L3 cache, 12 cores, 14 threads)"
+          ],
+          [
+            "AI engine (NPU)",
+            "Intel® AI Boost (12 NPU TOPS)"
+          ],
+          [
+            "Memory",
+            "8 GB DDR5-5600 MT/s (1 x 8 GB)"
+          ],
+          [
+            "Memory slots",
+            "2 SODIMM (1 x 8 GB installed)"
+          ],
+          [
+            "Storage",
+            "256 GB PCIe® NVMe™ SSD"
+          ],
+          [
+            "Display",
+            "14\" diagonal, WUXGA (1920 x 1200), IPS, anti-glare, 300 nits, low power, 62.5% sRGB"
+          ],
+          [
+            "Graphics",
+            "Intel® Graphics"
+          ],
+          [
+            "Operating system",
+            "Windows 11 Home Single Language – HP recommends Windows 11 Pro for business"
+          ],
+          [
+            "Camera",
+            "1080p FHD camera"
+          ],
+          [
+            "Audio",
+            "Audio by Poly Studio, dual stereo speakers, dual array microphones"
+          ],
+          [
+            "Wireless",
+            "Intel® Wi-Fi 6E AX211 (2x2) and Bluetooth® 5.3 wireless card"
+          ],
+          [
+            "Ethernet",
+            "Realtek RTL8111HSH-CG GbE"
+          ],
+          [
+            "Ports",
+            "1 HDMI 2.1; 1 stereo headphone/microphone combo jack; 1 RJ-45; 2 USB Type-A 5Gbps signaling rate (powered); 2 USB Type-C® 20Gbps signaling rate (USB Power Delivery 3.0, DisplayPort™ 1.4, HP Sleep and Charge)"
+          ],
+          [
+            "Keyboard",
+            "Spill-resistant, backlit keyboard"
+          ],
+          [
+            "Fingerprint reader",
+            "Yes"
+          ],
+          [
+            "Battery",
+            "HP Long Life 3-cell, 56 Wh Li-ion polymer · Fast charging 50% in 30 minutes"
+          ],
+          [
+            "Power adapter",
+            "65 W USB Type-C® adapter"
+          ],
+          [
+            "Colour",
+            "Pike silver aluminum"
+          ],
+          [
+            "Weight",
+            "Starting at 1.39 kg"
+          ],
+          [
+            "Dimensions (W x D x H)",
+            "31.86 x 22.43 x 1.09 cm (front); 31.86 x 22.43 x 1.7 cm (rear)"
+          ],
+          [
+            "Durability",
+            "MIL-STD 810H tested"
+          ],
+          [
+            "HP warranty (spec sheet)",
+            "1 year (1/1/0) limited warranty includes 1 year of parts and labor. No on-site repair. Terms and conditions vary by country. Certain restrictions and exclusions apply."
+          ]
+        ],
+        "sure": [
+          {
+            "name": "HP Sure Admin",
+            "what": "Lets IT manage BIOS settings with secure digital certificates instead of a shared BIOS password; local access is approved with a smartphone app.",
+            "notes": [
+              "HP Sure Admin requires HP G8 or newer platforms, Windows 10 or higher, HP BIOS, HP Manageability Kit or KMS Service from http://www.hp.com/go/clientmanagement and HP Sure Admin Local Access Authenticator smartphone app from the Android or Apple store."
+            ]
+          },
+          {
+            "name": "HP Sure Click",
+            "what": "Opens risky web pages and files in isolated micro virtual machines, so any malware is contained and removed when the tab or file is closed.",
+            "notes": [
+              "HP Sure Click requires Windows 10 and higher. See https://bit.ly/2PrLT6A_SureClick for complete details."
+            ]
+          },
+          {
+            "name": "HP Sure Recover",
+            "what": "Reinstalls the Windows image over a network connection, even if the drive was wiped - no USB stick or IT visit needed.",
+            "notes": [
+              "HP Sure Recover is available on select HP PCs and requires Windows 10 or 11 and an open network connection. You must back up important files, data, photos, videos, etc. before using HP Sure Recover to avoid loss of data."
+            ]
+          },
+          {
+            "name": "HP Sure Run",
+            "what": "Keeps critical security processes running: if malware tries to stop them, Sure Run restarts them automatically.",
+            "notes": [
+              "HP Sure Run is available on select HP PCs and requires Windows 10 and higher."
+            ]
+          },
+          {
+            "name": "HP Sure Sense",
+            "what": "AI-based malware protection that uses deep learning to stop new, never-seen-before malware and ransomware.",
+            "notes": [
+              "HP Sure Sense requires Windows 10 and higher. See product specifications for availability. On units with WWAN shipping to China, HP Sure Sense is only available via Softpaq download."
+            ]
+          },
+          {
+            "name": "HP Sure Start",
+            "what": "Self-healing BIOS: checks the BIOS every time the PC starts and automatically restores a clean copy if it has been attacked or corrupted.",
+            "notes": [
+              "HP Sure Start is available on select HP PCs and requires Windows 10 and higher."
+            ]
+          },
+          {
+            "name": "HP Sure Platform (sensor)",
+            "what": null,
+            "notes": []
+          }
+        ],
+        "security": [
+          "HP Tamper Lock",
+          "Secured-Core PC Enable",
+          "Windows Hello Enhanced SIgn-in Security (ESS) Enable",
+          "TPM 2.0 Embedded Security Chip (Common Criteria EAL4+ Certified) (FIPS 140-2 Level 2 Certified)",
+          "Absolute Persistence Module",
+          "Audio Permanent Disable",
+          "HP BIOS Recovery",
+          "BIOS Update via Network",
+          "HP BIOSphere Gen6",
+          "HP DriveLock and Automatic DriveLock",
+          "HP Secure Erase",
+          "HP Wake on WLAN",
+          "Security lock slot"
+        ],
+        "sourceFile": "BQ5B1PT_ap-en_Tec_202610121517.xlsx"
+      },
+      "row": 39
     }
   ]
 }

@@ -221,6 +221,17 @@
       "ramNote": "Guide: on-board system memory, not accessible or upgradeable (16 GB or 32 GB).",
       "ssd": "1× M.2 SSD slot (2280 PCIe NVMe) – no additional M.2 SSD slot listed",
       "ssdNote": "Only primary storage (PCIe NVMe M.2 2280) is listed."
+    },
+    "probook4g1i14": {
+      "title": "HP ProBook 4 G1i 14 inch Notebook AI PC",
+      "docPN": "P23957-001",
+      "edition": "First Edition, April 2025",
+      "url": "https://kaas.hpcloud.hp.com/pdf-public/pdf_11989311_en-US-1.pdf",
+      "lookup": "BQ5B1PT",
+      "ram": "Upgradeable – 2 customer-replaceable memory slots (DDR5-5600, up to 32 GB)",
+      "ramNote": "Guide: two customer-replaceable memory module slots supporting up to 32 GB, DDR5-5600 dual-channel. HP spec sheet for BQ5B1PT: 1 x 8 GB installed, so one slot is free.",
+      "ssd": "1× M.2 2280 PCIe NVMe SSD – no additional M.2 SSD slot listed",
+      "ssdNote": "The guide's removal procedure describes a single M.2 2280 drive."
     }
   },
   "skus": {
@@ -272,6 +283,7 @@
     "14-HG0079TU": "ob7",
     "14-HG0080TU": "ob7",
     "14-FM0206TU": "cadet",
-    "14-FM0208TU": "cadet"
+    "14-FM0208TU": "cadet",
+    "BQ5B1PT": "probook4g1i14"
   }
 }

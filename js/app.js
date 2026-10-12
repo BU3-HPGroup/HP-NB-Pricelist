@@ -22,6 +22,8 @@
   const fmtNum = (v) => new Intl.NumberFormat("en-PH").format(v);
 
   const ICONS = {
+    shield: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.3-3 8-7 9.5-4-1.5-7-5.2-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+    upgrade: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6.5 11.5 12 6l5.5 5.5"/><path d="M5 21h14"/></svg>',
     cpu: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx=".5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg>',
     ram: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="1.5"/><path d="M7 17v2M11 17v2M15 17v2M7 10v4M11 10v4M15 10v4"/></svg>',
     storage: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="17" cy="12" r="1"/><path d="M6 12h6"/></svg>',
@@ -114,7 +116,8 @@
     const t = state.typeMap[p.type];
     const fields = [p.model, p.sku, p.type, t && t.label, p.platform, p.cpu, p.cpuBrand, p.ram, p.storage, p.graphics,
       p.display, p.displayShort, p.os, p.color, p.camera, p.formFactor, p.series, p.specsRaw,
-      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", hasPromoSrp(p) && "promo srp promo price sale", p.note, p.segment, p.otherSpecs && p.otherSpecs.join(" ")];
+      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", hasPromoSrp(p) && "promo srp promo price sale", p.note, p.segment, p.otherSpecs && p.otherSpecs.join(" "),
+      p.title, p.specSheet && "wolf security sure start sure click sure sense sure run sure recover sure admin business"];
     p._hay = norm(fields.filter(Boolean).join(" | "));
     p._hayC = compact(p._hay);
     p._band = bandOf(priceKey(p));
@@ -259,6 +262,49 @@
   // "Comments" from the pricelist, e.g. "Maximum 50 units only until Oct 31, 2026"
   function noteHTML(p, cls) {
     return p.note ? `<p class="promo-note${cls ? " " + cls : ""}">${ICONS.clock}<span>${esc(p.note)}</span></p>` : "";
+  }
+
+  // paid upgrade offers from data/promos.json "addons" (matched by part number / SKU)
+  function addonFor(p) {
+    return (state.addons || []).find((a) => (a.partNo && p.partNo && skuKey(a.partNo) === skuKey(p.partNo)) || (a.sku && skuKey(a.sku) === skuKey(p.sku))) || null;
+  }
+  function addonHTML(p, cls) {
+    const a = p.sale == null ? addonFor(p) : null;
+    return a ? `<p class="addon-line${cls ? " " + cls : ""}" title="${esc(a.caption || a.title)}">${ICONS.upgrade}<span>${esc(a.to || a.label)} upgrade <b>+${fmtPrice(a.price)}</b></span></p>` : "";
+  }
+  function addonBox(p) {
+    const a = p.sale == null ? addonFor(p) : null;
+    return a ? `<div class="addon-box">${ICONS.upgrade}<div><b>${esc(a.title)}</b><span>${esc(a.caption || "")}</span></div><em>+${fmtPrice(a.price)}</em></div>` : "";
+  }
+  // HP Wolf Security "Sure" features, from the HP spec sheet (source/specsheets)
+  function wolfHTML(p) {
+    const sh = p.specSheet;
+    if (!sh || !(sh.sure || []).length) return "";
+    const ORDER = ["HP Sure Start", "HP Sure Sense", "HP Sure Click", "HP Sure Run", "HP Sure Recover", "HP Sure Admin"];
+    const rank = (n) => (ORDER.indexOf(n) + 1) || 99;
+    const known = sh.sure.filter((x) => x.what).sort((a, b) => rank(a.name) - rank(b.name)), other = sh.sure.filter((x) => !x.what).map((x) => x.name);
+    const reqs = known.filter((x) => (x.notes || []).length);
+    return `<section class="wolf" aria-labelledby="wolfH">
+      <div class="wolf-head">${ICONS.shield}<div><h3 id="wolfH">HP Wolf Security — the “Sure” features</h3>
+        <p>Built-in, hardware-enforced protection listed on HP's spec sheet for ${esc(p.partNo || p.sku)}.</p></div></div>
+      <ul class="wolf-list">${known.map((x) => `<li><b>${esc(x.name)}</b><span>${esc(x.what)}</span></li>`).join("")}</ul>
+      ${reqs.length ? `<details class="wolf-more"><summary>Requirements (HP spec sheet footnotes)</summary>
+        <ul class="wolf-reqs">${reqs.map((x) => `<li>${esc(x.notes.join(" "))}</li>`).join("")}</ul></details>` : ""}
+      ${other.length || (sh.security || []).length ? `<details class="wolf-more"><summary>All security &amp; manageability features (${(sh.security || []).length + other.length})</summary>
+        <ul>${other.concat(sh.security || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></details>` : ""}
+    </section>`;
+  }
+  function sheetHTML(p) {
+    const sh = p.specSheet;
+    if (!sh || !(sh.rows || []).length) return "";
+    return `<details class="raw sheet" open><summary>HP spec sheet — ${esc(sh.name || p.model)}</summary>
+      <table class="spec-table"><tbody>${sh.rows.map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</tbody></table>
+      <p class="spec-src-note">Source: HP technical specifications, ${esc(sh.sourceFile || "")}</p></details>`;
+  }
+  function wolfChips(p) {
+    const sh = p.specSheet;
+    if (!sh || !(sh.sure || []).length) return "";
+    return `<p class="wolf-chip" title="${esc(sh.sure.map((x) => x.name).join(", "))}">${ICONS.shield}<span>HP Wolf Security · ${sh.sure.filter((x) => x.what).length} Sure features</span></p>`;
   }
 
   function typeLabel(p) { return (state.typeMap[p.type] || {}).label || p.type; }
@@ -458,6 +504,8 @@
         <ul class="spec-list">${keySpecs(p).map((s) => `<li title="${esc(s.label)}">${ICONS[s.k]}<span>${esc(s.v)}</span></li>`).join("")}</ul>
         ${stockHTML(p)}
         ${freebieHTML(p)}
+        ${addonHTML(p)}
+        ${wolfChips(p)}
         <div class="card-foot">${viewAndCopy(p)}</div>
       </div>
     </article>`;
@@ -498,6 +546,8 @@
         <ul class="spec-list">${keySpecs(p).map((s) => `<li title="${esc(s.label)}">${ICONS[s.k]}<span>${esc(s.v)}</span></li>`).join("")}</ul>
         ${stockHTML(p)}
         ${freebieHTML(p)}
+        ${addonHTML(p)}
+        ${wolfChips(p)}
         <div class="card-foot">
           ${noteHTML(p)}
           <div class="prices">${priceHTML(p)}</div>
@@ -516,7 +566,7 @@
         <span class="type-tag">${esc(typeLabel(p))}</span>
         <h3 class="card-title">${skuTitle(p)}</h3>
         ${idsHTML(p)}
-        <div class="row-extras">${chgBadges(p, true)}${p.sale == null ? stockHTML(p) : ""}${promoBadge(p, true)}${rw}${freebieHTML(p)}</div>
+        <div class="row-extras">${chgBadges(p, true)}${p.sale == null ? stockHTML(p) : ""}${promoBadge(p, true)}${rw}${freebieHTML(p)}${addonHTML(p, "inline")}</div>
         ${noteHTML(p, "inline")}
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
@@ -679,8 +729,16 @@
         <ul>${psrp.map((p) => `<li><a href="#/product/${encodeURIComponent(p.id)}"><span class="m">${esc(p.model)}${p.note ? `<small>${esc(p.note)}</small>` : ""}</span>
           <span class="nums"><i>SRP</i><s>${fmtPrice(p.srp)}</s><b>${fmtPrice(p.promoSrp)}</b>${hasPromoDp(p) ? `<i>DP</i><s>${fmtPrice(p.dp)}</s><b>${fmtPrice(p.promoDp)}</b>` : ""}</span></a></li>`).join("")}</ul>
       </section>` : "";
+    const addonList = mainList.map((p) => ({ p, a: addonFor(p) })).filter((x) => x.a);
+    const addonPanel = addonList.length ? `<section class="pdp-panel addon-panel" aria-labelledby="addonTitle">
+        <div class="pdp-head"><span class="freebie-tag pdp-tag">${ICONS.upgrade}Upgrade offer</span>
+          <h2 id="addonTitle">${addonList.length === 1 ? esc(addonList[0].a.title) : "Upgrade offers"}</h2>
+          <p>${addonList.length === 1 ? esc(addonList[0].a.caption || "") : "Paid configuration upgrades available on these models."}</p></div>
+        <ul>${addonList.map(({ p, a }) => `<li><a href="#/product/${encodeURIComponent(p.id)}"><span class="m">${esc(p.title || p.model)}<small>${esc(a.from || "")} → ${esc(a.to || "")} · ${esc(p.partNo || p.sku)}</small></span>
+          <span class="nums"><i>Upgrade</i><b>+${fmtPrice(a.price)}</b></span></a></li>`).join("")}</ul>
+      </section>` : "";
     const pdp = mainList.filter((p) => hasPromoDp(p) && !hasPromoSrp(p));
-    const pdpPanel = psrpPanel + (pdp.length ? `<section class="pdp-panel" aria-labelledby="pdpTitle">
+    const pdpPanel = addonPanel + psrpPanel + (pdp.length ? `<section class="pdp-panel" aria-labelledby="pdpTitle">
         <div class="pdp-head"><span class="freebie-tag pdp-tag">${ICONS.tag}Dealer promo</span>
           <h2 id="pdpTitle">Promo DP on ${pdp.length} model${pdp.length === 1 ? "" : "s"}</h2>
           <p>Special dealer prices from the current pricelist. Regular DP shown struck through.</p></div>
@@ -791,6 +849,7 @@
         <div>
           <span class="type-tag">${esc(typeLabel(p))}</span>
           <h2 id="dmTitle">${p.sku && p.model.endsWith(p.sku) ? esc(p.model.slice(0, -p.sku.length)) + `<span class="nowrap">${esc(p.sku)}</span>` : esc(p.model)}</h2>
+          ${p.title && p.title !== p.model ? `<p class="detail-hpname">${esc(p.title)}</p>` : ""}
         </div>
         <div class="detail-sku">SKU <b>${esc(p.sku)}</b>
           ${p.partNo ? `<span class="sep">·</span><span class="nowrap">Part no. <b>${esc(p.partNo)}</b></span>` : ""}
@@ -809,13 +868,16 @@
           ${hasPromoDp(p) ? `<div class="price-box promo-dp"><span class="lbl">Promo DP <span class="sub">Dealer promo price · save ${fmtPrice(p.dp - p.promoDp)}</span></span><span class="val">${fmtPrice(p.promoDp)}</span></div>` : ""}
         </div>`}
         ${p.sale == null ? noteHTML(p, "detail") : ""}
+        ${addonBox(p)}
         ${p.sale == null && availability(p) ? `<div class="avail-line">${stockHTML(p)}</div>` : ""}
         ${availability(p) ? `<p class="avail-note">${ICONS.clock}${esc(AVAIL_NOTE)}</p>` : ""}
         ${inclusionsHTML(p)}
+        ${wolfHTML(p)}
         <h3 class="detail-h">Specifications</h3>
         <table class="spec-table"><tbody>
           ${rows.map(([k, v, html]) => `<tr><th scope="row">${esc(k)}</th><td>${html || esc(v)}</td></tr>`).join("")}
         </tbody></table>
+        ${sheetHTML(p)}
         ${p.specsRaw ? `<details class="raw"><summary>Full specification text (from pricelist)</summary><p>${esc(p.specsRaw)}</p></details>` : ""}
       </div>`;
     const modal = $("#detailModal");
@@ -902,6 +964,26 @@
 
   // ---------- Welcome banner (home page only) ----------
   const WELCOME_PICKS = ["16-bu0398tu", "14-hg0079tu", "14-hg0080tu"];   // left, centre, right
+  const WELCOME_HERO = "bq5b1pt";   // featured model shown as the hero; falls back to the line-up if it leaves the pricelist
+  function heroName(p) { return (p.title || p.model).replace(/\s+inch\s+Notebook\s+/i, "″ "); }
+  function heroHTML(p) {
+    const im = (p.images || []).find((x) => /front left|front right/i.test(x.angle)) || p.images[0];
+    const a = addonFor(p), sh = p.specSheet;
+    const specs = [p.cpu && p.cpu.replace(/\s*\(\d+C\).*$/, ""), p.ram && p.ram.replace(/\s*\(.*\)$/, ""), p.storage && p.storage.replace(/ PCIe NVMe/, ""), p.displayShort && p.displayShort.replace(/\s*\(.*\)$/, "")].filter(Boolean);
+    const now = srpNow(p);
+    return `<a class="hero-spot" href="#/product/${encodeURIComponent(p.id)}" aria-label="View ${esc(heroName(p))}">
+      <img class="hero-img" src="${esc(im.src)}" alt="${esc(heroName(p))}" width="${im.width}" height="${im.height}" decoding="async">
+      <div class="hero-card">
+        <span class="hero-tag">New · ${esc(typeLabel(p))}</span>
+        <h2 class="hero-name">${esc(heroName(p))}</h2>
+        <p class="hero-specs">${specs.map(esc).join(" · ")}</p>
+        <div class="hero-price">${hasPromoSrp(p) ? `<s>${fmtPrice(p.srp)}</s>` : ""}<b>${fmtPrice(now)}</b><small>${hasPromoSrp(p) ? "Promo SRP" : "SRP"}</small></div>
+        ${a ? `<p class="hero-upg">${ICONS.upgrade}<span><b>${esc(a.to)} upgrade</b> for only <b>${fmtPrice(a.price)}</b></span></p>` : ""}
+        ${sh && (sh.sure || []).length ? `<p class="hero-wolf">${ICONS.shield}<span><b>HP Wolf Security</b> ${["Start", "Sense", "Click", "Run", "Recover", "Admin"].map((n) => sh.sure.find((x) => x.what && x.name === "HP Sure " + n)).filter(Boolean).map((x) => `<i>${esc(x.name.replace(/^HP /, ""))}</i>`).join(" · ")}</span></p>` : ""}
+        <span class="hero-cta">View details <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </a>`;
+  }
   function welcomeImg(p, cls) {
     const im = (p.images || []).find((x) => /front right/i.test(x.angle)) || (p.images || [])[0];
     const front = (p.images || []).find((x) => /^front$/i.test(x.angle));
@@ -920,7 +1002,11 @@
       main.slice().reverse().forEach((p) => { if (picks.length < 3 && p.images && p.images.length && !seen.has(p.type)) { picks.push(p); seen.add(p.type); } });
     }
     const [l, c, r] = picks;
-    $("#welcomeStage").innerHTML = (l ? welcomeImg(l, "w-left") : "") + (c ? welcomeImg(c, "w-center") : "") + (r ? welcomeImg(r, "w-right") : "");
+    const hero = main.find((p) => p.id === WELCOME_HERO && p.images && p.images.length);
+    $("#welcome").classList.toggle("has-hero", !!hero);
+    if (hero) $("#welcomeStage").removeAttribute("aria-hidden");
+    if (hero) $("#welcomeStage").innerHTML = heroHTML(hero);
+    else $("#welcomeStage").innerHTML = (l ? welcomeImg(l, "w-left") : "") + (c ? welcomeImg(c, "w-center") : "") + (r ? welcomeImg(r, "w-right") : "");
     const d = state.meta && state.meta.generatedAt ? new Date(state.meta.generatedAt) : null;
     $("#welcomeStats").innerHTML = `<span><b>${main.length}</b> models</span><span><b>${state.ds.main.types.length}</b> series</span>` +
       (d && !isNaN(d) ? `<span>Updated <b>${esc(d.toLocaleDateString("en-PH", { year: "numeric", month: "short", day: "numeric" }))}</b></span>` : "");
@@ -1539,6 +1625,7 @@
       state.noFreebie = {};
       if (state.freebie) (state.freebie.excluded || []).forEach((x) => { if (x.sku) state.noFreebie[skuKey(x.sku)] = true; if (x.productNumber) state.noFreebie[skuKey(x.productNumber)] = true; });
       state.promos = ((promos && promos.promos) || []).filter((pr) => !pr.end || pr.end >= today);
+      state.addons = ((promos && promos.addons) || []).filter((a) => (!a.end || a.end >= today) && (!a.start || a.start <= today));
       state.promos.forEach((pr) => (pr.eligible || []).forEach((el) => {
         if (!el.sku) return;
         const k = skuKey(el.sku), cur = state.rewards[k];
@@ -1584,6 +1671,7 @@
     },
     typeLabel, availability, hasFreebie, hasPromoDp, hasPromoSrp, fmtPrice,
     reward: (p) => state.rewards[skuKey(p.sku)] || null,
+    addon: (p) => (p.sale == null ? addonFor(p) : null),
     placeholder: PLACEHOLDER,
     toast: (m) => toast(m),
   };

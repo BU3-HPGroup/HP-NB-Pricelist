@@ -31,8 +31,8 @@ check("Part number matches Excel", all(by_model[r["Model"].strip()].get("partNo"
 check("Material number matches Excel", all(by_model[r["Model"].strip()].get("matNo") == str(r["Material Number"]).strip() for r in xl))
 check("Promo DP matches Excel", all(by_model[r["Model"].strip()].get("promoDp") == r.get("Promo DP") for r in xl))
 check("Type matches Excel", all(by_model[r["Model"].strip()]["type"] == r["Type"].strip() for r in xl))
-img_ok = all(all(im["sourceFile"].startswith(p["model"] + " - ") for im in p["images"]) for p in data)
-check("images only assigned by exact model name", img_ok)
+img_ok = all(all(im["sourceFile"].startswith(p["model"] + " - ") or (p.get("partNo") and im["sourceFile"].upper().startswith(p["partNo"].upper() + " - ")) for im in p["images"]) for p in data)
+check("images only assigned by exact model name (or its part number)", img_ok)
 check("every image file exists", all(os.path.exists(os.path.join(ROOT, im[k])) for p in data for im in p["images"] for k in ("src", "thumb")))
 check("all asset paths relative", all(not re.match(r"^(/|https?:)", im["src"]) for p in data for im in p["images"]))
 
@@ -160,7 +160,7 @@ with sync_playwright() as pw:
     pg.keyboard.press("Escape")
     check("freebie banner shown", "A08JTAA" in txt)
     pdps = [p for p in data if p.get("promoDp") is not None and p["promoDp"] < p["dp"]]
-    check("promos page lists Promo DP models", pg.locator(".pdp-panel li").count() == len(pdps), str(len(pdps)))
+    check("promos page lists Promo DP models", pg.locator(".pdp-panel:not(.addon-panel) li").count() == len(pdps), str(len(pdps)))
     ico = pg.evaluate("[...document.querySelectorAll('link[rel~=icon]')].map(l => l.href)")
     check("favicon files exist", len(ico) >= 2 and all(os.path.exists(os.path.join(ROOT, u.split(BASE, 1)[-1])) for u in ico), str(ico))
     pg.evaluate("window._opened = []; window.open = (u, t) => { window._opened.push([u, t]); }")
@@ -275,7 +275,7 @@ with sync_playwright() as pw:
 
     # ---------- new models, Order basis, OmniBook 7 tab ----------
     check("every product has 4 photos", all(len(p.get("images", [])) == 4 for p in data), [p["sku"] for p in data if len(p.get("images", [])) != 4])
-    check("OmniBook 7 tab present, after OmniBook 5 Flip", pg.evaluate("[...document.querySelectorAll('#navList a')].map(a=>a.dataset.nav).join('|')").endswith("Omnibook 5 Flip|Omnibook 7|Omnibook X Flip"))
+    check("OmniBook 7 tab present, after OmniBook 5 Flip", pg.evaluate("[...document.querySelectorAll('#navList a')].map(a=>a.dataset.nav).join('|')").endswith("Omnibook 5 Flip|Omnibook 7|Omnibook X Flip|Probook"))
     ups = json.load(open(os.path.join(ROOT, "data", "upgrades.json"), encoding="utf-8"))
     check("RAM/M.2 info for every pricelist model", all(p["sku"].upper() in ups["skus"] for p in data))
     pg.goto(BASE + "#/type/Omnibook%207"); pg.wait_for_timeout(600)
@@ -309,7 +309,24 @@ with sync_playwright() as pw:
 
     # ---------- welcome banner ----------
     pg.goto(BASE + "#/"); pg.wait_for_timeout(700)
-    check("welcome: banner shown on home page", pg.is_visible("#welcome") and pg.locator("#welcomeStage img").count() == 3)
+    check("welcome: banner shown on home page", pg.is_visible("#welcome") and pg.locator("#welcomeStage img").count() >= 1)
+    hero = [p for p in data if p.get("partNo") == "BQ5B1PT"]
+    if hero:
+        ht = pg.inner_text("#welcomeStage")
+        check("hero: ProBook 4 G1i featured", pg.get_attribute(".hero-spot", "href") == "#/product/bq5b1pt" and "ProBook 4 G1i" in ht, ht[:80])
+        check("hero: promo SRP + 16GB upgrade offer", "73,990" in ht and "16GB upgrade" in ht and "6,750" in ht)
+        check("hero: Wolf Security Sure features", all(x in ht for x in ("Sure Start", "Sure Sense", "Sure Click", "Sure Run", "Sure Recover", "Sure Admin")))
+        pg.click(".hero-spot"); pg.wait_for_selector("#detailModal:not([hidden])")
+        dt = pg.inner_text("#detailBody")
+        check("hero opens ProBook detail", "BQ5B1PT" in dt)
+        check("detail: Wolf Security section lists 6 Sure features", pg.locator(".wolf-list li").count() == 6)
+        check("detail: 16GB upgrade box", "Upgrade to 16GB RAM for only" in dt and "+₱6,750" in dt)
+        check("detail: HP spec sheet table", "HP spec sheet" in dt and "Intel® Wi-Fi 6E AX211" in dt and "MIL-STD 810H" in dt)
+        check("detail: RAM upgradeability from service guide", "P23957-001" in dt)
+        pg.keyboard.press("Escape"); pg.wait_for_timeout(150)
+        pg.goto(BASE + "#/promos/"); pg.wait_for_timeout(400)
+        check("promos: upgrade offer panel", pg.locator(".addon-panel li").count() == 1 and "6,750" in pg.inner_text(".addon-panel"))
+        pg.goto(BASE + "#/"); pg.wait_for_timeout(500)
     check("welcome: shows model count", f"{len(data)} models" in pg.inner_text("#welcomeStats"))
     check("welcome: images loaded", pg.eval_on_selector_all("#welcomeStage img", "els => els.every(e => e.complete && e.naturalWidth > 0)"))
     pg.goto(BASE + "#/type/Omnibook%203"); pg.wait_for_timeout(500)

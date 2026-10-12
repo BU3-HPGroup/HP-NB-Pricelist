@@ -84,7 +84,7 @@
         graphics: p.graphics || "", os: p.os || "", color: p.color || "", warranty: p.warranty || "",
         other: (p.otherSpecs || []).join("; "),
         srp: round(p.srp), dp: round(p.dp), promoSrp: round(promoSrp), promoDp: round(promoDp), sale: round(p.sale),
-        note: p.note || "",
+        note: [p.note, (() => { const ad = a.addon && a.addon(p); return ad ? `${ad.to || ad.label} upgrade +${peso(ad.price)}` : ""; })()].filter(Boolean).join(" · "),
         save: p.sale != null && p.dp != null && p.dp > p.sale ? round(p.dp - p.sale) : null,
         avail: av ? av.label : "", availLevel: av ? av.level : "neutral",
         freebie: a.hasFreebie(p) && a.context().freebie ? (a.context().freebie.shortName || a.context().freebie.name) : "",

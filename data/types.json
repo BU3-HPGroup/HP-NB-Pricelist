@@ -40,5 +40,10 @@
       "OBX"
     ],
     "description": "Premium OmniBook X Flip convertible AI PCs for professionals who want performance in a versatile 2-in-1 design."
+  },
+  {
+    "code": "Probook",
+    "label": "ProBook",
+    "description": "Business laptops for mainstream business productivity, with HP Wolf Security built in."
   }
 ]

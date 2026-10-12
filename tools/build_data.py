@@ -38,7 +38,10 @@ DATA_OUT = os.path.join(ROOT, "data")
 
 # Preferred display order for known photo angles (unknown angles go last, alphabetically)
 ANGLE_ORDER = ["front", "front right", "front left", "rear left", "rear right", "rear",
-               "left profile", "right profile", "stacked profile", "open", "lifestyle"]
+               "left profile", "right profile", "side profiles", "stacked profile", "open", "lifestyle"]
+# HP spec-sheet style angle names -> the names used on the site
+ANGLE_ALIAS = {"center": "Front", "centre": "Front", "front left": "Front Left", "rear left": "Rear Left",
+               "sides": "Side Profiles"}
 
 # Friendly labels + short descriptions for the Type codes used in the Excel.
 # New Type codes found in the Excel are added automatically with a neutral description.
@@ -49,10 +52,11 @@ TYPE_INFO_DEFAULTS = {
     "OB5 FLIP": ("OmniBook 5 Flip", "Convertible 2-in-1 laptops that switch between laptop and tablet modes for work, study and creative tasks."),
     "OBX": ("OmniBook X", "Premium OmniBook X Flip convertible AI PCs for professionals who want performance in a versatile 2-in-1 design."),
     "Omnibook 7": ("OmniBook 7", "Premium 14-inch OmniBook 7 AI PCs with OLED displays for professionals and creators."),
+    "Probook": ("ProBook", "Business laptops for mainstream business productivity, with HP Wolf Security built in."),
 }
 
 # order of the model tabs (entry level first, premium last); unknown types go to the end in Excel order
-TYPE_RANK = ["HP 15", "Omnibook 3", "Omnibook 5", "Omnibook 5 Flip", "Omnibook 7", "Omnibook X", "Omnibook X Flip"]
+TYPE_RANK = ["HP 15", "Omnibook 3", "Omnibook 5", "Omnibook 5 Flip", "Omnibook 7", "Omnibook X", "Omnibook X Flip", "Probook"]
 
 
 def clean(v):
@@ -155,6 +159,150 @@ def sku_from_model(model):
     return m.group(1) if m else model.split()[-1]
 
 
+def product_sku(model, part_no):
+    """SKU shown on the site: the HP SKU in the model name (e.g. 14-kb0100TU); for models named
+    without one (e.g. business 'HP Probook 4 G1I 14 AI ...') the HP part number is used."""
+    m = re.search(r"(\d{2}-[A-Za-z]{2}\d{4}[A-Za-z]{2})\s*$", model) or \
+        re.search(r"\b(\d{2}-[A-Za-z]{1,2}\d{4}[A-Za-z]{2})\b", model)
+    if m:
+        return m.group(1)
+    return part_no if part_no else model.split()[-1]
+
+
+PART_RE = re.compile(r"^[A-Z0-9]{5,8}(#[A-Z0-9]{3})?$")
+
+
+# ---------------------------------------------------------------------------
+# HP technical spec sheets (source/specsheets/<PartNo>_*.xlsx, exported from HP)
+# ---------------------------------------------------------------------------
+SURE_INFO = {
+    # short sales explanations; requirements come from the spec sheet's own footnotes
+    "HP Sure Start": "Self-healing BIOS: checks the BIOS every time the PC starts and automatically restores a clean copy if it has been attacked or corrupted.",
+    "HP Sure Run": "Keeps critical security processes running: if malware tries to stop them, Sure Run restarts them automatically.",
+    "HP Sure Sense": "AI-based malware protection that uses deep learning to stop new, never-seen-before malware and ransomware.",
+    "HP Sure Click": "Opens risky web pages and files in isolated micro virtual machines, so any malware is contained and removed when the tab or file is closed.",
+    "HP Sure Recover": "Reinstalls the Windows image over a network connection, even if the drive was wiped - no USB stick or IT visit needed.",
+    "HP Sure Admin": "Lets IT manage BIOS settings with secure digital certificates instead of a shared BIOS password; local access is approved with a smartphone app.",
+}
+
+
+def read_specsheet(path):
+    wb = openpyxl.load_workbook(path, data_only=True)
+    ws = wb.worksheets[0]
+    kv = {}
+    for r in ws.iter_rows(values_only=True):
+        if not r or r[0] is None or len(r) < 2 or r[1] is None:
+            continue
+        k, v = str(r[0]).strip(), clean(str(r[1]))
+        if k in kv:   # repeated keys (e.g. 'Battery Type'): keep the most descriptive value
+            if len(v) > len(kv[k]):
+                kv[k] = v
+        else:
+            kv[k] = v
+    return kv
+
+
+def specsheet_details(kv, fname):
+    g = kv.get
+    notes = {}
+    for k, v in kv.items():
+        m = re.match(r"Tech Spec Footnote \d+", k)
+        n = re.match(r"\[(\d+)\]\s*(.*)", v or "")
+        if m and n:
+            notes[n.group(1)] = n.group(2).strip()
+
+    def fn(key):
+        ref = g(key) or ""
+        return [notes[x] for x in re.findall(r"\d+", ref) if x in notes]
+
+    mem = g("Standard Memory Description 01")
+    slots = g("Memory Slots")
+    layout = g("Memory Layout (Slots & Size)")
+    battery = g("Battery Type")
+    fast = "Fast charging 50% in 30 minutes" if "fast charging 50% in 30 minutes" in (g("Battery Life Note") or "").lower() else None
+    mil = re.search(r"MIL-STD[- ]?\d+\w*", g("Certifications and Compliances") or "")
+    kb = ", ".join(x for x in [g("Keyboard")] if x)
+    rows = [
+        ("Processor", g("Processor Name")),
+        ("AI engine (NPU)", g("Neural Processing Unit (NPU)")),
+        ("Memory", mem),
+        ("Memory slots", f"{slots} ({layout} installed)" if slots and layout else slots),
+        ("Storage", g("Hard Drive Description (01)")),
+        ("Display", g("Display Description")),
+        ("Graphics", g("Graphics (facet)") or g("GScardseg 01 Available Card 01")),
+        ("Operating system", g("Operating System Software")),
+        ("Camera", g("Integrated Camera")),
+        ("Audio", g("Audio Features")),
+        ("Wireless", g("Wireless Technologies")),
+        ("Ethernet", g("Network Interface")),
+        ("Ports", g("External I/O Ports")),
+        ("Keyboard", kb or None),
+        ("Fingerprint reader", "Yes" if g("Fingerprint Reader") else None),
+        ("Battery", battery + (f" · {fast}" if fast else "") if battery else None),
+        ("Power adapter", g("Power Supply Required")),
+        ("Colour", g("Product Color Description (fixed)") or g("Color")),
+        ("Weight", g("Weight (metric)")),
+        ("Dimensions (W x D x H)", g("Product Dimensions W x D x H (metric)")),
+        ("Durability", f"{mil.group(0)} tested" if mil else None),
+        ("HP warranty (spec sheet)", g("Manufacturer Warranty")),
+    ]
+    sec = []
+    for k in sorted((k for k in kv if re.fullmatch(r"Security Management\d+", k)), key=lambda k: int(k[19:])):
+        sec.append({"name": kv[k], "notes": fn("Security Management Footnote Number" + k[19:])})
+    sensors = [x.strip() for x in (g("Sensors") or "").split(";") if x.strip()]
+    sure = []
+    for s_ in sec:
+        if s_["name"].startswith("HP Sure "):
+            sure.append({"name": s_["name"], "what": SURE_INFO.get(s_["name"]), "notes": s_["notes"]})
+    other_sec = [s_["name"] for s_ in sec if not s_["name"].startswith("HP Sure ")]
+    for x in sensors:
+        if x.startswith("HP Sure ") and x not in [s_["name"] for s_ in sure]:
+            sure.append({"name": x + " (sensor)", "what": None, "notes": []})
+    tm = lambda x: re.sub(r"[®™]", "", x or "").strip()
+    short_cpu = None
+    if g("Processor Family (Short)") and g("Processor Model"):
+        short_cpu = f'{tm(g("Processor Family (Short)"))} {g("Processor Model")}' + (f' ({g("Processor Core")}C)' if g("Processor Core") else "") \
+            + (f' {g("Processor NPU Tops")} NPU TOPs' if g("Processor NPU Tops") else "")
+    short_ram = f'{g("Memory Size")}GB {g("Memory Type")} {g("Memory Speed")}' + (f' ({layout.replace(" GB", "GB")})' if layout else "") \
+        if g("Memory Size") and g("Memory Type") and g("Memory Speed") else None
+    short_sto = f'{g("Storage Capacity 01")}{g("Storage Capacity UOM 01")} {tm(g("Storage Interface 01"))} {tm(g("Storage Interface Protocol 01"))} {g("Storage Type 01")}' \
+        if g("Storage Capacity 01") and g("Storage Type 01") else None
+    disp_short = None
+    if g("Display Size (Diagonal)"):
+        disp_short = f'{g("Display Size (Diagonal)")}"' + (f' {g("Display Resolution Standard")}' if g("Display Resolution Standard") else "") \
+            + (f' ({g("Display Resolution (Pixels)").replace(" ", "")})' if g("Display Resolution (Pixels)") else "")
+    return {
+        "name": g("Product name"),
+        "productNumber": g("Product number"),
+        "series": g("Series Name (facet)"),
+        "usage": g("Usage (facet)"),
+        "rows": [[k, v] for k, v in rows if v],
+        "sure": sure,
+        "security": other_sec,
+        "sourceFile": fname,
+        # fall-back values for the card / filters when the pricelist Specs text is short
+        "_fill": {
+            "cpu": short_cpu or g("Processor Name"), "ram": short_ram or mem, "storage": short_sto or g("Hard Drive Description (01)"),
+            "graphics": g("Graphics (facet)"), "display": g("Display Description"), "displayShort": disp_short,
+            "os": g("Operating System (facet)"), "color": g("Product Color Description (fixed)") or g("Color"),
+            "camera": g("Integrated Camera"), "adapter": g("Power Supply Required"),
+            "formFactor": g("Form Factor (facet)"), "series": g("Series Name (facet)"),
+        },
+    }
+
+
+def load_specsheets(folder):
+    out = {}
+    if not folder or not os.path.isdir(folder):
+        return out
+    for f in sorted(os.listdir(folder)):
+        if f.lower().endswith(".xlsx") and not f.startswith("~$"):
+            kv = read_specsheet(os.path.join(folder, f))
+            pn = (kv.get("Product number") or f.split("_")[0]).upper()
+            out[pn] = specsheet_details(kv, f)
+    return out
+
+
 def read_excel(path):
     wb = openpyxl.load_workbook(path, data_only=True)
     ws = wb.worksheets[0]
@@ -185,8 +333,9 @@ def angle_key(a):
     return (ANGLE_ORDER.index(a) if a in ANGLE_ORDER else len(ANGLE_ORDER), a)
 
 
-def build_images(models, img_dir, max_px=1200, thumb_px=360, out_dir=None, url_prefix="assets/images/products"):
-    """Return {model: [ {angle, src, thumb}, ... ]} using exact model-name prefix matching."""
+def build_images(models, img_dir, max_px=1200, thumb_px=360, out_dir=None, url_prefix="assets/images/products", aliases=None):
+    """Return {model: [ {angle, src, thumb}, ... ]} using exact model-name prefix matching.
+    aliases: optional {part number: model} so "BQ5B1PT - Front.png" also matches its model."""
     from PIL import Image
     out_dir = out_dir or IMG_OUT
     os.makedirs(out_dir, exist_ok=True)
@@ -194,16 +343,21 @@ def build_images(models, img_dir, max_px=1200, thumb_px=360, out_dir=None, url_p
     unmatched = []
     files = sorted(f for f in os.listdir(img_dir) if f.lower().endswith((".png", ".jpg", ".jpeg", ".webp")))
     # longest model names first so "... 14-kb0100TU" can never swallow a longer name
-    ordered = sorted(models, key=len, reverse=True)
+    keys = {m: m for m in models}
+    keys.update({k: m for k, m in (aliases or {}).items() if m in keys})
+    ordered = sorted(keys, key=len, reverse=True)
     cache = {}  # identical photos shared by several models are only encoded once
     for f in files:
         stem = os.path.splitext(f)[0]
-        owner = next((m for m in ordered if stem.startswith(m + " - ")), None)
-        if not owner:
+        key = next((m for m in ordered if stem.upper().startswith(m.upper() + " - ") if m != keys[m]), None) \
+            or next((m for m in ordered if stem.startswith(m + " - ")), None)
+        if not key:
             unmatched.append(f)
             continue
-        angle = stem[len(owner) + 3:].strip()
-        sku = sku_from_model(owner)
+        owner = keys[key]
+        angle = stem[len(key) + 3:].strip()
+        angle = ANGLE_ALIAS.get(angle.lower(), angle)
+        sku = key if key != owner else sku_from_model(owner)
         base = f"{slug(sku)}-{slug(angle)}"
         src_path = os.path.join(img_dir, f)
         out_main = os.path.join(out_dir, base + ".webp")
@@ -423,6 +577,8 @@ def main():
     ap.add_argument("--ltb-excel", default=os.path.join(ROOT, "source", "Last-time-buy models.xlsx"))
     ap.add_argument("--ltb-images", default=None, help="Folder of Last-time-buy photos named '<Model> - <Angle>.png'")
     ap.add_argument("--only-ltb", action="store_true", help="Only rebuild data/ltb.json")
+    ap.add_argument("--specsheets", default=os.path.join(ROOT, "source", "specsheets"),
+                    help="Folder of HP technical spec sheets (<PartNo>_*.xlsx) to add full specs + security features")
     args = ap.parse_args()
     if os.path.exists(args.ltb_excel):
         build_ltb(args.ltb_excel, args.ltb_images)
@@ -445,6 +601,16 @@ def main():
     if dups:
         print("WARNING duplicate models skipped:", dups)
 
+    for r in products:
+        pn = r.get("Part Number")
+        if pn is not None and not PART_RE.match(str(pn).strip().upper()):
+            print(f"WARNING Part Number '{pn}' for '{r['Model']}' does not look like an HP part number - please check the Excel.")
+    part_alias = {str(r["Part Number"]).strip().upper(): r["Model"] for r in products
+                  if r.get("Part Number") is not None and PART_RE.match(str(r["Part Number"]).strip().upper())}
+    sheets = load_specsheets(args.specsheets)
+    if sheets:
+        print("Spec sheets:", ", ".join(f"{k} ({'matched' if k in part_alias else 'NO pricelist row'})" for k in sheets))
+
     images = {}
     unmatched = []
     # previously generated image list (kept for any model with no photo in --images)
@@ -455,7 +621,7 @@ def main():
             for p in json.load(fh).get("products", []):
                 prev_images[p["model"]] = p.get("images", [])
     if args.images:
-        images, unmatched = build_images([p["Model"] for p in products], args.images)
+        images, unmatched = build_images([p["Model"] for p in products], args.images, aliases=part_alias)
         for m, imgs in prev_images.items():
             if not images.get(m) and imgs:
                 images[m] = imgs
@@ -481,10 +647,25 @@ def main():
         if t not in type_order:
             type_order.append(t)
         srp, dp = r.get("SRP"), r.get("DP")
+        pn_ok = str(r["Part Number"]).strip().upper() if r.get("Part Number") is not None and PART_RE.match(str(r["Part Number"]).strip().upper()) else None
+        sku = product_sku(r["Model"], pn_ok)
+        sheet = sheets.get(pn_ok) if pn_ok else None
+        if sheet:
+            # pricelist Specs text that is not in the usual pipe format is kept as raw text only;
+            # the card fields come from HP's own spec sheet
+            if "|" not in (r.get("Specs") or ""):
+                spec = {}
+            w = re.search(r"\b(\d/\d/\d)\b", r.get("Specs") or "")
+            if w and not spec.get("warranty"):
+                spec["warranty"] = w.group(1)
+            for k, v in sheet["_fill"].items():
+                if v and not spec.get(k):
+                    spec[k] = v
         p = {
-            "id": slug(sku_from_model(r["Model"])),
+            "id": slug(sku),
             "model": r["Model"],
-            "sku": sku_from_model(r["Model"]),
+            "title": sheet["name"] if sheet else None,
+            "sku": sku,
             "partNo": str(r["Part Number"]).strip() if r.get("Part Number") is not None else None,
             "matNo": str(r["Material Number"]).strip() if r.get("Material Number") is not None else None,
             "type": t,
@@ -502,7 +683,7 @@ def main():
             "storage": spec.get("storage"),
             "graphics": spec.get("graphics"),
             "display": spec.get("display"),
-            "displayShort": display_short(spec.get("display")),
+            "displayShort": spec.get("displayShort") or display_short(spec.get("display")),
             "os": spec.get("os"),
             "color": spec.get("color"),
             "camera": spec.get("camera"),
@@ -514,6 +695,7 @@ def main():
             "otherSpecs": spec.get("other"),
             "specsRaw": r.get("Specs"),
             "images": images.get(r["Model"], []),
+            "specSheet": {k: v for k, v in sheet.items() if not k.startswith("_")} if sheet else None,
             "row": i + 1,
         }
         # extra, unknown columns are carried through (never invented)

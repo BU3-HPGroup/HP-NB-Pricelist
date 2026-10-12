@@ -1,5 +1,5 @@
 {
-  "note": "Edit this file to add, change or remove promotions. Dates use YYYY-MM-DD; a promo is hidden automatically after its end date.",
+  "note": "Edit this file to add, change or remove promotions. Dates use YYYY-MM-DD; a promo is hidden automatically after its end date. 'addons' are paid upgrade offers shown on the matching model (matched by part number).",
   "freebie": {
     "name": "HP Everyday 16-inch Laptop Briefcase",
     "sku": "A08JTAA",
@@ -481,6 +481,19 @@
       ],
       "url": null,
       "source": "Official promo flyer (Q426 HP CPS Home Credit Promo)"
+    }
+  ],
+  "addons": [
+    {
+      "id": "bq5b1pt-16gb",
+      "partNo": "BQ5B1PT",
+      "label": "16GB upgrade",
+      "title": "Upgrade to 16GB RAM for only ₱6,750",
+      "price": 6750,
+      "from": "8GB",
+      "to": "16GB",
+      "caption": "Iontech upgrades this unit from 8GB to 16GB memory — just add ₱6,750 to the unit price.",
+      "start": "2026-10-12"
     }
   ]
 }
