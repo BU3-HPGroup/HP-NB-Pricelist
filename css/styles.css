@@ -1577,3 +1577,13 @@ body[data-type="Omnibook 7"] .eyebrow { color: #4b5b6e; }
 @media (min-width: 981px) and (max-width: 1499px) { .nav-sites-long { display: none; } .nav-extra .nav-sites { white-space: nowrap; } }
 @media (min-width: 981px) { .nav-list { gap: 5px !important; } }
 @media (min-width: 981px) and (max-width: 1365px) { .finder-form { top: calc(var(--header-h) + 106px); } }
+
+/* Upcoming promo ("don't offer yet") and promo units sold out */
+.promo-note.upcoming { background: #eef1f6; color: #3d4757; border: 1px dashed #b7c0cd; }
+.promo-note.ended { background: #f3f4f6; color: #555b66; }
+.promo-note.upcoming span, .promo-note.ended span { display: flex; flex-direction: column; gap: 1px; }
+.promo-note.upcoming em { font-style: normal; font-weight: 700; color: #4b5563; }
+.promo-note.upcoming small, .promo-note.ended small { font-size: 11.5px; opacity: .85; }
+[data-theme="dark"] .promo-note.upcoming { background: #1d222b; color: #c3cad6; border-color: #3a4352; }
+[data-theme="dark"] .promo-note.upcoming em { color: #9aa3b2; }
+[data-theme="dark"] .promo-note.ended { background: #1d2027; color: #aab1bd; }

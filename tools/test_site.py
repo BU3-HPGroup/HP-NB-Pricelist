@@ -29,7 +29,10 @@ check("SRP matches Excel", all(by_model[r["Model"].strip()]["srp"] == r["SRP"] f
 check("DP matches Excel", all(by_model[r["Model"].strip()]["dp"] == r["DP"] for r in xl))
 check("Part number matches Excel", all(by_model[r["Model"].strip()].get("partNo") == str(r["Part Number"]).strip() for r in xl))
 check("Material number matches Excel", all(by_model[r["Model"].strip()].get("matNo") == str(r["Material Number"]).strip() for r in xl))
-check("Promo DP matches Excel", all(by_model[r["Model"].strip()].get("promoDp") == r.get("Promo DP") for r in xl))
+_pdp = lambda p: p.get("promoDp") if not p.get("promoState") else (p.get("upcomingDp") if p["promoState"] == "upcoming" else p.get("endedDp"))
+check("Promo DP matches Excel", all(_pdp(by_model[r["Model"].strip()]) == r.get("Promo DP") for r in xl))
+_up = [p for p in data if p.get("promoState") == "upcoming"]
+check("'Don't offer yet' promos are not used as the selling price", all(p.get("promoSrp") is None and p.get("promoDp") is None and p.get("upcomingSrp") for p in _up), str(len(_up)))
 check("Type matches Excel", all(by_model[r["Model"].strip()]["type"] == r["Type"].strip() for r in xl))
 img_ok = all(all(im["sourceFile"].startswith(p["model"] + " - ") or (p.get("partNo") and im["sourceFile"].upper().startswith(p["partNo"].upper() + " - ")) for im in p["images"]) for p in data)
 check("images only assigned by exact model name (or its part number)", img_ok)

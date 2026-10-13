@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-12T15:25:59",
+  "generatedAt": "2026-10-13T10:06:05",
   "sourceFile": "Last-time-buy models.xlsx",
-  "sourceHash": "8d04ca2240",
+  "sourceHash": "ca919f3a45",
   "currency": "PHP",
   "count": 11,
   "products": [
@@ -26,7 +26,7 @@
       "dp": 48310,
       "srp": 60990,
       "sale": 46861,
-      "availability": "Limited",
+      "availability": "Sold out",
       "priceText": {
         "dp": "PHP 48,310.00",
         "srp": "PHP 60,990.00",
@@ -110,7 +110,7 @@
       "dp": 54310,
       "srp": 67990,
       "sale": 52681,
-      "availability": "On hand",
+      "availability": "Limited",
       "priceText": {
         "dp": "PHP 54,310.00",
         "srp": "PHP 67,990.00",
@@ -357,7 +357,7 @@
       "dp": 58750,
       "srp": 73990,
       "sale": 56988,
-      "availability": "Very limited",
+      "availability": "Sold out",
       "priceText": {
         "dp": "PHP 58,750.00",
         "srp": "PHP 73,990.00",

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-12T15:25:59",
+  "generatedAt": "2026-10-13T10:06:05",
   "sourceFile": "Current Pricelist - HPNB.xlsx",
-  "sourceHash": "3e6768eec7",
+  "sourceHash": "26f368d25d",
   "currency": "PHP",
   "count": 39,
   "products": [
@@ -78,6 +78,9 @@
       "platform": "Sebastian 24C1",
       "srp": 62990,
       "dp": 53541.5,
+      "promoSrp": 58990,
+      "promoDp": 47192,
+      "note": "Until Oct 31, 2026 Only",
       "status": "Onhand",
       "cpu": "Core 5-120U (Copilot)",
       "cpuBrand": "Intel",
@@ -270,9 +273,7 @@
       "platform": "AbeI26C1",
       "srp": 60990,
       "dp": 51841.5,
-      "promoSrp": 44990,
-      "promoDp": 38241.5,
-      "note": "Maximum 50 units only until Oct 31, 2026",
+      "note": "No Available Promo priced units as of Oct 13, 2026",
       "status": "Onhand",
       "cpu": "Core 3 304 (5C) 15 NPU TOPs",
       "cpuBrand": "Intel",
@@ -324,7 +325,10 @@
           "sourceFile": "HP OmniBook 3 AI PC 14-ht0145TU - Left Profile.png"
         }
       ],
-      "row": 5
+      "row": 5,
+      "promoState": "soldout",
+      "endedSrp": 44990,
+      "endedDp": 38241.5
     },
     {
       "id": "14-ht0092tu",
@@ -403,6 +407,7 @@
       "srp": 85990,
       "dp": 73091.5,
       "promoDp": 68792,
+      "note": "Maximum 20 units only until Oct 31, 2026",
       "status": "Onhand",
       "cpu": "Ryzen AI 5 330 (4C) 50 NPU TOPs",
       "cpuBrand": "AMD",
@@ -467,6 +472,7 @@
       "srp": 87990,
       "dp": 74791.5,
       "promoDp": 70392,
+      "note": "Maximum 50 units only until Oct 31, 2026",
       "status": "Onhand",
       "cpu": "Core 5 320 (6C) 16 NPU TOPs",
       "cpuBrand": "Intel",
@@ -531,6 +537,7 @@
       "srp": 80990,
       "dp": 68841.5,
       "promoDp": 64792,
+      "note": "Maximum 10 units only until Oct 31, 2026",
       "status": "Onhand",
       "cpu": "Core 5-120U (10C)",
       "cpuBrand": "Intel",
@@ -1350,6 +1357,7 @@
       "platform": "Otto 23C1",
       "srp": 64990,
       "dp": 55241.5,
+      "note": "Don’t Offer Yet - For everyone's reference only",
       "status": "Incoming",
       "cpu": "Ryzen 5-7520U (Copilot)",
       "cpuBrand": "AMD",
@@ -1403,7 +1411,10 @@
           "sourceFile": "HP Laptop 15-fc0289AU - Left Profile.png"
         }
       ],
-      "row": 22
+      "row": 22,
+      "promoState": "upcoming",
+      "upcomingSrp": 44990,
+      "upcomingDp": 35992
     },
     {
       "id": "15-fc0523au",
@@ -1481,6 +1492,7 @@
       "platform": "Sebastian 24C1",
       "srp": 66990,
       "dp": 56941.5,
+      "note": "Don’t Offer Yet - For everyone's reference only",
       "status": "Incoming",
       "cpu": "Core 5-120U (Copilot)",
       "cpuBrand": "Intel",
@@ -1535,7 +1547,10 @@
           "sourceFile": "HP Laptop 15-fd1655TU - Left Profile.png"
         }
       ],
-      "row": 24
+      "row": 24,
+      "promoState": "upcoming",
+      "upcomingSrp": 56990,
+      "upcomingDp": 45592
     },
     {
       "id": "15-fd1656tu",
@@ -1547,6 +1562,7 @@
       "platform": "Sebastian 24C1",
       "srp": 78990,
       "dp": 67141.5,
+      "note": "Don’t Offer Yet - For everyone's reference only",
       "status": "Incoming",
       "cpu": "Core 5-120U (Copilot)",
       "cpuBrand": "Intel",
@@ -1598,7 +1614,10 @@
           "sourceFile": "HP Laptop 15-fd1656TU - Left Profile.png"
         }
       ],
-      "row": 25
+      "row": 25,
+      "promoState": "upcoming",
+      "upcomingSrp": 62990,
+      "upcomingDp": 50392
     },
     {
       "id": "15-fc0998au",
@@ -1610,6 +1629,7 @@
       "platform": "Otto 23C1",
       "srp": 67990,
       "dp": 57791.5,
+      "note": "Don’t Offer Yet - For everyone's reference only",
       "status": "Incoming",
       "cpu": "Ryzen 7-7730U (Copilot)",
       "cpuBrand": "AMD",
@@ -1664,7 +1684,10 @@
           "sourceFile": "HP Laptop 15-fc0998AU - Left Profile.png"
         }
       ],
-      "row": 26
+      "row": 26,
+      "promoState": "upcoming",
+      "upcomingSrp": 54990,
+      "upcomingDp": 43992
     },
     {
       "id": "14-ht0270tu",

@@ -116,7 +116,7 @@
     const t = state.typeMap[p.type];
     const fields = [p.model, p.sku, p.type, t && t.label, p.platform, p.cpu, p.cpuBrand, p.ram, p.storage, p.graphics,
       p.display, p.displayShort, p.os, p.color, p.camera, p.formFactor, p.series, p.specsRaw,
-      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", hasPromoSrp(p) && "promo srp promo price sale", p.note, p.segment, p.otherSpecs && p.otherSpecs.join(" "),
+      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", hasPromoSrp(p) && "promo srp promo price sale", p.promoState === "upcoming" && "upcoming promo", p.note, p.segment, p.otherSpecs && p.otherSpecs.join(" "),
       p.title, p.specSheet && "wolf security sure start sure click sure sense sure run sure recover sure admin business"];
     p._hay = norm(fields.filter(Boolean).join(" | "));
     p._hayC = compact(p._hay);
@@ -261,6 +261,12 @@
   }
   // "Comments" from the pricelist, e.g. "Maximum 50 units only until Oct 31, 2026"
   function noteHTML(p, cls) {
+    const c = cls ? " " + cls : "";
+    if (p.promoState === "upcoming") {   // "Don't offer yet" — reference only, regular price is still the selling price
+      const v = [p.upcomingSrp != null && `SRP ${fmtPrice(p.upcomingSrp)}`, p.upcomingDp != null && `DP ${fmtPrice(p.upcomingDp)}`].filter(Boolean).join(" · ");
+      return `<p class="promo-note upcoming${c}" title="${esc(p.note || "")}">${ICONS.clock}<span><b>Upcoming promo — don't offer yet</b>${v ? `<em>${esc(v)}</em>` : ""}<small>${esc(p.note || "For reference only")}</small></span></p>`;
+    }
+    if (p.promoState === "soldout") return `<p class="promo-note ended${c}">${ICONS.clock}<span><b>Promo-priced units sold out</b><small>${esc(p.note || "")}</small></span></p>`;
     return p.note ? `<p class="promo-note${cls ? " " + cls : ""}">${ICONS.clock}<span>${esc(p.note)}</span></p>` : "";
   }
 

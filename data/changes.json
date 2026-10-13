@@ -179,9 +179,49 @@
         "label": "Promo DP",
         "from": 51992,
         "to": 51842
+      },
+      {
+        "date": "2026-10-13",
+        "key": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 58990
+      },
+      {
+        "date": "2026-10-13",
+        "key": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 47192
+      },
+      {
+        "date": "2026-10-13",
+        "key": "DW4U9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": 44990,
+        "to": null
+      },
+      {
+        "date": "2026-10-13",
+        "key": "DW4U9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 38242,
+        "to": null
       }
     ],
-    "updatedAt": "2026-10-12"
+    "updatedAt": "2026-10-13"
   },
   "ltb": {
     "events": [
@@ -194,8 +234,38 @@
         "label": "Availability",
         "from": "On hand",
         "to": "Limited"
+      },
+      {
+        "date": "2026-10-13",
+        "key": "BJ0J8PA",
+        "model": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU",
+        "kind": "status",
+        "field": "availability",
+        "label": "Availability",
+        "from": "Very limited",
+        "to": "Sold out"
+      },
+      {
+        "date": "2026-10-13",
+        "key": "BX9D8PA",
+        "model": "HP-NB BX9D8PA OMNIBOOK 5 AI 16-AF1062TU",
+        "kind": "status",
+        "field": "availability",
+        "label": "Availability",
+        "from": "On hand",
+        "to": "Limited"
+      },
+      {
+        "date": "2026-10-13",
+        "key": "D40T5PA",
+        "model": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU",
+        "kind": "status",
+        "field": "availability",
+        "label": "Availability",
+        "from": "Limited",
+        "to": "Sold out"
       }
     ],
-    "updatedAt": "2026-10-12"
+    "updatedAt": "2026-10-13"
   }
 }

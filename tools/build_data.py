@@ -698,6 +698,16 @@ def main():
             "specSheet": {k: v for k, v in sheet.items() if not k.startswith("_")} if sheet else None,
             "row": i + 1,
         }
+        # Comments that change how a promo price is used:
+        #  "Don't offer yet - for reference only"  -> shown as an upcoming promo, regular price stays the selling price
+        #  "No available promo priced units ..."    -> promo units used up, regular price shown
+        note_l = (p.get("note") or "").lower().replace("’", "'")
+        if (p.get("promoSrp") is not None or p.get("promoDp") is not None) and re.search(r"don'?t offer yet|reference only", note_l):
+            p["promoState"] = "upcoming"
+            p["upcomingSrp"], p["upcomingDp"] = p.pop("promoSrp"), p.pop("promoDp")
+        elif (p.get("promoSrp") is not None or p.get("promoDp") is not None) and re.search(r"no available promo|promo[- ]priced units? (are )?(sold out|used up|not available)", note_l):
+            p["promoState"] = "soldout"
+            p["endedSrp"], p["endedDp"] = p.pop("promoSrp"), p.pop("promoDp")
         # extra, unknown columns are carried through (never invented)
         extra = {k: v for k, v in r.items() if k not in known_cols and v is not None}
         if extra:

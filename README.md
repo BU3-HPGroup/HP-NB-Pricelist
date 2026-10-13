@@ -139,6 +139,7 @@ Then open <http://localhost:8000/>.
 - **Standard freebie**: shown on every laptop card and in the product details
 - **Download button** (blue, next to Sort): saves what's on screen (current tab, filters and search) or the whole list as a **Price list PDF** (A4 landscape table with photos), **Product catalog PDF** (6 photo cards per A4 page), **Excel – data** or **Excel – with photos**. Choose a **Dealer copy** (SRP, DP, Promo DP / sale price) or a **Customer copy** (SRP only, no material numbers). Files are made in the browser; nothing is uploaded. The libraries (jsPDF, ExcelJS, MIT licence) and the Inter font are in `assets/vendor/` and only load when someone downloads.
 - **Light and dark mode**: the sun/moon button in the header switches the theme. The first visit follows the device setting; after that the choice is remembered in that browser. Downloads (PDF/Excel) always use the light, print-friendly look.
+- **Promo comments that change the price**: if the Comments cell says "Don't offer yet" / "for reference only", the promo is shown greyed as an *Upcoming promo — don't offer yet* and the regular SRP/DP stays the selling price (sorting, Find a laptop, Match specs, downloads). If it says "No available promo priced units…", the regular price is shown with *Promo-priced units sold out*. Change or clear the comment and rebuild to make the promo live again.
 - **Promo SRP** (Excel column "Promo SRP"): when it is below the SRP the card shows a red **Promo price** badge and **Promo SRP** with the regular SRP struck through; price bands, sorting and Find a laptop use the promo price. The **Comments** column (e.g. "Maximum 50 units only until Oct 31, 2026") is shown as a red note on the card, in the details, in the Copy text and in downloads. Both appear in a **Promo SRP** panel on the Promos page. Clear the cells when the promo ends.
 - **Availability labels** from the Status column: On hand, Incoming, Order basis (purple), Limited, Very limited, Sold out
 - **Copy button** on every product (card, list and details): copies model, part number, key specs, SRP, DP / Promo DP, availability, freebie and promo in a short text ready to paste into a chat or email
@@ -194,4 +195,4 @@ Then open <http://localhost:8000/>.
   - The *OmniBook X Flip 14-kc0079AU / kc0039AU / kc0078AU* use Intel-version photos for the Front and Front Right angles.
 - **Optional automated tests:** `pip install playwright openpyxl && playwright install chromium`, start the local server, then run `python tools/test_site.py http://localhost:8000/`.
 
-<!-- last published: 2026-10-12 -->
+<!-- last published: 2026-10-13 -->
