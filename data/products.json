@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-13T10:06:05",
+  "generatedAt": "2026-10-13T10:19:14",
   "sourceFile": "Current Pricelist - HPNB.xlsx",
-  "sourceHash": "26f368d25d",
+  "sourceHash": "bc94bc3583",
   "currency": "PHP",
   "count": 39,
   "products": [
@@ -1414,7 +1414,7 @@
       "row": 22,
       "promoState": "upcoming",
       "upcomingSrp": 44990,
-      "upcomingDp": 35992
+      "upcomingDp": 38241.5
     },
     {
       "id": "15-fc0523au",
@@ -1550,7 +1550,7 @@
       "row": 24,
       "promoState": "upcoming",
       "upcomingSrp": 56990,
-      "upcomingDp": 45592
+      "upcomingDp": 48441.5
     },
     {
       "id": "15-fd1656tu",
@@ -1617,7 +1617,7 @@
       "row": 25,
       "promoState": "upcoming",
       "upcomingSrp": 62990,
-      "upcomingDp": 50392
+      "upcomingDp": 53541.5
     },
     {
       "id": "15-fc0998au",
@@ -1687,7 +1687,7 @@
       "row": 26,
       "promoState": "upcoming",
       "upcomingSrp": 54990,
-      "upcomingDp": 43992
+      "upcomingDp": 46741.5
     },
     {
       "id": "14-ht0270tu",
