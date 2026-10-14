@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-14T12:56:39",
+  "generatedAt": "2026-10-14T16:17:47",
   "sourceFile": "Current Pricelist - HPNB.xlsx",
-  "sourceHash": "05aa728e38",
+  "sourceHash": "661c220b65",
   "currency": "PHP",
   "count": 39,
   "products": [
@@ -209,7 +209,7 @@
       "dp": 51841.5,
       "promoSrp": 44990,
       "promoDp": 38241.5,
-      "note": "20 units left only until Oct 31, 2026",
+      "note": "10 units left only until Oct 31, 2026",
       "status": "Onhand",
       "cpu": "Core 3 304 (5C) 15 NPU TOPs",
       "cpuBrand": "Intel",
