@@ -219,9 +219,29 @@
         "label": "Promo DP",
         "from": 38242,
         "to": null
+      },
+      {
+        "date": "2026-10-15",
+        "key": "DW4U8PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": 44990,
+        "to": null
+      },
+      {
+        "date": "2026-10-15",
+        "key": "DW4U8PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 38242,
+        "to": null
       }
     ],
-    "updatedAt": "2026-10-14"
+    "updatedAt": "2026-10-15"
   },
   "ltb": {
     "events": [
@@ -266,6 +286,6 @@
         "to": "Sold out"
       }
     ],
-    "updatedAt": "2026-10-14"
+    "updatedAt": "2026-10-15"
   }
 }
