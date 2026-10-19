@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-15T13:33:29",
+  "generatedAt": "2026-10-19T12:23:46",
   "sourceFile": "Current Pricelist - HPNB.xlsx",
-  "sourceHash": "a0eff11e1d",
+  "sourceHash": "1d604b6375",
   "currency": "PHP",
   "count": 39,
   "products": [
@@ -2490,8 +2490,6 @@
       "type": "Probook",
       "srp": 77990,
       "dp": 61706,
-      "promoSrp": 73990,
-      "promoDp": 59000,
       "status": "Onhand",
       "cpu": "Core Ultra 5 225U (12C) 12 NPU TOPs",
       "cpuBrand": "Intel",

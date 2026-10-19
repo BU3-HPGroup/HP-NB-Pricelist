@@ -239,9 +239,29 @@
         "label": "Promo DP",
         "from": 38242,
         "to": null
+      },
+      {
+        "date": "2026-10-19",
+        "key": "BQ5B1PT",
+        "model": "HP Probook 4 G1I 14 AI Commercial On Retail",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": 73990,
+        "to": null
+      },
+      {
+        "date": "2026-10-19",
+        "key": "BQ5B1PT",
+        "model": "HP Probook 4 G1I 14 AI Commercial On Retail",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 59000,
+        "to": null
       }
     ],
-    "updatedAt": "2026-10-15"
+    "updatedAt": "2026-10-19"
   },
   "ltb": {
     "events": [
@@ -286,6 +306,6 @@
         "to": "Sold out"
       }
     ],
-    "updatedAt": "2026-10-15"
+    "updatedAt": "2026-10-19"
   }
 }

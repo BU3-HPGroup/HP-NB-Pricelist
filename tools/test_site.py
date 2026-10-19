@@ -367,7 +367,8 @@ with sync_playwright() as pw:
     if hero:
         ht = pg.inner_text("#welcomeStage")
         check("hero: ProBook 4 G1i featured", pg.get_attribute(".hero-spot", "href") == "#/product/bq5b1pt" and "ProBook 4 G1i" in ht, ht[:80])
-        check("hero: promo SRP + 16GB upgrade offer", "73,990" in ht and "16GB upgrade" in ht and "6,750" in ht)
+        _hp = hero[0].get("promoSrp") if hero[0].get("promoSrp") is not None and hero[0]["promoSrp"] < hero[0]["srp"] else hero[0]["srp"]
+        check("hero: current SRP + 16GB upgrade offer", f"{_hp:,.0f}" in ht and "16GB upgrade" in ht and "6,750" in ht, ht[:200])
         check("hero: Wolf Security Sure features", all(x in ht for x in ("Sure Start", "Sure Sense", "Sure Click", "Sure Run", "Sure Recover", "Sure Admin")))
         pg.click(".hero-spot"); pg.wait_for_selector("#detailModal:not([hidden])")
         dt = pg.inner_text("#detailBody")
