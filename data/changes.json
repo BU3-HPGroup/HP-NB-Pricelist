@@ -261,7 +261,7 @@
         "to": null
       }
     ],
-    "updatedAt": "2026-10-19"
+    "updatedAt": "2026-10-27"
   },
   "ltb": {
     "events": [
@@ -304,8 +304,20 @@
         "label": "Availability",
         "from": "Limited",
         "to": "Sold out"
+      },
+      {
+        "date": "2026-10-27",
+        "key": "BJ0J8PA",
+        "model": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU",
+        "kind": "removed"
+      },
+      {
+        "date": "2026-10-27",
+        "key": "D40T5PA",
+        "model": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU",
+        "kind": "removed"
       }
     ],
-    "updatedAt": "2026-10-19"
+    "updatedAt": "2026-10-27"
   }
 }

@@ -1,65 +1,10 @@
 {
-  "generatedAt": "2026-10-19T12:23:46",
+  "generatedAt": "2026-10-27T09:43:35",
   "sourceFile": "Last-time-buy models.xlsx",
-  "sourceHash": "ca919f3a45",
+  "sourceHash": "1d9ea07491",
   "currency": "PHP",
-  "count": 11,
+  "count": 9,
   "products": [
-    {
-      "id": "ltb-15-fn0046au",
-      "model": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU",
-      "sku": "15-FN0046AU",
-      "partNo": "D40T5PA",
-      "matNo": "432115036610",
-      "tagging": "Entry Premium - Omnibook 3",
-      "segment": "Entry Premium",
-      "type": "Omnibook 3",
-      "cpu": "RAI 5 330",
-      "cpuBrand": "AMD",
-      "ram": "16GB",
-      "storage": "512GB",
-      "displayShort": "15.6\" IPS",
-      "otherSpecs": [
-        "15.6 IPS W11 OPI"
-      ],
-      "specsRaw": "RAI 5 330 16GB 512GB 15.6 IPS W11 OPI",
-      "dp": 48310,
-      "srp": 60990,
-      "sale": 46861,
-      "availability": "Sold out",
-      "priceText": {
-        "dp": "PHP 48,310.00",
-        "srp": "PHP 60,990.00",
-        "sale": "PHP 46,861"
-      },
-      "images": [
-        {
-          "angle": "Front",
-          "src": "assets/images/ltb/15-fn0046au-front.webp",
-          "thumb": "assets/images/ltb/15-fn0046au-front-thumb.webp",
-          "width": 1200,
-          "height": 933,
-          "sourceFile": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU - Front.png"
-        },
-        {
-          "angle": "Front Right",
-          "src": "assets/images/ltb/15-fn0046au-front-right.webp",
-          "thumb": "assets/images/ltb/15-fn0046au-front-right-thumb.webp",
-          "width": 1200,
-          "height": 970,
-          "sourceFile": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU - Front Right.png"
-        },
-        {
-          "angle": "Front Left",
-          "src": "assets/images/ltb/15-fn0046au-front-left.webp",
-          "thumb": "assets/images/ltb/15-fn0046au-front-left-thumb.webp",
-          "width": 1200,
-          "height": 970,
-          "sourceFile": "HP-NB D40T5PA OMNIBOOK3 15-FN0046AU - Front Left.png"
-        }
-      ],
-      "row": 1
-    },
     {
       "id": "ltb-16-h1015tx",
       "model": "HP-NB 86J71PA ENVY 16-H1015TX",
@@ -87,7 +32,7 @@
         "srp": "PHP 98,990.00",
         "sale": "PHP 76,475"
       },
-      "row": 2
+      "row": 1
     },
     {
       "id": "ltb-16-af1062tu",
@@ -150,7 +95,7 @@
           "sourceFile": "HP-NB BX9D8PA OMNIBOOK 5 AI 16-AF1062TU - Left Profile.png"
         }
       ],
-      "row": 3
+      "row": 2
     },
     {
       "id": "ltb-16-bc1014au",
@@ -213,7 +158,7 @@
           "sourceFile": "HP-NB BX9J9PA OMNIBOOK 5 16-BC1014AU - Left Profile.png"
         }
       ],
-      "row": 4
+      "row": 3
     },
     {
       "id": "ltb-14-he0046qu",
@@ -276,7 +221,7 @@
           "sourceFile": "HP-NB D09H9PA OMNI5 NGAI 14-HE0046QU - Left Profile.png"
         }
       ],
-      "row": 5
+      "row": 4
     },
     {
       "id": "ltb-14-fp0061tu",
@@ -305,7 +250,7 @@
         "srp": "PHP 82,990.00",
         "sale": "PHP 64,098"
       },
-      "row": 6
+      "row": 5
     },
     {
       "id": "ltb-14-fp0060tu",
@@ -334,70 +279,7 @@
         "srp": "PHP 72,990.00",
         "sale": "PHP 56,037"
       },
-      "row": 7
-    },
-    {
-      "id": "ltb-13-bg1055au",
-      "model": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU",
-      "sku": "13-BG1055AU",
-      "partNo": "BJ0J8PA",
-      "matNo": "432115036321",
-      "tagging": "Premium - Omnibook 7 Aero",
-      "segment": "Premium",
-      "type": "Omnibook 7 Aero",
-      "cpu": "R5 AI 340",
-      "cpuBrand": "AMD",
-      "ram": "16GB",
-      "storage": "512GB",
-      "displayShort": "13.3\"",
-      "otherSpecs": [
-        "13.3\" WHITE OFFICE W11"
-      ],
-      "specsRaw": "R5 AI 340 16GB 512GB 13.3\" WHITE OFFICE W11",
-      "dp": 58750,
-      "srp": 73990,
-      "sale": 56988,
-      "availability": "Sold out",
-      "priceText": {
-        "dp": "PHP 58,750.00",
-        "srp": "PHP 73,990.00",
-        "sale": "PHP 56,988"
-      },
-      "images": [
-        {
-          "angle": "Front",
-          "src": "assets/images/ltb/13-bg1055au-front.webp",
-          "thumb": "assets/images/ltb/13-bg1055au-front-thumb.webp",
-          "width": 1200,
-          "height": 998,
-          "sourceFile": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU - Front.png"
-        },
-        {
-          "angle": "Front Right",
-          "src": "assets/images/ltb/13-bg1055au-front-right.webp",
-          "thumb": "assets/images/ltb/13-bg1055au-front-right-thumb.webp",
-          "width": 1200,
-          "height": 984,
-          "sourceFile": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU - Front Right.png"
-        },
-        {
-          "angle": "Rear Left",
-          "src": "assets/images/ltb/13-bg1055au-rear-left.webp",
-          "thumb": "assets/images/ltb/13-bg1055au-rear-left-thumb.webp",
-          "width": 1200,
-          "height": 997,
-          "sourceFile": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU - Rear Left.png"
-        },
-        {
-          "angle": "Left Profile",
-          "src": "assets/images/ltb/13-bg1055au-left-profile.webp",
-          "thumb": "assets/images/ltb/13-bg1055au-left-profile-thumb.webp",
-          "width": 1200,
-          "height": 107,
-          "sourceFile": "HP-NB BJ0J8PA OMNIBOOK7 AERO 13-BG1055AU - Left Profile.png"
-        }
-      ],
-      "row": 8
+      "row": 6
     },
     {
       "id": "ltb-14-fe0028qu",
@@ -426,7 +308,7 @@
         "srp": "PHP 108,990.00",
         "sale": "PHP 84,021"
       },
-      "row": 9
+      "row": 7
     },
     {
       "id": "ltb-16-af0063tu",
@@ -489,7 +371,7 @@
           "sourceFile": "HP-NB B49W8PA PAVILION 16-AF0063TU U5 - Left Profile.png"
         }
       ],
-      "row": 10
+      "row": 8
     },
     {
       "id": "ltb-16-ag0034au",
@@ -552,7 +434,7 @@
           "sourceFile": "HP-NB B49WBPA PAVILION 16-AG0034AU R5 - Rear Left.png"
         }
       ],
-      "row": 11
+      "row": 9
     }
   ]
 }

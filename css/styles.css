@@ -1587,3 +1587,21 @@ body[data-type="Omnibook 7"] .eyebrow { color: #4b5b6e; }
 [data-theme="dark"] .promo-note.upcoming { background: #1d222b; color: #c3cad6; border-color: #3a4352; }
 [data-theme="dark"] .promo-note.upcoming em { color: #9aa3b2; }
 [data-theme="dark"] .promo-note.ended { background: #1d2027; color: #aab1bd; }
+
+/* Sales reference key visual in product details */
+.kv-ref { margin-top: 14px; }
+.kv-item { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 14px; align-items: start; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface, #fff); }
+.kv-thumb { position: relative; padding: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; cursor: zoom-in; }
+.kv-thumb img { display: block; width: 100%; height: auto; }
+.kv-thumb .enlarge-hint { position: absolute; left: 6px; bottom: 6px; font-size: 11px; padding: 3px 7px; }
+.kv-txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.kv-txt b { font-size: 14.5px; }
+.kv-txt > span:not(.kv-acts) { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+.kv-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.kv-acts .btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; font-size: 13px; text-decoration: none; }
+.kv-acts .btn svg { width: 15px; height: 15px; }
+@media (max-width: 560px) { .kv-item { grid-template-columns: 96px minmax(0, 1fr); } }
+/* lightbox: keep the picture centred when the prev/next arrows are hidden (promo flyers, KVs) */
+.lb-figure { grid-column: 2; grid-row: 1; }
+.lb-prev { grid-column: 1; grid-row: 1; } .lb-next { grid-column: 3; grid-row: 1; }
+@media (max-width: 720px) { .lb-figure { grid-column: 1; } }

@@ -282,6 +282,19 @@
     const a = p.sale == null ? addonFor(p) : null;
     return a ? `<div class="addon-box">${ICONS.upgrade}<div><b>${esc(a.title)}</b><span>${esc(a.caption || "")}</span></div><em>+${fmtPrice(a.price)}</em></div>` : "";
   }
+  // key visuals for a model (data/promos.json "modelKVs", matched by part number) — shown in the details for sales reference
+  function kvFor(p) { return (state.kvs || []).filter((k) => p.partNo && skuKey(k.partNo) === skuKey(p.partNo)); }
+  function kvHTML(p) {
+    const L = p.sale == null ? kvFor(p) : [];
+    if (!L.length) return "";
+    return `<div class="kv-ref"><h3 class="detail-h">Sales reference</h3>${L.map((k, i) => `
+      <div class="kv-item">
+        <button type="button" class="kv-thumb" data-kv="${i}" aria-label="Enlarge ${esc(k.title)}"><img src="${esc(k.thumb || k.image)}" alt="${esc(k.title)}" loading="lazy" decoding="async"><span class="enlarge-hint">${ICONS.zoom}Enlarge</span></button>
+        <div class="kv-txt"><b>${esc(k.title)}</b><span>${esc(k.caption || "")}</span>
+          <span class="kv-acts"><button type="button" class="btn btn-outline" data-kv="${i}">${ICONS.zoom} View full size</button>
+          <a class="btn btn-outline" href="${esc(k.image)}" download>Save image</a></span></div>
+      </div>`).join("")}</div>`;
+  }
   // HP Wolf Security "Sure" features, from the HP spec sheet (source/specsheets)
   function wolfHTML(p) {
     const sh = p.specSheet;
@@ -878,6 +891,7 @@
         ${p.sale == null && availability(p) ? `<div class="avail-line">${stockHTML(p)}</div>` : ""}
         ${availability(p) ? `<p class="avail-note">${ICONS.clock}${esc(AVAIL_NOTE)}</p>` : ""}
         ${inclusionsHTML(p)}
+        ${kvHTML(p)}
         ${wolfHTML(p)}
         <h3 class="detail-h">Specifications</h3>
         <table class="spec-table"><tbody>
@@ -929,7 +943,7 @@
   }
   function openPromoLightbox(pr) {
     lbFocus = document.activeElement;
-    lbPromo = { src: pr.image, alt: pr.imageAlt || pr.name, caption: pr.name + " · " + fmtRange(pr.start, pr.end) };
+    lbPromo = { src: pr.image, alt: pr.imageAlt || pr.name, caption: pr.name + (pr.start || pr.end ? " · " + fmtRange(pr.start, pr.end) : "") };
     const lb = $("#lbImg");
     lb.src = lbPromo.src; lb.alt = lbPromo.alt;
     $("#lbCaption").textContent = lbPromo.caption;
@@ -1458,6 +1472,8 @@
       const nav = e.target.closest(".g-nav");
       if (nav) return setImage(current.idx + Number(nav.dataset.step));
       if (e.target.closest("#gZoom")) return openLightbox();
+      const kvb = e.target.closest("[data-kv]");
+      if (kvb && current) { const k = kvFor(current.p)[Number(kvb.dataset.kv)]; if (k) return openPromoLightbox({ image: k.image, imageAlt: k.title, name: k.title }); }
       const cp = e.target.closest("#copyModel");
       if (cp) {
         const text = cp.dataset.copy;
@@ -1631,6 +1647,7 @@
       state.noFreebie = {};
       if (state.freebie) (state.freebie.excluded || []).forEach((x) => { if (x.sku) state.noFreebie[skuKey(x.sku)] = true; if (x.productNumber) state.noFreebie[skuKey(x.productNumber)] = true; });
       state.promos = ((promos && promos.promos) || []).filter((pr) => !pr.end || pr.end >= today);
+      state.kvs = (promos && promos.modelKVs) || [];
       state.addons = ((promos && promos.addons) || []).filter((a) => (!a.end || a.end >= today) && (!a.start || a.start <= today));
       state.promos.forEach((pr) => (pr.eligible || []).forEach((el) => {
         if (!el.sku) return;
