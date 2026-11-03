@@ -1027,13 +1027,28 @@
     if (hero) $("#welcomeStage").removeAttribute("aria-hidden");
     if (hero) $("#welcomeStage").innerHTML = heroHTML(hero);
     else $("#welcomeStage").innerHTML = (l ? welcomeImg(l, "w-left") : "") + (c ? welcomeImg(c, "w-center") : "") + (r ? welcomeImg(r, "w-right") : "");
-    const d = state.meta && state.meta.generatedAt ? new Date(state.meta.generatedAt) : null;
+    const asOf = asOfText(true);
     $("#welcomeStats").innerHTML = `<span><b>${main.length}</b> models</span><span><b>${state.ds.main.types.length}</b> series</span>` +
-      (d && !isNaN(d) ? `<span>Updated <b>${esc(d.toLocaleDateString("en-PH", { year: "numeric", month: "short", day: "numeric" }))}</b></span>` : "");
+      (asOf ? `<span>Updated as of <b>${esc(asOf)}</b></span>` : "");
     const nNew = main.filter((p) => chgKinds(p).length).length;
     $("#welcomeNew").hidden = nNew === 0;
     $("#welcomeNewCount").textContent = nNew;
     w.dataset.ready = "1";
+  }
+  // "Prices as of" stamp: data/products.json asOf (set with build_data.py --as-of, Manila time) or the build date
+  function asOfText(long) {
+    const m = state.meta || {};
+    if (m.asOf) {
+      const t = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{1,2}):(\d{2}))?/.exec(m.asOf);
+      if (t) {
+        const d = new Date(+t[1], +t[2] - 1, +t[3]);
+        let s = d.toLocaleDateString("en-PH", { year: "numeric", month: long ? "long" : "short", day: "numeric" });
+        if (t[4] != null) { const h = +t[4], mi = t[5]; s += `, ${(h % 12) || 12}:${mi} ${h < 12 ? "AM" : "PM"}`; }
+        return s;
+      }
+    }
+    const d = m.generatedAt ? new Date(m.generatedAt) : null;
+    return d && !isNaN(d) ? d.toLocaleDateString("en-PH", { year: "numeric", month: long ? "long" : "short", day: "numeric" }) : "";
   }
   function scrollToCatalog() {
     const el = $("#catalogStart");
@@ -1658,10 +1673,11 @@
 
       renderNav();
       renderSites();
-      const d = data.generatedAt ? new Date(data.generatedAt) : null;
+      const asOf = asOfText(true);
       $("#footerMeta").textContent = `Data source: ${data.sourceFile || "pricelist"} · ${state.products.length} products` +
         (ltb ? ` · ${ltb.sourceFile} · ${ltb.count} last-time-buy models` : "") +
-        (d && !isNaN(d) ? ` · updated ${d.toLocaleDateString("en-PH", { year: "numeric", month: "long", day: "numeric" })}` : "");
+        (asOf ? ` · updated as of ${asOf}` : "");
+      const ab = $("#asOfBadge"); if (ab && asOf) { ab.textContent = `Prices as of ${asOf}`; ab.hidden = false; }
       applyRoute();
     } catch (err) {
       console.error(err);
@@ -1692,7 +1708,7 @@
         freebie: state.freebie,
       };
     },
-    typeLabel, availability, hasFreebie, hasPromoDp, hasPromoSrp, fmtPrice,
+    asOfText, typeLabel, availability, hasFreebie, hasPromoDp, hasPromoSrp, fmtPrice,
     reward: (p) => state.rewards[skuKey(p.sku)] || null,
     addon: (p) => (p.sale == null ? addonFor(p) : null),
     // for the requirement matcher (js/match.js)

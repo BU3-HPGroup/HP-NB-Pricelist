@@ -1605,3 +1605,13 @@ body[data-type="Omnibook 7"] .eyebrow { color: #4b5b6e; }
 .lb-figure { grid-column: 2; grid-row: 1; }
 .lb-prev { grid-column: 1; grid-row: 1; } .lb-next { grid-column: 3; grid-row: 1; }
 @media (max-width: 720px) { .lb-figure { grid-column: 1; } }
+
+/* "Prices as of" stamp next to the result count */
+.asof-badge { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 0 12px; padding: 3px 10px; border-radius: 999px; background: var(--blue-50, #eef3fd); color: var(--blue); font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.asof-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #10b981; }
+[data-theme="dark"] .asof-badge { background: #16233f; color: #8fb4ff; }
+@media (max-width: 720px) { .asof-badge { margin: 4px 0 0; font-size: 11.5px; } }
+@media (max-width: 720px) {
+  .toolbar-left { flex-wrap: wrap; row-gap: 8px; }
+  .asof-badge { order: 5; flex: 0 0 100%; max-width: fit-content; margin: 0; }
+}

@@ -259,7 +259,7 @@
     let x = M; cols.forEach((c) => { c.x = x; c.w = (c.w / tw) * CW; x += c.w; });
 
     const title = ltb ? "HP Notebooks — Last-time-buy list" : "HP Notebook Pricelist";
-    const sub = `${sel.label} · ${sel.copy} · ${rows.length} ${rows.length === 1 ? "model" : "models"} · ${today().text}`;
+    const sub = `${sel.label} · ${sel.copy} · ${rows.length} ${rows.length === 1 ? "model" : "models"} · ${API().asOfText && API().asOfText(true) ? "Prices as of " + API().asOfText(true) : today().text}`;
     const ROW = 17.5, TH = 7, GH = 6.5, PAD = 1.8;
     let y;
     const tableHead = () => {
@@ -352,7 +352,7 @@
     const photos = await Promise.all(rows.map((r) => loadImage(photoUrl(r.p), { max: 560, bg: "#f5f6f8" })));
     const ltb = sel.mode === "ltb";
     const title = ltb ? "HP Notebooks — Last-time-buy catalog" : "HP Notebook Catalog";
-    const sub = `${sel.label} · ${sel.copy} · ${rows.length} ${rows.length === 1 ? "model" : "models"} · ${today().text}`;
+    const sub = `${sel.label} · ${sel.copy} · ${rows.length} ${rows.length === 1 ? "model" : "models"} · ${API().asOfText && API().asOfText(true) ? "Prices as of " + API().asOfText(true) : today().text}`;
     const COLS = 2, ROWS = 3, GAP = 5;
     const top0 = M + 11 + 6;
     const cw = (W - 2 * M - GAP * (COLS - 1)) / COLS;
@@ -442,7 +442,7 @@
     ws.getCell(1, 1).value = ltb ? "HP Notebooks — Last-time-buy list" : "HP Notebook Pricelist";
     ws.getCell(1, 1).font = { name: "Arial", size: 16, bold: true, color: { argb: hex(BLUE) } };
     ws.getRow(1).height = 26;
-    ws.getCell(2, 1).value = `Iontech · ${sel.label} · ${sel.copy} · ${rows.length} ${rows.length === 1 ? "model" : "models"} · ${today().text}`;
+    ws.getCell(2, 1).value = `Iontech · ${sel.label} · ${sel.copy} · ${rows.length} ${rows.length === 1 ? "model" : "models"} · ${API().asOfText && API().asOfText(true) ? "Prices as of " + API().asOfText(true) : today().text}`;
     ws.getCell(2, 1).font = { name: "Arial", size: 10, color: { argb: "FF555B66" } };
     ws.getCell(3, 1).value = sel.dealer ? NOTE_DEALER : NOTE_CUSTOMER;
     ws.getCell(3, 1).font = { name: "Arial", size: 8.5, italic: true, color: { argb: "FF6B6F76" } };

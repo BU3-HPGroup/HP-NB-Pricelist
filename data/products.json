@@ -1,7 +1,8 @@
 {
-  "generatedAt": "2026-10-27T09:43:35",
+  "generatedAt": "2026-11-03T09:05:45",
+  "asOf": "2026-11-03T09:00",
   "sourceFile": "Current Pricelist - HPNB.xlsx",
-  "sourceHash": "9185b838a0",
+  "sourceHash": "50e2403d1e",
   "currency": "PHP",
   "count": 39,
   "products": [
@@ -78,9 +79,6 @@
       "platform": "Sebastian 24C1",
       "srp": 62990,
       "dp": 53541.5,
-      "promoSrp": 58990,
-      "promoDp": 47192,
-      "note": "Until Oct 31, 2026 Only",
       "status": "Onhand",
       "cpu": "Core 5-120U (Copilot)",
       "cpuBrand": "Intel",
@@ -207,7 +205,6 @@
       "platform": "AbeI26C1",
       "srp": 60990,
       "dp": 51841.5,
-      "note": "No Available Promo priced units as of Oct 15, 2026",
       "status": "Onhand",
       "cpu": "Core 3 304 (5C) 15 NPU TOPs",
       "cpuBrand": "Intel",
@@ -259,10 +256,7 @@
           "sourceFile": "HP OmniBook 3 AI PC 14-ht0144TU - Left Profile.png"
         }
       ],
-      "row": 4,
-      "promoState": "soldout",
-      "endedSrp": 44990,
-      "endedDp": 38241.5
+      "row": 4
     },
     {
       "id": "14-ht0145tu",
@@ -274,7 +268,6 @@
       "platform": "AbeI26C1",
       "srp": 60990,
       "dp": 51841.5,
-      "note": "No Available Promo priced units as of Oct 13, 2026",
       "status": "Onhand",
       "cpu": "Core 3 304 (5C) 15 NPU TOPs",
       "cpuBrand": "Intel",
@@ -326,10 +319,7 @@
           "sourceFile": "HP OmniBook 3 AI PC 14-ht0145TU - Left Profile.png"
         }
       ],
-      "row": 5,
-      "promoState": "soldout",
-      "endedSrp": 44990,
-      "endedDp": 38241.5
+      "row": 5
     },
     {
       "id": "14-ht0092tu",
@@ -341,9 +331,6 @@
       "platform": "AbeI26C1",
       "srp": 64990,
       "dp": 55241.5,
-      "promoSrp": 60990,
-      "promoDp": 51841.5,
-      "note": "Maximum 350 units only until Oct 31, 2026",
       "status": "Onhand",
       "cpu": "Core 5 315 (6C) 15 NPU TOPs",
       "cpuBrand": "Intel",
@@ -407,8 +394,6 @@
       "platform": "DesoA",
       "srp": 85990,
       "dp": 73091.5,
-      "promoDp": 68792,
-      "note": "Maximum 20 units only until Oct 31, 2026",
       "status": "Onhand",
       "cpu": "Ryzen AI 5 330 (4C) 50 NPU TOPs",
       "cpuBrand": "AMD",
@@ -472,8 +457,6 @@
       "platform": "Deso I",
       "srp": 87990,
       "dp": 74791.5,
-      "promoDp": 70392,
-      "note": "Maximum 50 units only until Oct 31, 2026",
       "status": "Onhand",
       "cpu": "Core 5 320 (6C) 16 NPU TOPs",
       "cpuBrand": "Intel",
@@ -537,8 +520,6 @@
       "platform": "Salute 25C1",
       "srp": 80990,
       "dp": 68841.5,
-      "promoDp": 64792,
-      "note": "Maximum 10 units only until Oct 31, 2026",
       "status": "Onhand",
       "cpu": "Core 5-120U (10C)",
       "cpuBrand": "Intel",
@@ -1358,7 +1339,6 @@
       "platform": "Otto 23C1",
       "srp": 64990,
       "dp": 55241.5,
-      "note": "Don’t Offer Yet - For everyone's reference only",
       "status": "Incoming",
       "cpu": "Ryzen 5-7520U (Copilot)",
       "cpuBrand": "AMD",
@@ -1412,10 +1392,7 @@
           "sourceFile": "HP Laptop 15-fc0289AU - Left Profile.png"
         }
       ],
-      "row": 22,
-      "promoState": "upcoming",
-      "upcomingSrp": 44990,
-      "upcomingDp": 38241.5
+      "row": 22
     },
     {
       "id": "15-fc0523au",
@@ -1493,7 +1470,6 @@
       "platform": "Sebastian 24C1",
       "srp": 66990,
       "dp": 56941.5,
-      "note": "Don’t Offer Yet - For everyone's reference only",
       "status": "Incoming",
       "cpu": "Core 5-120U (Copilot)",
       "cpuBrand": "Intel",
@@ -1548,10 +1524,7 @@
           "sourceFile": "HP Laptop 15-fd1655TU - Left Profile.png"
         }
       ],
-      "row": 24,
-      "promoState": "upcoming",
-      "upcomingSrp": 56990,
-      "upcomingDp": 48441.5
+      "row": 24
     },
     {
       "id": "15-fd1656tu",
@@ -1563,7 +1536,6 @@
       "platform": "Sebastian 24C1",
       "srp": 78990,
       "dp": 67141.5,
-      "note": "Don’t Offer Yet - For everyone's reference only",
       "status": "Incoming",
       "cpu": "Core 5-120U (Copilot)",
       "cpuBrand": "Intel",
@@ -1615,10 +1587,7 @@
           "sourceFile": "HP Laptop 15-fd1656TU - Left Profile.png"
         }
       ],
-      "row": 25,
-      "promoState": "upcoming",
-      "upcomingSrp": 62990,
-      "upcomingDp": 53541.5
+      "row": 25
     },
     {
       "id": "15-fc0998au",
@@ -1630,7 +1599,6 @@
       "platform": "Otto 23C1",
       "srp": 67990,
       "dp": 57791.5,
-      "note": "Don’t Offer Yet - For everyone's reference only",
       "status": "Incoming",
       "cpu": "Ryzen 7-7730U (Copilot)",
       "cpuBrand": "AMD",
@@ -1685,10 +1653,7 @@
           "sourceFile": "HP Laptop 15-fc0998AU - Left Profile.png"
         }
       ],
-      "row": 26,
-      "promoState": "upcoming",
-      "upcomingSrp": 54990,
-      "upcomingDp": 46741.5
+      "row": 26
     },
     {
       "id": "14-ht0270tu",

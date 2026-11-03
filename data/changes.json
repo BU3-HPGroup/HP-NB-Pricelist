@@ -259,9 +259,79 @@
         "label": "Promo DP",
         "from": 59000,
         "to": null
+      },
+      {
+        "date": "2026-11-03",
+        "key": "DJ8T4PA",
+        "model": "HP OmniBook 5 14-hm0072AU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 68792,
+        "to": null
+      },
+      {
+        "date": "2026-11-03",
+        "key": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": 58990,
+        "to": null
+      },
+      {
+        "date": "2026-11-03",
+        "key": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 47192,
+        "to": null
+      },
+      {
+        "date": "2026-11-03",
+        "key": "DU5R6PA",
+        "model": "HP OmniBook 5 Flip 14-fp0162TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 64792,
+        "to": null
+      },
+      {
+        "date": "2026-11-03",
+        "key": "DW7W9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": 60990,
+        "to": null
+      },
+      {
+        "date": "2026-11-03",
+        "key": "DW7W9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 51842,
+        "to": null
+      },
+      {
+        "date": "2026-11-03",
+        "key": "DX4J7PA",
+        "model": "HP OmniBook 5 AI PC 14-kf0002TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": 70392,
+        "to": null
       }
     ],
-    "updatedAt": "2026-10-27"
+    "updatedAt": "2026-11-03"
   },
   "ltb": {
     "events": [
@@ -318,6 +388,6 @@
         "kind": "removed"
       }
     ],
-    "updatedAt": "2026-10-27"
+    "updatedAt": "2026-11-03"
   }
 }

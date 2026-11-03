@@ -577,6 +577,7 @@ def main():
     ap.add_argument("--ltb-excel", default=os.path.join(ROOT, "source", "Last-time-buy models.xlsx"))
     ap.add_argument("--ltb-images", default=None, help="Folder of Last-time-buy photos named '<Model> - <Angle>.png'")
     ap.add_argument("--only-ltb", action="store_true", help="Only rebuild data/ltb.json")
+    ap.add_argument("--as-of", default=None, help='Date/time shown on the site as "Prices as of", e.g. 2026-11-03T09:00 (Manila time)')
     ap.add_argument("--specsheets", default=os.path.join(ROOT, "source", "specsheets"),
                     help="Folder of HP technical spec sheets (<PartNo>_*.xlsx) to add full specs + security features")
     args = ap.parse_args()
@@ -731,12 +732,15 @@ def main():
         digest = hashlib.sha1(fh.read()).hexdigest()[:10]
     payload = {
         "generatedAt": datetime.now().isoformat(timespec="seconds"),
+        "asOf": args.as_of,
         "sourceFile": os.path.basename(args.excel),
         "sourceHash": digest,
         "currency": "PHP",
         "count": len(out),
         "products": out,
     }
+    if not payload["asOf"]:
+        payload.pop("asOf")
     products_path = os.path.join(DATA_OUT, "products.json")
     prev_products = changes.load_previous(products_path)
     with open(products_path, "w", encoding="utf-8") as fh:
