@@ -711,16 +711,17 @@
         if (!el.sku) return;
         ["main", "ltb"].forEach((m) => {
           const ds = state.ds[m]; if (!ds) return;
-          ds.products.filter((p) => skuKey(p.sku) === el.sku).forEach((p) => onList.push({ p, m, reward: el.reward }));
+          ds.products.filter((p) => skuKey(p.sku) === el.sku).forEach((p) => onList.push({ p, m, reward: el.reward, rewardText: el.rewardText }));
         });
       });
-      onList.sort((a, b) => b.reward - a.reward);
+      onList.sort((a, b) => (b.reward || 0) - (a.reward || 0));
+      const rw = (o) => (typeof o.reward === "number" ? fmtPrice(o.reward) : esc(o.rewardText || ""));
       const href = pr.url || "";
       return `<article class="promo-card${href ? " clickable" : ""}" ${href ? `data-href="${esc(href)}"` : ""} id="promo-${esc(pr.id)}">
         <div class="promo-media">
-          ${href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">` : `<button type="button" class="promo-zoom" data-flyer="${esc(pr.id)}" aria-label="Enlarge ${esc(pr.name)} promo image">`}
+          <button type="button" class="promo-zoom" data-flyer="${esc(pr.id)}" aria-label="Enlarge ${esc(pr.name)} promo flyer">
             <img src="${esc(pr.image)}" alt="${esc(pr.imageAlt || pr.name)}" loading="lazy" decoding="async">
-          ${href ? "</a>" : `<span class="enlarge-hint">${ICONS.zoom}Enlarge</span></button>`}
+          <span class="enlarge-hint">${ICONS.zoom}Enlarge</span></button>
         </div>
         <div class="promo-body">
           <span class="promo-name">${esc(pr.name)}${upcoming ? ' <em class="soon">Starts soon</em>' : ""}</span>
@@ -729,11 +730,15 @@
           <p class="promo-caption">${esc(pr.caption || "")}</p>
           ${(pr.highlights || []).length ? `<ul class="promo-points">${pr.highlights.map((h) => `<li>${ICONS.check}<span>${esc(h)}</span></li>`).join("")}</ul>` : ""}
           ${onList.length ? `<details class="eligible"><summary>${onList.length} eligible model${onList.length === 1 ? "" : "s"} on our lists</summary>
-            <ul>${onList.map((o) => `<li><a href="${productLink(o.p, o.m)}"><span>${esc(o.p.model)}${o.m === "ltb" ? ' <em class="mini-ltb">LTB</em>' : ""}</span><b>${fmtPrice(o.reward)}</b></a></li>`).join("")}</ul>
+            <ul>${onList.map((o) => `<li><a href="${productLink(o.p, o.m)}"><span>${esc(o.p.model)}${o.m === "ltb" ? ' <em class="mini-ltb">LTB</em>' : ""}</span><b>${rw(o)}</b></a></li>`).join("")}</ul>
+          </details>` : (pr.eligible || []).length ? `<p class="eligible-none">None of the participating models are on our current pricelist.</p>` : ""}
+          ${(pr.eligible || []).length ? `<details class="eligible eligible-all"><summary>All ${pr.eligible.length} participating models (HP list)</summary>
+            <ul>${pr.eligible.map((e) => `<li><span>${esc(e.name)}</span><b>${typeof e.reward === "number" ? fmtPrice(e.reward) : esc(e.rewardText || "")}</b></li>`).join("")}</ul>
           </details>` : ""}
           <div class="promo-actions">
-            ${href ? `<a class="btn btn-primary" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(pr.cta || "View Promo Details")} ${ICONS.external}<span class="visually-hidden"> (opens in a new tab)</span></a>`
-                   : `<button type="button" class="btn btn-outline" data-flyer="${esc(pr.id)}">${ICONS.zoom} View promo flyer</button>`}
+            ${href ? `<a class="btn btn-primary" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(pr.cta || "View Promo Details")} ${ICONS.external}<span class="visually-hidden"> (opens in a new tab)</span></a>` : ""}
+            <button type="button" class="btn btn-outline" data-flyer="${esc(pr.id)}">${ICONS.zoom} View promo flyer</button>
+            ${pr.mechanics ? `<button type="button" class="btn btn-outline" data-flyer="${esc(pr.id)}" data-page="mechanics">${ICONS.zoom} Mechanics &amp; claim steps</button>` : ""}
           </div>
           ${pr.permit ? `<p class="promo-fine">${esc(pr.permit)}</p>` : ""}
         </div>
@@ -1558,7 +1563,7 @@
 
     $("#promosGrid").addEventListener("click", (e) => {
       const flyer = e.target.closest("[data-flyer]");
-      if (flyer) { const pr = state.promos.find((x) => x.id === flyer.dataset.flyer); if (pr) openPromoLightbox(pr); return; }
+      if (flyer) { const pr = state.promos.find((x) => x.id === flyer.dataset.flyer); if (pr) openPromoLightbox(flyer.dataset.page === "mechanics" && pr.mechanics ? Object.assign({}, pr, { image: pr.mechanics, imageAlt: pr.name + " promo mechanics", name: pr.name + " — mechanics" }) : pr); return; }
       if (e.target.closest("a, button")) return;
       const card = e.target.closest(".promo-card[data-href]");
       if (card) window.open(card.dataset.href, "_blank", "noopener");
@@ -1665,7 +1670,7 @@
       state.kvs = (promos && promos.modelKVs) || [];
       state.addons = ((promos && promos.addons) || []).filter((a) => (!a.end || a.end >= today) && (!a.start || a.start <= today));
       state.promos.forEach((pr) => (pr.eligible || []).forEach((el) => {
-        if (!el.sku) return;
+        if (!el.sku || typeof el.reward !== "number") return;
         const k = skuKey(el.sku), cur = state.rewards[k];
         if (!cur || el.reward > cur.amount) state.rewards[k] = { amount: el.reward, label: pr.rewardLabel || pr.name, title: pr.title || pr.name, period: fmtRange(pr.start, pr.end), promoId: pr.id };
       }));

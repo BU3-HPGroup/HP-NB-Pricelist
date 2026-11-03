@@ -1615,3 +1615,11 @@ body[data-type="Omnibook 7"] .eyebrow { color: #4b5b6e; }
   .toolbar-left { flex-wrap: wrap; row-gap: 8px; }
   .asof-badge { order: 5; flex: 0 0 100%; max-width: fit-content; margin: 0; }
 }
+
+/* Promo cards: full participating list + "none on our list" note + mechanics button */
+details.eligible-all { margin-top: 8px; }
+details.eligible-all li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 8px; border-bottom: 1px solid var(--line-2); }
+details.eligible-all li span { color: var(--ink-2); }
+details.eligible-all li b { white-space: nowrap; }
+.eligible-none { margin: 4px 0 0; padding: 8px 12px; border-radius: 10px; background: var(--surface-2); color: var(--muted); font-size: 13px; }
+.promo-actions { display: flex; flex-wrap: wrap; gap: 8px; }

@@ -163,21 +163,25 @@ with sync_playwright() as pw:
     active = [x for x in promos["promos"] if (not x.get("end") or x["end"] >= _today) and (not x.get("start") or x["start"] <= _today)]
     pg.goto(BASE + "#/promos"); pg.wait_for_selector("#promosGrid"); pg.wait_for_timeout(300)
     txt = pg.inner_text("#promosGrid")
-    if len(active) == 2:
-        check("promos tab shows both promos", pg.locator(".promo-card").count() == 2)
-        check("promo period shown", txt.count("August 1 – October 31, 2026") == 2, "")
-        gl = pg.get_attribute("#promo-gcash .promo-actions a", "href")
-        check("GCash links to official page", gl == "https://h41201.www4.hp.com/WMCF.Web/ph/en/promotion/16376/Home/" and pg.get_attribute("#promo-gcash .promo-actions a", "target") == "_blank")
-        check("Home Credit has no external link", pg.locator("#promo-home-credit a[href^='http']").count() == 0)
-        pg.click("#promo-home-credit .promo-actions button"); pg.wait_for_selector("#lightbox:not([hidden])")
-        check("Home Credit flyer opens enlarged", "home-credit" in pg.get_attribute("#lbImg", "src"))
-        pg.keyboard.press("Escape")
-        pg.evaluate("window._opened = []; window.open = (u, t) => { window._opened.push([u, t]); }")
-        pg.locator("#promo-gcash .promo-caption").click()
-        op = pg.evaluate("window._opened")
-        check("whole GCash card opens promo in new tab", any(o and o[0] and "promotion/16376" in o[0] and o[1] == "_blank" for o in op), str(op))
-        pg.evaluate("window._opened = []"); pg.locator("#promo-home-credit .promo-caption").click()
-        check("Home Credit card is not a link", not any(o and o[0] for o in pg.evaluate("window._opened")))
+    if active:
+        check("promos tab shows every active promo", pg.locator(".promo-card").count() == len(active), str(len(active)))
+        for x in active:
+            card = f"#promo-{x['id']}"
+            ct = pg.inner_text(card)
+            check(f"{x['id']}: title + period shown", x["title"] in ct and pg.locator(f"{card} .promo-period .val").inner_text().strip() != "", ct[:80])
+            if x.get("url"):
+                check(f"{x['id']}: official link opens in new tab", pg.get_attribute(f"{card} .promo-actions a", "href") == x["url"] and pg.get_attribute(f"{card} .promo-actions a", "target") == "_blank")
+            pg.click(f"{card} .promo-zoom"); pg.wait_for_selector("#lightbox:not([hidden])")
+            check(f"{x['id']}: flyer opens enlarged", x["image"].split("/")[-1] in pg.get_attribute("#lbImg", "src"))
+            pg.keyboard.press("Escape"); pg.wait_for_timeout(100)
+            if x.get("mechanics"):
+                pg.click(f'{card} [data-page="mechanics"]'); pg.wait_for_selector("#lightbox:not([hidden])")
+                check(f"{x['id']}: mechanics page opens", x["mechanics"].split("/")[-1] in pg.get_attribute("#lbImg", "src"))
+                pg.keyboard.press("Escape"); pg.wait_for_timeout(100)
+            if x.get("eligible"):
+                check(f"{x['id']}: full participating list ({len(x['eligible'])})", pg.locator(f"{card} details.eligible-all li").count() == len(x["eligible"]))
+            check(f"{x['id']}: flyer image file exists", all(os.path.exists(os.path.join(ROOT, x[k])) for k in ("image", "mechanics") if x.get(k)))
+        check("no DTI permit line in our promo text", "Fair Trade Permit" not in pg.inner_text("#promosGrid"))
     else:
         check("ended promos are hidden automatically", pg.locator(".promo-card").count() == len(active), str(len(active)))
     check("freebie banner shown", "A08JTAA" in txt)
@@ -185,7 +189,10 @@ with sync_playwright() as pw:
     check("promos page lists Promo DP models", pg.locator(".pdp-panel:not(.addon-panel) li").count() == len(pdps), str(len(pdps)))
     ico = pg.evaluate("[...document.querySelectorAll('link[rel~=icon]')].map(l => l.href)")
     check("favicon files exist", len(ico) >= 2 and all(os.path.exists(os.path.join(ROOT, u.split(BASE, 1)[-1])) for u in ico), str(ico))
-    elig = {e["sku"]: e["reward"] for x in active if x["id"] == "gcash" for e in x.get("eligible", []) if e["sku"]}
+    elig = {}
+    for x in active:
+        for e in x.get("eligible", []):
+            if e.get("sku") and isinstance(e.get("reward"), (int, float)): elig[e["sku"]] = max(elig.get(e["sku"], 0), e["reward"])
     pg.goto(BASE + "#/"); pg.wait_for_selector(".card")
     bad_badge = []
     for p in data:
@@ -573,8 +580,8 @@ with sync_playwright() as pw:
     mp.screenshot(path=f"{SHOTS}/mobile-ltb.png")
     mp.goto(BASE + "#/promos"); mp.wait_for_selector("#promosGrid"); mp.wait_for_timeout(300)
     check("mobile promos: no horizontal scroll", not mp.evaluate("document.documentElement.scrollWidth > window.innerWidth"))
-    if any(x["id"] == "gcash" for x in active):
-        cta = mp.locator("#promo-gcash .promo-actions .btn").bounding_box()
+    if active:
+        cta = mp.locator(f"#promo-{active[0]['id']} .promo-actions .btn").first.bounding_box()
         check("mobile promos: CTA easy to tap", cta["height"] >= 44 and cta["width"] > 300, str(cta))
     mp.screenshot(path=f"{SHOTS}/mobile-promos.png", full_page=True)
     mp.click("#menuToggle"); mp.wait_for_timeout(150)
