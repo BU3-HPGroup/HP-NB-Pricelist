@@ -94,7 +94,7 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
 
 - In the pricelist Excel, put the promo dealer prices in columns **Group A**, **Group B**, **Group C** (filled only on rows with a **Promo SRP**).
 - On **sheet 2**, list the dealers under a row with the headers **Group A | Group B | Group C**. Write **Everyone else** under the group that covers all other dealers.
-- The site shows the three prices on each card, a "who can avail" table with the dealer names in the product details, and a table of all tiered models with a dealer-name search on the Promos page. Dealer copies of the Excel export get Promo DP Group A/B/C columns and a **Dealer groups** sheet.
+- The site shows the three prices on each card, a "who can avail" table with the dealer names in the product details, and a table of all tiered models with a dealer-name search on the Promos page. The download dialog asks **which dealer the file is for** (Group C, B, A, or All groups for internal use). A single-group file shows only that group's price as **Promo DP**, so other groups' prices never reach that dealer. Only the All groups file has Promo DP Group A/B/C columns and a **Dealer groups** sheet, and its file name says INTERNAL.
 - A Promo SRP equal to the SRP is not shown as a promo SRP, and a Group C price equal to the regular DP is not shown as a promo DP.
 - The site is public, so the dealer names and their group prices can be seen by anyone with the link.
 - Fixed in the repo copy on every update: the ProBook part number cell in the master Excel says `s`. `source/` gets a copy with that one cell set to `BQ5B1PT` (edited in the sheet XML so Excel's cached formula values are kept).

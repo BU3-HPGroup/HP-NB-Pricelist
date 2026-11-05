@@ -292,8 +292,9 @@ with sync_playwright() as pw:
     om3 = [p for p in data if p["type"] == "Omnibook 3"]
     rowsx = [dict(zip(hdrs, [c.value for c in r])) for r in wsx.iter_rows(min_row=6) if r[0].value]
     check("excel: rows = models on screen", len(rowsx) == len(om3), f"{len(rowsx)} vs {len(om3)}")
-    check("excel: SRP/DP/Promo DP rounded and correct", all(
-        rx["SRP"] == round(p["srp"]) and rx["DP"] == round(p["dp"] + 0.0001) and (rx.get("Promo DP Group A") == round(p["promoTiers"][0]["dp"]) if p.get("promoTiers") else rx.get("Promo DP") == (round(p["promoDp"]) if p.get("promoDp") else None))
+    _tc = lambda p: next((t["dp"] for t in p["promoTiers"] if t["group"] == "C" and t["dp"] < p["dp"] - 0.5), None)
+    check("excel: SRP/DP/Promo DP rounded and correct (default Group C file)", all(
+        rx["SRP"] == round(p["srp"]) and rx["DP"] == round(p["dp"] + 0.0001) and (rx.get("Promo DP") == (round(_tc(p)) if _tc(p) is not None else None) if p.get("promoTiers") else rx.get("Promo DP") == (round(p["promoDp"]) if p.get("promoDp") else None)) and "Promo DP Group A" not in rx
         for rx, p in zip(rowsx, om3)), str(rowsx[:1]))
     check("excel with photos: images embedded", sum(1 for n in zipfile.ZipFile(io.BytesIO(got["xlsx-photos"][1])).namelist() if n.startswith("xl/media/")) >= len(om3))
     pg.click("#downloadOpen"); pg.check('input[name="dlPrices"][value="customer"]')
@@ -301,7 +302,24 @@ with sync_playwright() as pw:
         pg.click('.dl-format[data-format="xlsx"]')
     wsc = openpyxl.load_workbook(io.BytesIO(open(dl.value.path(), "rb").read())).worksheets[0]
     hc = [c.value for c in wsc[5]]
-    check("dealer excel: Dealer groups sheet lists the named dealers", "Dealer groups" in wbx.sheetnames and wbx["Dealer groups"].max_row >= 4)
+    pg.keyboard.press("Escape"); pg.wait_for_timeout(150)
+    check("group C file: no other groups' prices or dealer list", "Dealer groups" not in wbx.sheetnames and not any("Group" in str(h) for h in hdrs), str(hdrs))
+    def _dl_group(g):
+        pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])")
+        pg.check('input[name="dlPrices"][value="dealer"]'); pg.wait_for_timeout(100)
+        pg.check(f'input[name="dlTier"][value="{g}"]')
+        with pg.expect_download(timeout=60000) as d:
+            pg.click('.dl-format[data-format="xlsx"]')
+        n = d.value.suggested_filename; w = openpyxl.load_workbook(io.BytesIO(open(d.value.path(), "rb").read())); pg.keyboard.press("Escape"); return n, w
+    pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])"); pg.check('input[name="dlPrices"][value="customer"]'); _hid = pg.is_hidden("#dlTier"); pg.check('input[name="dlPrices"][value="dealer"]')
+    check("download dialog: dealer group picker on dealer copy only", pg.is_visible("#dlTier") and _hid); pg.keyboard.press("Escape")
+    nB, wB = _dl_group("B")
+    hB = [c.value for c in wB.worksheets[0][5]]; rB = [dict(zip(hB, [c.value for c in r])) for r in wB.worksheets[0].iter_rows(min_row=6) if r[0].value]
+    _tb = lambda p: next((t["dp"] for t in p["promoTiers"] if t["group"] == "B"), None)
+    check("group B file: Promo DP = Group B price, name says Group B", "Group B" in nB and all((rx.get("Promo DP") == round(_tb(p)) if p.get("promoTiers") and _tb(p) < p["dp"] - 0.5 else True) for rx, p in zip(rB, om3)) and "Dealer groups" not in wB.sheetnames, nB)
+    nAll, wAll = _dl_group("all")
+    check("all-groups file: A/B/C columns + Dealer groups sheet, marked internal", "INTERNAL" in nAll and "Dealer groups" in wAll.sheetnames and any("Group A" in str(c.value) for c in wAll.worksheets[0][5]), nAll)
+    pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])"); pg.check('input[name="dlTier"][value="C"]'); pg.keyboard.press("Escape")
     check("customer copy: no DP / Promo DP / material no.", "SRP" in hc and not any(h in hc for h in ("DP", "Promo DP", "Material No.")), str(hc))
     pg.keyboard.press("Escape")
 

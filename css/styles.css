@@ -2038,3 +2038,19 @@ html[data-theme="dark"] body .pdp-tag svg, html[data-theme="dark"] body .promo-b
 html[data-theme="dark"] body .stock-mini { background: #1f242c !important; color: #c3c9d3 !important; }
 html body .stock-mini { background: var(--k-chip) !important; color: var(--k-ink-2) !important; }
 @media (min-width: 721px) { html body .card-foot .prices { min-height: 90px; align-content: start; } }
+/* download dialog: dealer group for the file */
+.dl-tier { margin-top: 10px; padding: 12px; border: 1px solid var(--k-line, #e3e6eb); border-radius: 12px; background: var(--k-soft, #f6f8fb); display: grid; gap: 10px; }
+.dl-tier[hidden] { display: none; }
+.dl-tier-q { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+.dl-tier-q b { color: var(--ink); }
+.dl-tier-opts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+@media (max-width: 560px) { .dl-tier-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.dl-chip { position: relative; display: block; cursor: pointer; }
+.dl-chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.dl-chip span { display: grid; gap: 1px; padding: 8px 10px; min-height: 44px; border-radius: 10px; border: 1px solid var(--k-line-strong, #cfd4dc); background: var(--surface); font-size: 13.5px; font-weight: 650; color: var(--ink); }
+.dl-chip small { font-size: 11px; font-weight: 500; color: var(--muted); }
+.dl-chip input:checked + span { border-color: var(--k-ink, #16181d); box-shadow: 0 0 0 1px var(--k-ink, #16181d); }
+.dl-chip input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 2px; }
+.dl-chip.internal input:checked + span { border-color: #b45309; box-shadow: 0 0 0 1px #b45309; }
+.dl-chip.internal small { color: #b45309; }
+html[data-theme="dark"] .dl-chip.internal small { color: #f3b562; }

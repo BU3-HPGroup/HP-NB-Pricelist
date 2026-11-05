@@ -62,7 +62,7 @@
   const fit = (iw, ih, bw, bh) => { const k = Math.min(bw / iw, bh / ih); return { w: iw * k, h: ih * k }; };
 
   // ---------- the rows every format shares ----------
-  function rowsFor(list, mode) {
+  function rowsFor(list, mode, group) {
     const a = API();
     const order = [];
     list.forEach((p) => { if (!order.includes(p.type)) order.push(p.type); });
@@ -70,9 +70,12 @@
     return list.map((p) => {
       const av = a.availability(p);
       const r = a.reward(p);
-      const tiers = a.tiersOf ? a.tiersOf(p) : [];
+      let tiers = a.tiersOf ? a.tiersOf(p) : [];
+      // a file for one dealer group: that group's promo DP becomes the only Promo DP, other groups are left out
+      const one = group && group !== "all" && tiers.length ? tiers.find((t) => t.group === group) : null;
+      if (group && group !== "all") tiers = [];
       const tier = (g) => { const t = tiers.find((x) => x.group === g); return t ? round(t.dp) : null; };
-      const promoDp = !tiers.length && a.hasPromoDp(p) ? p.promoDp : null;
+      const promoDp = one ? (one.dp < p.dp - 0.5 ? one.dp : null) : (!tiers.length && a.hasPromoDp(p) ? p.promoDp : null);
       const promoSrp = a.hasPromoSrp && a.hasPromoSrp(p) ? p.promoSrp : null;
       return {
         p, mode,
@@ -100,7 +103,14 @@
   const specLines = (r) => [r.cpu, r.ram, r.storage, r.display].filter(Boolean);
 
   // ---------- dialog ----------
-  let opts = { scope: "screen", prices: "dealer" };
+  let opts = { scope: "screen", prices: "dealer", tier: "C" };
+  function syncTier() {
+    const a = API(), c = a && a.context();
+    const has = c && c.mode !== "ltb" && c.all.some((p) => (a.tiersOf(p) || []).length);
+    const dealer = ((document.querySelector('input[name="dlPrices"]:checked') || {}).value || "dealer") === "dealer";
+    $("#dlTier").hidden = !(has && dealer);
+    if (has && a.groupOf) ["A", "B"].forEach((g) => { const x = a.groupOf(g), el = $("#dlTier" + g); if (el && x) el.textContent = x.everyoneElse ? "All other dealers" : `${x.dealers.length} named dealers`; });
+  }
   function openDialog() {
     const a = API(); if (!a) return;
     const c = a.context();
@@ -118,6 +128,8 @@
       ? "Save the last-time-buy list as a PDF or Excel file to share or print."
       : "Save the pricelist as a PDF or Excel file to share or print.";
     const pr = document.querySelector(`input[name="dlPrices"][value="${opts.prices}"]`); if (pr) pr.checked = true;
+    const tr = document.querySelector(`input[name="dlTier"][value="${opts.tier}"]`); if (tr) tr.checked = true;
+    syncTier();
     setStatus("");
     const m = $("#dlModal"); m.hidden = false; document.body.classList.add("no-scroll");
     lastFocus = document.activeElement;
@@ -139,14 +151,19 @@
     const a = API(), c = a.context();
     const scope = (document.querySelector('input[name="dlScope"]:checked') || {}).value || "screen";
     const prices = (document.querySelector('input[name="dlPrices"]:checked') || {}).value || "dealer";
-    opts = { scope, prices };
+    const tier = (document.querySelector('input[name="dlTier"]:checked') || {}).value || "C";
+    opts = { scope, prices, tier };
+    const tiered = c.mode !== "ltb" && prices === "dealer" && !$("#dlTier").hidden;
+    const group = tiered ? tier : null;
     const list = scope === "all" ? c.all : c.onScreen;
     const label = scope === "all" ? (c.mode === "ltb" ? "Last-time-buy" : "All products") : (c.mode === "ltb" ? "Last-time-buy" : c.scopeLabel) + (c.filtered && scope === "screen" && c.query ? " (search)" : "");
-    return { mode: c.mode, list, dealer: prices === "dealer", label, copy: prices === "dealer" ? "Dealer copy" : "Customer copy" };
+    return { mode: c.mode, list, dealer: prices === "dealer", label, group,
+      copy: prices === "dealer" ? "Dealer copy" + (group && group !== "all" ? ` · Group ${group}` : group === "all" ? " · All groups (internal)" : "") : "Customer copy" };
   }
   function fileName(sel, ext) {
     const clean = (s) => s.replace(/[\\/:*?"<>|]+/g, "").replace(/\s+/g, " ").trim();
-    return clean(`HP Pricelist - ${sel.label} - ${sel.dealer ? "Dealer" : "Customer"} - ${today().iso}`) + "." + ext;
+    const who = sel.dealer ? (sel.group && sel.group !== "all" ? `Dealer Group ${sel.group}` : sel.group === "all" ? "Dealer All groups INTERNAL" : "Dealer") : "Customer";
+    return clean(`HP Pricelist - ${sel.label} - ${who} - ${today().iso}`) + "." + ext;
   }
   function saveBlob(blob, name) {
     const url = URL.createObjectURL(blob);
@@ -242,7 +259,7 @@
     const doc = await newDoc("landscape");
     const W = 297, H = 210, M = 10, CW = W - 2 * M;
     const L = await logos();
-    const rows = rowsFor(sel.list, sel.mode);
+    const rows = rowsFor(sel.list, sel.mode, sel.group);
     setStatus("Adding product photos…", true);
     const photos = await Promise.all(rows.map((r, i) => loadImage(photoUrl(r.p), { max: 240, bg: i % 2 ? "#fafbfc" : "#ffffff" })));
     const ltb = sel.mode === "ltb";
@@ -359,7 +376,7 @@
     const doc = await newDoc("portrait");
     const W = 210, H = 297, M = 10;
     const L = await logos();
-    const rows = rowsFor(sel.list, sel.mode);
+    const rows = rowsFor(sel.list, sel.mode, sel.group);
     setStatus("Adding product photos…", true);
     const photos = await Promise.all(rows.map((r) => loadImage(photoUrl(r.p), { max: 560, bg: "#f5f6f8" })));
     const ltb = sel.mode === "ltb";
@@ -426,7 +443,7 @@
   // ---------- Excel ----------
   async function excel(sel, withPhotos) {
     const ltb = sel.mode === "ltb";
-    const rows = rowsFor(sel.list, sel.mode);
+    const rows = rowsFor(sel.list, sel.mode, sel.group);
     const wb = new window.ExcelJS.Workbook();
     wb.creator = "HP Product Pricelist (Iontech)"; wb.created = new Date();
     const ws = wb.addWorksheet(ltb ? "Last-time-buy" : "Pricelist", { views: [{ state: "frozen", ySplit: 5, xSplit: withPhotos ? 3 : 2 }] });
@@ -528,7 +545,7 @@
     ws.pageSetup = { orientation: "landscape", paperSize: 9, fitToPage: true, fitToWidth: 1, fitToHeight: 0, printTitlesRow: `${HR}:${HR}`, margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2 } };
     ws.headerFooter = { oddFooter: "&L&8HP Notebook Pricelist · Iontech&R&8Page &P of &N" };
     // dealer copies with tiered promo DP: who is in each group
-    if (sel.dealer && !ltb && rows.some((r) => r.tiers) && API().groupOf) {
+    if (sel.dealer && !ltb && sel.group === "all" && rows.some((r) => r.tiers) && API().groupOf) {
       const codes = Array.from(new Set(rows.flatMap((r) => (API().tiersOf(r.p) || []).map((t) => t.group)))).sort();
       const gs = codes.map((c) => API().groupOf(c));
       const wg = wb.addWorksheet("Dealer groups");
@@ -632,6 +649,7 @@
   }
 
   // ---------- wiring ----------
+  document.addEventListener("change", (e) => { if (e.target && e.target.name === "dlPrices") syncTier(); });
   document.addEventListener("click", (e) => {
     if (e.target.closest("#downloadOpen")) { e.preventDefault(); openDialog(); return; }
     if (e.target.closest("[data-dlclose]")) { closeDialog(); return; }

@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/favicon-192.png">
   <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=20261105-3">
+  <link rel="stylesheet" href="css/styles.css?v=20261105-4">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to products</a>
@@ -356,6 +356,15 @@
             <label class="dl-opt"><input type="radio" name="dlPrices" value="dealer" checked><span><b>Dealer copy</b><small id="dlDealerNote">SRP, DP and Promo DP</small></span></label>
             <label class="dl-opt"><input type="radio" name="dlPrices" value="customer"><span><b>Customer copy</b><small>SRP only — no dealer prices</small></span></label>
           </div>
+          <div class="dl-tier" id="dlTier" hidden>
+            <p class="dl-tier-q"><b>Which dealer is this for?</b> The file shows only that group's promo DP, so other groups' prices don't leak.</p>
+            <div class="dl-tier-opts" role="radiogroup" aria-label="Dealer group">
+              <label class="dl-chip"><input type="radio" name="dlTier" value="C" checked><span>Group C<small>All other dealers</small></span></label>
+              <label class="dl-chip"><input type="radio" name="dlTier" value="B"><span>Group B<small id="dlTierB">Named dealers</small></span></label>
+              <label class="dl-chip"><input type="radio" name="dlTier" value="A"><span>Group A<small id="dlTierA">Named dealers</small></span></label>
+              <label class="dl-chip internal"><input type="radio" name="dlTier" value="all"><span>All groups<small>Internal use only</small></span></label>
+            </div>
+          </div>
         </fieldset>
 
         <div class="dl-group">
@@ -386,8 +395,8 @@
   </div>
 
   <noscript><p class="noscript">This pricelist needs JavaScript enabled to display products.</p></noscript>
-  <script src="js/app.js?v=20261105-3" defer></script>
-  <script src="js/export.js?v=20261105-3" defer></script>
-  <script src="js/match.js?v=20261105-3" defer></script>
+  <script src="js/app.js?v=20261105-4" defer></script>
+  <script src="js/export.js?v=20261105-4" defer></script>
+  <script src="js/match.js?v=20261105-4" defer></script>
 </body>
 </html>
