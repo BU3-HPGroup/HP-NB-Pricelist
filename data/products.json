@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-05T19:19:03",
+  "generatedAt": "2026-11-05T20:30:10",
   "asOf": "2026-11-05",
   "sourceFile": "Current Pricelist - HPNB.xlsx",
-  "sourceHash": "f32e09fe02",
+  "sourceHash": "bfb7b2463d",
   "currency": "PHP",
   "count": 39,
   "products": [
@@ -882,6 +882,20 @@
       "platform": "KentoI-26C1",
       "srp": 103990,
       "dp": 88391.5,
+      "promoTiers": [
+        {
+          "group": "A",
+          "dp": 83192
+        },
+        {
+          "group": "B",
+          "dp": 85271.8
+        },
+        {
+          "group": "C",
+          "dp": 88391.5
+        }
+      ],
       "status": "Onhand",
       "cpu": "Ultra 5 325 (8C) 47 NPU TOPs",
       "cpuBrand": "Intel",
@@ -945,6 +959,20 @@
       "platform": "KentoI-26C1",
       "srp": 113990,
       "dp": 96891.5,
+      "promoTiers": [
+        {
+          "group": "A",
+          "dp": 91192
+        },
+        {
+          "group": "B",
+          "dp": 93471.8
+        },
+        {
+          "group": "C",
+          "dp": 96891.5
+        }
+      ],
       "status": "Onhand",
       "cpu": "Ultra 7 355 (8C) 49 NPU TOPs",
       "cpuBrand": "Intel",
@@ -1008,6 +1036,20 @@
       "platform": "KentoI-26C1",
       "srp": 138990,
       "dp": 118141.5,
+      "promoTiers": [
+        {
+          "group": "A",
+          "dp": 111192
+        },
+        {
+          "group": "B",
+          "dp": 113971.8
+        },
+        {
+          "group": "C",
+          "dp": 118141.5
+        }
+      ],
       "status": "Onhand",
       "cpu": "Ultra 7 355 (8C) 49 NPU TOPs",
       "cpuBrand": "Intel",
@@ -1071,6 +1113,20 @@
       "platform": "KentoI-26C1",
       "srp": 159990,
       "dp": 135991.5,
+      "promoTiers": [
+        {
+          "group": "A",
+          "dp": 127992
+        },
+        {
+          "group": "B",
+          "dp": 131191.8
+        },
+        {
+          "group": "C",
+          "dp": 135991.5
+        }
+      ],
       "status": "Onhand",
       "cpu": "Ultra 9 386H (16C) 50 NPU TOPs",
       "cpuBrand": "Intel",
@@ -1134,6 +1190,20 @@
       "platform": "KentoA 26C1",
       "srp": 101990,
       "dp": 86691.5,
+      "promoTiers": [
+        {
+          "group": "A",
+          "dp": 81592
+        },
+        {
+          "group": "B",
+          "dp": 83631.8
+        },
+        {
+          "group": "C",
+          "dp": 86691.5
+        }
+      ],
       "status": "Onhand",
       "cpu": "Ryzen AI 7 445 (6C) 50 NPU TOPs",
       "cpuBrand": "AMD",
@@ -1274,6 +1344,20 @@
       "platform": "KentoI-26C1",
       "srp": 122990,
       "dp": 104541.5,
+      "promoTiers": [
+        {
+          "group": "A",
+          "dp": 98392
+        },
+        {
+          "group": "B",
+          "dp": 100851.8
+        },
+        {
+          "group": "C",
+          "dp": 104541.5
+        }
+      ],
       "status": "Onhand",
       "cpu": "Ultra 7 355 (8C) 49 NPU TOPs",
       "cpuBrand": "Intel",
@@ -1337,6 +1421,20 @@
       "platform": "KentoI-26C1",
       "srp": 169990,
       "dp": 144491.5,
+      "promoTiers": [
+        {
+          "group": "A",
+          "dp": 135992
+        },
+        {
+          "group": "B",
+          "dp": 139391.8
+        },
+        {
+          "group": "C",
+          "dp": 144491.5
+        }
+      ],
       "status": "Onhand",
       "cpu": "Ultra 9 386H (16C) 50 NPU TOPs",
       "cpuBrand": "Intel",
@@ -1554,6 +1652,20 @@
       "platform": "KentoA 26C1",
       "srp": 158990,
       "dp": 135141.5,
+      "promoTiers": [
+        {
+          "group": "A",
+          "dp": 127192
+        },
+        {
+          "group": "B",
+          "dp": 130371.8
+        },
+        {
+          "group": "C",
+          "dp": 135141.5
+        }
+      ],
       "status": "Onhand",
       "cpu": "Ryzen AI 9 465 (10C) 50 NPU TOPs",
       "cpuBrand": "AMD",
