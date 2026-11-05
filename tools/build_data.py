@@ -328,6 +328,29 @@ def read_excel(path):
     return headers, rows
 
 
+TIER_RE = re.compile(r"^group\s*([a-z])$", re.I)
+
+
+def read_dealer_groups(path):
+    """Second sheet: one column per dealer group ("Group A", "Group B", ...) listing the dealers in it.
+    A group whose only entry is "Everyone else" is the default tier for all other dealers."""
+    wb = openpyxl.load_workbook(path, data_only=True)
+    for ws in wb.worksheets[1:]:
+        rows = list(ws.iter_rows(values_only=True))
+        for i, r in enumerate(rows):
+            cols = {j: TIER_RE.match(str(v).strip()).group(1).upper() for j, v in enumerate(r) if v and TIER_RE.match(str(v).strip())}
+            if not cols:
+                continue
+            groups = {}
+            for j, g in cols.items():
+                names = [clean(str(x[j])) for x in rows[i + 1:] if j < len(x) and x[j] not in (None, "")]
+                everyone = any(n.lower() in ("everyone else", "all other dealers", "others") for n in names)
+                groups[g] = {"code": g, "label": f"Group {g}", "everyoneElse": everyone,
+                             "dealers": [n for n in names if n.lower() not in ("everyone else", "all other dealers", "others")]}
+            return [groups[g] for g in sorted(groups)]
+    return []
+
+
 def angle_key(a):
     a = a.lower()
     return (ANGLE_ORDER.index(a) if a in ANGLE_ORDER else len(ANGLE_ORDER), a)
@@ -636,6 +659,20 @@ def main():
         with open(types_path, encoding="utf-8") as fh:
             type_info = {t["code"]: t for t in json.load(fh)}
 
+    def tiers_of(r, srp, dp):
+        if not isinstance(r.get("Promo SRP"), (int, float)):
+            return None
+        t = []
+        for k, v in r.items():
+            m = TIER_RE.match(str(k).strip())
+            if m and isinstance(v, (int, float)) and v > 0:
+                t.append({"group": m.group(1).upper(), "dp": round(v, 2)})
+        return sorted(t, key=lambda x: x["group"]) or None
+
+    dealer_groups = read_dealer_groups(args.excel)
+    default_groups = {g["code"] for g in dealer_groups if g["everyoneElse"]}
+    if dealer_groups:
+        print("Dealer groups:", ", ".join(f"{g['label']} ({'everyone else' if g['everyoneElse'] else len(g['dealers'])})" for g in dealer_groups))
     known_cols = {"Platform", "Type", "Model", "Specs", "SRP", "DP", "Promo SRP", "Promo DP", "Qty", "Status", "Comments", "Part Number", "Material Number"}
     out, type_order = [], []
     for i, r in enumerate(products):
@@ -675,6 +712,8 @@ def main():
             "dp": dp if isinstance(dp, (int, float)) else None,
             "promoSrp": r.get("Promo SRP") if isinstance(r.get("Promo SRP"), (int, float)) else None,
             "promoDp": r.get("Promo DP") if isinstance(r.get("Promo DP"), (int, float)) else None,
+            # tiered promo dealer prices: Excel columns "Group A", "Group B", "Group C" under the "Promo DP" heading
+            "promoTiers": tiers_of(r, srp, dp),
             # "Comments" column, e.g. "Maximum 50 units only until Oct 31, 2026" - shown with the promo price
             "note": str(r["Comments"]).strip() if r.get("Comments") not in (None, "") else None,
             "status": str(r["Status"]).strip() if r.get("Status") not in (None, "") else None,
@@ -702,15 +741,25 @@ def main():
         # Comments that change how a promo price is used:
         #  "Don't offer yet - for reference only"  -> shown as an upcoming promo, regular price stays the selling price
         #  "No available promo priced units ..."    -> promo units used up, regular price shown
+        # a Promo SRP equal to the regular SRP is only the base for the dealer-group tiers, not a promo SRP
+        if p.get("promoSrp") is not None and p.get("srp") is not None and abs(p["promoSrp"] - p["srp"]) < 0.5:
+            p["promoSrp"] = None
         note_l = (p.get("note") or "").lower().replace("’", "'")
         if (p.get("promoSrp") is not None or p.get("promoDp") is not None) and re.search(r"don'?t offer yet|reference only", note_l):
             p["promoState"] = "upcoming"
             p["upcomingSrp"], p["upcomingDp"] = p.pop("promoSrp"), p.pop("promoDp")
+            if p.get("promoTiers"): p["upcomingTiers"] = p.pop("promoTiers")
         elif (p.get("promoSrp") is not None or p.get("promoDp") is not None) and re.search(r"no available promo|promo[- ]priced units? (are )?(sold out|used up|not available)", note_l):
             p["promoState"] = "soldout"
             p["endedSrp"], p["endedDp"] = p.pop("promoSrp"), p.pop("promoDp")
+            p.pop("promoTiers", None)
         # extra, unknown columns are carried through (never invented)
-        extra = {k: v for k, v in r.items() if k not in known_cols and v is not None}
+        extra = {k: v for k, v in r.items() if k not in known_cols and not TIER_RE.match(str(k).strip()) and v is not None}
+        # the default ("everyone else") tier is the general Promo DP when the Excel has no single Promo DP column
+        if p.get("promoTiers") and p.get("promoDp") is None:
+            dflt = next((t for t in p["promoTiers"] if t["group"] in default_groups), p["promoTiers"][-1])
+            if p.get("dp") is None or abs(dflt["dp"] - p["dp"]) >= 0.5:  # a Group C equal to the regular DP is not a promo
+                p["promoDp"] = dflt["dp"]
         if extra:
             p["extra"] = extra
         out.append({k: v for k, v in p.items() if v not in (None, [], "")})
@@ -738,7 +787,10 @@ def main():
         "currency": "PHP",
         "count": len(out),
         "products": out,
+        "dealerGroups": dealer_groups,
     }
+    if not payload["dealerGroups"]:
+        payload.pop("dealerGroups")
     if not payload["asOf"]:
         payload.pop("asOf")
     products_path = os.path.join(DATA_OUT, "products.json")

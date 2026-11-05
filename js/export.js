@@ -70,7 +70,9 @@
     return list.map((p) => {
       const av = a.availability(p);
       const r = a.reward(p);
-      const promoDp = a.hasPromoDp(p) ? p.promoDp : null;
+      const tiers = a.tiersOf ? a.tiersOf(p) : [];
+      const tier = (g) => { const t = tiers.find((x) => x.group === g); return t ? round(t.dp) : null; };
+      const promoDp = !tiers.length && a.hasPromoDp(p) ? p.promoDp : null;
       const promoSrp = a.hasPromoSrp && a.hasPromoSrp(p) ? p.promoSrp : null;
       return {
         p, mode,
@@ -83,6 +85,9 @@
         display: p.displayShort || p.display || "", displayFull: p.display || p.displayShort || "",
         graphics: p.graphics || "", os: p.os || "", color: p.color || "", warranty: p.warranty || "",
         other: (p.otherSpecs || []).join("; "),
+        tiers: tiers.length > 0, tierA: tier("A"), tierB: tier("B"), tierC: tier("C"),
+        tierLo: tiers.length ? round(Math.min(...tiers.map((t) => t.dp))) : null, tierHi: tiers.length ? round(Math.max(...tiers.map((t) => t.dp))) : null,
+        tierText: tiers.length ? "Promo DP by dealer group: " + tiers.map((t) => `${t.group} ${peso(t.dp)}`).join(" / ") : "",
         srp: round(p.srp), dp: round(p.dp), promoSrp: round(promoSrp), promoDp: round(promoDp), sale: round(p.sale),
         note: [p.note, (() => { const ad = a.addon && a.addon(p); return ad ? `${ad.to || ad.label} upgrade +${peso(ad.price)}` : ""; })()].filter(Boolean).join(" · "),
         save: p.sale != null && p.dp != null && p.dp > p.sale ? round(p.dp - p.sale) : null,
@@ -325,7 +330,14 @@
             if (ltb && r.dp != null) { const tw2 = doc.getTextWidth(peso(r.dp)); doc.setDrawColor.apply(doc, MUTED); doc.setLineWidth(0.25); doc.line(rx - tw2, my - 1.1, rx, my - 1.1); }
           }
           if (c.k === "promo") {
-            if (r.promoDp != null) {
+            if (r.tiers) {
+              [["A", r.tierA], ["B", r.tierB], ["C", r.tierC]].filter((t) => t[1] != null).forEach((t, k) => {
+                const yy = my - 3.2 + k * 3.3;
+                font(doc, 7.2, "bold", ORANGE); doc.text(peso(t[1]), rx, yy, { align: "right" });
+                const w = doc.getTextWidth(peso(t[1]));
+                font(doc, 5.6, "bold", MUTED); doc.text(t[0], rx - w - 1.2, yy, { align: "right" });
+              });
+            } else if (r.promoDp != null) {
               font(doc, 8.8, "bold", ORANGE); doc.text(peso(r.promoDp), rx, my - 0.6, { align: "right" });
               font(doc, 5.8, "bold", GREEN); doc.text("Save " + peso(r.dp - r.promoDp), rx, my + 2.6, { align: "right" });
             } else { font(doc, 8, "normal", [190, 194, 200]); doc.text("—", rx, my, { align: "right" }); }
@@ -380,19 +392,22 @@
       // prices pinned to the bottom of the card so every card lines up; specs and extras fill the space above
       const by = cy + ch - 4;
       const extras = [r.note, r.freebie && "FREE " + r.freebie, r.promo].filter(Boolean).slice(0, 2);
+      const tierLine = sel.dealer && r.tiers ? "Promo DP by dealer group:  " + [["A", r.tierA], ["B", r.tierB], ["C", r.tierC]].filter((t) => t[1] != null).map((t) => `${t[0]} ${peso(t[1])}`).join("   ·   ") : "";
+      if (tierLine) extras.unshift(tierLine);
       const extraTop = by - 11 - extras.length * 2.9;
       const specs = specLines(r);
       const room = Math.max(1, Math.floor((extraTop - y + 0.6) / 3.3));
       font(doc, 6.9, "normal", INK);
       specs.slice(0, Math.min(4, room)).forEach((s) => { doc.text(clampLines(doc, s, pw, 1), px, y); y += 3.3; });
       font(doc, 5.9, "normal", MUTED);
-      extras.forEach((t, k) => doc.text(clampLines(doc, t, pw, 1), px, extraTop + 2.2 + k * 2.9));
+      extras.forEach((t, k) => { if (t === tierLine) { font(doc, 6.4, "bold", ORANGE); } else font(doc, 5.9, "normal", MUTED); doc.text(clampLines(doc, t, pw, 1), px, extraTop + 2.2 + k * 2.9); });
       doc.setDrawColor.apply(doc, LINE); doc.setLineWidth(0.2); doc.line(px, by - 9.5, px + pw, by - 9.5);
       const cells = [];
       if (r.promoSrp != null) { cells.push({ l: "SRP", v: peso(r.srp), c: MUTED, strike: true }); cells.push({ l: "Promo SRP", v: peso(r.promoSrp), c: RED }); }
       else cells.push({ l: "SRP", v: peso(r.srp), c: INK });
       if (sel.dealer) {
         if (ltb) { cells.push({ l: "Regular DP", v: peso(r.dp), c: MUTED, strike: true }); cells.push({ l: "Sale price", v: peso(r.sale), c: RED }); }
+        else if (r.tiers) cells.push({ l: "Regular DP", v: peso(r.dp), c: BLUE });
         else if (r.promoDp != null) { cells.push({ l: "DP", v: peso(r.dp), c: MUTED, strike: true }); cells.push({ l: "Promo DP", v: peso(r.promoDp), c: ORANGE }); }
         else cells.push({ l: "DP", v: peso(r.dp), c: BLUE });
       }
@@ -429,7 +444,14 @@
     if (!ltb && rows.some((r) => r.promoSrp != null)) C.push({ k: "promoSrp", h: "Promo SRP", w: 12, money: true });
     if (sel.dealer) {
       if (ltb) C.push({ k: "dp", h: "Regular DP", w: 12, money: true }, { k: "sale", h: "Sale price", w: 12, money: true }, { k: "save", h: "Save vs DP", w: 11, money: true });
-      else C.push({ k: "dp", h: "DP", w: 12, money: true }, { k: "promoDp", h: "Promo DP", w: 12, money: true });
+      else {
+        C.push({ k: "dp", h: "DP", w: 12, money: true });
+        if (rows.some((r) => r.promoDp != null)) C.push({ k: "promoDp", h: "Promo DP", w: 12, money: true });
+        if (rows.some((r) => r.tiers)) {
+          const lab = (g) => { const x = API().groupOf ? API().groupOf(g) : null; return `Promo DP Group ${g}` + (x && x.everyoneElse ? " (all other dealers)" : ""); };
+          C.push({ k: "tierA", h: lab("A"), w: 13, money: true }, { k: "tierB", h: lab("B"), w: 13, money: true }, { k: "tierC", h: lab("C"), w: 15, money: true });
+        }
+      }
     }
     if (!ltb && rows.some((r) => r.note)) C.push({ k: "note", h: "Promo note", w: 34 });
     C.push({ k: "freebie", h: "Freebie", w: 30 }, { k: "promo", h: "Promo", w: 40 });
@@ -478,6 +500,7 @@
         if (c.money) cell.numFmt = '"₱"#,##0';
         if (c.k === "model" || c.k === "sku") cell.font = Object.assign({}, cell.font, { bold: true });
         if (c.k === "avail" && r.avail) cell.font = Object.assign({}, cell.font, { bold: true, color: { argb: hex(AV_COLOR[r.availLevel] || MUTED) } });
+        if ((c.k === "tierA" || c.k === "tierB" || c.k === "tierC") && r[c.k] != null) cell.font = Object.assign({}, cell.font, { bold: true, color: { argb: hex(ORANGE) } });
         if (c.k === "promoDp" && r.promoDp != null) cell.font = Object.assign({}, cell.font, { bold: true, color: { argb: hex(ORANGE) } });
         if (c.k === "sale") cell.font = Object.assign({}, cell.font, { bold: true, color: { argb: hex(RED) } });
         if (c.k === "dp" && ((!ltb && r.promoDp != null) || ltb)) cell.font = Object.assign({}, cell.font, { strike: true, color: { argb: "FF6B6F76" } });
@@ -504,8 +527,108 @@
     }
     ws.pageSetup = { orientation: "landscape", paperSize: 9, fitToPage: true, fitToWidth: 1, fitToHeight: 0, printTitlesRow: `${HR}:${HR}`, margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2 } };
     ws.headerFooter = { oddFooter: "&L&8HP Notebook Pricelist · Iontech&R&8Page &P of &N" };
+    // dealer copies with tiered promo DP: who is in each group
+    if (sel.dealer && !ltb && rows.some((r) => r.tiers) && API().groupOf) {
+      const codes = Array.from(new Set(rows.flatMap((r) => (API().tiersOf(r.p) || []).map((t) => t.group)))).sort();
+      const gs = codes.map((c) => API().groupOf(c));
+      const wg = wb.addWorksheet("Dealer groups");
+      wg.columns = gs.map(() => ({ width: 46 }));
+      wg.mergeCells(1, 1, 1, Math.max(1, gs.length));
+      wg.getCell(1, 1).value = "Promo DP dealer groups — which dealers can avail each price";
+      wg.getCell(1, 1).font = { name: "Arial", size: 14, bold: true, color: { argb: hex(BLUE) } };
+      gs.forEach((g, i) => {
+        const h = wg.getCell(3, i + 1); h.value = g.label + (g.everyoneElse ? " — all other dealers" : ` — ${g.dealers.length} dealers`);
+        h.font = { name: "Arial", size: 10, bold: true, color: { argb: "FFFFFFFF" } };
+        h.fill = { type: "pattern", pattern: "solid", fgColor: { argb: hex(BLUE) } };
+        (g.everyoneElse ? ["Every dealer not listed in the other groups"] : g.dealers).forEach((d, k) => {
+          const c = wg.getCell(4 + k, i + 1); c.value = d; c.font = { name: "Arial", size: 10, italic: !!g.everyoneElse };
+          c.border = { bottom: border };
+        });
+      });
+    }
     const buf = await wb.xlsx.writeBuffer();
     return new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  }
+
+  // ---------- Allocation per area → Excel (one "All areas" sheet + one sheet per area for forwarding) ----------
+  async function allocExcel(A, notice) {
+    await loadScript(VENDOR + "exceljs.min.js");
+    const hex = (a) => "FF" + a.map((n) => n.toString(16).padStart(2, "0")).join("").toUpperCase();
+    const wb = new window.ExcelJS.Workbook();
+    wb.creator = "HP Product Pricelist (Iontech)"; wb.created = new Date();
+    const thin = { style: "thin", color: { argb: "FFE4E6EA" } }, box = { top: thin, left: thin, bottom: thin, right: thin };
+    const OPEN = "Open to all areas";
+    function sheet(name, title, cols, rowsOut) {
+      const ws = wb.addWorksheet(name, { views: [{ state: "frozen", ySplit: 5, xSplit: 1 }] });
+      ws.columns = cols.map((c) => ({ width: c.w }));
+      const last = cols.length;
+      [1, 2, 3].forEach((r) => ws.mergeCells(r, 1, r, last));
+      ws.getCell(1, 1).value = title;
+      ws.getCell(1, 1).font = { name: "Arial", size: 16, bold: true, color: { argb: hex(BLUE) } };
+      ws.getRow(1).height = 26;
+      ws.getCell(2, 1).value = `Iontech · HP Notebooks · As of ${notice.asOf} · ${rowsOut.length} models`;
+      ws.getCell(2, 1).font = { name: "Arial", size: 10, color: { argb: "FF555B66" } };
+      ws.getCell(3, 1).value = notice.text;
+      ws.getCell(3, 1).font = { name: "Arial", size: 10, bold: true, color: { argb: notice.ended ? hex(RED) : hex(AMBER) } };
+      ws.getCell(3, 1).alignment = { wrapText: true, vertical: "top" };
+      ws.getRow(3).height = 30;
+      const head = ws.getRow(5);
+      cols.forEach((c, i) => {
+        const cell = head.getCell(i + 1);
+        cell.value = c.h;
+        cell.font = { name: "Arial", size: 10, bold: true, color: { argb: "FFFFFFFF" } };
+        cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: hex(BLUE) } };
+        cell.alignment = { vertical: "middle", horizontal: c.num ? "center" : "left", wrapText: true };
+        cell.border = box;
+      });
+      head.height = 22;
+      ws.autoFilter = { from: { row: 5, column: 1 }, to: { row: 5, column: last } };
+      rowsOut.forEach((vals, i) => {
+        const row = ws.getRow(6 + i);
+        const open = vals.open;
+        cols.forEach((c, j) => {
+          const cell = row.getCell(j + 1);
+          cell.value = vals[j] == null ? null : vals[j];
+          cell.font = { name: "Arial", size: 10, bold: j === 0 || (c.num && c.key), color: { argb: "FF1A1A1A" } };
+          cell.alignment = { vertical: "middle", horizontal: c.num ? "center" : "left" };
+          cell.border = box;
+          if (i % 2) cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF7F9FC" } };
+          if (c.num) cell.numFmt = "#,##0";
+          if (c.key) cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFEAF1FE" } };
+          if (vals[j] === OPEN) cell.font = { name: "Arial", size: 10, bold: true, color: { argb: hex(GREEN) } };
+        });
+        if (open && vals.span) ws.mergeCells(6 + i, vals.span[0], 6 + i, vals.span[1]);
+        row.height = 20;
+      });
+      const end = 6 + rowsOut.length + 1;
+      ws.mergeCells(end, 1, end, last);
+      ws.getCell(end, 1).value = "Each area column is the most that area can sell for the model. Quantities can change daily; confirm with your account manager before committing to a dealer.";
+      ws.getCell(end, 1).font = { name: "Arial", size: 8.5, italic: true, color: { argb: "FF6B6F76" } };
+      ws.getCell(end, 1).alignment = { wrapText: true };
+      ws.getRow(end).height = 24;
+      ws.pageSetup = { orientation: "landscape", paperSize: 9, fitToPage: true, fitToWidth: 1, fitToHeight: 0, printTitlesRow: "5:5", margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2 } };
+      ws.headerFooter = { oddFooter: "&L&8HP Notebook allocation per area · Iontech&R&8Page &P of &N" };
+    }
+    const ordered = A.rows.filter((r) => !r.open).concat(A.rows.filter((r) => r.open));
+    const base = [{ h: "Model", w: 44 }, { h: "Type", w: 16 }, { h: "Part No.", w: 11 }, { h: "Material No.", w: 15 }];
+    // all areas
+    const allCols = base.concat([{ h: "Program qty", w: 12, num: true }], A.areas.map((a) => ({ h: a, w: 10, num: true, key: true })));
+    sheet("All areas", "HP Notebooks — Allocation per area", allCols, ordered.map((r) => {
+      const v = [r.model, r.type, r.pn, r.mat, r.qty];
+      if (r.open) { v.push(OPEN); A.areas.slice(1).forEach(() => v.push(null)); v.open = true; v.span = [6, 5 + A.areas.length]; }
+      else v.push(...r.areas);
+      return v;
+    }));
+    // one sheet per area
+    A.areas.forEach((a, i) => {
+      const cols = base.concat([{ h: `Max qty — ${a}`, w: 18, num: true, key: true }]);
+      sheet(a.replace(/[\\/?*\[\]:]/g, " ").slice(0, 31), `HP Notebooks — Allocation for ${a}`, cols,
+        ordered.map((r) => [r.model, r.type, r.pn, r.mat, r.open ? OPEN : r.areas[i]]));
+    });
+    const buf = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    saveBlob(blob, `HP NB Allocation per area - as of ${A.asOf}.xlsx`);
+    return blob;
   }
 
   // ---------- wiring ----------
@@ -517,5 +640,5 @@
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#dlModal").hidden) { e.stopPropagation(); closeDialog(); } }, true);
   // shared with the requirement matcher (js/match.js) for its compliance sheet
-  window.HPPLX = { VENDOR, loadScript, newDoc, font, logos, header, footers, saveBlob, clampLines, BLUE, INK, MUTED, LINE, RED, GREEN, AMBER };
+  window.HPPLX = { allocExcel, VENDOR, loadScript, newDoc, font, logos, header, footers, saveBlob, clampLines, BLUE, INK, MUTED, LINE, RED, GREEN, AMBER };
 })();

@@ -90,6 +90,32 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
 - `freebie` is the standard freebie shown beside each laptop (currently the HP Everyday 16-inch Laptop Briefcase, A08JTAA). Remove the `freebie` block to hide it everywhere.
 - `freebie.excluded` lists the models that do **not** get the freebie (`productNumber`, `sku`, `name`). Matching uses `sku` (for example `14-kb0105TU`), so add the SKU when you add a product number. Right now the OmniBook X Flip 14-kb0/14-kc0 models and both OmniBook 7 models are excluded. The new OmniBook X Flip 14-fm0206TU and 14-fm0208TU are **not** on the list yet, so they show the freebie.
 
+### Tiered promo DP (Group A / B / C)
+
+- In the pricelist Excel, put the promo dealer prices in columns **Group A**, **Group B**, **Group C** (filled only on rows with a **Promo SRP**).
+- On **sheet 2**, list the dealers under a row with the headers **Group A | Group B | Group C**. Write **Everyone else** under the group that covers all other dealers.
+- The site shows the three prices on each card, a "who can avail" table with the dealer names in the product details, and a table of all tiered models with a dealer-name search on the Promos page. Dealer copies of the Excel export get Promo DP Group A/B/C columns and a **Dealer groups** sheet.
+- A Promo SRP equal to the SRP is not shown as a promo SRP, and a Group C price equal to the regular DP is not shown as a promo DP.
+- The site is public, so the dealer names and their group prices can be seen by anyone with the link.
+- Fixed in the repo copy on every update: the ProBook part number cell in the master Excel says `s`. `source/` gets a copy with that one cell set to `BQ5B1PT` (edited in the sheet XML so Excel's cached formula values are kept).
+
+### Allocation per area (daily)
+
+1. Save the allocation workbook with the date in its name, e.g. `Allocation of onhand with Program - as of Nov 6.xlsx`, **outside** the site folder. It has the % split, budgets and on-hand stock, which must not be published.
+2. Run:
+
+   ```bash
+   python tools/build_allocation.py --excel "E:/Test Pilot - HP Pricelist/Allocation of onhand with Program - as of Nov 6.xlsx" --valid-until 2026-11-10
+   ```
+
+   - Reads only the **Allocation** sheet: the header row with **Part Number** and **Qty**; every column to the right of Qty is an area (GMA 1, GMA 2, PROV 1, PROV 2, PROV 3).
+   - Area cells that say **OPEN** (merged cells included) are shown as "Open to all areas".
+   - The "as of" date comes from the file name (or `--as-of 2026-11-06`).
+   - If rounding makes the areas add up to more than the Qty, the excess is taken off the biggest area (printed by the script). Models whose areas add up to less than the Qty are listed but not changed.
+3. Commit `data/allocation.json` only. Never copy the workbook into the repo.
+
+The **Allocation** tab shows the program qty and the max qty per area, a "My area" highlight (remembered per device), and a **Download Excel** button (an All areas sheet plus one sheet per area). It says "Valid until <date> only" and, the day after `--valid-until`, switches by itself to a notice that qty per area is subject to limits.
+
 ### Last-time-buy
 
 1. Build from your working Excel **outside** the site folder (it has the real quantities and a full stock sheet):
@@ -177,6 +203,7 @@ Then open <http://localhost:8000/>.
 ├── js/export.js           # Download button: PDF + Excel files
 ├── data/
 │   ├── products.json      # generated from the Excel file
+│   ├── allocation.json    # Allocation tab, generated daily by tools/build_allocation.py
 │   ├── types.json         # Type labels + descriptions
 │   ├── ltb.json           # generated from Last-time-buy models.xlsx
 │   ├── changes.json       # history of new models / price + status changes (generated)
@@ -185,6 +212,7 @@ Then open <http://localhost:8000/>.
 ├── source/                # the Excel pricelist (source of truth)
 └── tools/
     ├── build_data.py      # Excel + photos → products.json + WebP images
+    ├── build_allocation.py # allocation workbook → allocation.json (no %, budgets or stock sheet)
     ├── changes.py         # used by build_data.py to log what changed
     └── test_site.py       # automated checks (optional)
 ```

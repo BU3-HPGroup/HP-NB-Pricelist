@@ -329,9 +329,329 @@
         "label": "Promo DP",
         "from": 70392,
         "to": null
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 47990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 40792
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DM8L5PA",
+        "model": "HP Laptop 15-fc0930AU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 49990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DM8L5PA",
+        "model": "HP Laptop 15-fc0930AU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 42492
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DM8L6PA",
+        "model": "HP Laptop 15-fc0932AU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 49990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DM8L6PA",
+        "model": "HP Laptop 15-fc0932AU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 42492
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DM8L6PA",
+        "model": "HP Laptop 15-fc0932AU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Incoming",
+        "to": "Onhand"
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DU5U6PA",
+        "model": "HP Laptop 15-fc0947AU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 52990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DU5U6PA",
+        "model": "HP Laptop 15-fc0947AU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 45042
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DW4U8PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 44990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DW4U8PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 38242
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DW4U9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 44990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DW4U9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 38242
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DW7W9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 63990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "DW7W9PA",
+        "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 54392
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E2HE2PA",
+        "model": "HP Laptop 15-fd1655TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 47990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E2HE2PA",
+        "model": "HP Laptop 15-fd1655TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 40792
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E2HE2PA",
+        "model": "HP Laptop 15-fd1655TU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Incoming",
+        "to": "Onhand"
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E2HE3PA",
+        "model": "HP Laptop 15-fd1656TU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 62990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E2HE3PA",
+        "model": "HP Laptop 15-fd1656TU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 53542
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E2HE3PA",
+        "model": "HP Laptop 15-fd1656TU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Incoming",
+        "to": "Onhand"
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E47WNPA",
+        "model": "HP Laptop 15-fc0289AU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 44990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E47WNPA",
+        "model": "HP Laptop 15-fc0289AU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 38242
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E47WNPA",
+        "model": "HP Laptop 15-fc0289AU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Incoming",
+        "to": "Onhand"
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E47WPPA",
+        "model": "HP Laptop 15-fc0523AU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 59990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E47WPPA",
+        "model": "HP Laptop 15-fc0523AU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 50992
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E47WPPA",
+        "model": "HP Laptop 15-fc0523AU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Incoming",
+        "to": "Onhand"
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E4PN6PA",
+        "model": "HP Laptop 15-fc0998AU",
+        "kind": "price",
+        "field": "promoSrp",
+        "label": "Promo SRP",
+        "from": null,
+        "to": 54990
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E4PN6PA",
+        "model": "HP Laptop 15-fc0998AU",
+        "kind": "price",
+        "field": "promoDp",
+        "label": "Promo DP",
+        "from": null,
+        "to": 46742
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E4PN6PA",
+        "model": "HP Laptop 15-fc0998AU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Incoming",
+        "to": "Onhand"
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E5MC6PA",
+        "model": "HP OmniBook X Flip NG AI PC 14-fm0206TU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Incoming",
+        "to": "Onhand"
+      },
+      {
+        "date": "2026-11-05",
+        "key": "E5MC7PA",
+        "model": "HP OmniBook X Flip NG AI PC 14-fm0208TU",
+        "kind": "status",
+        "field": "status",
+        "label": "Status",
+        "from": "Incoming",
+        "to": "Onhand"
       }
     ],
-    "updatedAt": "2026-11-03"
+    "updatedAt": "2026-11-05"
   },
   "ltb": {
     "events": [
@@ -388,6 +708,6 @@
         "kind": "removed"
       }
     ],
-    "updatedAt": "2026-11-03"
+    "updatedAt": "2026-11-05"
   }
 }

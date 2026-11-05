@@ -116,7 +116,7 @@
     const t = state.typeMap[p.type];
     const fields = [p.model, p.sku, p.type, t && t.label, p.platform, p.cpu, p.cpuBrand, p.ram, p.storage, p.graphics,
       p.display, p.displayShort, p.os, p.color, p.camera, p.formFactor, p.series, p.specsRaw,
-      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", hasPromoSrp(p) && "promo srp promo price sale", p.promoState === "upcoming" && "upcoming promo", p.note, p.segment, p.otherSpecs && p.otherSpecs.join(" "),
+      p.extra && Object.values(p.extra).join(" "), p.tagging, p.partNo, p.matNo, hasPromoDp(p) && "promo dp promo", hasPromoSrp(p) && "promo srp promo price sale", p.promoState === "upcoming" && "upcoming promo", tiersOf(p).length && "promo dp tier group dealer promo", p.note, p.segment, p.otherSpecs && p.otherSpecs.join(" "),
       p.title, p.specSheet && "wolf security sure start sure click sure sense sure run sure recover sure admin business"];
     p._hay = norm(fields.filter(Boolean).join(" | "));
     p._hayC = compact(p._hay);
@@ -241,11 +241,41 @@
 
   // Two fixed columns (SRP | DP or Promo DP), each with label, value and one sub-line,
   // so every card's price block has the same height and lines up across a row.
+  // ---------- Tiered promo dealer prices (Excel "Promo DP" → Group A / B / C; dealer lists on sheet 2) ----------
+  const tiersOf = (p) => (p && p.sale == null && Array.isArray(p.promoTiers) ? p.promoTiers : []);
+  const groupOf = (code) => (state.groups || []).find((g) => g.code === code) || { code, label: "Group " + code, dealers: [] };
+  const groupWho = (g) => (g.everyoneElse ? "All other dealers" : `${g.dealers.length} named dealer${g.dealers.length === 1 ? "" : "s"}`);
+  function tierStripHTML(p, cls) {
+    const T = tiersOf(p);
+    if (!T.length) return "";
+    return `<div class="tier-strip${cls ? " " + cls : ""}" title="Promo dealer price depends on the dealer's group — see Promos for the dealer list">
+      <span class="ts-h">${ICONS.tag}Promo DP by dealer group</span>
+      <ul>${T.map((t) => { const g = groupOf(t.group); return `<li class="tg-${esc(t.group)}"><span>${esc(g.label)}<small>${esc(g.everyoneElse ? "All other dealers" : "Selected dealers")}</small></span><b>${fmtPrice(t.dp)}</b></li>`; }).join("")}</ul>
+    </div>`;
+  }
+  function tierTableHTML(p) {
+    const T = tiersOf(p);
+    if (!T.length) return "";
+    return `<section class="tier-detail" aria-labelledby="tierH">
+      <h3 class="detail-h" id="tierH">Promo dealer price — by dealer group</h3>
+      <p class="tier-lead">The promo DP a dealer gets depends on their group. Check the dealer's group before quoting.</p>
+      <table class="tier-table"><thead><tr><th>Dealer group</th><th>Who can avail</th><th>Promo DP</th><th>vs regular DP</th></tr></thead><tbody>
+      ${T.map((t) => { const g = groupOf(t.group), save = p.dp - t.dp; return `<tr class="tg-${esc(t.group)}"><th scope="row">${esc(g.label)}</th>
+        <td>${g.everyoneElse ? "All other dealers" : `<details><summary>${esc(groupWho(g))}</summary><ul>${g.dealers.map((d) => `<li>${esc(d)}</li>`).join("")}</ul></details>`}</td>
+        <td><b>${fmtPrice(t.dp)}</b></td><td>${save > 0.5 ? `<span class="save">Save ${fmtPrice(save)}</span>` : `<span class="muted">Same as regular DP</span>`}</td></tr>`; }).join("")}
+      </tbody></table>
+      <p class="tier-note">Regular DP ${fmtPrice(p.dp)}${hasPromoSrp(p) ? ` · Promo SRP ${fmtPrice(p.promoSrp)} (regular ${fmtPrice(p.srp)})` : ` · SRP ${fmtPrice(p.srp)}`}</p>
+    </section>`;
+  }
+
   function priceHTML(p) {
     const srp = hasPromoSrp(p)
       ? `<div class="price promo-srp"><span class="lbl">${ICONS.tag}Promo SRP</span><span class="val">${fmtPrice(p.promoSrp)}</span>` +
         `<span class="sub"><s class="was-dp">SRP ${fmtPrice(p.srp)}</s> <span class="save">Save ${fmtPrice(p.srp - p.promoSrp)}</span></span></div>`
       : `<div class="price srp"><span class="lbl">SRP</span><span class="val">${fmtPrice(p.srp)}</span><span class="sub">Suggested retail</span></div>`;
+    if (tiersOf(p).length) {
+      return srp + `<div class="price dp"><span class="lbl">DP</span><span class="val">${fmtPrice(p.dp)}</span><span class="sub">Regular dealer price</span></div>`;
+    }
     if (hasPromoDp(p)) {
       return srp + `<div class="price promo-dp"><span class="lbl">${ICONS.tag}Promo DP</span><span class="val">${fmtPrice(p.promoDp)}</span>` +
         `<span class="sub"><s class="was-dp">DP ${fmtPrice(p.dp)}</s> <span class="save">Save ${fmtPrice(p.dp - p.promoDp)}</span></span></div>`;
@@ -438,7 +468,8 @@
       if (hasPromoSrp(p)) L.push("PROMO SRP: " + fmtPrice(p.promoSrp) + " (regular SRP " + fmtPrice(p.srp) + ", save " + fmtPrice(p.srp - p.promoSrp) + ")");
       else if (p.srp != null) L.push("SRP: " + fmtPrice(p.srp));
       if (p.dp != null) L.push("DP: " + fmtPrice(p.dp));
-      if (hasPromoDp(p)) L.push("Promo DP: " + fmtPrice(p.promoDp) + " (save " + fmtPrice(p.dp - p.promoDp) + ")");
+      if (tiersOf(p).length) L.push("Promo DP by dealer group: " + tiersOf(p).map((t) => { const g = groupOf(t.group); return `${g.label}${g.everyoneElse ? " (all other dealers)" : ""} ${fmtPrice(t.dp)}`; }).join(" | "));
+      else if (hasPromoDp(p)) L.push("Promo DP: " + fmtPrice(p.promoDp) + " (save " + fmtPrice(p.dp - p.promoDp) + ")");
       if (p.note) L.push("Note: " + p.note);
     }
     const a = availability(p);
@@ -569,6 +600,7 @@
         ${wolfChips(p)}
         <div class="card-foot">
           ${noteHTML(p)}
+          ${tierStripHTML(p)}
           <div class="prices">${priceHTML(p)}</div>
           ${viewAndCopy(p)}
         </div>
@@ -590,7 +622,7 @@
       </div>
       <div class="row-specs">${keySpecs(p).map((s) => `<span title="${esc(s.label + ": " + s.v)}"><b>${esc(s.label)}</b>${esc(s.v)}</span>`).join("")}</div>
       <div class="row-side">
-        <div class="prices">${priceHTML(p)}</div>
+        <div class="prices">${priceHTML(p)}</div>${tierStripHTML(p)}
         ${viewAndCopy(p)}
       </div>
     </article>`;
@@ -639,9 +671,9 @@
     $$(".nav-link").forEach((a) => {
       const k = a.dataset.nav;
       let on = false;
-      if (["sites", "promos", "ltb", "finder"].includes(route.view)) on = k === route.view;
+      if (["sites", "promos", "ltb", "finder", "allocation"].includes(route.view)) on = k === route.view;
       else if (k === "all") on = state.fTypes.size === 0;
-      else if (!["sites", "promos", "ltb", "finder"].includes(k)) on = state.fTypes.size === 1 && state.fTypes.has(k);
+      else if (!["sites", "promos", "ltb", "finder", "allocation"].includes(k)) on = state.fTypes.size === 1 && state.fTypes.has(k);
       a.classList.toggle("active", on);
       if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
@@ -663,6 +695,7 @@
     const ltbN = state.ds.ltb ? state.ds.ltb.products.length : 0;
     $("#navLtbCount").textContent = ltbN || "";
     $("#navPromoCount").textContent = state.promos.length || "";
+    if ($("#navAllocCount")) $("#navAllocCount").textContent = state.alloc ? state.alloc.rows.length : "";
     $("#navList").innerHTML =
       `<li><a class="nav-link" href="#/" data-nav="all">All Products <span class="count">${main.products.length}</span></a></li>` +
       main.types.map((t) => `<li><a class="nav-link" href="#/type/${encodeURIComponent(t.code)}" data-nav="${esc(t.code)}">${esc(t.label)} <span class="count">${counts[t.code] || 0}</span></a></li>`).join("");
@@ -698,6 +731,98 @@
 
   function productLink(p, mode) {
     return (mode === "ltb" ? "#/ltb/product/" : "#/product/") + encodeURIComponent(p.id);
+  }
+
+  // ---------- Allocation per area (data/allocation.json; max qty each area can sell, valid until a set date) ----------
+  const ALLOC_KEY = "hppl-alloc-area";
+  const isoDate = (iso, long) => { const t = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ""); return t ? new Date(+t[1], +t[2] - 1, +t[3]).toLocaleDateString("en-PH", { year: "numeric", month: long ? "long" : "short", day: "numeric" }) : ""; };
+  const allocEnded = () => !!(state.alloc && state.alloc.validUntil && todayISO() > state.alloc.validUntil);
+  const allocRow = (p) => (state.alloc && p ? state.alloc.rows.find((r) => r.id === p.id || (p.partNo && r.pn === String(p.partNo).toUpperCase())) : null);
+  const fmtQty = (n) => (n == null ? "—" : Number(n).toLocaleString("en-PH"));
+  function allocArea() { let a = ""; try { a = localStorage.getItem(ALLOC_KEY) || ""; } catch (e) {} return state.alloc && state.alloc.areas.includes(a) ? a : ""; }
+  function allocNoteHTML(short) {
+    const A = state.alloc, until = isoDate(A.validUntil, true);
+    if (allocEnded()) return `<div class="alloc-valid ended" role="note">${ICONS.clock}<span><b>The area allocation ended on ${esc(until)}.</b> Qty per area is now subject to limits. Check with your account manager before committing quantities.</span></div>`;
+    return `<div class="alloc-valid" role="note">${ICONS.clock}<span><b>Valid until ${esc(until)} only.</b>${short ? "" : ` After ${esc(isoDate(A.validUntil))}, qty per area will be subject to limits.`} As of ${esc(isoDate(A.asOf, true))}.</span></div>`;
+  }
+  function allocDetailHTML(p) {
+    const r = allocRow(p);
+    if (!r) return "";
+    const A = state.alloc, mine = allocArea();
+    return `<section class="alloc-detail" aria-labelledby="allocH">
+      <h3 class="detail-h" id="allocH">Allocation per area</h3>
+      ${r.open ? `<p class="alloc-open-line"><span class="alloc-open">Open to all areas</span> No per-area limit on this model.</p>`
+        : `<ul class="alloc-mini">${A.areas.map((a, i) => `<li class="${a === mine ? "mine" : ""}"><span>${esc(a)}</span><b>${fmtQty(r.areas[i])}</b></li>`).join("")}</ul>`}
+      ${allocNoteHTML(true)}
+      <a class="alloc-link" href="#/allocation">See all allocations</a>
+    </section>`;
+  }
+  function renderAlloc() {
+    const box = $("#allocBody");
+    if (!box) return;
+    const A = state.alloc;
+    if (!A) { box.innerHTML = `<p class="muted">No allocation published right now.</p>`; return; }
+    const mine = allocArea(), ended = allocEnded();
+    const q = (box.dataset.q || "").toUpperCase();
+    const rows = A.rows.filter((r) => !q || (r.model + " " + r.pn + " " + r.type).toUpperCase().includes(q));
+    const lim = rows.filter((r) => !r.open), open = rows.filter((r) => r.open);
+    const name = (r) => r.id ? `<a href="#/allocation/product/${encodeURIComponent(r.id)}">${esc(r.model)}</a>` : esc(r.model);
+    box.innerHTML = `${allocNoteHTML(false)}
+      <div class="alloc-tools">
+        <div class="alloc-area" role="group" aria-label="Highlight my area">
+          <span class="alloc-area-l">My area</span>
+          <button type="button" class="aa-btn" data-area="" aria-pressed="${!mine}">All areas</button>
+          ${A.areas.map((a) => `<button type="button" class="aa-btn" data-area="${esc(a)}" aria-pressed="${a === mine}">${esc(a)}</button>`).join("")}
+        </div>
+        <div class="alloc-right">
+        <button type="button" class="btn-dl-alloc" id="allocDl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>Download Excel</span></button>
+        <label class="alloc-search"><span class="sr-only">Search models</span><input type="search" id="allocFind" placeholder="Search model or part number…" value="${esc(box.dataset.q || "")}" autocomplete="off"></label>
+        </div>
+      </div>
+      <p class="alloc-dl-status" id="allocDlStatus" aria-live="polite"></p>
+      <div class="alloc-scroll${ended ? " is-ended" : ""}"><table class="alloc-table${mine ? " has-mine" : ""}">
+        <thead><tr><th>Model</th><th>Program qty</th>${A.areas.map((a) => `<th class="${a === mine ? "mine" : ""}">${esc(a)}</th>`).join("")}</tr></thead>
+        <tbody>
+        ${lim.map((r) => `<tr><th scope="row">${name(r)}<small>${esc(r.pn)}</small></th><td class="tot" data-l="Program qty">${fmtQty(r.qty)}</td>
+          ${A.areas.map((a, i) => `<td class="${a === mine ? "mine" : ""}${mine && a !== mine ? " other" : ""}" data-l="${esc(a)}">${fmtQty(r.areas[i])}</td>`).join("")}</tr>`).join("")}
+        ${open.length ? `<tr class="alloc-sep"><td colspan="${A.areas.length + 2}"><span class="alloc-open">Open to all areas</span> No per-area limit on these ${open.length} models. Sell from the program qty.</td></tr>` : ""}
+        ${open.map((r) => `<tr class="is-open"><th scope="row">${name(r)}<small>${esc(r.pn)}</small></th><td class="tot" data-l="Program qty">${fmtQty(r.qty)}</td><td class="open-cell" colspan="${A.areas.length}" data-l="Per area">Open to all areas</td></tr>`).join("")}
+        ${rows.length ? "" : `<tr><td colspan="${A.areas.length + 2}" class="muted">No model matches “${esc(box.dataset.q)}”.</td></tr>`}
+        </tbody></table></div>
+      <p class="alloc-foot">Program qty is the total for the model. Each area column is the most that area can sell. Quantities can change daily; always confirm with your account manager before committing to a dealer.</p>`;
+  }
+  function bindAlloc() {
+    const box = $("#allocBody");
+    if (!box) return;
+    box.addEventListener("click", async (e) => {
+      const dl = e.target.closest("#allocDl");
+      if (dl) {
+        const st = $("#allocDlStatus");
+        if (!window.HPPLX || !window.HPPLX.allocExcel) { st.textContent = "The download tool is still loading. Try again in a moment."; return; }
+        dl.disabled = true; st.textContent = "Preparing the Excel file…";
+        try {
+          const A = state.alloc, ended = allocEnded();
+          const text = ended ? `The area allocation ended on ${isoDate(A.validUntil, true)}. Qty per area is now subject to limits; check with your account manager.`
+            : `Valid until ${isoDate(A.validUntil, true)} only. After ${isoDate(A.validUntil)}, qty per area will be subject to limits.`;
+          await window.HPPLX.allocExcel(A, { asOf: isoDate(A.asOf, true), text, ended });
+          st.textContent = "Downloaded. The file has an All areas sheet plus one sheet per area.";
+        } catch (x) { st.textContent = "The Excel file could not be made. Check your connection and try again."; }
+        dl.disabled = false;
+        return;
+      }
+      const b = e.target.closest(".aa-btn");
+      if (!b) return;
+      try { if (b.dataset.area) localStorage.setItem(ALLOC_KEY, b.dataset.area); else localStorage.removeItem(ALLOC_KEY); } catch (x) {}
+      renderAlloc();
+      const nb = box.querySelector(`.aa-btn[data-area="${CSS.escape(b.dataset.area)}"]`); if (nb) nb.focus();
+    });
+    box.addEventListener("input", (e) => {
+      if (e.target.id !== "allocFind") return;
+      box.dataset.q = e.target.value.trim();
+      const pos = e.target.selectionStart;
+      renderAlloc();
+      const f = $("#allocFind"); f.focus(); try { f.setSelectionRange(pos, pos); } catch (x) {}
+    });
   }
 
   function renderPromos() {
@@ -746,7 +871,25 @@
     }).join("");
     const mainList = state.ds.main ? state.ds.main.products : [];
     const psrp = mainList.filter(hasPromoSrp);
-    const psrpPanel = psrp.length ? `<section class="pdp-panel psrp-panel" aria-labelledby="psrpTitle">
+    const tiered = mainList.filter((p) => tiersOf(p).length);
+    const codes = Array.from(new Set(tiered.flatMap((p) => tiersOf(p).map((t) => t.group)))).sort();
+    const tierPanel = tiered.length ? `<section class="pdp-panel tier-panel" aria-labelledby="tierTitle">
+        <div class="pdp-head"><span class="freebie-tag pdp-tag">${ICONS.tag}Promo pricing</span>
+          <h2 id="tierTitle">Promo prices on ${tiered.length} models — tiered by dealer group</h2>
+          <p>Promo SRP is the same for everyone. The promo dealer price (DP) depends on the dealer's group: find the dealer below, then read that group's column.</p></div>
+        <div class="tier-groups">
+          <label class="tier-find"><span>Which group is my dealer?</span><input type="search" id="tierFind" placeholder="Type the dealer's name…" autocomplete="off"></label>
+          <p class="tier-find-res" id="tierFindRes" aria-live="polite"></p>
+          <div class="tg-cards">${codes.map((c) => { const g = groupOf(c); return `<div class="tg-card tg-${esc(c)}"><b>${esc(g.label)}</b><span>${esc(groupWho(g))}</span>
+            ${g.everyoneElse ? `<p>Every dealer not listed in the other groups.</p>` : `<details><summary>Show dealers</summary><ul>${g.dealers.map((d) => `<li>${esc(d)}</li>`).join("")}</ul></details>`}</div>`; }).join("")}</div>
+        </div>
+        <div class="tier-scroll"><table class="tier-all"><thead><tr><th>Model</th><th>SRP</th><th>Promo SRP</th><th>Regular DP</th>${codes.map((c) => `<th class="tg-${esc(c)}">${esc(groupOf(c).label)}<small>${esc(groupOf(c).everyoneElse ? "All other dealers" : "Promo DP")}</small></th>`).join("")}</tr></thead><tbody>
+          ${tiered.map((p) => `<tr><th scope="row"><a href="#/product/${encodeURIComponent(p.id)}">${esc(p.model)}</a>${availability(p) ? ` <span class="stock-mini lvl-${esc(availability(p).level)}">${esc(availability(p).label)}</span>` : ""}</th>
+            <td data-l="SRP">${hasPromoSrp(p) ? `<s>${fmtPrice(p.srp)}</s>` : fmtPrice(p.srp)}</td><td data-l="Promo SRP">${hasPromoSrp(p) ? `<b class="psrp">${fmtPrice(p.promoSrp)}</b>` : `<span class="muted">—</span>`}</td><td data-l="Regular DP">${fmtPrice(p.dp)}</td>
+            ${codes.map((c) => { const t = tiersOf(p).find((x) => x.group === c); return `<td class="tg-${esc(c)}" data-l="${esc(groupOf(c).label)}">${t ? `<b>${fmtPrice(t.dp)}</b>` : "—"}</td>`; }).join("")}</tr>`).join("")}
+        </tbody></table></div>
+      </section>` : "";
+    const psrpPanel = psrp.length && !tiered.length ? `<section class="pdp-panel psrp-panel" aria-labelledby="psrpTitle">
         <div class="pdp-head"><span class="freebie-tag pdp-tag">${ICONS.tag}Promo price</span>
           <h2 id="psrpTitle">Promo SRP on ${psrp.length} model${psrp.length === 1 ? "" : "s"}</h2>
           <p>Limited-time retail prices from the current pricelist, with matching Promo DP. Regular prices shown struck through.</p></div>
@@ -761,8 +904,8 @@
         <ul>${addonList.map(({ p, a }) => `<li><a href="#/product/${encodeURIComponent(p.id)}"><span class="m">${esc(p.title || p.model)}<small>${esc(a.from || "")} → ${esc(a.to || "")} · ${esc(p.partNo || p.sku)}</small></span>
           <span class="nums"><i>Upgrade</i><b>+${fmtPrice(a.price)}</b></span></a></li>`).join("")}</ul>
       </section>` : "";
-    const pdp = mainList.filter((p) => hasPromoDp(p) && !hasPromoSrp(p));
-    const pdpPanel = addonPanel + psrpPanel + (pdp.length ? `<section class="pdp-panel" aria-labelledby="pdpTitle">
+    const pdp = mainList.filter((p) => hasPromoDp(p) && !hasPromoSrp(p) && !tiersOf(p).length);
+    const pdpPanel = addonPanel + tierPanel + psrpPanel + (pdp.length ? `<section class="pdp-panel" aria-labelledby="pdpTitle">
         <div class="pdp-head"><span class="freebie-tag pdp-tag">${ICONS.tag}Dealer promo</span>
           <h2 id="pdpTitle">Promo DP on ${pdp.length} model${pdp.length === 1 ? "" : "s"}</h2>
           <p>Special dealer prices from the current pricelist. Regular DP shown struck through.</p></div>
@@ -888,9 +1031,11 @@
           </div>` : `<div class="price-panel">
           ${p.srp != null ? `<div class="price-box srp${hasPromoSrp(p) ? " was-dp" : ""}"><span class="lbl">SRP <span class="sub">Suggested retail price</span></span><span class="val">${hasPromoSrp(p) ? `<s>${fmtPrice(p.srp)}</s>` : fmtPrice(p.srp)}</span></div>` : ""}
           ${hasPromoSrp(p) ? `<div class="price-box promo-dp promo-srp"><span class="lbl">Promo SRP <span class="sub">Promo retail price · save ${fmtPrice(p.srp - p.promoSrp)}</span></span><span class="val">${fmtPrice(p.promoSrp)}</span></div>` : ""}
-          ${p.dp != null ? `<div class="price-box dp${hasPromoDp(p) ? " was-dp" : ""}"><span class="lbl">DP <span class="sub">Dealer price</span></span><span class="val">${hasPromoDp(p) ? `<s>${fmtPrice(p.dp)}</s>` : fmtPrice(p.dp)}</span></div>` : ""}
-          ${hasPromoDp(p) ? `<div class="price-box promo-dp"><span class="lbl">Promo DP <span class="sub">Dealer promo price · save ${fmtPrice(p.dp - p.promoDp)}</span></span><span class="val">${fmtPrice(p.promoDp)}</span></div>` : ""}
+          ${p.dp != null ? `<div class="price-box dp${hasPromoDp(p) && !tiersOf(p).length ? " was-dp" : ""}"><span class="lbl">DP <span class="sub">${tiersOf(p).length ? "Regular dealer price" : "Dealer price"}</span></span><span class="val">${hasPromoDp(p) && !tiersOf(p).length ? `<s>${fmtPrice(p.dp)}</s>` : fmtPrice(p.dp)}</span></div>` : ""}
+          ${hasPromoDp(p) && !tiersOf(p).length ? `<div class="price-box promo-dp"><span class="lbl">Promo DP <span class="sub">Dealer promo price · save ${fmtPrice(p.dp - p.promoDp)}</span></span><span class="val">${fmtPrice(p.promoDp)}</span></div>` : ""}
         </div>`}
+        ${tierTableHTML(p)}
+        ${allocDetailHTML(p)}
         ${p.sale == null ? noteHTML(p, "detail") : ""}
         ${addonBox(p)}
         ${p.sale == null && availability(p) ? `<div class="avail-line">${stockHTML(p)}</div>` : ""}
@@ -912,7 +1057,7 @@
     $(".modal-close", modal).focus({ preventScroll: true });
     if (push) {
       const r = currentRoute();
-      const base = r.view === "type" ? "#/type/" + encodeURIComponent(r.type) : r.view === "ltb" ? "#/ltb/" : r.view === "promos" ? "#/promos/"
+      const base = r.view === "type" ? "#/type/" + encodeURIComponent(r.type) : r.view === "ltb" ? "#/ltb/" : r.view === "promos" ? "#/promos/" : r.view === "allocation" ? "#/allocation/"
         : r.view === "finder" ? "#/finder/" + (r.params ? r.params + "/" : "") : "#/";
       history.pushState({ product: id }, "", base + (base.endsWith("/") ? "" : "/") + "product/" + encodeURIComponent(id));
     }
@@ -1350,6 +1495,7 @@
     const r = { view: "all", type: null, product: null };
     if (parts[0] === "sites") r.view = "sites";
     else if (parts[0] === "promos") r.view = "promos";
+    else if (parts[0] === "allocation") r.view = "allocation";
     else if (parts[0] === "ltb") r.view = "ltb";
     else if (parts[0] === "finder") { r.view = "finder"; r.params = parts[1] && parts[1] !== "product" ? parts[1] : ""; }
     else if (parts[0] === "type" && parts[1]) { r.view = "type"; r.type = resolveType(parts[1]); }
@@ -1361,10 +1507,11 @@
   let lastRouteKey = null;
   function applyRoute() {
     const r = currentRoute();
-    const sites = r.view === "sites" || r.view === "promos" || r.view === "finder";
+    const sites = r.view === "sites" || r.view === "promos" || r.view === "finder" || r.view === "allocation";
     $("#catalogView").hidden = sites;
     $("#sitesView").hidden = r.view !== "sites";
     $("#promosView").hidden = r.view !== "promos";
+    $("#allocView").hidden = r.view !== "allocation";
     $("#finderView").hidden = r.view !== "finder";
     if (!sites) setMode(r.view === "ltb" ? "ltb" : "main");
     // the finder page: re-read its settings from the address, except when only a product popup opens/closes
@@ -1396,7 +1543,7 @@
   function setTypesFromFilters() {
     // keep the URL in sync when a single type is chosen from the filter panel
     const r = currentRoute();
-    if (r.view === "sites" || r.view === "promos" || r.view === "ltb" || r.view === "finder") return;
+    if (r.view === "sites" || r.view === "promos" || r.view === "ltb" || r.view === "finder" || r.view === "allocation") return;
     const target = state.fTypes.size === 1 ? "#/type/" + encodeURIComponent(Array.from(state.fTypes)[0]) : "#/";
     if (location.hash !== target && !(target === "#/" && (location.hash === "" || location.hash === "#"))) {
       history.replaceState({}, "", target);
@@ -1449,7 +1596,7 @@
       t = setTimeout(() => {
         state.query = v.trim();
         const v0 = currentRoute().view;
-        if ((v0 === "sites" || v0 === "promos" || v0 === "finder") && state.query) { history.pushState({}, "", "#/"); applyRoute(); return; }
+        if ((v0 === "sites" || v0 === "promos" || v0 === "finder" || v0 === "allocation") && state.query) { history.pushState({}, "", "#/"); applyRoute(); return; }
         render();
       }, 80);
     });
@@ -1561,6 +1708,17 @@
     $("#filtersApply").addEventListener("click", closeFilters);
     $("#filtersBackdrop").addEventListener("click", closeFilters);
 
+    $("#promosGrid").addEventListener("input", (e) => {
+      if (e.target.id !== "tierFind") return;
+      const nm = (x) => String(x).toUpperCase().replace(/[^A-Z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+      const q = nm(e.target.value), out = $("#tierFindRes");
+      if (q.length < 2) { out.innerHTML = ""; return; }
+      const hits = [];
+      (state.groups || []).forEach((g) => g.dealers.forEach((d) => { if (nm(d).includes(q)) hits.push({ d, g }); }));
+      const dflt = (state.groups || []).find((g) => g.everyoneElse);
+      out.innerHTML = hits.length ? hits.slice(0, 6).map((h) => `<span class="hit tg-${esc(h.g.code)}"><b>${esc(h.d)}</b> → ${esc(h.g.label)}</span>`).join("")
+        : `<span class="hit">Not on the named lists${dflt ? ` → <b>${esc(dflt.label)}</b> (all other dealers)` : ""}</span>`;
+    });
     $("#promosGrid").addEventListener("click", (e) => {
       const flyer = e.target.closest("[data-flyer]");
       if (flyer) { const pr = state.promos.find((x) => x.id === flyer.dataset.flyer); if (pr) openPromoLightbox(flyer.dataset.page === "mechanics" && pr.mechanics ? Object.assign({}, pr, { image: pr.mechanics, imageAlt: pr.name + " promo mechanics", name: pr.name + " — mechanics" }) : pr); return; }
@@ -1624,6 +1782,7 @@
     showSkeleton();
     $$(".vt-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
     bind();
+    bindAlloc();
     try {
       const [data, types, sites, ltb, promos, upgrades, changes] = await Promise.all([
         loadJSON("data/products.json"),
@@ -1634,9 +1793,12 @@
         loadJSON("data/upgrades.json").catch(() => null),
         loadJSON("data/changes.json").catch(() => null),
       ]);
+      state.alloc = await loadJSON("data/allocation.json").catch(() => null);
+      if (!state.alloc || !(state.alloc.rows || []).length) { state.alloc = null; $$('[data-nav="allocation"]').forEach((a) => { a.parentElement && a.parentElement.tagName === "LI" ? a.parentElement.remove() : a.remove(); }); }
       state.upgrades = upgrades;
       loadChanges(changes);
       state.meta = data;
+      state.groups = data.dealerGroups || [];
       state.products = data.products || [];
       // types: order from types.json (entry level -> premium), then any code missing from it in Excel order
       const known = {};
@@ -1675,6 +1837,7 @@
         if (!cur || el.reward > cur.amount) state.rewards[k] = { amount: el.reward, label: pr.rewardLabel || pr.name, title: pr.title || pr.name, period: fmtRange(pr.start, pr.end), promoId: pr.id };
       }));
       renderPromos();
+      renderAlloc();
 
       renderNav();
       renderSites();
@@ -1709,11 +1872,11 @@
         onScreen: (state.lastList || []).slice(),
         all: sorted(state.products.slice()),
         scopeLabel: state.mode === "ltb" ? "Last-time-buy models" : one ? one.label : state.fTypes.size > 1 ? Array.from(state.fTypes).map((c) => (state.typeMap[c] || {}).label || c).join(" + ") : "All products",
-        filtered, query: state.query, onCatalog: r.view !== "sites" && r.view !== "promos",
+        filtered, query: state.query, onCatalog: r.view !== "sites" && r.view !== "promos" && r.view !== "allocation",
         freebie: state.freebie,
       };
     },
-    asOfText, typeLabel, availability, hasFreebie, hasPromoDp, hasPromoSrp, fmtPrice,
+    asOfText, tiersOf, groupOf, typeLabel, availability, hasFreebie, hasPromoDp, hasPromoSrp, fmtPrice,
     reward: (p) => state.rewards[skuKey(p.sku)] || null,
     addon: (p) => (p.sale == null ? addonFor(p) : null),
     // for the requirement matcher (js/match.js)

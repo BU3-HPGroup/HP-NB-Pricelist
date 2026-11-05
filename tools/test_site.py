@@ -30,7 +30,19 @@ check("DP matches Excel", all(by_model[r["Model"].strip()]["dp"] == r["DP"] for 
 check("Part number matches Excel", all(by_model[r["Model"].strip()].get("partNo") == str(r["Part Number"]).strip() for r in xl))
 check("Material number matches Excel", all(by_model[r["Model"].strip()].get("matNo") == str(r["Material Number"]).strip() for r in xl))
 _pdp = lambda p: p.get("promoDp") if not p.get("promoState") else (p.get("upcomingDp") if p["promoState"] == "upcoming" else p.get("endedDp"))
-check("Promo DP matches Excel", all(_pdp(by_model[r["Model"].strip()]) == r.get("Promo DP") for r in xl))
+_grp = lambda r, g: next((v for k, v in r.items() if k and re.fullmatch(rf"group\s*{g}", str(k).strip(), re.I)), None)
+def _tiers_ok(r):
+    p = by_model[r["Model"].strip()]
+    want = [{"group": g, "dp": _grp(r, g)} for g in "ABC" if isinstance(_grp(r, g), (int, float))] if isinstance(r.get("Promo SRP"), (int, float)) else []
+    got = p.get("promoTiers") or p.get("upcomingTiers") or []
+    same = len(got) == len(want) and all(a["group"] == b["group"] and abs(a["dp"] - b["dp"]) < 0.06 for a, b in zip(got, want))
+    return same or (p.get("promoState") == "soldout" and not got)
+check("Promo DP matches Excel", all(_pdp(by_model[r["Model"].strip()]) == r.get("Promo DP") for r in xl if "Promo DP" in r))
+check("tiered promo DP (Group A/B/C) matches Excel", all(_tiers_ok(r) for r in xl), str(sum(1 for p in data if p.get("promoTiers"))))
+_al = json.load(open(os.path.join(ROOT, "data", "allocation.json"), encoding="utf-8")) if os.path.exists(os.path.join(ROOT, "data", "allocation.json")) else None
+if _al:
+    check("allocation: every model has a qty and either area limits or OPEN", all(r.get("qty") is not None and (r.get("open") or len(r.get("areas", [])) == len(_al["areas"])) for r in _al["rows"]), str(_al["count"]))
+    check("allocation: no % or budget published", all(not isinstance(v, float) for r in _al["rows"] for v in r.get("areas", [])) and set(_al) == {"asOf", "validUntil", "areas", "count", "rows"})
 _up = [p for p in data if p.get("promoState") == "upcoming"]
 check("'Don't offer yet' promos are not used as the selling price", all(p.get("promoSrp") is None and p.get("promoDp") is None and p.get("upcomingSrp") for p in _up), str(len(_up)))
 check("Type matches Excel", all(by_model[r["Model"].strip()]["type"] == r["Type"].strip() for r in xl))
@@ -185,8 +197,15 @@ with sync_playwright() as pw:
     else:
         check("ended promos are hidden automatically", pg.locator(".promo-card").count() == len(active), str(len(active)))
     check("freebie banner shown", "A08JTAA" in txt)
-    pdps = [p for p in data if p.get("promoDp") is not None and p["promoDp"] < p["dp"]]
-    check("promos page lists Promo DP models", pg.locator(".pdp-panel:not(.addon-panel) li").count() == len(pdps), str(len(pdps)))
+    pdps = [p for p in data if p.get("promoDp") is not None and p["promoDp"] < p["dp"] and not p.get("promoTiers") and p.get("promoSrp") is None]
+    check("promos page lists Promo DP models", pg.locator(".pdp-panel:not(.addon-panel):not(.tier-panel) li").count() == len(pdps), str(len(pdps)))
+    tiered = [p for p in data if p.get("promoTiers")]
+    check("promos page: tiered promo DP table lists every tiered model", pg.locator(".tier-all tbody tr").count() == len(tiered), str(len(tiered)))
+    if tiered:
+        pg.fill("#tierFind", "villman"); pg.wait_for_timeout(150)
+        check("promos page: dealer search finds the group", "Group" in pg.inner_text("#tierFindRes"), pg.inner_text("#tierFindRes"))
+        pg.fill("#tierFind", "zzzz unknown dealer"); pg.wait_for_timeout(150)
+        check("promos page: unknown dealer falls back to all-other-dealers group", "all other dealers" in pg.inner_text("#tierFindRes"))
     ico = pg.evaluate("[...document.querySelectorAll('link[rel~=icon]')].map(l => l.href)")
     check("favicon files exist", len(ico) >= 2 and all(os.path.exists(os.path.join(ROOT, u.split(BASE, 1)[-1])) for u in ico), str(ico))
     elig = {}
@@ -213,7 +232,8 @@ with sync_playwright() as pw:
     for p in data:
         card = pg.locator(f'.card[data-id="{p["id"]}"]')
         has = card.locator(".price.promo-dp").count() == 1
-        want = p.get("promoDp") is not None and p["promoDp"] < p["dp"]
+        want = p.get("promoDp") is not None and p["promoDp"] < p["dp"] and not p.get("promoTiers")
+        if p.get("promoTiers") and card.locator(".tier-strip li").count() != len(p["promoTiers"]): bad_pdp.append(p["sku"] + " tiers")
         if has != want or (want and rnd(p["promoDp"]) not in card.locator(".price.promo-dp").inner_text()):
             bad_pdp.append(p["sku"])
         if not want and rnd(p["dp"]) not in card.locator(".price.dp").inner_text():
@@ -224,7 +244,7 @@ with sync_playwright() as pw:
     pg.locator('.card[data-id="14-kf0002tu"] [data-copyspec]').click(); pg.wait_for_timeout(300)
     clip = pg.evaluate("navigator.clipboard.readText()")
     kp = next(p for p in data if p["id"] == "14-kf0002tu")
-    want = [kp["model"], f"SRP: ₱{int(kp['srp'] + 0.5):,}", f"DP: ₱{int(kp['dp'] + 0.5):,}", *([f"Promo DP: ₱{int(kp['promoDp'] + 0.5):,}"] if kp.get("promoDp") else []), "Availability: On hand", kp["partNo"], "Freebie"]
+    want = [kp["model"], f"SRP: ₱{int(kp['srp'] + 0.5):,}", f"DP: ₱{int(kp['dp'] + 0.5):,}", *([f"Promo DP: ₱{int(kp['promoDp'] + 0.5):,}"] if kp.get("promoDp") and not kp.get("promoTiers") else []), *(["Promo DP by dealer group: Group A"] if kp.get("promoTiers") else []), "Availability: On hand", kp["partNo"], "Freebie"]
     check("copy button copies model, specs, SRP, DP, promo DP, availability", all(w in clip for w in want), clip)
     check("copy shows confirmation", pg.locator("#toast.show").count() == 1)
     excl = {e["sku"].upper() for e in json.load(open(os.path.join(ROOT, "data", "promos.json"), encoding="utf-8"))["freebie"]["excluded"]}
@@ -273,7 +293,7 @@ with sync_playwright() as pw:
     rowsx = [dict(zip(hdrs, [c.value for c in r])) for r in wsx.iter_rows(min_row=6) if r[0].value]
     check("excel: rows = models on screen", len(rowsx) == len(om3), f"{len(rowsx)} vs {len(om3)}")
     check("excel: SRP/DP/Promo DP rounded and correct", all(
-        rx["SRP"] == round(p["srp"]) and rx["DP"] == round(p["dp"] + 0.0001) and rx["Promo DP"] == (round(p["promoDp"]) if p.get("promoDp") else None)
+        rx["SRP"] == round(p["srp"]) and rx["DP"] == round(p["dp"] + 0.0001) and (rx.get("Promo DP Group A") == round(p["promoTiers"][0]["dp"]) if p.get("promoTiers") else rx.get("Promo DP") == (round(p["promoDp"]) if p.get("promoDp") else None))
         for rx, p in zip(rowsx, om3)), str(rowsx[:1]))
     check("excel with photos: images embedded", sum(1 for n in zipfile.ZipFile(io.BytesIO(got["xlsx-photos"][1])).namelist() if n.startswith("xl/media/")) >= len(om3))
     pg.click("#downloadOpen"); pg.check('input[name="dlPrices"][value="customer"]')
@@ -281,6 +301,7 @@ with sync_playwright() as pw:
         pg.click('.dl-format[data-format="xlsx"]')
     wsc = openpyxl.load_workbook(io.BytesIO(open(dl.value.path(), "rb").read())).worksheets[0]
     hc = [c.value for c in wsc[5]]
+    check("dealer excel: Dealer groups sheet lists the named dealers", "Dealer groups" in wbx.sheetnames and wbx["Dealer groups"].max_row >= 4)
     check("customer copy: no DP / Promo DP / material no.", "SRP" in hc and not any(h in hc for h in ("DP", "Promo DP", "Material No.")), str(hc))
     pg.keyboard.press("Escape")
 
@@ -327,7 +348,7 @@ with sync_playwright() as pw:
     check("promo SRP: values match Excel", all(f"{p['promoSrp']:,}" in pg.inner_text(f'.card[data-id="{p["id"]}"] .price.promo-srp') for p in ps))
     check("promo note shown", all((not p.get("note")) or p["note"] in pg.inner_text(f'.card[data-id="{p["id"]}"]') for p in ps))
     pg.goto(BASE + "#/promos"); pg.wait_for_timeout(500)
-    check("promo SRP: listed on Promos page", pg.locator(".psrp-panel li").count() == len(ps))
+    check("promo SRP: listed on Promos page", (pg.locator(".tier-all .psrp").count() == len([p for p in ps if p.get("promoTiers")]) and pg.locator(".psrp-panel li").count() == 0) if any(p.get("promoTiers") for p in data) else pg.locator(".psrp-panel li").count() == len(ps))
     pg.goto(BASE + "#/"); pg.wait_for_timeout(300)
 
     # ---------- Match specs (requirement matcher) ----------
@@ -606,6 +627,24 @@ with sync_playwright() as pw:
     check("mobile: menu has Find a laptop", mp.is_visible('.nav-link[data-nav="finder"]'))
     mp.click("#menuToggle"); mp.wait_for_timeout(150)
     check("mobile: no JS errors", not merr, str(merr[:3]))
+    # ---------- Allocation tab ----------
+    if _al:
+        pg.goto(BASE + "#/allocation"); pg.wait_for_selector(".alloc-table"); pg.wait_for_timeout(200)
+        lim = [r for r in _al["rows"] if not r.get("open")]
+        check("allocation: tab lists every model", pg.locator(".alloc-table tbody tr:not(.alloc-sep)").count() == len(_al["rows"]), str(_al["count"]))
+        check("allocation: valid-until notice shown", "Valid until" in pg.inner_text(".alloc-valid") or "ended" in pg.inner_text(".alloc-valid"))
+        r0 = lim[0]
+        cells = pg.locator(".alloc-table tbody tr").first.locator("td").all_inner_texts()
+        check("allocation: first row qty + areas match the file", [c.replace(",", "") for c in cells] == [str(r0["qty"])] + [str(x) for x in r0["areas"]], str(cells))
+        check("allocation: no % on the page", "%" not in pg.inner_text("#allocBody"))
+        pg.click(f'.aa-btn[data-area="{_al["areas"][1]}"]'); pg.wait_for_timeout(150)
+        check("allocation: My area highlights one column", pg.locator(".alloc-table thead th.mine").inner_text().strip().upper() == _al["areas"][1].upper())
+        with pg.expect_download(timeout=60000) as dl:
+            pg.click("#allocDl")
+        wa = openpyxl.load_workbook(io.BytesIO(open(dl.value.path(), "rb").read()))
+        check("allocation excel: All areas + one sheet per area", wa.sheetnames == ["All areas"] + _al["areas"], str(wa.sheetnames))
+        check("allocation excel: rows match", wa["All areas"].cell(6, 5).value == r0["qty"] and wa[_al["areas"][1]].cell(6, 5).value == r0["areas"][1])
+        pg.click('.aa-btn[data-area=""]')
     t = b.new_context(viewport={"width": 820, "height": 1180}).new_page()
     t.goto(BASE); t.wait_for_selector(".card"); t.screenshot(path=f"{SHOTS}/tablet-grid.png")
     check("tablet: no horizontal scroll", not t.evaluate("document.documentElement.scrollWidth > window.innerWidth"))

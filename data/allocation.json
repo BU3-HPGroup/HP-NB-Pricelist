@@ -1,0 +1,353 @@
+{
+  "asOf": "2026-11-05",
+  "validUntil": "2026-11-10",
+  "areas": [
+    "GMA 1",
+    "GMA 2",
+    "PROV 1",
+    "PROV 2",
+    "PROV 3"
+  ],
+  "count": 27,
+  "rows": [
+    {
+      "pn": "E5MC6PA",
+      "mat": "432115037094",
+      "model": "HP OmniBook X Flip NG AI PC 14-fm0206TU",
+      "type": "Omnibook X Flip",
+      "id": "14-fm0206tu",
+      "qty": 100,
+      "areas": [
+        26,
+        46,
+        10,
+        12,
+        6
+      ]
+    },
+    {
+      "pn": "E5MC7PA",
+      "mat": "432115037095",
+      "model": "HP OmniBook X Flip NG AI PC 14-fm0208TU",
+      "type": "Omnibook X Flip",
+      "id": "14-fm0208tu",
+      "qty": 100,
+      "areas": [
+        26,
+        46,
+        10,
+        12,
+        6
+      ]
+    },
+    {
+      "pn": "DJ8T8PA",
+      "mat": "432115036895",
+      "model": "HP Laptop 15-fd1618TU",
+      "type": "HP 15",
+      "id": "15-fd1618tu",
+      "qty": 134,
+      "areas": [
+        35,
+        62,
+        13,
+        16,
+        8
+      ]
+    },
+    {
+      "pn": "DU5U6PA",
+      "mat": "432115036897",
+      "model": "HP Laptop 15-fc0947AU",
+      "type": "HP 15",
+      "id": "15-fc0947au",
+      "qty": 31,
+      "areas": [
+        8,
+        14,
+        3,
+        4,
+        2
+      ]
+    },
+    {
+      "pn": "DW4U8PA",
+      "mat": "432115036898",
+      "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+      "type": "Omnibook 3",
+      "id": "14-ht0144tu",
+      "qty": 25,
+      "areas": [
+        7,
+        10,
+        3,
+        3,
+        2
+      ]
+    },
+    {
+      "pn": "DW4U9PA",
+      "mat": "432115036899",
+      "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+      "type": "Omnibook 3",
+      "id": "14-ht0145tu",
+      "qty": 220,
+      "areas": [
+        57,
+        101,
+        22,
+        26,
+        13
+      ]
+    },
+    {
+      "pn": "DW7W9PA",
+      "mat": "432115036900",
+      "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+      "type": "Omnibook 3",
+      "id": "14-ht0092tu",
+      "qty": 869,
+      "areas": [
+        226,
+        400,
+        87,
+        104,
+        52
+      ]
+    },
+    {
+      "pn": "DJ8T4PA",
+      "mat": "432115036903",
+      "model": "HP OmniBook 5 14-hm0072AU",
+      "type": "Omnibook 5",
+      "id": "14-hm0072au",
+      "qty": 290,
+      "areas": [
+        75,
+        133,
+        29,
+        35,
+        17
+      ]
+    },
+    {
+      "pn": "DX4J7PA",
+      "mat": "432115036904",
+      "model": "HP OmniBook 5 AI PC 14-kf0002TU",
+      "type": "Omnibook 5",
+      "id": "14-kf0002tu",
+      "qty": 142,
+      "areas": [
+        37,
+        65,
+        14,
+        17,
+        9
+      ]
+    },
+    {
+      "pn": "DU5R6PA",
+      "mat": "432115036907",
+      "model": "HP OmniBook 5 Flip 14-fp0162TU",
+      "type": "Omnibook 5 Flip",
+      "id": "14-fp0162tu",
+      "qty": 165,
+      "areas": [
+        43,
+        75,
+        17,
+        20,
+        10
+      ]
+    },
+    {
+      "pn": "DU5S6PA",
+      "mat": "432115036914",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0105TU",
+      "type": "Omnibook X Flip",
+      "id": "14-kb0105tu",
+      "qty": 142,
+      "open": true
+    },
+    {
+      "pn": "DU5S7PA",
+      "mat": "432115036915",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0106TU",
+      "type": "Omnibook X Flip",
+      "id": "14-kb0106tu",
+      "qty": 50,
+      "open": true
+    },
+    {
+      "pn": "DU5T2PA",
+      "mat": "432115036916",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0112TU",
+      "type": "Omnibook X Flip",
+      "id": "14-kb0112tu",
+      "qty": 10,
+      "open": true
+    },
+    {
+      "pn": "DU5S8PA",
+      "mat": "432115036917",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0107TU",
+      "type": "Omnibook X Flip",
+      "id": "14-kb0107tu",
+      "qty": 9,
+      "open": true
+    },
+    {
+      "pn": "DU5T6PA",
+      "mat": "432115036919",
+      "model": "HP OmniBook X Flip NG AI PC 14-kc0081AU",
+      "type": "Omnibook X Flip",
+      "id": "14-kc0081au",
+      "qty": 15,
+      "open": true
+    },
+    {
+      "pn": "DU5S1PA",
+      "mat": "432115036922",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
+      "type": "Omnibook X Flip",
+      "id": "14-kb0100tu",
+      "qty": 236,
+      "open": true
+    },
+    {
+      "pn": "DU5S4PA",
+      "mat": "432115036923",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0101TU",
+      "type": "Omnibook X Flip",
+      "id": "14-kb0101tu",
+      "qty": 95,
+      "open": true
+    },
+    {
+      "pn": "DU5S5PA",
+      "mat": "432115036924",
+      "model": "HP OmniBook X Flip NG AI PC 14-kb0102TU",
+      "type": "Omnibook X Flip",
+      "id": "14-kb0102tu",
+      "qty": 5,
+      "open": true
+    },
+    {
+      "pn": "DU5T4PA",
+      "mat": "432115036925",
+      "model": "HP OmniBook X Flip NG AI PC 14-kc0079AU",
+      "type": "Omnibook X Flip",
+      "id": "14-kc0079au",
+      "qty": 239,
+      "open": true
+    },
+    {
+      "pn": "DW8J8PA",
+      "mat": "432115036926",
+      "model": "HP OmniBook X Flip NG AI PC 14-kc0039AU",
+      "type": "Omnibook X Flip",
+      "id": "14-kc0039au",
+      "qty": 49,
+      "open": true
+    },
+    {
+      "pn": "DU5T3PA",
+      "mat": "432115036927",
+      "model": "HP OmniBook X Flip NG AI PC 14-kc0078AU",
+      "type": "Omnibook X Flip",
+      "id": "14-kc0078au",
+      "qty": 10,
+      "open": true
+    },
+    {
+      "pn": "DM8L6PA",
+      "mat": "432115036971",
+      "model": "HP Laptop 15-fc0932AU",
+      "type": "HP 15",
+      "id": "15-fc0932au",
+      "qty": 1500,
+      "areas": [
+        390,
+        690,
+        150,
+        180,
+        90
+      ]
+    },
+    {
+      "pn": "E47WNPA",
+      "mat": "432115037064",
+      "model": "HP Laptop 15-fc0289AU",
+      "type": "HP 15",
+      "id": "15-fc0289au",
+      "qty": 625,
+      "areas": [
+        163,
+        286,
+        63,
+        75,
+        38
+      ]
+    },
+    {
+      "pn": "E47WPPA",
+      "mat": "432115037065",
+      "model": "HP Laptop 15-fc0523AU",
+      "type": "HP 15",
+      "id": "15-fc0523au",
+      "qty": 750,
+      "areas": [
+        195,
+        345,
+        75,
+        90,
+        45
+      ]
+    },
+    {
+      "pn": "E2HE2PA",
+      "mat": "432115037067",
+      "model": "HP Laptop 15-fd1655TU",
+      "type": "HP 15",
+      "id": "15-fd1655tu",
+      "qty": 370,
+      "areas": [
+        96,
+        170,
+        37,
+        44,
+        22
+      ]
+    },
+    {
+      "pn": "E2HE3PA",
+      "mat": "432115037139",
+      "model": "HP Laptop 15-fd1656TU",
+      "type": "HP 15",
+      "id": "15-fd1656tu",
+      "qty": 249,
+      "areas": [
+        65,
+        114,
+        25,
+        30,
+        15
+      ]
+    },
+    {
+      "pn": "E4PN6PA",
+      "mat": "432115037068",
+      "model": "HP Laptop 15-fc0998AU",
+      "type": "HP 15",
+      "id": "15-fc0998au",
+      "qty": 400,
+      "areas": [
+        104,
+        184,
+        40,
+        48,
+        24
+      ]
+    }
+  ]
+}
