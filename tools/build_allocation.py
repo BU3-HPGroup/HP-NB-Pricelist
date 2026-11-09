@@ -134,7 +134,7 @@ def main():
         rows.append(row)
 
     # ---- deduct placements (HP-NB lines only) from the area of the selling department ----
-    placed, plog, pskip = {}, [], []
+    placed, plog, pskip, entries = {}, [], [], []
     def area_of(dept):
         d = re.sub(r"[^A-Z0-9]", "", str(dept or "").upper())          # SDC_PROV3 / SDC-PROV3 / SDB_GMA2 -> SDCPROV3 / SDBGMA2
         for i, (_, name) in enumerate(areas):
@@ -150,6 +150,7 @@ def main():
         col = lambda name: ph.index(name) if name in ph else None
         c_grp, c_mat2, c_desc, c_dep, c_qty = col("material group"), col("material no."), col("description"), col("department"), col("net quantity")
         c_ext2, c_cust, c_doc = col("ext. description 2"), col("name"), col("billing document")
+        c_rep, c_date = col("sales group"), col("billing date")
         for r in prow[1:]:
             if not r or c_grp is None or norm(r[c_grp]).upper() != "HP-NB":
                 continue
@@ -168,6 +169,17 @@ def main():
                 sys.exit(f"Department '{r[c_dep]}' on {norm(r[c_desc])} does not match an area {[n for _, n in areas]}")
             key = (row["pn"], ai)
             placed[key] = placed.get(key, 0) + int(q)
+            bd = r[c_date] if c_date is not None else None
+            entries.append({
+                "date": bd.date().isoformat() if hasattr(bd, "date") else norm(bd)[:10],
+                "rep": norm(r[c_rep]) if c_rep is not None else "",
+                "dept": norm(r[c_dep]),
+                "area": areas[ai][1] if ai is not None else "",
+                "customer": norm(r[c_cust]),
+                "pn": row["pn"], "model": row["model"], "id": row.get("id"),
+                "qty": int(q),
+                "doc": norm(r[c_doc]),
+            })
             plog.append(f"  {row['model']}: -{int(q)} {areas[ai][1] if ai is not None else '(open)'}  [{norm(r[c_cust])}, {norm(r[c_dep])}, BD {norm(r[c_doc])}]")
     total_placed = 0
     for (pn, ai), q in placed.items():
@@ -192,7 +204,8 @@ def main():
     }
     if a.placements:
         lab = a.placements_label or ", ".join(os.path.splitext(os.path.basename(f))[0] for f in a.placements)
-        payload["placements"] = {"label": lab, "units": total_placed, "models": len({pn for pn, _ in placed})}
+        entries.sort(key=lambda e: (e["date"], e["doc"]), reverse=True)
+        payload["placements"] = {"label": lab, "units": total_placed, "models": len({pn for pn, _ in placed}), "entries": entries}
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2)
     print(f"Wrote {OUT}: {len(rows)} models, areas {payload['areas']}, as of {as_of}, valid until {a.valid_until}")

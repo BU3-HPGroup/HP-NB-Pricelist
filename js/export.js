@@ -642,6 +642,15 @@
       sheet(a.replace(/[\\/?*\[\]:]/g, " ").slice(0, 31), `HP Notebooks — Allocation for ${a}`, cols,
         ordered.map((r) => [r.model, r.type, r.pn, r.mat, r.open ? OPEN : r.areas[i]]));
     });
+    // who placed what (deducted from the areas above)
+    const P = (A.placements && A.placements.entries) || [];
+    if (P.length) {
+      const cols = [{ h: "Billed", w: 12 }, { h: "Sales rep", w: 22 }, { h: "Area", w: 10 }, { h: "Department", w: 13 }, { h: "Customer", w: 34 }, { h: "Model", w: 40 }, { h: "Part No.", w: 11 }, { h: "Qty", w: 8, num: true, key: true }, { h: "Billing doc", w: 13 }];
+      const n = { asOf: notice.asOf, text: `HP-NB placements ${A.placements.label}: ${A.placements.units} units, already deducted from the area quantities.`, ended: false };
+      const keep = notice; notice = n;
+      sheet("Placements", "HP Notebooks — Placements deducted", cols, P.map((e) => [e.date, e.rep, e.area, e.dept, e.customer, e.model, e.pn, e.qty, e.doc]));
+      notice = keep;
+    }
     const buf = await wb.xlsx.writeBuffer();
     const blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     saveBlob(blob, `HP NB Allocation per area - as of ${A.asOf}.xlsx`);

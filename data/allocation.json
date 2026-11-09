@@ -357,6 +357,56 @@
   "placements": {
     "label": "Nov 1–9",
     "units": 10,
-    "models": 4
+    "models": 4,
+    "entries": [
+      {
+        "date": "2026-11-06",
+        "rep": "Christine Falcon",
+        "dept": "SDC_PROV3",
+        "area": "PROV 3",
+        "customer": "Master Tech Computer Trading",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 2,
+        "doc": "0871337333"
+      },
+      {
+        "date": "2026-11-06",
+        "rep": "Christine Falcon",
+        "dept": "SDC_PROV3",
+        "area": "PROV 3",
+        "customer": "Master Tech Computer Trading",
+        "pn": "DM8L6PA",
+        "model": "HP Laptop 15-fc0932AU",
+        "id": "15-fc0932au",
+        "qty": 3,
+        "doc": "0871337333"
+      },
+      {
+        "date": "2026-11-06",
+        "rep": "Christine Falcon",
+        "dept": "SDC_PROV3",
+        "area": "PROV 3",
+        "customer": "Master Tech Computer Trading",
+        "pn": "E47WNPA",
+        "model": "HP Laptop 15-fc0289AU",
+        "id": "15-fc0289au",
+        "qty": 3,
+        "doc": "0871337333"
+      },
+      {
+        "date": "2026-11-06",
+        "rep": "Christine Falcon",
+        "dept": "SDC_PROV3",
+        "area": "PROV 3",
+        "customer": "Master Tech Computer Trading",
+        "pn": "E2HE3PA",
+        "model": "HP Laptop 15-fd1656TU",
+        "id": "15-fd1656tu",
+        "qty": 2,
+        "doc": "0871337333"
+      }
+    ]
   }
 }

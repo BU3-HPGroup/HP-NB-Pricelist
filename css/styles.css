@@ -2055,3 +2055,29 @@ html body .stock-mini { background: var(--k-chip) !important; color: var(--k-ink
 .dl-chip.internal small { color: #b45309; }
 html[data-theme="dark"] .dl-chip.internal small { color: #f3b562; }
 .alloc-placed { display: inline-block; margin-left: 6px; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--k-chip, #eef1f5); color: var(--k-ink-2, #3d4350); vertical-align: 1px; }
+/* Allocation: sub pages + Placements */
+.alloc-sub { display: flex; gap: 4px; border-bottom: 1px solid var(--k-line, #e3e6eb); margin-bottom: 2px; overflow-x: auto; }
+.alloc-sub a { position: relative; display: inline-flex; align-items: center; gap: 7px; padding: 10px 14px; min-height: 44px; font-size: 14.5px; font-weight: 600; color: var(--k-muted, #6b7280); text-decoration: none; white-space: nowrap; }
+.alloc-sub a:hover { color: var(--k-ink, #16181d); }
+.alloc-sub a.on { color: var(--k-ink, #16181d); }
+.alloc-sub a.on::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--k-acc, #024ad8); }
+.alloc-sub a span { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: var(--k-chip, #eef1f5); color: var(--k-ink-2, #3d4350); }
+.alloc-pl-lead { margin: 0; color: var(--k-ink-2, #3d4350); font-size: 14px; max-width: 80ch; }
+.pl-areas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.pl-areas li { display: grid; gap: 2px; padding: 12px 14px; border: 1px solid var(--k-line, #e3e6eb); border-radius: 12px; background: var(--surface); }
+.pl-areas li span { font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--k-muted, #6b7280); }
+.pl-areas li b { font-size: 24px; font-weight: 750; font-variant-numeric: tabular-nums; color: var(--k-ink, #16181d); }
+.pl-areas li small { font-size: 12px; color: var(--k-muted, #6b7280); }
+.pl-areas li.zero b { color: var(--k-muted, #9aa1ab); }
+.pl-areas li.mine { border-color: var(--k-ink, #16181d); box-shadow: 0 0 0 1px var(--k-ink, #16181d); }
+@media (max-width: 720px) { .pl-areas { grid-template-columns: repeat(3, minmax(0, 1fr)); } .pl-areas li b { font-size: 20px; } }
+.pl-h { margin: 6px 0 -4px; font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--k-muted, #6b7280); }
+.alloc-table.pl-table th, .alloc-table.pl-table td { text-align: left; white-space: normal; vertical-align: top; }
+.alloc-table.pl-table td { font-size: 14px; font-weight: 500; }
+.alloc-table.pl-table td.num { text-align: right; font-weight: 700; font-size: 15px; white-space: nowrap; }
+.alloc-table.pl-table thead th:nth-child(2), .alloc-table.pl-table thead th:nth-child(3) { text-align: inherit; }
+.alloc-table.pl-table td small { display: block; color: var(--k-muted, #6b7280); font-size: 11.5px; }
+.pl-area { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--k-chip, #eef1f5); color: var(--k-ink, #16181d); white-space: nowrap; }
+.alloc-empty { margin: 0; padding: 18px; border: 1px dashed var(--k-line-strong, #cfd4dc); border-radius: 12px; color: var(--k-muted, #6b7280); }
+@media (max-width: 720px) { .alloc-table.pl-table tr { grid-template-columns: repeat(2, minmax(0, 1fr)); } .alloc-table.pl-table td.num { text-align: left; } }
+.alloc-table.pl-table thead th.num { text-align: right; }

@@ -763,12 +763,22 @@
     if (!box) return;
     const A = state.alloc;
     if (!A) { box.innerHTML = `<p class="muted">No allocation published right now.</p>`; return; }
+    const sub = currentRoute().sub || "";
+    box.dataset.sub = sub;
+    const P = (A.placements && A.placements.entries) || [];
+    const subTabs = `<nav class="alloc-sub" aria-label="Allocation pages">
+        <a href="#/allocation" class="${sub ? "" : "on"}"${sub ? "" : ' aria-current="page"'}>Allocation per area</a>
+        <a href="#/allocation/placements" class="${sub ? "on" : ""}"${sub ? ' aria-current="page"' : ""}>Placements${P.length ? ` <span>${A.placements.units}</span>` : ""}</a>
+      </nav>`;
+    $("#allocTitle").textContent = sub ? "Placements" : "Allocation per area";
+    const ad = $("#allocView .category-desc"); if (ad) ad.textContent = sub ? "Who placed HP-NB units, for which customer, and which area's allocation they came out of." : "The maximum quantity each area can sell per model under the current program. Updated daily.";
+    if (sub) { box.innerHTML = subTabs + placementsHTML(A, P); return; }
     const mine = allocArea(), ended = allocEnded();
     const q = (box.dataset.q || "").toUpperCase();
     const rows = A.rows.filter((r) => !q || (r.model + " " + r.pn + " " + r.type).toUpperCase().includes(q));
     const lim = rows.filter((r) => !r.open), open = rows.filter((r) => r.open);
     const name = (r) => (r.id ? `<a href="#/allocation/product/${encodeURIComponent(r.id)}">${esc(r.model)}</a>` : esc(r.model)) + (r.placed ? ` <span class="alloc-placed">${r.placed} placed</span>` : "");
-    box.innerHTML = `${allocNoteHTML(false)}
+    box.innerHTML = `${subTabs}${allocNoteHTML(false)}
       <div class="alloc-tools">
         <div class="alloc-area" role="group" aria-label="Highlight my area">
           <span class="alloc-area-l">My area</span>
@@ -792,6 +802,41 @@
         </tbody></table></div>
       <p class="alloc-foot">Program qty is the total for the model. Each area column is the most that area can sell. Quantities can change daily; always confirm with your account manager before committing to a dealer.</p>`;
   }
+  // who placed what, from which area (data/allocation.json placements.entries, HP-NB lines of the SAP billing export)
+  function placementsHTML(A, P) {
+    if (!P.length) return `<p class="alloc-empty">No HP-NB placements have been deducted yet.</p>`;
+    const mine = allocArea();
+    const list = mine ? P.filter((e) => e.area === mine) : P;
+    const sum = (arr) => arr.reduce((n, e) => n + e.qty, 0);
+    const byArea = A.areas.map((a) => { const e = P.filter((x) => x.area === a); return { a, units: sum(e), reps: new Set(e.map((x) => x.rep)).size }; });
+    const reps = {};
+    list.forEach((e) => { const k = e.rep + "|" + e.area; (reps[k] = reps[k] || { rep: e.rep, area: e.area, dept: e.dept, units: 0, cust: new Set(), models: new Set() }); reps[k].units += e.qty; reps[k].cust.add(e.customer); reps[k].models.add(e.model); });
+    const repRows = Object.values(reps).sort((x, y) => y.units - x.units);
+    const d = (iso) => isoDate(iso);
+    const model = (e) => e.id ? `<a href="#/allocation/placements/product/${encodeURIComponent(e.id)}">${esc(e.model)}</a>` : esc(e.model);
+    return `<p class="alloc-pl-lead">HP-NB units billed ${esc(A.placements.label)} and taken off the allocation of the seller's area. ${A.placements.units} ${A.placements.units === 1 ? "unit" : "units"} on ${A.placements.models} ${A.placements.models === 1 ? "model" : "models"}.</p>
+      <ul class="pl-areas">${byArea.map((x) => `<li class="${x.units ? "" : "zero"}${x.a === mine ? " mine" : ""}"><span>${esc(x.a)}</span><b>${fmtQty(x.units)}</b><small>${x.units ? `${x.reps} ${x.reps === 1 ? "sales rep" : "sales reps"}` : "No placements"}</small></li>`).join("")}</ul>
+      <div class="alloc-tools">
+        <div class="alloc-area" role="group" aria-label="Show one area">
+          <span class="alloc-area-l">Area</span>
+          <button type="button" class="aa-btn" data-area="" aria-pressed="${!mine}">All areas</button>
+          ${A.areas.map((a) => `<button type="button" class="aa-btn" data-area="${esc(a)}" aria-pressed="${a === mine}">${esc(a)}</button>`).join("")}
+        </div>
+      </div>
+      ${list.length ? `
+      <h3 class="pl-h">By sales rep</h3>
+      <div class="alloc-scroll"><table class="alloc-table pl-table">
+        <thead><tr><th>Sales rep</th><th>Area</th><th class="num">Units</th><th>Customers</th><th>Models</th></tr></thead>
+        <tbody>${repRows.map((r) => `<tr><th scope="row">${esc(r.rep || "—")}</th><td data-l="Area"><span class="pl-area">${esc(r.area)}</span><small>${esc(r.dept)}</small></td><td class="num" data-l="Units">${fmtQty(r.units)}</td><td data-l="Customers">${Array.from(r.cust).map(esc).join("<br>")}</td><td data-l="Models">${r.models.size}</td></tr>`).join("")}</tbody>
+      </table></div>
+      <h3 class="pl-h">Every placement</h3>
+      <div class="alloc-scroll"><table class="alloc-table pl-table">
+        <thead><tr><th>Model</th><th class="num">Qty</th><th>Sales rep</th><th>Area</th><th>Customer</th><th>Billed</th><th>Billing doc</th></tr></thead>
+        <tbody>${list.map((e) => `<tr><th scope="row">${model(e)}<small>${esc(e.pn)}</small></th><td class="num" data-l="Qty">${fmtQty(e.qty)}</td><td data-l="Sales rep">${esc(e.rep || "—")}</td><td data-l="Area"><span class="pl-area">${esc(e.area)}</span></td><td data-l="Customer">${esc(e.customer)}</td><td data-l="Billed">${esc(d(e.date))}</td><td data-l="Billing doc">${esc(e.doc)}</td></tr>`).join("")}</tbody>
+      </table></div>` : `<p class="alloc-empty">No placements from ${esc(mine)} in ${esc(A.placements.label)}.</p>`}
+      <p class="alloc-foot">The area comes from the Department in the billing report (SDC_PROV3 = PROV 3, SDB_GMA2 = GMA 2…). Bundle items and other product lines are not counted.</p>`;
+  }
+
   function bindAlloc() {
     const box = $("#allocBody");
     if (!box) return;
@@ -1058,7 +1103,7 @@
     $(".modal-close", modal).focus({ preventScroll: true });
     if (push) {
       const r = currentRoute();
-      const base = r.view === "type" ? "#/type/" + encodeURIComponent(r.type) : r.view === "ltb" ? "#/ltb/" : r.view === "promos" ? "#/promos/" : r.view === "allocation" ? "#/allocation/"
+      const base = r.view === "type" ? "#/type/" + encodeURIComponent(r.type) : r.view === "ltb" ? "#/ltb/" : r.view === "promos" ? "#/promos/" : r.view === "allocation" ? "#/allocation/" + (r.sub ? r.sub + "/" : "")
         : r.view === "finder" ? "#/finder/" + (r.params ? r.params + "/" : "") : "#/";
       history.pushState({ product: id }, "", base + (base.endsWith("/") ? "" : "/") + "product/" + encodeURIComponent(id));
     }
@@ -1496,7 +1541,7 @@
     const r = { view: "all", type: null, product: null };
     if (parts[0] === "sites") r.view = "sites";
     else if (parts[0] === "promos") r.view = "promos";
-    else if (parts[0] === "allocation") r.view = "allocation";
+    else if (parts[0] === "allocation") { r.view = "allocation"; r.sub = parts[1] === "placements" ? "placements" : ""; }
     else if (parts[0] === "ltb") r.view = "ltb";
     else if (parts[0] === "finder") { r.view = "finder"; r.params = parts[1] && parts[1] !== "product" ? parts[1] : ""; }
     else if (parts[0] === "type" && parts[1]) { r.view = "type"; r.type = resolveType(parts[1]); }
@@ -1513,6 +1558,7 @@
     $("#sitesView").hidden = r.view !== "sites";
     $("#promosView").hidden = r.view !== "promos";
     $("#allocView").hidden = r.view !== "allocation";
+    if (r.view === "allocation" && state.alloc && ($("#allocBody").dataset.sub || "") !== (r.sub || "")) renderAlloc();
     $("#finderView").hidden = r.view !== "finder";
     if (!sites) setMode(r.view === "ltb" ? "ltb" : "main");
     // the finder page: re-read its settings from the address, except when only a product popup opens/closes

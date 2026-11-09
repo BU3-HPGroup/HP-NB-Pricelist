@@ -660,9 +660,15 @@ with sync_playwright() as pw:
         with pg.expect_download(timeout=60000) as dl:
             pg.click("#allocDl")
         wa = openpyxl.load_workbook(io.BytesIO(open(dl.value.path(), "rb").read()))
-        check("allocation excel: All areas + one sheet per area", wa.sheetnames == ["All areas"] + _al["areas"], str(wa.sheetnames))
+        check("allocation excel: All areas + one sheet per area (+ Placements)", wa.sheetnames == ["All areas"] + _al["areas"] + (["Placements"] if (_al.get("placements") or {}).get("entries") else []), str(wa.sheetnames))
         check("allocation excel: rows match", wa["All areas"].cell(6, 5).value == r0["qty"] and wa[_al["areas"][1]].cell(6, 5).value == r0["areas"][1])
         pg.click('.aa-btn[data-area=""]')
+        _P = (_al.get("placements") or {}).get("entries") or []
+        if _P:
+            pg.goto(BASE + "#/allocation/placements"); pg.wait_for_selector(".pl-areas"); pg.wait_for_timeout(200)
+            check("placements page: one row per placement line", pg.locator(".pl-table").nth(1).locator("tbody tr").count() == len(_P), str(len(_P)))
+            check("placements page: shows sales rep + area", all(e["rep"] in pg.inner_text("#allocBody") and e["area"] in pg.inner_text("#allocBody") for e in _P))
+            check("placements page: area totals add up", sum(int(x.replace(",", "")) for x in pg.locator(".pl-areas b").all_inner_texts()) == _al["placements"]["units"])
     t = b.new_context(viewport={"width": 820, "height": 1180}).new_page()
     t.goto(BASE); t.wait_for_selector(".card"); t.screenshot(path=f"{SHOTS}/tablet-grid.png")
     check("tablet: no horizontal scroll", not t.evaluate("document.documentElement.scrollWidth > window.innerWidth"))
