@@ -42,7 +42,7 @@ check("tiered promo DP (Group A/B/C) matches Excel", all(_tiers_ok(r) for r in x
 _al = json.load(open(os.path.join(ROOT, "data", "allocation.json"), encoding="utf-8")) if os.path.exists(os.path.join(ROOT, "data", "allocation.json")) else None
 if _al:
     check("allocation: every model has a qty and either area limits or OPEN", all(r.get("qty") is not None and (r.get("open") or len(r.get("areas", [])) == len(_al["areas"])) for r in _al["rows"]), str(_al["count"]))
-    check("allocation: no % or budget published", all(not isinstance(v, float) for r in _al["rows"] for v in r.get("areas", [])) and set(_al) == {"asOf", "validUntil", "areas", "count", "rows"})
+    check("allocation: no % or budget published", all(not isinstance(v, float) for r in _al["rows"] for v in r.get("areas", [])) and set(_al) <= {"asOf", "validUntil", "areas", "count", "rows", "placements"})
 _up = [p for p in data if p.get("promoState") == "upcoming"]
 check("'Don't offer yet' promos are not used as the selling price", all(p.get("promoSrp") is None and p.get("promoDp") is None and p.get("upcomingSrp") for p in _up), str(len(_up)))
 check("Type matches Excel", all(by_model[r["Model"].strip()]["type"] == r["Type"].strip() for r in xl))

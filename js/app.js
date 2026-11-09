@@ -743,7 +743,8 @@
   function allocNoteHTML(short) {
     const A = state.alloc, until = isoDate(A.validUntil, true);
     if (allocEnded()) return `<div class="alloc-valid ended" role="note">${ICONS.clock}<span><b>The area allocation ended on ${esc(until)}.</b> Qty per area is now subject to limits. Check with your account manager before committing quantities.</span></div>`;
-    return `<div class="alloc-valid" role="note">${ICONS.clock}<span><b>Valid until ${esc(until)} only.</b>${short ? "" : ` After ${esc(isoDate(A.validUntil))}, qty per area will be subject to limits.`} As of ${esc(isoDate(A.asOf, true))}.</span></div>`;
+    const pl = A.placements && A.placements.units ? ` Net of ${A.placements.units} HP-NB ${A.placements.units === 1 ? "unit" : "units"} already placed (${esc(A.placements.label)}).` : "";
+    return `<div class="alloc-valid" role="note">${ICONS.clock}<span><b>Valid until ${esc(until)} only.</b>${short ? "" : ` After ${esc(isoDate(A.validUntil))}, qty per area will be subject to limits.`} As of ${esc(isoDate(A.asOf, true))}.${short ? "" : pl}</span></div>`;
   }
   function allocDetailHTML(p) {
     const r = allocRow(p);
@@ -766,7 +767,7 @@
     const q = (box.dataset.q || "").toUpperCase();
     const rows = A.rows.filter((r) => !q || (r.model + " " + r.pn + " " + r.type).toUpperCase().includes(q));
     const lim = rows.filter((r) => !r.open), open = rows.filter((r) => r.open);
-    const name = (r) => r.id ? `<a href="#/allocation/product/${encodeURIComponent(r.id)}">${esc(r.model)}</a>` : esc(r.model);
+    const name = (r) => (r.id ? `<a href="#/allocation/product/${encodeURIComponent(r.id)}">${esc(r.model)}</a>` : esc(r.model)) + (r.placed ? ` <span class="alloc-placed">${r.placed} placed</span>` : "");
     box.innerHTML = `${allocNoteHTML(false)}
       <div class="alloc-tools">
         <div class="alloc-area" role="group" aria-label="Highlight my area">
@@ -803,7 +804,7 @@
         try {
           const A = state.alloc, ended = allocEnded();
           const text = ended ? `The area allocation ended on ${isoDate(A.validUntil, true)}. Qty per area is now subject to limits; check with your account manager.`
-            : `Valid until ${isoDate(A.validUntil, true)} only. After ${isoDate(A.validUntil)}, qty per area will be subject to limits.`;
+            : `Valid until ${isoDate(A.validUntil, true)} only. After ${isoDate(A.validUntil)}, qty per area will be subject to limits.` + (A.placements && A.placements.units ? ` Quantities are net of ${A.placements.units} HP-NB units already placed (${A.placements.label}).` : "");
           await window.HPPLX.allocExcel(A, { asOf: isoDate(A.asOf, true), text, ended });
           st.textContent = "Downloaded. The file has an All areas sheet plus one sheet per area.";
         } catch (x) { st.textContent = "The Excel file could not be made. Check your connection and try again."; }

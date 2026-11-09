@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-05",
+  "asOf": "2026-11-09",
   "validUntil": "2026-11-10",
   "areas": [
     "GMA 1",
@@ -46,14 +46,15 @@
       "model": "HP Laptop 15-fd1618TU",
       "type": "HP 15",
       "id": "15-fd1618tu",
-      "qty": 134,
+      "qty": 132,
       "areas": [
         35,
         62,
         13,
         16,
-        8
-      ]
+        6
+      ],
+      "placed": 2
     },
     {
       "pn": "DU5U6PA",
@@ -265,14 +266,15 @@
       "model": "HP Laptop 15-fc0932AU",
       "type": "HP 15",
       "id": "15-fc0932au",
-      "qty": 1500,
+      "qty": 1497,
       "areas": [
         390,
         690,
         150,
         180,
-        90
-      ]
+        87
+      ],
+      "placed": 3
     },
     {
       "pn": "E47WNPA",
@@ -280,14 +282,15 @@
       "model": "HP Laptop 15-fc0289AU",
       "type": "HP 15",
       "id": "15-fc0289au",
-      "qty": 625,
+      "qty": 622,
       "areas": [
         163,
         286,
         63,
         75,
-        38
-      ]
+        35
+      ],
+      "placed": 3
     },
     {
       "pn": "E47WPPA",
@@ -325,14 +328,15 @@
       "model": "HP Laptop 15-fd1656TU",
       "type": "HP 15",
       "id": "15-fd1656tu",
-      "qty": 249,
+      "qty": 247,
       "areas": [
         65,
         114,
         25,
         30,
-        15
-      ]
+        13
+      ],
+      "placed": 2
     },
     {
       "pn": "E4PN6PA",
@@ -349,5 +353,10 @@
         24
       ]
     }
-  ]
+  ],
+  "placements": {
+    "label": "Nov 1–9",
+    "units": 10,
+    "models": 4
+  }
 }

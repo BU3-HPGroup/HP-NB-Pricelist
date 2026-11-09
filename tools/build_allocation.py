@@ -16,6 +16,10 @@ What is NOT published
 ---------------------
 The % split and peso budget rows above the header, the prices on that sheet, and the
 "Onhand and Incoming" sheet. The workbook itself is never copied into the repo.
+
+Placements (--placements, SAP billing export): only Material Group HP-NB lines are used. Each line is matched
+to a model by material number / part number and deducted from the area of its Department
+(SDC_PROV3 -> PROV 3, SDB_GMA2 -> GMA 2 ...) and from the program qty. Bundle items are skipped.
 """
 import argparse
 import json
@@ -51,6 +55,9 @@ def main():
     ap.add_argument("--sheet", default="Allocation")
     ap.add_argument("--valid-until", required=True, help="Last day the area allocation applies, e.g. 2026-11-10")
     ap.add_argument("--as-of", default=None, help="Defaults to the 'as of <Mon> <day>' in the file name")
+    ap.add_argument("--placements", action="append", default=[],
+                    help="SAP billing export(s) of placements to deduct (e.g. '1101 TO 1109 PLACEMENTS.XLSX'); repeatable")
+    ap.add_argument("--placements-label", default=None, help='Shown on the site, e.g. "Nov 1–9" (defaults to the file name)')
     a = ap.parse_args()
 
     wb = openpyxl.load_workbook(a.excel, data_only=True)
@@ -126,6 +133,54 @@ def main():
             warn.append(f"  {pn} {row['model']}: not on the pricelist (no details link)")
         rows.append(row)
 
+    # ---- deduct placements (HP-NB lines only) from the area of the selling department ----
+    placed, plog, pskip = {}, [], []
+    def area_of(dept):
+        d = re.sub(r"[^A-Z0-9]", "", str(dept or "").upper())          # SDC_PROV3 / SDC-PROV3 / SDB_GMA2 -> SDCPROV3 / SDBGMA2
+        for i, (_, name) in enumerate(areas):
+            if d.endswith(re.sub(r"[^A-Z0-9]", "", name.upper())):
+                return i
+        return None
+    by_pn = {r["pn"]: r for r in rows}
+    by_mat = {r["mat"]: r for r in rows if r.get("mat")}
+    for pf in a.placements:
+        pw = openpyxl.load_workbook(pf, data_only=True).worksheets[0]
+        prow = list(pw.iter_rows(values_only=True))
+        ph = [norm(x).lower() for x in prow[0]]
+        col = lambda name: ph.index(name) if name in ph else None
+        c_grp, c_mat2, c_desc, c_dep, c_qty = col("material group"), col("material no."), col("description"), col("department"), col("net quantity")
+        c_ext2, c_cust, c_doc = col("ext. description 2"), col("name"), col("billing document")
+        for r in prow[1:]:
+            if not r or c_grp is None or norm(r[c_grp]).upper() != "HP-NB":
+                continue
+            q = r[c_qty] if c_qty is not None else None
+            if not isinstance(q, (int, float)) or q == 0:
+                continue
+            row = by_mat.get(norm(r[c_mat2])) or by_pn.get(norm(r[c_ext2]).upper() if c_ext2 is not None else "")
+            if not row:
+                m = re.search(r"\b([A-Z0-9]{5,7}PA)\b", norm(r[c_desc]).upper())
+                row = by_pn.get(m.group(1)) if m else None
+            if not row:
+                pskip.append(f"  {norm(r[c_desc])} x{int(q)} ({norm(r[c_cust])}) — not on the allocation (e.g. bundle item), skipped")
+                continue
+            ai = area_of(r[c_dep])
+            if ai is None and not row.get("open"):
+                sys.exit(f"Department '{r[c_dep]}' on {norm(r[c_desc])} does not match an area {[n for _, n in areas]}")
+            key = (row["pn"], ai)
+            placed[key] = placed.get(key, 0) + int(q)
+            plog.append(f"  {row['model']}: -{int(q)} {areas[ai][1] if ai is not None else '(open)'}  [{norm(r[c_cust])}, {norm(r[c_dep])}, BD {norm(r[c_doc])}]")
+    total_placed = 0
+    for (pn, ai), q in placed.items():
+        row = by_pn[pn]
+        total_placed += q
+        if row.get("qty") is not None:
+            row["qty"] = max(0, row["qty"] - q)
+        row["placed"] = row.get("placed", 0) + q
+        if not row.get("open") and ai is not None:
+            if row["areas"][ai] is not None and q > row["areas"][ai]:
+                warn.append(f"  {row['model']}: {areas[ai][1]} placed {q} but only {row['areas'][ai]} allocated — set to 0")
+            row["areas"][ai] = max(0, (row["areas"][ai] or 0) - q)
+
     mtime = datetime.fromtimestamp(os.path.getmtime(a.excel))
     as_of = a.as_of or as_of_from_name(a.excel, mtime.year) or mtime.date().isoformat()
     payload = {
@@ -135,9 +190,16 @@ def main():
         "count": len(rows),
         "rows": rows,
     }
+    if a.placements:
+        lab = a.placements_label or ", ".join(os.path.splitext(os.path.basename(f))[0] for f in a.placements)
+        payload["placements"] = {"label": lab, "units": total_placed, "models": len({pn for pn, _ in placed})}
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2)
     print(f"Wrote {OUT}: {len(rows)} models, areas {payload['areas']}, as of {as_of}, valid until {a.valid_until}")
+    if plog:
+        print("Placements deducted:\n" + "\n".join(plog))
+    if pskip:
+        print("Placements skipped:\n" + "\n".join(pskip))
     if fixes:
         print("Over-allocated (fixed, biggest area reduced):\n" + "\n".join(fixes))
     if warn:
