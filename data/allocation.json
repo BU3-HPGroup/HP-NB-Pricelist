@@ -46,18 +46,15 @@
       "model": "HP Laptop 15-fd1618TU",
       "type": "HP 15",
       "id": "15-fd1618tu",
-      "qty": 88,
+      "qty": 129,
       "areas": [
-        0,
+        35,
         59,
         13,
         16,
         6
       ],
-      "placed": 46,
-      "over": {
-        "GMA 1": 6
-      }
+      "placed": 5
     },
     {
       "pn": "DU5U6PA",
@@ -155,15 +152,14 @@
       "model": "HP OmniBook 5 Flip 14-fp0162TU",
       "type": "Omnibook 5 Flip",
       "id": "14-fp0162tu",
-      "qty": 163,
+      "qty": 165,
       "areas": [
-        41,
+        43,
         75,
         17,
         20,
         10
-      ],
-      "placed": 2
+      ]
     },
     {
       "pn": "DU5S6PA",
@@ -216,9 +212,8 @@
       "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
       "type": "Omnibook X Flip",
       "id": "14-kb0100tu",
-      "qty": 234,
-      "open": true,
-      "placed": 2
+      "qty": 236,
+      "open": true
     },
     {
       "pn": "DU5S4PA",
@@ -364,10 +359,11 @@
   ],
   "placements": {
     "label": "Nov 1–9",
-    "units": 158,
-    "models": 6,
+    "units": 113,
+    "models": 4,
     "entries": [
       {
+        "src": "0111312758",
         "date": "2026-11-09",
         "rep": "Christine Falcon",
         "dept": "SDC_PROV3",
@@ -380,114 +376,7 @@
         "doc": "0871337939"
       },
       {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DU5S1PA",
-        "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
-        "id": "14-kb0100tu",
-        "qty": 2,
-        "doc": "0871337874"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337873"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337872"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337871"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337870"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337869"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337868"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337867"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337866"
-      },
-      {
+        "src": "0111312545",
         "date": "2026-11-09",
         "rep": "Ricalyn Maming",
         "dept": "SDC_GMA2",
@@ -500,114 +389,7 @@
         "doc": "0871337776"
       },
       {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DU5R6PA",
-        "model": "HP OmniBook 5 Flip 14-fp0162TU",
-        "id": "14-fp0162tu",
-        "qty": 2,
-        "doc": "0871337603"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337602"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337601"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337600"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337599"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337598"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337597"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337596"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337595"
-      },
-      {
+        "src": "0111312361",
         "date": "2026-11-06",
         "rep": "Christine Falcon",
         "dept": "SDC_PROV3",
@@ -620,6 +402,7 @@
         "doc": "0871337333"
       },
       {
+        "src": "0111312361",
         "date": "2026-11-06",
         "rep": "Christine Falcon",
         "dept": "SDC_PROV3",
@@ -632,6 +415,7 @@
         "doc": "0871337333"
       },
       {
+        "src": "0111312361",
         "date": "2026-11-06",
         "rep": "Christine Falcon",
         "dept": "SDC_PROV3",
@@ -644,6 +428,7 @@
         "doc": "0871337333"
       },
       {
+        "src": "0111312361",
         "date": "2026-11-06",
         "rep": "Christine Falcon",
         "dept": "SDC_PROV3",
@@ -665,15 +450,242 @@
         "allocated": 15,
         "placed": 102,
         "over": 87
+      }
+    ],
+    "earlier": [
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DU5S1PA",
+        "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
+        "id": "14-kb0100tu",
+        "qty": 2,
+        "doc": "0871337874",
+        "src": "0080041820"
       },
       {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
         "pn": "DJ8T8PA",
         "model": "HP Laptop 15-fd1618TU",
         "id": "15-fd1618tu",
+        "qty": 2,
+        "doc": "0871337873",
+        "src": "0080041819"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
         "area": "GMA 1",
-        "allocated": 35,
-        "placed": 41,
-        "over": 6
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337872",
+        "src": "0080041818"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337871",
+        "src": "0080041817"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 2,
+        "doc": "0871337870",
+        "src": "0080041816"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 2,
+        "doc": "0871337869",
+        "src": "0080041815"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337868",
+        "src": "0080041814"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337867",
+        "src": "0080041813"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337866",
+        "src": "0080041812"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DU5R6PA",
+        "model": "HP OmniBook 5 Flip 14-fp0162TU",
+        "id": "14-fp0162tu",
+        "qty": 2,
+        "doc": "0871337603",
+        "src": "0080041811"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 2,
+        "doc": "0871337602",
+        "src": "0080041810"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 2,
+        "doc": "0871337601",
+        "src": "0080041809"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337600",
+        "src": "0080041808"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337599",
+        "src": "0080041807"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337598",
+        "src": "0080041806"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 2,
+        "doc": "0871337597",
+        "src": "0080041805"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 2,
+        "doc": "0871337596",
+        "src": "0080041804"
+      },
+      {
+        "date": "2026-11-09",
+        "rep": "Angelica Marbella",
+        "dept": "SDC_GMA1",
+        "area": "GMA 1",
+        "customer": "Accent Hub Inc.",
+        "pn": "DJ8T8PA",
+        "model": "HP Laptop 15-fd1618TU",
+        "id": "15-fd1618tu",
+        "qty": 3,
+        "doc": "0871337595",
+        "src": "0080041803"
       }
     ]
   }

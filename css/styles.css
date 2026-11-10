@@ -2089,3 +2089,5 @@ html[data-theme="dark"] .dl-chip.internal small { color: #f3b562; }
 .alloc-overbox small { color: #7a1020; opacity: .85; }
 html[data-theme="dark"] .alloc-overbox { background: #2c1418; border-color: #6e2a33; color: #ffc2ca; }
 html[data-theme="dark"] .alloc-overbox small { color: #ffc2ca; }
+.alloc-table.pl-early td, .alloc-table.pl-early th { color: var(--k-ink-2, #3d4350); }
+.alloc-table.pl-early tbody tr { background: var(--k-soft, #f6f8fb); }

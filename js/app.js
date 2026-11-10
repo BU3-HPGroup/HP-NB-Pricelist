@@ -814,6 +814,13 @@
     const repRows = Object.values(reps).sort((x, y) => y.units - x.units);
     const d = (iso) => isoDate(iso);
     const model = (e) => e.id ? `<a href="#/allocation/placements/product/${encodeURIComponent(e.id)}">${esc(e.model)}</a>` : esc(e.model);
+    const EA = (A.placements.earlier || []).filter((e) => !mine || e.area === mine);
+    const earlyHTML = EA.length ? `<h3 class="pl-h">Earlier orders billed now · not deducted</h3>
+      <p class="alloc-pl-lead">These were ordered before the allocation (source document starting with 8) and only billed in ${esc(A.placements.label)}, so they don't count against the area. ${fmtQty(EA.reduce((n, e) => n + e.qty, 0))} units.</p>
+      <div class="alloc-scroll"><table class="alloc-table pl-table pl-early">
+        <thead><tr><th>Model</th><th class="num">Qty</th><th>Sales rep</th><th>Area</th><th>Customer</th><th>Billed</th><th>Source doc</th></tr></thead>
+        <tbody>${EA.map((e) => `<tr><th scope="row">${e.id ? `<a href="#/allocation/placements/product/${encodeURIComponent(e.id)}">${esc(e.model)}</a>` : esc(e.model)}<small>${esc(e.pn)}</small></th><td class="num" data-l="Qty">${fmtQty(e.qty)}</td><td data-l="Sales rep">${esc(e.rep || "—")}</td><td data-l="Area"><span class="pl-area">${esc(e.area)}</span></td><td data-l="Customer">${esc(e.customer)}</td><td data-l="Billed">${esc(isoDate(e.date))}</td><td data-l="Source doc">${esc(e.src)}</td></tr>`).join("")}</tbody>
+      </table></div>` : "";
     const OV = A.placements.over || [];
     const overHTML = OV.length ? `<div class="alloc-overbox" role="alert"><b>Placed more than the area allocation</b><ul>${OV.map((o) => `<li><span>${esc(o.model)}</span> · ${esc(o.area)}: placed ${fmtQty(o.placed)}, allocated ${fmtQty(o.allocated)} <em>${fmtQty(o.over)} over</em></li>`).join("")}</ul><small>The area now shows 0. The extra units came out of the program qty.</small></div>` : "";
     return `${overHTML}<p class="alloc-pl-lead">HP-NB units billed ${esc(A.placements.label)} and taken off the allocation of the seller's area. ${A.placements.units} ${A.placements.units === 1 ? "unit" : "units"} on ${A.placements.models} ${A.placements.models === 1 ? "model" : "models"}.</p>
@@ -836,6 +843,7 @@
         <thead><tr><th>Model</th><th class="num">Qty</th><th>Sales rep</th><th>Area</th><th>Customer</th><th>Billed</th><th>Billing doc</th></tr></thead>
         <tbody>${list.map((e) => `<tr><th scope="row">${model(e)}<small>${esc(e.pn)}</small></th><td class="num" data-l="Qty">${fmtQty(e.qty)}</td><td data-l="Sales rep">${esc(e.rep || "—")}</td><td data-l="Area"><span class="pl-area">${esc(e.area)}</span></td><td data-l="Customer">${esc(e.customer)}</td><td data-l="Billed">${esc(d(e.date))}</td><td data-l="Billing doc">${esc(e.doc)}</td></tr>`).join("")}</tbody>
       </table></div>` : `<p class="alloc-empty">No placements from ${esc(mine)} in ${esc(A.placements.label)}.</p>`}
+      ${earlyHTML}
       <p class="alloc-foot">The area comes from the Department in the billing report (SDC_PROV3 = PROV 3, SDB_GMA2 = GMA 2…). Bundle items and other product lines are not counted.</p>`;
   }
 

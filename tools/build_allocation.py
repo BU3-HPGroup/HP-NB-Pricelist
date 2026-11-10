@@ -20,6 +20,8 @@ The % split and peso budget rows above the header, the prices on that sheet, and
 Placements (--placements, SAP billing export): only Material Group HP-NB lines are used. Each line is matched
 to a model by material number / part number and deducted from the area of its Department
 (SDC_PROV3 -> PROV 3, SDB_GMA2 -> GMA 2 ...) and from the program qty. Bundle items are skipped.
+Lines whose Source Document starts with 8 (ignoring leading zeros, e.g. 0080041803) are orders placed before the
+allocation and only billed now: they are listed as "earlier orders" but never deducted.
 """
 import argparse
 import json
@@ -134,7 +136,7 @@ def main():
         rows.append(row)
 
     # ---- deduct placements (HP-NB lines only) from the area of the selling department ----
-    placed, plog, pskip, entries = {}, [], [], []
+    placed, plog, pskip, entries, earlier, pearly = {}, [], [], [], [], []
     def area_of(dept):
         d = re.sub(r"[^A-Z0-9]", "", str(dept or "").upper())          # SDC_PROV3 / SDC-PROV3 / SDB_GMA2 -> SDCPROV3 / SDBGMA2
         for i, (_, name) in enumerate(areas):
@@ -158,6 +160,7 @@ def main():
         c_grp, c_mat2, c_desc, c_dep, c_qty = col("material group"), col("material no."), col("description"), col("department"), col("net quantity")
         c_ext2, c_cust, c_doc = col("ext. description 2"), col("name"), col("billing document")
         c_rep, c_date, c_line = col("sales group"), col("billing date"), col("bd line")
+        c_src = col("source document")
         for r in prow[1:]:
             if not r or c_grp is None or norm(r[c_grp]).upper() != "HP-NB":
                 continue
@@ -176,12 +179,22 @@ def main():
                 pskip.append(f"  {norm(r[c_desc])} x{int(q)} ({norm(r[c_cust])}) — not on the allocation (e.g. bundle item), skipped")
                 continue
             ai = area_of(r[c_dep])
+            # Source Document starting with 8 (after leading zeros) = an order placed before this allocation and only
+            # billed now: listed on the Placements page but NOT deducted (Ed's rule, 2026-11-10)
+            src = norm(r[c_src]) if c_src is not None else ""
+            if src.lstrip("0").startswith("8"):
+                bd = r[c_date] if c_date is not None else None
+                earlier.append({"date": bd.date().isoformat() if hasattr(bd, "date") else norm(bd)[:10], "rep": norm(r[c_rep]) if c_rep is not None else "",
+                                "dept": norm(r[c_dep]), "area": areas[ai][1] if ai is not None else "", "customer": norm(r[c_cust]),
+                                "pn": row["pn"], "model": row["model"], "id": row.get("id"), "qty": int(q), "doc": norm(r[c_doc]), "src": src})
+                pearly.append(f"  {row['model']}: {int(q)} {areas[ai][1] if ai is not None else ''}  [{norm(r[c_cust])}, source doc {src}] — earlier order, not deducted")
+                continue
             if ai is None and not row.get("open"):
                 sys.exit(f"Department '{r[c_dep]}' on {norm(r[c_desc])} does not match an area {[n for _, n in areas]}")
             key = (row["pn"], ai)
             placed[key] = placed.get(key, 0) + int(q)
             bd = r[c_date] if c_date is not None else None
-            entries.append({
+            entries.append({"src": src,
                 "date": bd.date().isoformat() if hasattr(bd, "date") else norm(bd)[:10],
                 "rep": norm(r[c_rep]) if c_rep is not None else "",
                 "dept": norm(r[c_dep]),
@@ -218,12 +231,15 @@ def main():
     if a.placements:
         lab = a.placements_label or ", ".join(os.path.splitext(os.path.basename(f))[0] for f in a.placements)
         entries.sort(key=lambda e: (e["date"], e["doc"]), reverse=True)
-        payload["placements"] = {"label": lab, "units": total_placed, "models": len({pn for pn, _ in placed}), "entries": entries, "over": over}
+        payload["placements"] = {"label": lab, "units": total_placed, "models": len({pn for pn, _ in placed}), "entries": entries, "over": over,
+                                 "earlier": sorted(earlier, key=lambda e: (e["date"], e["doc"]), reverse=True)}
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2)
     print(f"Wrote {OUT}: {len(rows)} models, areas {payload['areas']}, as of {as_of}, valid until {a.valid_until}")
     if plog:
         print("Placements deducted:\n" + "\n".join(plog))
+    if pearly:
+        print("Earlier orders billed now (source doc starts with 8) — NOT deducted:\n" + "\n".join(pearly))
     if pskip:
         print("Placements skipped:\n" + "\n".join(pskip))
     if fixes:

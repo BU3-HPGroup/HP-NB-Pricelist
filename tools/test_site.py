@@ -668,6 +668,7 @@ with sync_playwright() as pw:
             pg.goto(BASE + "#/allocation/placements"); pg.wait_for_selector(".pl-areas"); pg.wait_for_timeout(200)
             check("placements page: one row per placement line", pg.locator(".pl-table").nth(1).locator("tbody tr").count() == len(_P), str(len(_P)))
             check("placements page: shows sales rep + area", all(e["rep"] in pg.inner_text("#allocBody") and e["area"] in pg.inner_text("#allocBody") for e in _P))
+            check("placements: earlier orders (source doc 8…) listed but not deducted", all(e["src"].lstrip("0").startswith("8") for e in (_al["placements"].get("earlier") or [])) and not any(str(e.get("src", "")).lstrip("0").startswith("8") for e in _P))
             check("placements page: area totals add up", sum(int(x.replace(",", "")) for x in pg.locator(".pl-areas b").all_inner_texts()) == _al["placements"]["units"])
     t = b.new_context(viewport={"width": 820, "height": 1180}).new_page()
     t.goto(BASE); t.wait_for_selector(".card"); t.screenshot(path=f"{SHOTS}/tablet-grid.png")
