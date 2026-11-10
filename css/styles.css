@@ -2081,3 +2081,11 @@ html[data-theme="dark"] .dl-chip.internal small { color: #f3b562; }
 .alloc-empty { margin: 0; padding: 18px; border: 1px dashed var(--k-line-strong, #cfd4dc); border-radius: 12px; color: var(--k-muted, #6b7280); }
 @media (max-width: 720px) { .alloc-table.pl-table tr { grid-template-columns: repeat(2, minmax(0, 1fr)); } .alloc-table.pl-table td.num { text-align: left; } }
 .alloc-table.pl-table thead th.num { text-align: right; }
+.alloc-over { display: block; font-size: 11px; font-weight: 700; color: var(--k-promo, #c8102e); }
+.alloc-overbox { border: 1px solid #f2b8bf; background: #fdf1f3; color: #7a1020; border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; font-size: 14px; }
+.alloc-overbox ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.alloc-overbox span { font-weight: 600; }
+.alloc-overbox em { font-style: normal; font-weight: 700; color: var(--k-promo, #c8102e); }
+.alloc-overbox small { color: #7a1020; opacity: .85; }
+html[data-theme="dark"] .alloc-overbox { background: #2c1418; border-color: #6e2a33; color: #ffc2ca; }
+html[data-theme="dark"] .alloc-overbox small { color: #ffc2ca; }

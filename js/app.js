@@ -795,7 +795,7 @@
         <thead><tr><th>Model</th><th>Program qty</th>${A.areas.map((a) => `<th class="${a === mine ? "mine" : ""}">${esc(a)}</th>`).join("")}</tr></thead>
         <tbody>
         ${lim.map((r) => `<tr><th scope="row">${name(r)}<small>${esc(r.pn)}</small></th><td class="tot" data-l="Program qty">${fmtQty(r.qty)}</td>
-          ${A.areas.map((a, i) => `<td class="${a === mine ? "mine" : ""}${mine && a !== mine ? " other" : ""}" data-l="${esc(a)}">${fmtQty(r.areas[i])}</td>`).join("")}</tr>`).join("")}
+          ${A.areas.map((a, i) => `<td class="${a === mine ? "mine" : ""}${mine && a !== mine ? " other" : ""}" data-l="${esc(a)}">${fmtQty(r.areas[i])}${r.over && r.over[a] ? `<small class="alloc-over">${r.over[a]} over</small>` : ""}</td>`).join("")}</tr>`).join("")}
         ${open.length ? `<tr class="alloc-sep"><td colspan="${A.areas.length + 2}"><span class="alloc-open">Open to all areas</span> No per-area limit on these ${open.length} models. Sell from the program qty.</td></tr>` : ""}
         ${open.map((r) => `<tr class="is-open"><th scope="row">${name(r)}<small>${esc(r.pn)}</small></th><td class="tot" data-l="Program qty">${fmtQty(r.qty)}</td><td class="open-cell" colspan="${A.areas.length}" data-l="Per area">Open to all areas</td></tr>`).join("")}
         ${rows.length ? "" : `<tr><td colspan="${A.areas.length + 2}" class="muted">No model matches “${esc(box.dataset.q)}”.</td></tr>`}
@@ -814,7 +814,9 @@
     const repRows = Object.values(reps).sort((x, y) => y.units - x.units);
     const d = (iso) => isoDate(iso);
     const model = (e) => e.id ? `<a href="#/allocation/placements/product/${encodeURIComponent(e.id)}">${esc(e.model)}</a>` : esc(e.model);
-    return `<p class="alloc-pl-lead">HP-NB units billed ${esc(A.placements.label)} and taken off the allocation of the seller's area. ${A.placements.units} ${A.placements.units === 1 ? "unit" : "units"} on ${A.placements.models} ${A.placements.models === 1 ? "model" : "models"}.</p>
+    const OV = A.placements.over || [];
+    const overHTML = OV.length ? `<div class="alloc-overbox" role="alert"><b>Placed more than the area allocation</b><ul>${OV.map((o) => `<li><span>${esc(o.model)}</span> · ${esc(o.area)}: placed ${fmtQty(o.placed)}, allocated ${fmtQty(o.allocated)} <em>${fmtQty(o.over)} over</em></li>`).join("")}</ul><small>The area now shows 0. The extra units came out of the program qty.</small></div>` : "";
+    return `${overHTML}<p class="alloc-pl-lead">HP-NB units billed ${esc(A.placements.label)} and taken off the allocation of the seller's area. ${A.placements.units} ${A.placements.units === 1 ? "unit" : "units"} on ${A.placements.models} ${A.placements.models === 1 ? "model" : "models"}.</p>
       <ul class="pl-areas">${byArea.map((x) => `<li class="${x.units ? "" : "zero"}${x.a === mine ? " mine" : ""}"><span>${esc(x.a)}</span><b>${fmtQty(x.units)}</b><small>${x.units ? `${x.reps} ${x.reps === 1 ? "sales rep" : "sales reps"}` : "No placements"}</small></li>`).join("")}</ul>
       <div class="alloc-tools">
         <div class="alloc-area" role="group" aria-label="Show one area">

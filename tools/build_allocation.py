@@ -143,17 +143,28 @@ def main():
         return None
     by_pn = {r["pn"]: r for r in rows}
     by_mat = {r["mat"]: r for r in rows if r.get("mat")}
-    for pf in a.placements:
+    files = []
+    for pf in a.placements:   # a file, or a folder of SAP billing exports (e.g. "Sell out data - Cutoff")
+        if os.path.isdir(pf):
+            files += sorted(os.path.join(pf, f) for f in os.listdir(pf) if f.lower().endswith((".xlsx", ".xlsm")) and not f.startswith("~$"))
+        else:
+            files.append(pf)
+    seen = set()
+    for pf in files:
         pw = openpyxl.load_workbook(pf, data_only=True).worksheets[0]
         prow = list(pw.iter_rows(values_only=True))
         ph = [norm(x).lower() for x in prow[0]]
         col = lambda name: ph.index(name) if name in ph else None
         c_grp, c_mat2, c_desc, c_dep, c_qty = col("material group"), col("material no."), col("description"), col("department"), col("net quantity")
         c_ext2, c_cust, c_doc = col("ext. description 2"), col("name"), col("billing document")
-        c_rep, c_date = col("sales group"), col("billing date")
+        c_rep, c_date, c_line = col("sales group"), col("billing date"), col("bd line")
         for r in prow[1:]:
             if not r or c_grp is None or norm(r[c_grp]).upper() != "HP-NB":
                 continue
+            uid = (norm(r[c_doc]), norm(r[c_line]) if c_line is not None else "", norm(r[c_mat2]))
+            if uid in seen:          # same billing line in two files: count it once
+                continue
+            seen.add(uid)
             q = r[c_qty] if c_qty is not None else None
             if not isinstance(q, (int, float)) or q == 0:
                 continue
@@ -181,7 +192,7 @@ def main():
                 "doc": norm(r[c_doc]),
             })
             plog.append(f"  {row['model']}: -{int(q)} {areas[ai][1] if ai is not None else '(open)'}  [{norm(r[c_cust])}, {norm(r[c_dep])}, BD {norm(r[c_doc])}]")
-    total_placed = 0
+    total_placed, over = 0, []
     for (pn, ai), q in placed.items():
         row = by_pn[pn]
         total_placed += q
@@ -190,7 +201,9 @@ def main():
         row["placed"] = row.get("placed", 0) + q
         if not row.get("open") and ai is not None:
             if row["areas"][ai] is not None and q > row["areas"][ai]:
-                warn.append(f"  {row['model']}: {areas[ai][1]} placed {q} but only {row['areas'][ai]} allocated — set to 0")
+                warn.append(f"  {row['model']}: {areas[ai][1]} placed {q} but only {row['areas'][ai]} allocated — set to 0 (over by {q - row['areas'][ai]})")
+                over.append({"pn": pn, "model": row["model"], "id": row.get("id"), "area": areas[ai][1], "allocated": row["areas"][ai], "placed": q, "over": q - row["areas"][ai]})
+                row.setdefault("over", {})[areas[ai][1]] = q - row["areas"][ai]
             row["areas"][ai] = max(0, (row["areas"][ai] or 0) - q)
 
     mtime = datetime.fromtimestamp(os.path.getmtime(a.excel))
@@ -205,7 +218,7 @@ def main():
     if a.placements:
         lab = a.placements_label or ", ".join(os.path.splitext(os.path.basename(f))[0] for f in a.placements)
         entries.sort(key=lambda e: (e["date"], e["doc"]), reverse=True)
-        payload["placements"] = {"label": lab, "units": total_placed, "models": len({pn for pn, _ in placed}), "entries": entries}
+        payload["placements"] = {"label": lab, "units": total_placed, "models": len({pn for pn, _ in placed}), "entries": entries, "over": over}
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2)
     print(f"Wrote {OUT}: {len(rows)} models, areas {payload['areas']}, as of {as_of}, valid until {a.valid_until}")
