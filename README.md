@@ -92,6 +92,8 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
 
 ### Tiered promo DP (Group A / B / C)
 
+- **Hide all promo prices:** set `"hidePromoPrices": true` at the top of `data/promos.json` (currently on). The site then shows only regular SRP/DP: no Promo SRP, Promo DP, Group A/B/C, Promos-page tier table, dealer-group picker in downloads, or promo-price "What's new" badges. HP programs (GCash, HyperX monitor) and the freebie still show. Set it to `false` to bring promo prices back. The promo values are still in `data/products.json` and `source/`, so this hides them from the pages, not from the repo.
+
 - In the pricelist Excel, put the promo dealer prices in columns **Group A**, **Group B**, **Group C** (filled only on rows with a **Promo SRP**).
 - On **sheet 2**, list the dealers under a row with the headers **Group A | Group B | Group C**. Write **Everyone else** under the group that covers all other dealers.
 - The site shows the three prices on each card, a "who can avail" table with the dealer names in the product details, and a table of all tiered models with a dealer-name search on the Promos page. The download dialog asks **which dealer the file is for** (Group C, B, A, or All groups for internal use). A single-group file shows only that group's price as **Promo DP**, so other groups' prices never reach that dealer. Only the All groups file has Promo DP Group A/B/C columns and a **Dealer groups** sheet, and its file name says INTERNAL.

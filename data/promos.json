@@ -1,4 +1,5 @@
 {
+  "hidePromoPrices": true,
   "note": "Edit this file to add, change or remove promotions. Dates use YYYY-MM-DD; a promo is hidden automatically after its end date. 'modelKVs' are key visuals shown in a model's details (matched by part number). 'addons' are paid upgrade offers shown on the matching model (matched by part number).",
   "freebie": {
     "name": "HP Everyday 16-inch Laptop Briefcase",

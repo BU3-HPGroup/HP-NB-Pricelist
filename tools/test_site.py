@@ -50,6 +50,12 @@ img_ok = all(all(im["sourceFile"].startswith(p["model"] + " - ") or (p.get("part
 check("images only assigned by exact model name (or its part number)", img_ok)
 check("every image file exists", all(os.path.exists(os.path.join(ROOT, im[k])) for p in data for im in p["images"] for k in ("src", "thumb")))
 check("all asset paths relative", all(not re.match(r"^(/|https?:)", im["src"]) for p in data for im in p["images"]))
+# promos.json "hidePromoPrices": the site shows regular prices only, so the page checks below use data without promo fields
+HIDE_PROMO = bool(json.load(open(os.path.join(ROOT, "data", "promos.json"), encoding="utf-8")).get("hidePromoPrices"))
+if HIDE_PROMO:
+    for _p in data:
+        for _k in ("promoSrp", "promoDp", "promoTiers", "upcomingSrp", "upcomingDp", "upcomingTiers", "endedSrp", "endedDp", "promoState"):
+            _p.pop(_k, None)
 
 # price bands use the price customers pay now: Promo SRP when it is below SRP
 eff = lambda p: p["promoSrp"] if isinstance(p.get("promoSrp"), (int, float)) and p["promoSrp"] < p["srp"] else p["srp"]
@@ -311,15 +317,19 @@ with sync_playwright() as pw:
         with pg.expect_download(timeout=60000) as d:
             pg.click('.dl-format[data-format="xlsx"]')
         n = d.value.suggested_filename; w = openpyxl.load_workbook(io.BytesIO(open(d.value.path(), "rb").read())); pg.keyboard.press("Escape"); return n, w
-    pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])"); pg.check('input[name="dlPrices"][value="customer"]'); _hid = pg.is_hidden("#dlTier"); pg.check('input[name="dlPrices"][value="dealer"]')
-    check("download dialog: dealer group picker on dealer copy only", pg.is_visible("#dlTier") and _hid); pg.keyboard.press("Escape")
-    nB, wB = _dl_group("B")
-    hB = [c.value for c in wB.worksheets[0][5]]; rB = [dict(zip(hB, [c.value for c in r])) for r in wB.worksheets[0].iter_rows(min_row=6) if r[0].value]
-    _tb = lambda p: next((t["dp"] for t in p["promoTiers"] if t["group"] == "B"), None)
-    check("group B file: Promo DP = Group B price, name says Group B", "Group B" in nB and all((rx.get("Promo DP") == round(_tb(p)) if p.get("promoTiers") and _tb(p) < p["dp"] - 0.5 else True) for rx, p in zip(rB, om3)) and "Dealer groups" not in wB.sheetnames, nB)
-    nAll, wAll = _dl_group("all")
-    check("all-groups file: A/B/C columns + Dealer groups sheet, marked internal", "INTERNAL" in nAll and "Dealer groups" in wAll.sheetnames and any("Group A" in str(c.value) for c in wAll.worksheets[0][5]), nAll)
-    pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])"); pg.check('input[name="dlTier"][value="C"]'); pg.keyboard.press("Escape")
+    if not HIDE_PROMO:
+        pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])"); pg.check('input[name="dlPrices"][value="customer"]'); _hid = pg.is_hidden("#dlTier"); pg.check('input[name="dlPrices"][value="dealer"]')
+        check("download dialog: dealer group picker on dealer copy only", pg.is_visible("#dlTier") and _hid); pg.keyboard.press("Escape")
+        nB, wB = _dl_group("B")
+        hB = [c.value for c in wB.worksheets[0][5]]; rB = [dict(zip(hB, [c.value for c in r])) for r in wB.worksheets[0].iter_rows(min_row=6) if r[0].value]
+        _tb = lambda p: next((t["dp"] for t in p["promoTiers"] if t["group"] == "B"), None)
+        check("group B file: Promo DP = Group B price, name says Group B", "Group B" in nB and all((rx.get("Promo DP") == round(_tb(p)) if p.get("promoTiers") and _tb(p) < p["dp"] - 0.5 else True) for rx, p in zip(rB, om3)) and "Dealer groups" not in wB.sheetnames, nB)
+        nAll, wAll = _dl_group("all")
+        check("all-groups file: A/B/C columns + Dealer groups sheet, marked internal", "INTERNAL" in nAll and "Dealer groups" in wAll.sheetnames and any("Group A" in str(c.value) for c in wAll.worksheets[0][5]), nAll)
+        pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])"); pg.check('input[name="dlTier"][value="C"]'); pg.keyboard.press("Escape")
+    else:
+        pg.click("#downloadOpen"); pg.wait_for_selector("#dlModal:not([hidden])")
+        check("promo prices hidden: no dealer-group picker in downloads", pg.is_hidden("#dlTier")); pg.keyboard.press("Escape")
     check("customer copy: no DP / Promo DP / material no.", "SRP" in hc and not any(h in hc for h in ("DP", "Promo DP", "Material No.")), str(hc))
     pg.keyboard.press("Escape")
 
@@ -458,7 +468,7 @@ with sync_playwright() as pw:
     # ---------- what changed (data/changes.json) ----------
     chg = json.load(open(os.path.join(ROOT, "data", "changes.json"), encoding="utf-8"))
     keys = {(p.get("partNo") or p["model"]).upper() for p in data}
-    ev = chg["main"]["events"]
+    ev = [e for e in chg["main"]["events"] if not (HIDE_PROMO and re.match(r"(promo|upcoming|ended)", e.get("field") or "", re.I))]
     check("changes: every event points at a real model", all(e["key"] in keys for e in ev if e["kind"] != "removed"))
     import datetime as _dt
     cutoff = (_dt.date.today() - _dt.timedelta(days=chg.get("windowDays", 14))).isoformat()

@@ -1853,10 +1853,19 @@
       state.alloc = await loadJSON("data/allocation.json").catch(() => null);
       if (!state.alloc || !(state.alloc.rows || []).length) { state.alloc = null; $$('[data-nav="allocation"]').forEach((a) => { a.parentElement && a.parentElement.tagName === "LI" ? a.parentElement.remove() : a.remove(); }); }
       state.upgrades = upgrades;
+      // promos.json "hidePromoPrices": true hides every promo price (Promo SRP, Promo DP, dealer-group tiers) site-wide;
+      // regular SRP/DP are shown everywhere instead. Set it back to false to show them again.
+      state.hidePromo = !!(promos && promos.hidePromoPrices);
+      const PROMO_FIELDS = ["promoSrp", "promoDp", "promoTiers", "upcomingSrp", "upcomingDp", "upcomingTiers", "endedSrp", "endedDp", "promoState"];
+      if (state.hidePromo && changes) ["main", "ltb"].forEach((m) => { if (changes[m] && changes[m].events) changes[m].events = changes[m].events.filter((e) => !/^(promo|upcoming|ended)/i.test(e.field || "")); });
       loadChanges(changes);
       state.meta = data;
       state.groups = data.dealerGroups || [];
       state.products = data.products || [];
+      if (state.hidePromo) {
+        state.products.forEach((p) => { PROMO_FIELDS.forEach((k) => delete p[k]); if (p.note && /promo|until|units? (left|only)/i.test(p.note)) delete p.note; });
+        data.dealerGroups = []; state.groups = [];
+      }
       // types: order from types.json (entry level -> premium), then any code missing from it in Excel order
       const known = {};
       types.forEach((t) => { known[t.code] = t; });
