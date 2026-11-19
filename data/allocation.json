@@ -1,692 +1,2548 @@
 {
-  "asOf": "2026-11-10",
-  "validUntil": "2026-11-10",
-  "areas": [
-    "GMA 1",
-    "GMA 2",
-    "PROV 1",
-    "PROV 2",
-    "PROV 3"
-  ],
-  "count": 27,
-  "rows": [
+ "version": 2,
+ "program": "CPS Q127 M1 + M2",
+ "asOf": "2026-11-19",
+ "validFrom": "2026-11-19",
+ "validUntil": "2026-11-30",
+ "reallocation": "2026-12-01",
+ "areas": [
+  "GMA 1",
+  "GMA 2",
+  "PROV 1",
+  "PROV 2",
+  "PROV 3"
+ ],
+ "groups": [
+  "A",
+  "B",
+  "C"
+ ],
+ "count": 26,
+ "rows": [
+  {
+   "pn": "E2HE3PA",
+   "model": "HP Laptop 15-fd1656TU",
+   "id": "15-fd1656tu",
+   "type": "HP 15",
+   "groups": [
     {
-      "pn": "E5MC6PA",
-      "mat": "432115037094",
-      "model": "HP OmniBook X Flip NG AI PC 14-fm0206TU",
-      "type": "Omnibook X Flip",
-      "id": "14-fm0206tu",
-      "qty": 100,
-      "areas": [
-        26,
-        46,
-        10,
-        12,
-        6
-      ]
+     "g": "A",
+     "qty": 112,
+     "open": false,
+     "split": [
+      29,
+      52,
+      11,
+      13,
+      7
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      100
+     ],
+     "placed": 100,
+     "left": 12,
+     "over": 0,
+     "rebalanced": true,
+     "alloc": [
+      3,
+      6,
+      1,
+      2,
+      100
+     ],
+     "areas": [
+      3,
+      6,
+      1,
+      2,
+      0
+     ]
     },
     {
-      "pn": "E5MC7PA",
-      "mat": "432115037095",
-      "model": "HP OmniBook X Flip NG AI PC 14-fm0208TU",
-      "type": "Omnibook X Flip",
-      "id": "14-fm0208tu",
-      "qty": 100,
-      "areas": [
-        26,
-        46,
-        10,
-        12,
-        6
-      ]
+     "g": "B",
+     "qty": 14,
+     "open": false,
+     "split": [
+      4,
+      6,
+      1,
+      2,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 14,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      4,
+      6,
+      1,
+      2,
+      1
+     ],
+     "areas": [
+      4,
+      6,
+      1,
+      2,
+      1
+     ]
     },
     {
-      "pn": "DJ8T8PA",
-      "mat": "432115036895",
-      "model": "HP Laptop 15-fd1618TU",
-      "type": "HP 15",
-      "id": "15-fd1618tu",
-      "qty": 129,
-      "areas": [
-        35,
-        59,
-        13,
-        16,
-        6
-      ],
-      "placed": 5
-    },
-    {
-      "pn": "DU5U6PA",
-      "mat": "432115036897",
-      "model": "HP Laptop 15-fc0947AU",
-      "type": "HP 15",
-      "id": "15-fc0947au",
-      "qty": 31,
-      "areas": [
-        8,
-        14,
-        3,
-        4,
-        2
-      ]
-    },
-    {
-      "pn": "DW4U8PA",
-      "mat": "432115036898",
-      "model": "HP OmniBook 3 AI PC 14-ht0144TU",
-      "type": "Omnibook 3",
-      "id": "14-ht0144tu",
-      "qty": 25,
-      "areas": [
-        7,
-        10,
-        3,
-        3,
-        2
-      ]
-    },
-    {
-      "pn": "DW4U9PA",
-      "mat": "432115036899",
-      "model": "HP OmniBook 3 AI PC 14-ht0145TU",
-      "type": "Omnibook 3",
-      "id": "14-ht0145tu",
-      "qty": 220,
-      "areas": [
-        57,
-        101,
-        22,
-        26,
-        13
-      ]
-    },
-    {
-      "pn": "DW7W9PA",
-      "mat": "432115036900",
-      "model": "HP OmniBook 3 AI PC 14-ht0092TU",
-      "type": "Omnibook 3",
-      "id": "14-ht0092tu",
-      "qty": 869,
-      "areas": [
-        226,
-        400,
-        87,
-        104,
-        52
-      ]
-    },
-    {
-      "pn": "DJ8T4PA",
-      "mat": "432115036903",
-      "model": "HP OmniBook 5 14-hm0072AU",
-      "type": "Omnibook 5",
-      "id": "14-hm0072au",
-      "qty": 290,
-      "areas": [
-        75,
-        133,
-        29,
-        35,
-        17
-      ]
-    },
-    {
-      "pn": "DX4J7PA",
-      "mat": "432115036904",
-      "model": "HP OmniBook 5 AI PC 14-kf0002TU",
-      "type": "Omnibook 5",
-      "id": "14-kf0002tu",
-      "qty": 142,
-      "areas": [
-        37,
-        65,
-        14,
-        17,
-        9
-      ]
-    },
-    {
-      "pn": "DU5R6PA",
-      "mat": "432115036907",
-      "model": "HP OmniBook 5 Flip 14-fp0162TU",
-      "type": "Omnibook 5 Flip",
-      "id": "14-fp0162tu",
-      "qty": 165,
-      "areas": [
-        43,
-        75,
-        17,
-        20,
-        10
-      ]
-    },
-    {
-      "pn": "DU5S6PA",
-      "mat": "432115036914",
-      "model": "HP OmniBook X Flip NG AI PC 14-kb0105TU",
-      "type": "Omnibook X Flip",
-      "id": "14-kb0105tu",
-      "qty": 142,
-      "open": true
-    },
-    {
-      "pn": "DU5S7PA",
-      "mat": "432115036915",
-      "model": "HP OmniBook X Flip NG AI PC 14-kb0106TU",
-      "type": "Omnibook X Flip",
-      "id": "14-kb0106tu",
-      "qty": 50,
-      "open": true
-    },
-    {
-      "pn": "DU5T2PA",
-      "mat": "432115036916",
-      "model": "HP OmniBook X Flip NG AI PC 14-kb0112TU",
-      "type": "Omnibook X Flip",
-      "id": "14-kb0112tu",
-      "qty": 10,
-      "open": true
-    },
-    {
-      "pn": "DU5S8PA",
-      "mat": "432115036917",
-      "model": "HP OmniBook X Flip NG AI PC 14-kb0107TU",
-      "type": "Omnibook X Flip",
-      "id": "14-kb0107tu",
-      "qty": 9,
-      "open": true
-    },
-    {
-      "pn": "DU5T6PA",
-      "mat": "432115036919",
-      "model": "HP OmniBook X Flip NG AI PC 14-kc0081AU",
-      "type": "Omnibook X Flip",
-      "id": "14-kc0081au",
-      "qty": 15,
-      "open": true
-    },
-    {
-      "pn": "DU5S1PA",
-      "mat": "432115036922",
-      "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
-      "type": "Omnibook X Flip",
-      "id": "14-kb0100tu",
-      "qty": 236,
-      "open": true
-    },
-    {
-      "pn": "DU5S4PA",
-      "mat": "432115036923",
-      "model": "HP OmniBook X Flip NG AI PC 14-kb0101TU",
-      "type": "Omnibook X Flip",
-      "id": "14-kb0101tu",
-      "qty": 95,
-      "open": true
-    },
-    {
-      "pn": "DU5S5PA",
-      "mat": "432115036924",
-      "model": "HP OmniBook X Flip NG AI PC 14-kb0102TU",
-      "type": "Omnibook X Flip",
-      "id": "14-kb0102tu",
-      "qty": 5,
-      "open": true
-    },
-    {
-      "pn": "DU5T4PA",
-      "mat": "432115036925",
-      "model": "HP OmniBook X Flip NG AI PC 14-kc0079AU",
-      "type": "Omnibook X Flip",
-      "id": "14-kc0079au",
-      "qty": 239,
-      "open": true
-    },
-    {
-      "pn": "DW8J8PA",
-      "mat": "432115036926",
-      "model": "HP OmniBook X Flip NG AI PC 14-kc0039AU",
-      "type": "Omnibook X Flip",
-      "id": "14-kc0039au",
-      "qty": 49,
-      "open": true
-    },
-    {
-      "pn": "DU5T3PA",
-      "mat": "432115036927",
-      "model": "HP OmniBook X Flip NG AI PC 14-kc0078AU",
-      "type": "Omnibook X Flip",
-      "id": "14-kc0078au",
-      "qty": 10,
-      "open": true
-    },
-    {
-      "pn": "DM8L6PA",
-      "mat": "432115036971",
-      "model": "HP Laptop 15-fc0932AU",
-      "type": "HP 15",
-      "id": "15-fc0932au",
-      "qty": 1497,
-      "areas": [
-        390,
-        690,
-        150,
-        180,
-        87
-      ],
-      "placed": 3
-    },
-    {
-      "pn": "E47WNPA",
-      "mat": "432115037064",
-      "model": "HP Laptop 15-fc0289AU",
-      "type": "HP 15",
-      "id": "15-fc0289au",
-      "qty": 622,
-      "areas": [
-        163,
-        286,
-        63,
-        75,
-        35
-      ],
-      "placed": 3
-    },
-    {
-      "pn": "E47WPPA",
-      "mat": "432115037065",
-      "model": "HP Laptop 15-fc0523AU",
-      "type": "HP 15",
-      "id": "15-fc0523au",
-      "qty": 750,
-      "areas": [
-        195,
-        345,
-        75,
-        90,
-        45
-      ]
-    },
-    {
-      "pn": "E2HE2PA",
-      "mat": "432115037067",
-      "model": "HP Laptop 15-fd1655TU",
-      "type": "HP 15",
-      "id": "15-fd1655tu",
-      "qty": 370,
-      "areas": [
-        96,
-        170,
-        37,
-        44,
-        22
-      ]
-    },
-    {
-      "pn": "E2HE3PA",
-      "mat": "432115037139",
-      "model": "HP Laptop 15-fd1656TU",
-      "type": "HP 15",
-      "id": "15-fd1656tu",
-      "qty": 147,
-      "areas": [
-        65,
-        114,
-        25,
-        30,
-        0
-      ],
-      "placed": 102,
-      "over": {
-        "PROV 3": 87
-      }
-    },
-    {
-      "pn": "E4PN6PA",
-      "mat": "432115037068",
-      "model": "HP Laptop 15-fc0998AU",
-      "type": "HP 15",
-      "id": "15-fc0998au",
-      "qty": 400,
-      "areas": [
-        104,
-        184,
-        40,
-        48,
-        24
-      ]
+     "g": "C",
+     "qty": 14,
+     "open": false,
+     "split": [
+      4,
+      6,
+      1,
+      2,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      2
+     ],
+     "placed": 2,
+     "left": 12,
+     "over": 0,
+     "rebalanced": true,
+     "alloc": [
+      3,
+      6,
+      1,
+      2,
+      2
+     ],
+     "areas": [
+      3,
+      6,
+      1,
+      2,
+      0
+     ]
     }
-  ],
-  "placements": {
-    "label": "Nov 1–9",
-    "units": 113,
-    "models": 4,
-    "entries": [
-      {
-        "src": "0111312758",
-        "date": "2026-11-09",
-        "rep": "Christine Falcon",
-        "dept": "SDC_PROV3",
-        "area": "PROV 3",
-        "customer": "Ultrium Corporation",
-        "pn": "E2HE3PA",
-        "model": "HP Laptop 15-fd1656TU",
-        "id": "15-fd1656tu",
-        "qty": 100,
-        "doc": "0871337939"
-      },
-      {
-        "src": "0111312545",
-        "date": "2026-11-09",
-        "rep": "Ricalyn Maming",
-        "dept": "SDC_GMA2",
-        "area": "GMA 2",
-        "customer": "Evoworks IT Solutions, Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337776"
-      },
-      {
-        "src": "0111312361",
-        "date": "2026-11-06",
-        "rep": "Christine Falcon",
-        "dept": "SDC_PROV3",
-        "area": "PROV 3",
-        "customer": "Master Tech Computer Trading",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337333"
-      },
-      {
-        "src": "0111312361",
-        "date": "2026-11-06",
-        "rep": "Christine Falcon",
-        "dept": "SDC_PROV3",
-        "area": "PROV 3",
-        "customer": "Master Tech Computer Trading",
-        "pn": "DM8L6PA",
-        "model": "HP Laptop 15-fc0932AU",
-        "id": "15-fc0932au",
-        "qty": 3,
-        "doc": "0871337333"
-      },
-      {
-        "src": "0111312361",
-        "date": "2026-11-06",
-        "rep": "Christine Falcon",
-        "dept": "SDC_PROV3",
-        "area": "PROV 3",
-        "customer": "Master Tech Computer Trading",
-        "pn": "E47WNPA",
-        "model": "HP Laptop 15-fc0289AU",
-        "id": "15-fc0289au",
-        "qty": 3,
-        "doc": "0871337333"
-      },
-      {
-        "src": "0111312361",
-        "date": "2026-11-06",
-        "rep": "Christine Falcon",
-        "dept": "SDC_PROV3",
-        "area": "PROV 3",
-        "customer": "Master Tech Computer Trading",
-        "pn": "E2HE3PA",
-        "model": "HP Laptop 15-fd1656TU",
-        "id": "15-fd1656tu",
-        "qty": 2,
-        "doc": "0871337333"
-      }
-    ],
-    "over": [
-      {
-        "pn": "E2HE3PA",
-        "model": "HP Laptop 15-fd1656TU",
-        "id": "15-fd1656tu",
-        "area": "PROV 3",
-        "allocated": 15,
-        "placed": 102,
-        "over": 87
-      }
-    ],
-    "earlier": [
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DU5S1PA",
-        "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
-        "id": "14-kb0100tu",
-        "qty": 2,
-        "doc": "0871337874",
-        "src": "0080041820"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337873",
-        "src": "0080041819"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337872",
-        "src": "0080041818"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337871",
-        "src": "0080041817"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337870",
-        "src": "0080041816"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337869",
-        "src": "0080041815"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337868",
-        "src": "0080041814"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337867",
-        "src": "0080041813"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337866",
-        "src": "0080041812"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DU5R6PA",
-        "model": "HP OmniBook 5 Flip 14-fp0162TU",
-        "id": "14-fp0162tu",
-        "qty": 2,
-        "doc": "0871337603",
-        "src": "0080041811"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337602",
-        "src": "0080041810"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337601",
-        "src": "0080041809"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337600",
-        "src": "0080041808"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337599",
-        "src": "0080041807"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337598",
-        "src": "0080041806"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337597",
-        "src": "0080041805"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 2,
-        "doc": "0871337596",
-        "src": "0080041804"
-      },
-      {
-        "date": "2026-11-09",
-        "rep": "Angelica Marbella",
-        "dept": "SDC_GMA1",
-        "area": "GMA 1",
-        "customer": "Accent Hub Inc.",
-        "pn": "DJ8T8PA",
-        "model": "HP Laptop 15-fd1618TU",
-        "id": "15-fd1618tu",
-        "qty": 3,
-        "doc": "0871337595",
-        "src": "0080041803"
-      }
-    ]
+   ],
+   "qty": 140,
+   "placed": 102,
+   "left": 38,
+   "open": false
+  },
+  {
+   "pn": "E2HE2PA",
+   "model": "HP Laptop 15-fd1655TU",
+   "id": "15-fd1655tu",
+   "type": "HP 15",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 148,
+     "open": false,
+     "split": [
+      38,
+      68,
+      15,
+      18,
+      9
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 148,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      38,
+      68,
+      15,
+      18,
+      9
+     ],
+     "areas": [
+      38,
+      68,
+      15,
+      18,
+      9
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 19,
+     "open": false,
+     "split": [
+      5,
+      9,
+      2,
+      2,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 19,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      5,
+      9,
+      2,
+      2,
+      1
+     ],
+     "areas": [
+      5,
+      9,
+      2,
+      2,
+      1
+     ]
+    },
+    {
+     "g": "C",
+     "qty": 19,
+     "open": false,
+     "split": [
+      5,
+      9,
+      2,
+      2,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      22
+     ],
+     "placed": 22,
+     "left": 0,
+     "over": 3,
+     "rebalanced": true,
+     "alloc": [
+      0,
+      0,
+      0,
+      0,
+      22
+     ],
+     "areas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    }
+   ],
+   "qty": 186,
+   "placed": 22,
+   "left": 167,
+   "open": false
+  },
+  {
+   "pn": "E4PN6PA",
+   "model": "HP Laptop 15-fc0998AU",
+   "id": "15-fc0998au",
+   "type": "HP 15",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 160,
+     "open": false,
+     "split": [
+      42,
+      74,
+      16,
+      19,
+      9
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 160,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      42,
+      74,
+      16,
+      19,
+      9
+     ],
+     "areas": [
+      42,
+      74,
+      16,
+      19,
+      9
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 20,
+     "open": false,
+     "split": [
+      5,
+      9,
+      2,
+      3,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      10,
+      0,
+      0
+     ],
+     "placed": 10,
+     "left": 10,
+     "over": 0,
+     "rebalanced": true,
+     "alloc": [
+      3,
+      5,
+      10,
+      1,
+      1
+     ],
+     "areas": [
+      3,
+      5,
+      0,
+      1,
+      1
+     ]
+    },
+    {
+     "g": "C",
+     "qty": 20,
+     "open": false,
+     "split": [
+      5,
+      9,
+      2,
+      3,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      2
+     ],
+     "placed": 2,
+     "left": 18,
+     "over": 0,
+     "rebalanced": true,
+     "alloc": [
+      5,
+      9,
+      2,
+      2,
+      2
+     ],
+     "areas": [
+      5,
+      9,
+      2,
+      2,
+      0
+     ]
+    }
+   ],
+   "qty": 200,
+   "placed": 12,
+   "left": 188,
+   "open": false
+  },
+  {
+   "pn": "E47WNPA",
+   "model": "HP Laptop 15-fc0289AU",
+   "id": "15-fc0289au",
+   "type": "HP 15",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 150,
+     "open": false,
+     "split": [
+      39,
+      69,
+      15,
+      18,
+      9
+     ],
+     "placedAreas": [
+      0,
+      51,
+      0,
+      0,
+      0
+     ],
+     "placed": 51,
+     "left": 99,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      39,
+      69,
+      15,
+      18,
+      9
+     ],
+     "areas": [
+      39,
+      18,
+      15,
+      18,
+      9
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 32,
+     "open": false,
+     "split": [
+      8,
+      15,
+      3,
+      4,
+      2
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 32,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      8,
+      15,
+      3,
+      4,
+      2
+     ],
+     "areas": [
+      8,
+      15,
+      3,
+      4,
+      2
+     ]
+    },
+    {
+     "g": "C",
+     "qty": 32,
+     "open": false,
+     "split": [
+      8,
+      15,
+      3,
+      4,
+      2
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      50
+     ],
+     "placed": 50,
+     "left": 0,
+     "over": 18,
+     "rebalanced": true,
+     "alloc": [
+      0,
+      0,
+      0,
+      0,
+      50
+     ],
+     "areas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    }
+   ],
+   "qty": 214,
+   "placed": 101,
+   "left": 131,
+   "open": false
+  },
+  {
+   "pn": "E47WPPA",
+   "model": "HP Laptop 15-fc0523AU",
+   "id": "15-fc0523au",
+   "type": "HP 15",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 200,
+     "open": false,
+     "split": [
+      52,
+      92,
+      20,
+      24,
+      12
+     ],
+     "placedAreas": [
+      0,
+      62,
+      0,
+      0,
+      0
+     ],
+     "placed": 62,
+     "left": 138,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      52,
+      92,
+      20,
+      24,
+      12
+     ],
+     "areas": [
+      52,
+      30,
+      20,
+      24,
+      12
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 38,
+     "open": false,
+     "split": [
+      10,
+      17,
+      4,
+      5,
+      2
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 38,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      10,
+      17,
+      4,
+      5,
+      2
+     ],
+     "areas": [
+      10,
+      17,
+      4,
+      5,
+      2
+     ]
+    },
+    {
+     "g": "C",
+     "qty": 38,
+     "open": false,
+     "split": [
+      10,
+      17,
+      4,
+      5,
+      2
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 38,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      10,
+      17,
+      4,
+      5,
+      2
+     ],
+     "areas": [
+      10,
+      17,
+      4,
+      5,
+      2
+     ]
+    }
+   ],
+   "qty": 276,
+   "placed": 62,
+   "left": 214,
+   "open": false
+  },
+  {
+   "pn": "DJ8T8PA",
+   "model": "HP Laptop 15-fd1618TU",
+   "id": "15-fd1618tu",
+   "type": "HP 15",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 108,
+     "open": false,
+     "split": [
+      28,
+      50,
+      11,
+      13,
+      6
+     ],
+     "placedAreas": [
+      0,
+      11,
+      0,
+      0,
+      0
+     ],
+     "placed": 11,
+     "left": 97,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      28,
+      50,
+      11,
+      13,
+      6
+     ],
+     "areas": [
+      28,
+      39,
+      11,
+      13,
+      6
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 14,
+     "open": false,
+     "split": [
+      4,
+      6,
+      1,
+      2,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 14,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      4,
+      6,
+      1,
+      2,
+      1
+     ],
+     "areas": [
+      4,
+      6,
+      1,
+      2,
+      1
+     ]
+    },
+    {
+     "g": "C",
+     "qty": 14,
+     "open": false,
+     "split": [
+      4,
+      6,
+      1,
+      2,
+      1
+     ],
+     "placedAreas": [
+      0,
+      3,
+      0,
+      0,
+      10
+     ],
+     "placed": 13,
+     "left": 1,
+     "over": 0,
+     "rebalanced": true,
+     "alloc": [
+      1,
+      3,
+      0,
+      0,
+      10
+     ],
+     "areas": [
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    }
+   ],
+   "qty": 136,
+   "placed": 24,
+   "left": 112,
+   "open": false
+  },
+  {
+   "pn": "DU5U6PA",
+   "model": "HP Laptop 15-fc0947AU",
+   "id": "15-fc0947au",
+   "type": "HP 15",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 25,
+     "open": false,
+     "split": [
+      7,
+      12,
+      2,
+      3,
+      1
+     ],
+     "placedAreas": [
+      0,
+      3,
+      0,
+      0,
+      0
+     ],
+     "placed": 3,
+     "left": 22,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      7,
+      12,
+      2,
+      3,
+      1
+     ],
+     "areas": [
+      7,
+      9,
+      2,
+      3,
+      1
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 7,
+     "open": true,
+     "placed": 0,
+     "left": 7,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 32,
+   "placed": 3,
+   "left": 29,
+   "open": false
+  },
+  {
+   "pn": "DW7W9PA",
+   "model": "HP OmniBook 3 AI PC 14-ht0092TU",
+   "id": "14-ht0092tu",
+   "type": "Omnibook 3",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 248,
+     "open": false,
+     "split": [
+      64,
+      114,
+      25,
+      30,
+      15
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 248,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      64,
+      114,
+      25,
+      30,
+      15
+     ],
+     "areas": [
+      64,
+      114,
+      25,
+      30,
+      15
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 44,
+     "open": false,
+     "split": [
+      12,
+      20,
+      4,
+      5,
+      3
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 44,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      12,
+      20,
+      4,
+      5,
+      3
+     ],
+     "areas": [
+      12,
+      20,
+      4,
+      5,
+      3
+     ]
+    },
+    {
+     "g": "C",
+     "qty": 44,
+     "open": false,
+     "split": [
+      12,
+      20,
+      4,
+      5,
+      3
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 44,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      12,
+      20,
+      4,
+      5,
+      3
+     ],
+     "areas": [
+      12,
+      20,
+      4,
+      5,
+      3
+     ]
+    }
+   ],
+   "qty": 336,
+   "placed": 0,
+   "left": 336,
+   "open": false
+  },
+  {
+   "pn": "DW4U8PA",
+   "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+   "id": "14-ht0144tu",
+   "type": "Omnibook 3",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 20,
+     "open": false,
+     "split": [
+      5,
+      9,
+      2,
+      3,
+      1
+     ],
+     "placedAreas": [
+      0,
+      2,
+      0,
+      0,
+      0
+     ],
+     "placed": 2,
+     "left": 18,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      5,
+      9,
+      2,
+      3,
+      1
+     ],
+     "areas": [
+      5,
+      7,
+      2,
+      3,
+      1
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 3,
+     "open": true,
+     "placed": 0,
+     "left": 3,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "C",
+     "qty": 3,
+     "open": true,
+     "placed": 0,
+     "left": 3,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 26,
+   "placed": 2,
+   "left": 24,
+   "open": false
+  },
+  {
+   "pn": "DJ8T4PA",
+   "model": "HP OmniBook 5 14-hm0072AU",
+   "id": "14-hm0072au",
+   "type": "Omnibook 5",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 20,
+     "open": true,
+     "placed": 0,
+     "left": 20,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 9,
+     "open": true,
+     "placed": 0,
+     "left": 9,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 29,
+   "placed": 0,
+   "left": 29,
+   "open": true
+  },
+  {
+   "pn": "DU5R6PA",
+   "model": "HP OmniBook 5 Flip 14-fp0162TU",
+   "id": "14-fp0162tu",
+   "type": "Omnibook 5 Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 20,
+     "open": true,
+     "placed": 0,
+     "left": 20,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 5,
+     "open": true,
+     "placed": 0,
+     "left": 5,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 25,
+   "placed": 0,
+   "left": 25,
+   "open": true
+  },
+  {
+   "pn": "DX4J7PA",
+   "model": "HP OmniBook 5 AI PC 14-kf0002TU",
+   "id": "14-kf0002tu",
+   "type": "Omnibook 5",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 18,
+     "open": true,
+     "placed": 0,
+     "left": 18,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 5,
+     "open": true,
+     "placed": 0,
+     "left": 5,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 23,
+   "placed": 0,
+   "left": 23,
+   "open": true
+  },
+  {
+   "pn": "DW4U9PA",
+   "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+   "id": "14-ht0145tu",
+   "type": "Omnibook 3",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 94,
+     "open": false,
+     "split": [
+      25,
+      43,
+      9,
+      11,
+      6
+     ],
+     "placedAreas": [
+      0,
+      18,
+      0,
+      0,
+      0
+     ],
+     "placed": 18,
+     "left": 76,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      25,
+      43,
+      9,
+      11,
+      6
+     ],
+     "areas": [
+      25,
+      25,
+      9,
+      11,
+      6
+     ]
+    },
+    {
+     "g": "B",
+     "qty": 16,
+     "open": false,
+     "split": [
+      4,
+      7,
+      2,
+      2,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "placed": 0,
+     "left": 16,
+     "over": 0,
+     "rebalanced": false,
+     "alloc": [
+      4,
+      7,
+      2,
+      2,
+      1
+     ],
+     "areas": [
+      4,
+      7,
+      2,
+      2,
+      1
+     ]
+    },
+    {
+     "g": "C",
+     "qty": 16,
+     "open": false,
+     "split": [
+      4,
+      7,
+      2,
+      2,
+      1
+     ],
+     "placedAreas": [
+      0,
+      0,
+      0,
+      0,
+      13
+     ],
+     "placed": 13,
+     "left": 3,
+     "over": 0,
+     "rebalanced": true,
+     "alloc": [
+      1,
+      2,
+      0,
+      0,
+      13
+     ],
+     "areas": [
+      1,
+      2,
+      0,
+      0,
+      0
+     ]
+    }
+   ],
+   "qty": 126,
+   "placed": 31,
+   "left": 95,
+   "open": false
+  },
+  {
+   "pn": "DU5T4PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kc0079AU",
+   "id": "14-kc0079au",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 14,
+     "open": true,
+     "placed": 0,
+     "left": 14,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 3,
+     "open": true,
+     "placed": 0,
+     "left": 3,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 17,
+   "placed": 0,
+   "left": 17,
+   "open": true
+  },
+  {
+   "pn": "DU5S1PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
+   "id": "14-kb0100tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 29,
+     "open": true,
+     "placed": 0,
+     "left": 29,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 8,
+     "open": true,
+     "placed": 0,
+     "left": 8,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 37,
+   "placed": 0,
+   "left": 37,
+   "open": true
+  },
+  {
+   "pn": "E5MC6PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-fm0206TU",
+   "id": "14-fm0206tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 12,
+     "open": true,
+     "placed": 0,
+     "left": 12,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 3,
+     "open": true,
+     "placed": 0,
+     "left": 3,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 15,
+   "placed": 0,
+   "left": 15,
+   "open": true
+  },
+  {
+   "pn": "E5MC7PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-fm0208TU",
+   "id": "14-fm0208tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 12,
+     "open": true,
+     "placed": 0,
+     "left": 12,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 3,
+     "open": true,
+     "placed": 0,
+     "left": 3,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 15,
+   "placed": 0,
+   "left": 15,
+   "open": true
+  },
+  {
+   "pn": "DW8J8PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kc0039AU",
+   "id": "14-kc0039au",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 6,
+     "open": true,
+     "placed": 0,
+     "left": 6,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 2,
+     "open": true,
+     "placed": 0,
+     "left": 2,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 8,
+   "placed": 0,
+   "left": 8,
+   "open": true
+  },
+  {
+   "pn": "DU5S6PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kb0105TU",
+   "id": "14-kb0105tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 13,
+     "open": true,
+     "placed": 0,
+     "left": 13,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 3,
+     "open": true,
+     "placed": 0,
+     "left": 3,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 16,
+   "placed": 0,
+   "left": 16,
+   "open": true
+  },
+  {
+   "pn": "DU5S7PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kb0106TU",
+   "id": "14-kb0106tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 8,
+     "open": true,
+     "placed": 0,
+     "left": 8,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 2,
+     "open": true,
+     "placed": 0,
+     "left": 2,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 10,
+   "placed": 0,
+   "left": 10,
+   "open": true
+  },
+  {
+   "pn": "DU5T2PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kb0112TU",
+   "id": "14-kb0112tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 2,
+     "open": true,
+     "placed": 0,
+     "left": 2,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 1,
+     "open": true,
+     "placed": 0,
+     "left": 1,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 3,
+   "placed": 0,
+   "left": 3,
+   "open": true
+  },
+  {
+   "pn": "DU5S8PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kb0107TU",
+   "id": "14-kb0107tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 2,
+     "open": true,
+     "placed": 0,
+     "left": 2,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 1,
+     "open": true,
+     "placed": 0,
+     "left": 1,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 3,
+   "placed": 0,
+   "left": 3,
+   "open": true
+  },
+  {
+   "pn": "DU5T6PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kc0081AU",
+   "id": "14-kc0081au",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 3,
+     "open": true,
+     "placed": 0,
+     "left": 3,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 1,
+     "open": true,
+     "placed": 0,
+     "left": 1,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 4,
+   "placed": 0,
+   "left": 4,
+   "open": true
+  },
+  {
+   "pn": "DU5S4PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kb0101TU",
+   "id": "14-kb0101tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 16,
+     "open": true,
+     "placed": 0,
+     "left": 16,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 4,
+     "open": true,
+     "placed": 0,
+     "left": 4,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 20,
+   "placed": 0,
+   "left": 20,
+   "open": true
+  },
+  {
+   "pn": "DU5S5PA",
+   "model": "HP OmniBook X Flip NG AI PC 14-kb0102TU",
+   "id": "14-kb0102tu",
+   "type": "Omnibook X Flip",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 1,
+     "open": true,
+     "placed": 0,
+     "left": 1,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 1,
+     "open": true,
+     "placed": 0,
+     "left": 1,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 2,
+   "placed": 0,
+   "left": 2,
+   "open": true
+  },
+  {
+   "pn": "DM8L6PA",
+   "model": "HP Laptop 15-fc0932AU",
+   "id": "15-fc0932au",
+   "type": "HP 15",
+   "groups": [
+    {
+     "g": "C",
+     "qty": 408,
+     "open": false,
+     "split": [
+      106,
+      188,
+      41,
+      49,
+      24
+     ],
+     "placedAreas": [
+      0,
+      300,
+      0,
+      10,
+      8
+     ],
+     "placed": 318,
+     "left": 90,
+     "over": 0,
+     "rebalanced": true,
+     "alloc": [
+      52,
+      300,
+      20,
+      24,
+      12
+     ],
+     "areas": [
+      52,
+      0,
+      20,
+      14,
+      4
+     ]
+    }
+   ],
+   "qty": 408,
+   "placed": 318,
+   "left": 90,
+   "open": false
   }
+ ],
+ "placements": {
+  "label": "Nov 5–16",
+  "since": "2026-11-05",
+  "units": 677,
+  "models": 10,
+  "entries": [
+   {
+    "date": "2026-11-12",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 10,
+    "rep": "Mary Hular",
+    "dept": "SDC_PROV1",
+    "area": "PROV 1",
+    "customer": "Denvers Computer",
+    "dealerGroup": "B",
+    "group": "B",
+    "doc": "0871338957",
+    "src": "0111313801"
+   },
+   {
+    "date": "2026-11-11",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Cliford Fermanes",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Iligan Datavision",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338677",
+    "src": "0111313531"
+   },
+   {
+    "date": "2026-11-11",
+    "pn": "E47WNPA",
+    "model": "HP Laptop 15-fc0289AU",
+    "id": "15-fc0289au",
+    "qty": 2,
+    "rep": "Cliford Fermanes",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Iligan Datavision",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338677",
+    "src": "0111313531"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 150,
+    "rep": "Carmela Salandanan",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Silicon Valley Computer Group",
+    "dealerGroup": "A",
+    "group": "C",
+    "doc": "0871339104",
+    "src": "0111313200"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 150,
+    "rep": "Carmela Salandanan",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Silicon Valley Computer Group",
+    "dealerGroup": "A",
+    "group": "C",
+    "doc": "0871339103",
+    "src": "0111313183"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DU5U6PA",
+    "model": "HP Laptop 15-fc0947AU",
+    "id": "15-fc0947au",
+    "qty": 3,
+    "rep": "Carmela Salandanan",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Silicon Valley Computer Group",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871338867",
+    "src": "0111313208"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DW4U9PA",
+    "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+    "id": "14-ht0145tu",
+    "qty": 18,
+    "rep": "Carmela Salandanan",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Silicon Valley Computer Group",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871338867",
+    "src": "0111313208"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E47WPPA",
+    "model": "HP Laptop 15-fc0523AU",
+    "id": "15-fc0523au",
+    "qty": 62,
+    "rep": "Carmela Salandanan",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Silicon Valley Computer Group",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871338635",
+    "src": "0111313207"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E47WNPA",
+    "model": "HP Laptop 15-fc0289AU",
+    "id": "15-fc0289au",
+    "qty": 51,
+    "rep": "Carmela Salandanan",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Silicon Valley Computer Group",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871338341",
+    "src": "0111313201"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DW4U8PA",
+    "model": "HP OmniBook 3 AI PC 14-ht0144TU",
+    "id": "14-ht0144tu",
+    "qty": 2,
+    "rep": "Carmela Salandanan",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Silicon Valley Computer Group",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871338341",
+    "src": "0111313201"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 11,
+    "rep": "Carmela Salandanan",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Silicon Valley Computer Group",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871338341",
+    "src": "0111313201"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E2HE2PA",
+    "model": "HP Laptop 15-fd1655TU",
+    "id": "15-fd1655tu",
+    "qty": 18,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Lenin Computer Systems Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338340",
+    "src": "0111313167"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Lenin Computer Systems Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338340",
+    "src": "0111313167"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E47WNPA",
+    "model": "HP Laptop 15-fc0289AU",
+    "id": "15-fc0289au",
+    "qty": 25,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Lenin Computer Systems Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338340",
+    "src": "0111313167"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DW4U9PA",
+    "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+    "id": "14-ht0145tu",
+    "qty": 13,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Lenin Computer Systems Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338340",
+    "src": "0111313167"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 5,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Lenin Computer Systems Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338340",
+    "src": "0111313167"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E2HE2PA",
+    "model": "HP Laptop 15-fd1655TU",
+    "id": "15-fd1655tu",
+    "qty": 4,
+    "rep": "Jade Iris Flores",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "REJ VENTURES INC.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338315",
+    "src": "0111313110"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 2,
+    "rep": "Jade Iris Flores",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "REJ VENTURES INC.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338315",
+    "src": "0111313110"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 10,
+    "rep": "AngelouPamela Arabit",
+    "dept": "SDC_PROV2",
+    "area": "PROV 2",
+    "customer": "Electrocomputer Data System (EDS)",
+    "dealerGroup": "A",
+    "group": "C",
+    "doc": "0871338303",
+    "src": "0111313166"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E47WNPA",
+    "model": "HP Laptop 15-fc0289AU",
+    "id": "15-fc0289au",
+    "qty": 20,
+    "rep": "Cliford Fermanes",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Dataworld Computer Center",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338259",
+    "src": "0111312919"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Cliford Fermanes",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Dataworld Computer Center",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338259",
+    "src": "0111312919"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "E2HE3PA",
+    "model": "HP Laptop 15-fd1656TU",
+    "id": "15-fd1656tu",
+    "qty": 100,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Ultrium Corporation",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871337939",
+    "src": "0111312758"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Ricalyn Maming",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Evoworks IT Solutions, Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337776",
+    "src": "0111312545"
+   },
+   {
+    "date": "2026-11-06",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Master Tech Computer Trading",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337333",
+    "src": "0111312361"
+   },
+   {
+    "date": "2026-11-06",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 3,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Master Tech Computer Trading",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337333",
+    "src": "0111312361"
+   },
+   {
+    "date": "2026-11-06",
+    "pn": "E47WNPA",
+    "model": "HP Laptop 15-fc0289AU",
+    "id": "15-fc0289au",
+    "qty": 3,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Master Tech Computer Trading",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337333",
+    "src": "0111312361"
+   },
+   {
+    "date": "2026-11-06",
+    "pn": "E2HE3PA",
+    "model": "HP Laptop 15-fd1656TU",
+    "id": "15-fd1656tu",
+    "qty": 2,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Master Tech Computer Trading",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337333",
+    "src": "0111312361"
+   }
+  ],
+  "earlier": [
+   {
+    "date": "2026-11-13",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339300",
+    "src": "0080041848"
+   },
+   {
+    "date": "2026-11-13",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339299",
+    "src": "0080041847"
+   },
+   {
+    "date": "2026-11-13",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339298",
+    "src": "0080041846"
+   },
+   {
+    "date": "2026-11-13",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339297",
+    "src": "0080041845"
+   },
+   {
+    "date": "2026-11-13",
+    "pn": "E47WNPA",
+    "model": "HP Laptop 15-fc0289AU",
+    "id": "15-fc0289au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339296",
+    "src": "0080041844"
+   },
+   {
+    "date": "2026-11-13",
+    "pn": "E47WNPA",
+    "model": "HP Laptop 15-fc0289AU",
+    "id": "15-fc0289au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339295",
+    "src": "0080041843"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338254",
+    "src": "0080041830"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338252",
+    "src": "0080041829"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871338249",
+    "src": "0080041828"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871337994",
+    "src": "0080041823"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871337993",
+    "src": "0080041822"
+   },
+   {
+    "date": "2026-11-10",
+    "pn": "E4PN6PA",
+    "model": "HP Laptop 15-fc0998AU",
+    "id": "15-fc0998au",
+    "qty": 10,
+    "rep": "Antonette Asuncion",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Asianic",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871337992",
+    "src": "0080041821"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DU5S1PA",
+    "model": "HP OmniBook X Flip NG AI PC 14-kb0100TU",
+    "id": "14-kb0100tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337874",
+    "src": "0080041820"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337873",
+    "src": "0080041819"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337872",
+    "src": "0080041818"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337871",
+    "src": "0080041817"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337870",
+    "src": "0080041816"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337869",
+    "src": "0080041815"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337868",
+    "src": "0080041814"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337867",
+    "src": "0080041813"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337866",
+    "src": "0080041812"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DU5R6PA",
+    "model": "HP OmniBook 5 Flip 14-fp0162TU",
+    "id": "14-fp0162tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337603",
+    "src": "0080041811"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337602",
+    "src": "0080041810"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337601",
+    "src": "0080041809"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337600",
+    "src": "0080041808"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337599",
+    "src": "0080041807"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337598",
+    "src": "0080041806"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337597",
+    "src": "0080041805"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337596",
+    "src": "0080041804"
+   },
+   {
+    "date": "2026-11-09",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Angelica Marbella",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Accent Hub Inc.",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871337595",
+    "src": "0080041803"
+   }
+  ],
+  "ignored": [
+   {
+    "date": "2026-11-13",
+    "pn": "DU5U6PA",
+    "model": "HP Laptop 15-fc0947AU",
+    "id": "15-fc0947au",
+    "qty": 4,
+    "rep": "Cleveland Bucayu",
+    "dept": "SDC_CORP1",
+    "area": "",
+    "customer": "SFI Human Resources Consultancy Inc",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339495",
+    "src": "0111314144",
+    "why": "No Group C program qty for this model"
+   },
+   {
+    "date": "2026-11-13",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": -2,
+    "rep": "Jean Kenji Ang",
+    "dept": "SDC-PROV2",
+    "area": "PROV 2",
+    "customer": "Ethereum Technology Sales Inc",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0760119410",
+    "src": "0340017595",
+    "why": "Return / credit memo"
+   }
+  ],
+  "over": [
+   {
+    "model": "HP Laptop 15-fd1655TU",
+    "id": "15-fd1655tu",
+    "group": "C",
+    "qty": 19,
+    "placed": 22,
+    "over": 3
+   },
+   {
+    "model": "HP Laptop 15-fc0289AU",
+    "id": "15-fc0289au",
+    "group": "C",
+    "qty": 32,
+    "placed": 50,
+    "over": 18
+   }
+  ]
+ }
 }

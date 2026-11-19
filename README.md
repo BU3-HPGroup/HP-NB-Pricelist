@@ -92,7 +92,7 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
 
 ### Tiered promo DP (Group A / B / C)
 
-- **Hide all promo prices:** set `"hidePromoPrices": true` at the top of `data/promos.json` (currently on). The site then shows only regular SRP/DP: no Promo SRP, Promo DP, Group A/B/C, Promos-page tier table, dealer-group picker in downloads, or promo-price "What's new" badges. HP programs (GCash, HyperX monitor) and the freebie still show. Set it to `false` to bring promo prices back. The promo values are still in `data/products.json` and `source/`, so this hides them from the pages, not from the repo.
+- **Hide all promo prices:** set `"hidePromoPrices": true` at the top of `data/promos.json` (currently off). The site then shows only regular SRP/DP: no Promo SRP, Promo DP, Group A/B/C, Promos-page tier table, dealer-group picker in downloads, or promo-price "What's new" badges. HP programs (GCash, HyperX monitor) and the freebie still show. Set it to `false` to bring promo prices back. The promo values are still in `data/products.json` and `source/`, so this hides them from the pages, not from the repo.
 
 - In the pricelist Excel, put the promo dealer prices in columns **Group A**, **Group B**, **Group C** (filled only on rows with a **Promo SRP**).
 - On **sheet 2**, list the dealers under a row with the headers **Group A | Group B | Group C**. Write **Everyone else** under the group that covers all other dealers.
@@ -101,7 +101,24 @@ Edit `data/promos.json`. Each promo has an `id`, `title`, `start` and `end` (`YY
 - The site is public, so the dealer names and their group prices can be seen by anyone with the link.
 - Fixed in the repo copy on every update: the ProBook part number cell in the master Excel says `s`. `source/` gets a copy with that one cell set to `BQ5B1PT` (edited in the sheet XML so Excel's cached formula values are kept).
 
-### Allocation per area (daily)
+### Program allocation by dealer group (current, from Nov 19, 2026)
+
+The Allocation tab now follows the HP CPS program workbook, where each model has a max qty per dealer group (A, B, C):
+
+```bash
+python tools/build_program_allocation.py \
+  --program "E:/Test Pilot - HP Pricelist/Programs/Copy of Iontech CPS  Q127 M1 + M2 Program - Nov 11 to Dec 30.xlsx" \
+  --sellout "E:/Test Pilot - HP Pricelist/Sell out data - Cutoff" --since 2026-11-05 --label "Nov 5–16" --as-of 2026-11-19
+```
+
+- Program qty per model and group from the "IONTECH Group A / B / C" sheets (HP-NB pricelist models only).
+- Each group is split GMA 1 26% · GMA 2 46% · PROV 1 10% · PROV 2 12% · PROV 3 6%. OmniBook 5, 5 Flip and X Flip (and a few 3–7 unit groups) are **open to all areas**, still limited by the group's qty.
+- Placements: every file in the sell-out folder, HP-NB invoices from `--since`. Returns and source documents starting with 8 are not deducted. The dealer's group comes from the dealer lists (Ultrium = A; unlisted dealers = C); the area from the Department. If the dealer's group has no qty for a model that is in only one group's program, it comes out of that group (e.g. Silicon Valley / EDS on 15-fc0932AU → Group C). If the model is in several groups, the line is ignored and listed.
+- An area that places more than its share keeps what it placed; the rest of the group is re-split across the other areas. A group that sells more than its program qty shows 0 left and "N over".
+- Add `--valid-from 2026-11-19 --valid-until 2026-11-30 --reallocation 2026-12-01`: the tab shows only "Valid November 19 to November 30, 2026 only. Reallocation on December 1." (no other notes, no program dates) and switches to "Allocation ended …" after the last day. Promo SRP and each group's promo DP are shown next to the qty (from the pricelist). Commit `data/allocation.json` only.
+- The old per-area tool (`tools/build_allocation.py`, below) is kept for reference.
+
+### Allocation per area (daily, until Nov 2026)
 
 1. Save the allocation workbook with the date in its name, e.g. `Allocation of onhand with Program - as of Nov 6.xlsx`, **outside** the site folder. It has the % split, budgets and on-hand stock, which must not be published.
 2. Run:

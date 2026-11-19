@@ -41,8 +41,10 @@ check("Promo DP matches Excel", all(_pdp(by_model[r["Model"].strip()]) == r.get(
 check("tiered promo DP (Group A/B/C) matches Excel", all(_tiers_ok(r) for r in xl), str(sum(1 for p in data if p.get("promoTiers"))))
 _al = json.load(open(os.path.join(ROOT, "data", "allocation.json"), encoding="utf-8")) if os.path.exists(os.path.join(ROOT, "data", "allocation.json")) else None
 if _al:
-    check("allocation: every model has a qty and either area limits or OPEN", all(r.get("qty") is not None and (r.get("open") or len(r.get("areas", [])) == len(_al["areas"])) for r in _al["rows"]), str(_al["count"]))
-    check("allocation: no % or budget published", all(not isinstance(v, float) for r in _al["rows"] for v in r.get("areas", [])) and set(_al) <= {"asOf", "validUntil", "areas", "count", "rows", "placements"})
+    _gr = [v for r in _al["rows"] for v in r["groups"]]
+    check("allocation: every model/group has program qty and either area limits or open", all(v["qty"] > 0 and (v["open"] or len(v["areas"]) == len(_al["areas"])) for v in _gr), str(_al["count"]))
+    check("allocation: areas never exceed what is left, left = qty - placed", all(v["left"] == max(0, v["qty"] - v["placed"]) and (v["open"] or sum(v["areas"]) <= v["left"] + 0) for v in _gr))
+    check("allocation: no % or budget or stock published", set(_al) <= {"version", "program", "asOf", "validFrom", "validUntil", "reallocation", "areas", "groups", "count", "rows", "placements"} and "onhand" not in json.dumps(_al))
 _up = [p for p in data if p.get("promoState") == "upcoming"]
 check("'Don't offer yet' promos are not used as the selling price", all(p.get("promoSrp") is None and p.get("promoDp") is None and p.get("upcomingSrp") for p in _up), str(len(_up)))
 check("Type matches Excel", all(by_model[r["Model"].strip()]["type"] == r["Type"].strip() for r in xl))
@@ -658,12 +660,15 @@ with sync_playwright() as pw:
     # ---------- Allocation tab ----------
     if _al:
         pg.goto(BASE + "#/allocation"); pg.wait_for_selector(".alloc-table"); pg.wait_for_timeout(200)
-        lim = [r for r in _al["rows"] if not r.get("open")]
-        check("allocation: tab lists every model", pg.locator(".alloc-table tbody tr:not(.alloc-sep)").count() == len(_al["rows"]), str(_al["count"]))
-        check("allocation: valid-until notice shown", "Valid until" in pg.inner_text(".alloc-valid") or "ended" in pg.inner_text(".alloc-valid"))
-        r0 = lim[0]
+        pg.evaluate("try{localStorage.removeItem('hppl-alloc-group');localStorage.removeItem('hppl-alloc-area')}catch(e){}"); pg.reload(); pg.wait_for_selector(".alloc-table"); pg.wait_for_timeout(200)
+        check("allocation: one table row per model and group", pg.locator(".alloc-table tbody tr").count() == len(_gr), str(len(_gr)))
+        check("allocation: only the validity notice, no program dates", "Valid" in pg.inner_text(".alloc-valid") and "December 31" not in pg.inner_text("#allocBody") and pg.locator("#allocBody .alloc-foot").count() == 0)
+        r0 = next(r for r in _al["rows"] if not r["groups"][0]["open"]); v0 = r0["groups"][0]
         cells = pg.locator(".alloc-table tbody tr").first.locator("td").all_inner_texts()
-        check("allocation: first row qty + areas match the file", [c.replace(",", "") for c in cells] == [str(r0["qty"])] + [str(x) for x in r0["areas"]], str(cells))
+        check("allocation: first row matches the data (promo SRP/DP shown)", "₱" in cells[1] and "₱" in cells[2] and [c.split("\n")[0].replace(",", "").strip() for c in cells[3:]] == [str(v0["qty"]), str(v0["placed"]) if v0["placed"] else "—", str(v0["left"])] + [str(x) for x in v0["areas"]], str(cells))
+        pg.click('.ag-btn[data-g="C"]'); pg.wait_for_timeout(150)
+        check("allocation: group filter shows only that group", pg.locator(".alloc-table tbody tr").count() == sum(1 for v in _gr if v["g"] == "C"))
+        pg.click('.ag-btn[data-g=""]'); pg.wait_for_timeout(150)
         check("allocation: no % on the page", "%" not in pg.inner_text("#allocBody"))
         pg.click(f'.aa-btn[data-area="{_al["areas"][1]}"]'); pg.wait_for_timeout(150)
         check("allocation: My area highlights one column", pg.locator(".alloc-table thead th.mine").inner_text().strip().upper() == _al["areas"][1].upper())
@@ -671,12 +676,13 @@ with sync_playwright() as pw:
             pg.click("#allocDl")
         wa = openpyxl.load_workbook(io.BytesIO(open(dl.value.path(), "rb").read()))
         check("allocation excel: All areas + one sheet per area (+ Placements)", wa.sheetnames == ["All areas"] + _al["areas"] + (["Placements"] if (_al.get("placements") or {}).get("entries") else []), str(wa.sheetnames))
-        check("allocation excel: rows match", wa["All areas"].cell(6, 5).value == r0["qty"] and wa[_al["areas"][1]].cell(6, 5).value == r0["areas"][1])
+        check("allocation excel: rows match", wa["All areas"].cell(6, 7).value == v0["qty"] and wa["All areas"].cell(6, 9).value == v0["left"] and wa[_al["areas"][1]].cell(6, 7).value == v0["areas"][1] and isinstance(wa["All areas"].cell(6, 6).value, (int, float)))
         pg.click('.aa-btn[data-area=""]')
         _P = (_al.get("placements") or {}).get("entries") or []
         if _P:
             pg.goto(BASE + "#/allocation/placements"); pg.wait_for_selector(".pl-areas"); pg.wait_for_timeout(200)
             check("placements page: one row per placement line", pg.locator(".pl-table").nth(1).locator("tbody tr").count() == len(_P), str(len(_P)))
+            check("placements: each deducted line belongs to a group that has program qty for the model", all(any(v["g"] == e["group"] for r in _al["rows"] if r["pn"] == e["pn"] for v in r["groups"]) for e in _P))
             check("placements page: shows sales rep + area", all(e["rep"] in pg.inner_text("#allocBody") and e["area"] in pg.inner_text("#allocBody") for e in _P))
             check("placements: earlier orders (source doc 8…) listed but not deducted", all(e["src"].lstrip("0").startswith("8") for e in (_al["placements"].get("earlier") or [])) and not any(str(e.get("src", "")).lstrip("0").startswith("8") for e in _P))
             check("placements page: area totals add up", sum(int(x.replace(",", "")) for x in pg.locator(".pl-areas b").all_inner_texts()) == _al["placements"]["units"])

@@ -583,7 +583,7 @@
       ws.getCell(1, 1).value = title;
       ws.getCell(1, 1).font = { name: "Arial", size: 16, bold: true, color: { argb: hex(BLUE) } };
       ws.getRow(1).height = 26;
-      ws.getCell(2, 1).value = `Iontech · HP Notebooks · As of ${notice.asOf} · ${rowsOut.length} models`;
+      ws.getCell(2, 1).value = `Iontech · HP Notebooks · As of ${notice.asOf} · ${rowsOut.countLabel || rowsOut.length + " models"}`;
       ws.getCell(2, 1).font = { name: "Arial", size: 10, color: { argb: "FF555B66" } };
       ws.getCell(3, 1).value = notice.text;
       ws.getCell(3, 1).font = { name: "Arial", size: 10, bold: true, color: { argb: notice.ended ? hex(RED) : hex(AMBER) } };
@@ -595,7 +595,7 @@
         cell.value = c.h;
         cell.font = { name: "Arial", size: 10, bold: true, color: { argb: "FFFFFFFF" } };
         cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: hex(BLUE) } };
-        cell.alignment = { vertical: "middle", horizontal: c.num ? "center" : "left", wrapText: true };
+        cell.alignment = { vertical: "middle", horizontal: c.num ? "center" : c.money ? "right" : "left", wrapText: true };
         cell.border = box;
       });
       head.height = 22;
@@ -611,6 +611,7 @@
           cell.border = box;
           if (i % 2) cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF7F9FC" } };
           if (c.num) cell.numFmt = "#,##0";
+          if (c.money) { cell.numFmt = '"₱"#,##0'; cell.alignment = { vertical: "middle", horizontal: "right" }; }
           if (c.key) cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFEAF1FE" } };
           if (vals[j] === OPEN) cell.font = { name: "Arial", size: 10, bold: true, color: { argb: hex(GREEN) } };
         });
@@ -626,34 +627,40 @@
       ws.pageSetup = { orientation: "landscape", paperSize: 9, fitToPage: true, fitToWidth: 1, fitToHeight: 0, printTitlesRow: "5:5", margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2 } };
       ws.headerFooter = { oddFooter: "&L&8HP Notebook allocation per area · Iontech&R&8Page &P of &N" };
     }
-    const ordered = A.rows.filter((r) => !r.open).concat(A.rows.filter((r) => r.open));
-    const base = [{ h: "Model", w: 44 }, { h: "Type", w: 16 }, { h: "Part No.", w: 11 }, { h: "Material No.", w: 15 }];
-    // all areas
-    const allCols = base.concat([{ h: "Program qty", w: 12, num: true }], A.areas.map((a) => ({ h: a, w: 10, num: true, key: true })));
-    sheet("All areas", "HP Notebooks — Allocation per area", allCols, ordered.map((r) => {
-      const v = [r.model, r.type, r.pn, r.mat, r.qty];
-      if (r.open) { v.push(OPEN); A.areas.slice(1).forEach(() => v.push(null)); v.open = true; v.span = [6, 5 + A.areas.length]; }
-      else v.push(...r.areas);
-      return v;
-    }));
+    const base = [{ h: "Model", w: 42 }, { h: "Type", w: 16 }, { h: "Part No.", w: 11 }, { h: "Group", w: 9 }];
+    const flat = [];
+    A.rows.forEach((r) => r.groups.forEach((v) => flat.push({ r, v })));
+    const nModels = `${A.rows.length} models`;
+    // all areas: one row per model and dealer group
+    const pr = notice.price || (() => [null, null]);
+    const allCols = base.concat([{ h: "Promo SRP", w: 12, money: true }, { h: "Promo DP", w: 12, money: true }, { h: "Program qty", w: 12, num: true }, { h: "Placed", w: 9, num: true }, { h: "Left", w: 9, num: true, key: true }], A.areas.map((a) => ({ h: a, w: 10, num: true, key: true })));
+    const allRows = flat.map(({ r, v }) => {
+      const x = [r.model, r.type, r.pn, "Group " + v.g, ...pr(r, v.g).map((n) => (n == null ? null : Math.round(n))), v.qty, v.placed || null, v.left];
+      if (v.open) { x.push(OPEN); A.areas.slice(1).forEach(() => x.push(null)); x.open = true; x.span = [10, 9 + A.areas.length]; }
+      else x.push(...v.areas);
+      return x;
+    });
+    allRows.countLabel = nModels;
+    sheet("All areas", "HP Notebooks — Program allocation", allCols, allRows);
     // one sheet per area
     A.areas.forEach((a, i) => {
-      const cols = base.concat([{ h: `Max qty — ${a}`, w: 18, num: true, key: true }]);
-      sheet(a.replace(/[\\/?*\[\]:]/g, " ").slice(0, 31), `HP Notebooks — Allocation for ${a}`, cols,
-        ordered.map((r) => [r.model, r.type, r.pn, r.mat, r.open ? OPEN : r.areas[i]]));
+      const cols = base.concat([{ h: "Promo SRP", w: 12, money: true }, { h: "Promo DP", w: 12, money: true }, { h: `Max qty — ${a}`, w: 18, num: true, key: true }]);
+      const rr = flat.map(({ r, v }) => [r.model, r.type, r.pn, "Group " + v.g, ...pr(r, v.g).map((n) => (n == null ? null : Math.round(n))), v.open ? `${OPEN} (up to ${v.left})` : v.areas[i]]);
+      rr.countLabel = nModels;
+      sheet(a.replace(/[\\/?*\[\]:]/g, " ").slice(0, 31), `HP Notebooks — Allocation for ${a}`, cols, rr);
     });
     // who placed what (deducted from the areas above)
     const P = (A.placements && A.placements.entries) || [];
     if (P.length) {
-      const cols = [{ h: "Billed", w: 12 }, { h: "Sales rep", w: 22 }, { h: "Area", w: 10 }, { h: "Department", w: 13 }, { h: "Customer", w: 34 }, { h: "Model", w: 40 }, { h: "Part No.", w: 11 }, { h: "Qty", w: 8, num: true, key: true }, { h: "Billing doc", w: 13 }];
-      const n = { asOf: notice.asOf, text: `HP-NB placements ${A.placements.label}: ${A.placements.units} units, already deducted from the area quantities.`, ended: false };
+      const cols = [{ h: "Billed", w: 12 }, { h: "Sales rep", w: 22 }, { h: "Area", w: 10 }, { h: "Department", w: 13 }, { h: "Customer", w: 34 }, { h: "Group", w: 9 }, { h: "Model", w: 40 }, { h: "Part No.", w: 11 }, { h: "Qty", w: 8, num: true, key: true }, { h: "Billing doc", w: 13 }];
+      const n = { asOf: notice.asOf, text: notice.text, ended: notice.ended };
       const keep = notice; notice = n;
-      sheet("Placements", "HP Notebooks — Placements deducted", cols, P.map((e) => [e.date, e.rep, e.area, e.dept, e.customer, e.model, e.pn, e.qty, e.doc]));
+      sheet("Placements", "HP Notebooks — Placements deducted", cols, Object.assign(P.map((e) => [e.date, e.rep, e.area, e.dept, e.customer, e.group ? "Group " + e.group : "", e.model, e.pn, e.qty, e.doc]), { countLabel: `${P.length} lines` }));
       notice = keep;
     }
     const buf = await wb.xlsx.writeBuffer();
     const blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    saveBlob(blob, `HP NB Allocation per area - as of ${A.asOf}.xlsx`);
+    saveBlob(blob, `HP NB Program allocation - as of ${A.asOf}.xlsx`);
     return blob;
   }
 

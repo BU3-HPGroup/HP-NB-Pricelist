@@ -733,30 +733,58 @@
     return (mode === "ltb" ? "#/ltb/product/" : "#/product/") + encodeURIComponent(p.id);
   }
 
-  // ---------- Allocation per area (data/allocation.json; max qty each area can sell, valid until a set date) ----------
-  const ALLOC_KEY = "hppl-alloc-area";
+  // ---------- Program allocation (data/allocation.json v2, built by tools/build_program_allocation.py) ----------
+  // Each model has program qty per dealer group (A/B/C); split into areas, or open to all areas; minus placements.
+  const ALLOC_KEY = "hppl-alloc-area", ALLOC_GKEY = "hppl-alloc-group";
   const isoDate = (iso, long) => { const t = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ""); return t ? new Date(+t[1], +t[2] - 1, +t[3]).toLocaleDateString("en-PH", { year: "numeric", month: long ? "long" : "short", day: "numeric" }) : ""; };
   const allocEnded = () => !!(state.alloc && state.alloc.validUntil && todayISO() > state.alloc.validUntil);
   const allocRow = (p) => (state.alloc && p ? state.alloc.rows.find((r) => r.id === p.id || (p.partNo && r.pn === String(p.partNo).toUpperCase())) : null);
   const fmtQty = (n) => (n == null ? "—" : Number(n).toLocaleString("en-PH"));
   function allocArea() { let a = ""; try { a = localStorage.getItem(ALLOC_KEY) || ""; } catch (e) {} return state.alloc && state.alloc.areas.includes(a) ? a : ""; }
-  function allocNoteHTML(short) {
-    const A = state.alloc, until = isoDate(A.validUntil, true);
-    if (allocEnded()) return `<div class="alloc-valid ended" role="note">${ICONS.clock}<span><b>The area allocation ended on ${esc(until)}.</b> Qty per area is now subject to limits. Check with your account manager before committing quantities.</span></div>`;
-    const pl = A.placements && A.placements.units ? ` Net of ${A.placements.units} HP-NB ${A.placements.units === 1 ? "unit" : "units"} already placed (${esc(A.placements.label)}).` : "";
-    return `<div class="alloc-valid" role="note">${ICONS.clock}<span><b>Valid until ${esc(until)} only.</b>${short ? "" : ` After ${esc(isoDate(A.validUntil))}, qty per area will be subject to limits.`} As of ${esc(isoDate(A.asOf, true))}.${short ? "" : pl}</span></div>`;
+  function allocGroup() { let g = ""; try { g = localStorage.getItem(ALLOC_GKEY) || ""; } catch (e) {} return state.alloc && (state.alloc.groups || []).includes(g) ? g : ""; }
+  const allocDealerGroups = () => state.allocGroups || [];
+  function allocValidText() {
+    const A = state.alloc;
+    if (!A.validUntil) return `As of ${isoDate(A.asOf, true)}.`;
+    const re = A.reallocation ? ` Reallocation on ${isoDate(A.reallocation, true).replace(/, \d{4}$/, "")}.` : "";
+    if (allocEnded()) return `Allocation ended ${isoDate(A.validUntil, true)}.${re}`;
+    const f = isoDate(A.validFrom || A.asOf, true), u = isoDate(A.validUntil, true);
+    return `Valid ${f.replace(/, \d{4}$/, "")} to ${u} only.${re}`;
   }
+  function allocNoteHTML() {
+    return `<div class="alloc-valid${allocEnded() ? " ended" : ""}" role="note">${ICONS.clock}<span><b>${esc(allocValidText())}</b></span></div>`;
+  }
+  const groupLabel = (g) => { const x = allocDealerGroups().find((d) => d.code === g); return x ? (x.everyoneElse ? "All other dealers" : `${x.dealers.length} named dealers`) : ""; };
   function allocDetailHTML(p) {
     const r = allocRow(p);
     if (!r) return "";
     const A = state.alloc, mine = allocArea();
     return `<section class="alloc-detail" aria-labelledby="allocH">
-      <h3 class="detail-h" id="allocH">Allocation per area</h3>
-      ${r.open ? `<p class="alloc-open-line"><span class="alloc-open">Open to all areas</span> No per-area limit on this model.</p>`
-        : `<ul class="alloc-mini">${A.areas.map((a, i) => `<li class="${a === mine ? "mine" : ""}"><span>${esc(a)}</span><b>${fmtQty(r.areas[i])}</b></li>`).join("")}</ul>`}
-      ${allocNoteHTML(true)}
+      <h3 class="detail-h" id="allocH">Program allocation</h3>
+      <div class="alloc-dgroups">${r.groups.map((v) => `<div class="adg"><div class="adg-h"><span class="chip-g g${esc(v.g)}">Group ${esc(v.g)}</span><b>${fmtQty(v.left)}</b> left of ${fmtQty(v.qty)}${v.over ? ` <em class="alloc-over-i">${fmtQty(v.over)} over</em>` : ""}</div>
+        ${v.open ? `<p class="alloc-open-line"><span class="alloc-open">Open to all areas</span> Any area can sell up to ${fmtQty(v.left)}.</p>`
+          : `<ul class="alloc-mini">${A.areas.map((a, i) => `<li class="${a === mine ? "mine" : ""}"><span>${esc(a)}</span><b>${fmtQty(v.areas[i])}</b></li>`).join("")}</ul>`}</div>`).join("")}</div>
+      ${allocNoteHTML()}
       <a class="alloc-link" href="#/allocation">See all allocations</a>
     </section>`;
+  }
+  function areaBtns(mine, label) {
+    const A = state.alloc;
+    return `<div class="alloc-area" role="group" aria-label="${esc(label)}"><span class="alloc-area-l">${esc(label)}</span>
+      <button type="button" class="aa-btn" data-area="" aria-pressed="${!mine}">All areas</button>
+      ${A.areas.map((a) => `<button type="button" class="aa-btn" data-area="${esc(a)}" aria-pressed="${a === mine}">${esc(a)}</button>`).join("")}</div>`;
+  }
+  function groupBtns(gsel) {
+    const A = state.alloc;
+    return `<div class="alloc-area" role="group" aria-label="Dealer group"><span class="alloc-area-l">Group</span>
+      <button type="button" class="ag-btn" data-g="" aria-pressed="${!gsel}">All groups</button>
+      ${(A.groups || []).map((g) => `<button type="button" class="ag-btn" data-g="${esc(g)}" aria-pressed="${g === gsel}" title="${esc(groupLabel(g))}">Group ${esc(g)}</button>`).join("")}</div>`;
+  }
+  function dealerFinderHTML() {
+    if (!allocDealerGroups().length) return "";
+    return `<details class="alloc-finder"><summary>Which group is my dealer?</summary>
+      <div class="alloc-finder-b"><input type="search" id="allocDealer" placeholder="Type the dealer's name…" autocomplete="off"><p id="allocDealerRes" aria-live="polite"></p>
+      <ul class="adg-list">${allocDealerGroups().map((g) => `<li><b>Group ${esc(g.code)}</b> · ${g.everyoneElse ? "every dealer not listed in the other groups" : g.dealers.map(esc).join(" · ")}</li>`).join("")}</ul></div></details>`;
   }
   function renderAlloc() {
     const box = $("#allocBody");
@@ -767,42 +795,49 @@
     box.dataset.sub = sub;
     const P = (A.placements && A.placements.entries) || [];
     const subTabs = `<nav class="alloc-sub" aria-label="Allocation pages">
-        <a href="#/allocation" class="${sub ? "" : "on"}"${sub ? "" : ' aria-current="page"'}>Allocation per area</a>
-        <a href="#/allocation/placements" class="${sub ? "on" : ""}"${sub ? ' aria-current="page"' : ""}>Placements${P.length ? ` <span>${A.placements.units}</span>` : ""}</a>
+        <a href="#/allocation" class="${sub ? "" : "on"}"${sub ? "" : ' aria-current="page"'}>Allocation</a>
+        <a href="#/allocation/placements" class="${sub ? "on" : ""}"${sub ? ' aria-current="page"' : ""}>Placements${P.length ? ` <span>${fmtQty(A.placements.units)}</span>` : ""}</a>
       </nav>`;
-    $("#allocTitle").textContent = sub ? "Placements" : "Allocation per area";
-    const ad = $("#allocView .category-desc"); if (ad) ad.textContent = sub ? "Who placed HP-NB units, for which customer, and which area's allocation they came out of." : "The maximum quantity each area can sell per model under the current program. Updated daily.";
+    $("#allocTitle").textContent = sub ? "Placements" : "Program allocation";
+    const ad = $("#allocView .category-desc"); if (ad) ad.hidden = true;
     if (sub) { box.innerHTML = subTabs + placementsHTML(A, P); return; }
-    const mine = allocArea(), ended = allocEnded();
+    const mine = allocArea(), gsel = allocGroup();
     const q = (box.dataset.q || "").toUpperCase();
     const rows = A.rows.filter((r) => !q || (r.model + " " + r.pn + " " + r.type).toUpperCase().includes(q));
-    const lim = rows.filter((r) => !r.open), open = rows.filter((r) => r.open);
-    const name = (r) => (r.id ? `<a href="#/allocation/product/${encodeURIComponent(r.id)}">${esc(r.model)}</a>` : esc(r.model)) + (r.placed ? ` <span class="alloc-placed">${r.placed} placed</span>` : "");
+    const tg = { qty: 0, left: 0 }; A.rows.forEach((r) => r.groups.forEach((v) => { if (!gsel || v.g === gsel) { tg.qty += v.qty; tg.left += v.left; } }));
+    const name = (r) => (r.id ? `<a href="#/allocation/product/${encodeURIComponent(r.id)}">${esc(r.model)}</a>` : esc(r.model));
+    const prodOf = (r) => (r.id && findProduct(r.id)) || null;
+    const psrp = (r) => { const p = prodOf(r); return p ? (hasPromoSrp(p) ? `<b class="a-psrp">${fmtPrice(p.promoSrp)}</b><small><s>${fmtPrice(p.srp)}</s></small>` : fmtPrice(p.srp)) : "—"; };
+    const pdp = (r, g) => { const p = prodOf(r); if (!p) return "—"; const t = (tiersOf(p) || []).find((x) => x.group === g); return t && t.dp < p.dp - 0.5 ? `<b class="a-pdp">${fmtPrice(t.dp)}</b><small><s>${fmtPrice(p.dp)}</s></small>` : fmtPrice(p.dp); };
+    const body = rows.map((r) => {
+      const gs = r.groups.filter((v) => !gsel || v.g === gsel);
+      return gs.map((v, i) => `<tr class="${i === 0 ? "first" : "cont"}${v.open ? " is-open" : ""}"><th scope="row"><span class="mname">${name(r)}<small>${esc(r.pn)}</small></span></th>
+        <td class="grp" data-l="Group"><span class="chip-g g${esc(v.g)}">Group ${esc(v.g)}</span></td>
+        <td class="aprice psrp-c" data-l="Promo SRP"><span class="psv">${psrp(r)}</span></td>
+        <td class="aprice" data-l="Promo DP">${pdp(r, v.g)}</td>
+        <td class="tot" data-l="Program qty">${fmtQty(v.qty)}</td>
+        <td class="tot" data-l="Placed">${v.placed ? fmtQty(v.placed) : "—"}</td>
+        <td class="left" data-l="Left"><b>${fmtQty(v.left)}</b>${v.over ? `<small class="alloc-over">${fmtQty(v.over)} over</small>` : ""}</td>
+        ${v.open ? `<td class="open-cell" colspan="${A.areas.length}" data-l="Per area">Open to all areas · up to ${fmtQty(v.left)}</td>`
+          : A.areas.map((a, j) => `<td class="${a === mine ? "mine" : ""}${mine && a !== mine ? " other" : ""}${v.areas[j] ? "" : " zero"}" data-l="${esc(a)}">${fmtQty(v.areas[j])}</td>`).join("")}</tr>`).join("");
+    }).join("");
     box.innerHTML = `${subTabs}${allocNoteHTML(false)}
+      <ul class="pl-areas ag-tiles">${(A.groups || []).map((g) => { let qq = 0, ll = 0; A.rows.forEach((r) => r.groups.forEach((v) => { if (v.g === g) { qq += v.qty; ll += v.left; } })); return `<li class="${g === gsel ? "mine" : ""}"><span>Group ${esc(g)}</span><b>${fmtQty(ll)}</b><small>left of ${fmtQty(qq)} · ${esc(groupLabel(g))}</small></li>`; }).join("")}</ul>
+      ${dealerFinderHTML()}
       <div class="alloc-tools">
-        <div class="alloc-area" role="group" aria-label="Highlight my area">
-          <span class="alloc-area-l">My area</span>
-          <button type="button" class="aa-btn" data-area="" aria-pressed="${!mine}">All areas</button>
-          ${A.areas.map((a) => `<button type="button" class="aa-btn" data-area="${esc(a)}" aria-pressed="${a === mine}">${esc(a)}</button>`).join("")}
-        </div>
+        <div class="alloc-filters">${groupBtns(gsel)}${areaBtns(mine, "My area")}</div>
         <div class="alloc-right">
         <button type="button" class="btn-dl-alloc" id="allocDl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>Download Excel</span></button>
         <label class="alloc-search"><span class="sr-only">Search models</span><input type="search" id="allocFind" placeholder="Search model or part number…" value="${esc(box.dataset.q || "")}" autocomplete="off"></label>
         </div>
       </div>
       <p class="alloc-dl-status" id="allocDlStatus" aria-live="polite"></p>
-      <div class="alloc-scroll${ended ? " is-ended" : ""}"><table class="alloc-table${mine ? " has-mine" : ""}">
-        <thead><tr><th>Model</th><th>Program qty</th>${A.areas.map((a) => `<th class="${a === mine ? "mine" : ""}">${esc(a)}</th>`).join("")}</tr></thead>
-        <tbody>
-        ${lim.map((r) => `<tr><th scope="row">${name(r)}<small>${esc(r.pn)}</small></th><td class="tot" data-l="Program qty">${fmtQty(r.qty)}</td>
-          ${A.areas.map((a, i) => `<td class="${a === mine ? "mine" : ""}${mine && a !== mine ? " other" : ""}" data-l="${esc(a)}">${fmtQty(r.areas[i])}${r.over && r.over[a] ? `<small class="alloc-over">${r.over[a]} over</small>` : ""}</td>`).join("")}</tr>`).join("")}
-        ${open.length ? `<tr class="alloc-sep"><td colspan="${A.areas.length + 2}"><span class="alloc-open">Open to all areas</span> No per-area limit on these ${open.length} models. Sell from the program qty.</td></tr>` : ""}
-        ${open.map((r) => `<tr class="is-open"><th scope="row">${name(r)}<small>${esc(r.pn)}</small></th><td class="tot" data-l="Program qty">${fmtQty(r.qty)}</td><td class="open-cell" colspan="${A.areas.length}" data-l="Per area">Open to all areas</td></tr>`).join("")}
-        ${rows.length ? "" : `<tr><td colspan="${A.areas.length + 2}" class="muted">No model matches “${esc(box.dataset.q)}”.</td></tr>`}
-        </tbody></table></div>
-      <p class="alloc-foot">Program qty is the total for the model. Each area column is the most that area can sell. Quantities can change daily; always confirm with your account manager before committing to a dealer.</p>`;
+      <div class="alloc-scroll"><table class="alloc-table alloc-v2${mine ? " has-mine" : ""}${gsel ? " one-group" : ""}">
+        <thead><tr><th>Model</th><th>Group</th><th>Promo SRP</th><th>Promo DP</th><th>Program qty</th><th>Placed</th><th>Left</th>${A.areas.map((a) => `<th class="${a === mine ? "mine" : ""}">${esc(a)}</th>`).join("")}</tr></thead>
+        <tbody>${body || `<tr><td colspan="${A.areas.length + 7}" class="muted">No model matches “${esc(box.dataset.q)}”.</td></tr>`}</tbody></table></div>
+`;
   }
-  // who placed what, from which area (data/allocation.json placements.entries, HP-NB lines of the SAP billing export)
+  // who placed what, from which group and area (placements.entries)
   function placementsHTML(A, P) {
     if (!P.length) return `<p class="alloc-empty">No HP-NB placements have been deducted yet.</p>`;
     const mine = allocArea();
@@ -812,26 +847,20 @@
     const reps = {};
     list.forEach((e) => { const k = e.rep + "|" + e.area; (reps[k] = reps[k] || { rep: e.rep, area: e.area, dept: e.dept, units: 0, cust: new Set(), models: new Set() }); reps[k].units += e.qty; reps[k].cust.add(e.customer); reps[k].models.add(e.model); });
     const repRows = Object.values(reps).sort((x, y) => y.units - x.units);
-    const d = (iso) => isoDate(iso);
     const model = (e) => e.id ? `<a href="#/allocation/placements/product/${encodeURIComponent(e.id)}">${esc(e.model)}</a>` : esc(e.model);
-    const EA = (A.placements.earlier || []).filter((e) => !mine || e.area === mine);
-    const earlyHTML = EA.length ? `<h3 class="pl-h">Earlier orders billed now · not deducted</h3>
-      <p class="alloc-pl-lead">These were ordered before the allocation (source document starting with 8) and only billed in ${esc(A.placements.label)}, so they don't count against the area. ${fmtQty(EA.reduce((n, e) => n + e.qty, 0))} units.</p>
+    const gchip = (e) => `<span class="chip-g g${esc(e.group)}">Group ${esc(e.group)}</span>${e.dealerGroup && e.dealerGroup !== e.group ? `<small>Group ${esc(e.dealerGroup)} dealer · model only in Group ${esc(e.group)}</small>` : ""}`;
+    const sideTable = (rowsX, title, lead, extra) => rowsX.length ? `<h3 class="pl-h">${title}</h3>
       <div class="alloc-scroll"><table class="alloc-table pl-table pl-early">
-        <thead><tr><th>Model</th><th class="num">Qty</th><th>Sales rep</th><th>Area</th><th>Customer</th><th>Billed</th><th>Source doc</th></tr></thead>
-        <tbody>${EA.map((e) => `<tr><th scope="row">${e.id ? `<a href="#/allocation/placements/product/${encodeURIComponent(e.id)}">${esc(e.model)}</a>` : esc(e.model)}<small>${esc(e.pn)}</small></th><td class="num" data-l="Qty">${fmtQty(e.qty)}</td><td data-l="Sales rep">${esc(e.rep || "—")}</td><td data-l="Area"><span class="pl-area">${esc(e.area)}</span></td><td data-l="Customer">${esc(e.customer)}</td><td data-l="Billed">${esc(isoDate(e.date))}</td><td data-l="Source doc">${esc(e.src)}</td></tr>`).join("")}</tbody>
+        <thead><tr><th>Model</th><th class="num">Qty</th><th>Sales rep</th><th>Area</th><th>Customer</th><th>Billed</th><th>${extra}</th></tr></thead>
+        <tbody>${rowsX.map((e) => `<tr><th scope="row">${model(e)}<small>${esc(e.pn)}</small></th><td class="num" data-l="Qty">${fmtQty(e.qty)}</td><td data-l="Sales rep">${esc(e.rep || "—")}</td><td data-l="Area"><span class="pl-area">${esc(e.area || e.dept)}</span></td><td data-l="Customer">${esc(e.customer)}</td><td data-l="Billed">${esc(isoDate(e.date))}</td><td data-l="${extra}">${esc(extra === "Why" ? e.why : e.src)}</td></tr>`).join("")}</tbody>
       </table></div>` : "";
+    const EA = (A.placements.earlier || []).filter((e) => !mine || e.area === mine);
+    const IG = (A.placements.ignored || []).filter((e) => !mine || e.area === mine);
     const OV = A.placements.over || [];
-    const overHTML = OV.length ? `<div class="alloc-overbox" role="alert"><b>Placed more than the area allocation</b><ul>${OV.map((o) => `<li><span>${esc(o.model)}</span> · ${esc(o.area)}: placed ${fmtQty(o.placed)}, allocated ${fmtQty(o.allocated)} <em>${fmtQty(o.over)} over</em></li>`).join("")}</ul><small>The area now shows 0. The extra units came out of the program qty.</small></div>` : "";
-    return `${overHTML}<p class="alloc-pl-lead">HP-NB units billed ${esc(A.placements.label)} and taken off the allocation of the seller's area. ${A.placements.units} ${A.placements.units === 1 ? "unit" : "units"} on ${A.placements.models} ${A.placements.models === 1 ? "model" : "models"}.</p>
+    const overHTML = OV.length ? `<div class="alloc-overbox" role="alert"><b>Placed more than the group's program qty</b><ul>${OV.map((o) => `<li><span>${esc(o.model)}</span> · Group ${esc(o.group)}: program ${fmtQty(o.qty)}, placed ${fmtQty(o.placed)} <em>${fmtQty(o.over)} over</em></li>`).join("")}</ul></div>` : "";
+    return `${allocNoteHTML()}${overHTML}
       <ul class="pl-areas">${byArea.map((x) => `<li class="${x.units ? "" : "zero"}${x.a === mine ? " mine" : ""}"><span>${esc(x.a)}</span><b>${fmtQty(x.units)}</b><small>${x.units ? `${x.reps} ${x.reps === 1 ? "sales rep" : "sales reps"}` : "No placements"}</small></li>`).join("")}</ul>
-      <div class="alloc-tools">
-        <div class="alloc-area" role="group" aria-label="Show one area">
-          <span class="alloc-area-l">Area</span>
-          <button type="button" class="aa-btn" data-area="" aria-pressed="${!mine}">All areas</button>
-          ${A.areas.map((a) => `<button type="button" class="aa-btn" data-area="${esc(a)}" aria-pressed="${a === mine}">${esc(a)}</button>`).join("")}
-        </div>
-      </div>
+      <div class="alloc-tools">${areaBtns(mine, "Area")}</div>
       ${list.length ? `
       <h3 class="pl-h">By sales rep</h3>
       <div class="alloc-scroll"><table class="alloc-table pl-table">
@@ -840,11 +869,12 @@
       </table></div>
       <h3 class="pl-h">Every placement</h3>
       <div class="alloc-scroll"><table class="alloc-table pl-table">
-        <thead><tr><th>Model</th><th class="num">Qty</th><th>Sales rep</th><th>Area</th><th>Customer</th><th>Billed</th><th>Billing doc</th></tr></thead>
-        <tbody>${list.map((e) => `<tr><th scope="row">${model(e)}<small>${esc(e.pn)}</small></th><td class="num" data-l="Qty">${fmtQty(e.qty)}</td><td data-l="Sales rep">${esc(e.rep || "—")}</td><td data-l="Area"><span class="pl-area">${esc(e.area)}</span></td><td data-l="Customer">${esc(e.customer)}</td><td data-l="Billed">${esc(d(e.date))}</td><td data-l="Billing doc">${esc(e.doc)}</td></tr>`).join("")}</tbody>
+        <thead><tr><th>Model</th><th class="num">Qty</th><th>Group</th><th>Sales rep</th><th>Area</th><th>Customer</th><th>Billed</th><th>Billing doc</th></tr></thead>
+        <tbody>${list.map((e) => `<tr><th scope="row">${model(e)}<small>${esc(e.pn)}</small></th><td class="num" data-l="Qty">${fmtQty(e.qty)}</td><td data-l="Group">${gchip(e)}</td><td data-l="Sales rep">${esc(e.rep || "—")}</td><td data-l="Area"><span class="pl-area">${esc(e.area)}</span></td><td data-l="Customer">${esc(e.customer)}</td><td data-l="Billed">${esc(isoDate(e.date))}</td><td data-l="Billing doc">${esc(e.doc)}</td></tr>`).join("")}</tbody>
       </table></div>` : `<p class="alloc-empty">No placements from ${esc(mine)} in ${esc(A.placements.label)}.</p>`}
-      ${earlyHTML}
-      <p class="alloc-foot">The area comes from the Department in the billing report (SDC_PROV3 = PROV 3, SDB_GMA2 = GMA 2…). Bundle items and other product lines are not counted.</p>`;
+      ${sideTable(EA, "Earlier orders · not deducted", `Ordered before the allocation (source document starting with 8) and only billed in ${esc(A.placements.label)}, so they don't count. ${fmtQty(sum(EA))} units.`, "Source doc")}
+      ${sideTable(IG, "Not deducted", "Returns, and sales of a model that isn't in the dealer group's program.", "Why")}
+`;
   }
 
   function bindAlloc() {
@@ -857,13 +887,18 @@
         if (!window.HPPLX || !window.HPPLX.allocExcel) { st.textContent = "The download tool is still loading. Try again in a moment."; return; }
         dl.disabled = true; st.textContent = "Preparing the Excel file…";
         try {
-          const A = state.alloc, ended = allocEnded();
-          const text = ended ? `The area allocation ended on ${isoDate(A.validUntil, true)}. Qty per area is now subject to limits; check with your account manager.`
-            : `Valid until ${isoDate(A.validUntil, true)} only. After ${isoDate(A.validUntil)}, qty per area will be subject to limits.` + (A.placements && A.placements.units ? ` Quantities are net of ${A.placements.units} HP-NB units already placed (${A.placements.label}).` : "");
-          await window.HPPLX.allocExcel(A, { asOf: isoDate(A.asOf, true), text, ended });
+          const A = state.alloc, P = A.placements || {};
+          await window.HPPLX.allocExcel(A, { asOf: isoDate(A.asOf, true), text: allocValidText(), ended: allocEnded(), price: (r, g) => { const p = r.id && findProduct(r.id); if (!p) return [null, null]; const t = (tiersOf(p) || []).find((x) => x.group === g); return [hasPromoSrp(p) ? p.promoSrp : p.srp, t && t.dp < p.dp - 0.5 ? t.dp : p.dp]; } });
           st.textContent = "Downloaded. The file has an All areas sheet plus one sheet per area.";
         } catch (x) { st.textContent = "The Excel file could not be made. Check your connection and try again."; }
         dl.disabled = false;
+        return;
+      }
+      const gb = e.target.closest(".ag-btn");
+      if (gb) {
+        try { if (gb.dataset.g) localStorage.setItem(ALLOC_GKEY, gb.dataset.g); else localStorage.removeItem(ALLOC_GKEY); } catch (x) {}
+        renderAlloc();
+        const nb = box.querySelector(`.ag-btn[data-g="${CSS.escape(gb.dataset.g)}"]`); if (nb) nb.focus();
         return;
       }
       const b = e.target.closest(".aa-btn");
@@ -873,6 +908,17 @@
       const nb = box.querySelector(`.aa-btn[data-area="${CSS.escape(b.dataset.area)}"]`); if (nb) nb.focus();
     });
     box.addEventListener("input", (e) => {
+      if (e.target.id === "allocDealer") {
+        const nm = (x) => String(x).toUpperCase().replace(/[^A-Z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+        const qd = nm(e.target.value), out = $("#allocDealerRes");
+        if (qd.length < 2) { out.innerHTML = ""; return; }
+        const hits = [];
+        allocDealerGroups().forEach((g) => (g.dealers || []).forEach((d) => { if (nm(d).includes(qd)) hits.push({ d, g }); }));
+        const dflt = allocDealerGroups().find((g) => g.everyoneElse);
+        out.innerHTML = hits.length ? hits.slice(0, 6).map((h) => `<span class="hit"><b>${esc(h.d)}</b> → Group ${esc(h.g.code)}</span>`).join("")
+          : `<span class="hit">Not on the named lists${dflt ? ` → <b>Group ${esc(dflt.code)}</b>` : ""}</span>`;
+        return;
+      }
       if (e.target.id !== "allocFind") return;
       box.dataset.q = e.target.value.trim();
       const pos = e.target.selectionStart;
@@ -1862,6 +1908,7 @@
       state.meta = data;
       state.groups = data.dealerGroups || [];
       state.products = data.products || [];
+      state.allocGroups = data.dealerGroups || [];
       if (state.hidePromo) {
         state.products.forEach((p) => { PROMO_FIELDS.forEach((k) => delete p[k]); if (p.note && /promo|until|units? (left|only)/i.test(p.note)) delete p.note; });
         data.dealerGroups = []; state.groups = [];
