@@ -74,6 +74,9 @@ def main():
     ap.add_argument("--valid-from", default=None, help="first day the allocation applies, e.g. 2026-11-19")
     ap.add_argument("--valid-until", default=None, help="last day, e.g. 2026-11-30")
     ap.add_argument("--reallocation", default=None, help="date of the next reallocation, e.g. 2026-12-01")
+    ap.add_argument("--fresh-from", default=None,
+                    help="start fresh logging on this date: placements before it are taken off quietly (the qty shown "
+                         "starts from what was left), and only placements from this date are listed")
     a = ap.parse_args()
 
     data = json.load(open(os.path.join(ROOT, "data", "products.json"), encoding="utf-8"))
@@ -214,6 +217,40 @@ def main():
         r["open"] = all(v["open"] for v in r["groups"].values())
         r["groups"] = [r["groups"][g] for g in sorted(r["groups"])]
 
+    # ---- fresh start: earlier placements become part of the starting qty and are not shown ----
+    if a.fresh_from:
+        before = {}
+        for e in entries:
+            if e["date"] < a.fresh_from:
+                before[(e["pn"], e["group"])] = before.get((e["pn"], e["group"]), 0) + e["qty"]
+        over = []
+        for pn in list(order):
+            r = rows[pn]
+            keep = []
+            for v in r["groups"]:
+                b = before.get((pn, v["g"]), 0)
+                full_q, full_p = v["qty"], v["placed"]
+                v["qty"] = max(0, full_q - b)                 # what this group starts with today
+                v["placed"] = full_p - b                      # fresh placements only
+                v["left"] = max(0, full_q - full_p)
+                v["over"] = max(0, full_p - full_q) - max(0, b - full_q)
+                for k in ("split", "alloc", "placedAreas", "rebalanced"):
+                    v.pop(k, None)
+                if v["over"]:
+                    over.append({"model": r["model"], "id": r["id"], "group": v["g"], "qty": v["qty"], "placed": v["placed"], "over": v["over"]})
+                if v["qty"] > 0 or v["placed"] > 0:
+                    keep.append(v)
+            r["groups"] = keep
+            if not keep:
+                order.remove(pn); rows.pop(pn)
+                continue
+            r["qty"] = sum(v["qty"] for v in keep); r["placed"] = sum(v["placed"] for v in keep); r["left"] = sum(v["left"] for v in keep)
+            r["open"] = all(v["open"] for v in keep)
+        entries = [e for e in entries if e["date"] >= a.fresh_from]
+        earlier = [e for e in earlier if e["date"] >= a.fresh_from]
+        ignored = [e for e in ignored if e["date"] >= a.fresh_from]
+        a.since = a.fresh_from
+
     onhand = {}
     if a.onhand:
         ws = openpyxl.load_workbook(a.onhand, data_only=True)["Onhand and Incoming"]
@@ -224,6 +261,8 @@ def main():
     key = lambda e: (e["date"], e["doc"])
     first = min((e["date"] for e in entries), default=a.since)
     last = max((e["date"] for e in entries + earlier), default=a.since)
+    if not entries and not earlier:
+        a.label = a.label or f"since {date.fromisoformat(a.since).strftime('%b %-d')}"
     fmt = lambda iso: date.fromisoformat(iso).strftime("%b %-d")
     label = a.label or (f"{fmt(a.since)}–{date.fromisoformat(last).day}" if last[:7] == a.since[:7] else f"{fmt(a.since)}–{fmt(last)}")
     payload = {
@@ -238,7 +277,7 @@ def main():
         "count": len(rows),
         "rows": [rows[pn] for pn in order],
         "placements": {
-            "label": label, "since": a.since,
+            "label": label, "since": a.since, "fresh": bool(a.fresh_from),
             "units": sum(e["qty"] for e in entries),
             "models": len({e["pn"] for e in entries}),
             "entries": sorted(entries, key=key, reverse=True),

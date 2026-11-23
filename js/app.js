@@ -761,7 +761,7 @@
     const A = state.alloc, mine = allocArea();
     return `<section class="alloc-detail" aria-labelledby="allocH">
       <h3 class="detail-h" id="allocH">Program allocation</h3>
-      <div class="alloc-dgroups">${r.groups.map((v) => `<div class="adg"><div class="adg-h"><span class="chip-g g${esc(v.g)}">Group ${esc(v.g)}</span><b>${fmtQty(v.left)}</b> left of ${fmtQty(v.qty)}${v.over ? ` <em class="alloc-over-i">${fmtQty(v.over)} over</em>` : ""}</div>
+      <div class="alloc-dgroups">${r.groups.map((v) => `<div class="adg"><div class="adg-h"><span class="chip-g g${esc(v.g)}">Group ${esc(v.g)}</span><b>${fmtQty(v.left)}</b> left${v.placed ? ` of ${fmtQty(v.qty)}` : ""}${v.over ? ` <em class="alloc-over-i">${fmtQty(v.over)} over</em>` : ""}</div>
         ${v.open ? `<p class="alloc-open-line"><span class="alloc-open">Open to all areas</span> Any area can sell up to ${fmtQty(v.left)}.</p>`
           : `<ul class="alloc-mini">${A.areas.map((a, i) => `<li class="${a === mine ? "mine" : ""}"><span>${esc(a)}</span><b>${fmtQty(v.areas[i])}</b></li>`).join("")}</ul>`}</div>`).join("")}</div>
       ${allocNoteHTML()}
@@ -822,7 +822,7 @@
           : A.areas.map((a, j) => `<td class="${a === mine ? "mine" : ""}${mine && a !== mine ? " other" : ""}${v.areas[j] ? "" : " zero"}" data-l="${esc(a)}">${fmtQty(v.areas[j])}</td>`).join("")}</tr>`).join("");
     }).join("");
     box.innerHTML = `${subTabs}${allocNoteHTML(false)}
-      <ul class="pl-areas ag-tiles">${(A.groups || []).map((g) => { let qq = 0, ll = 0; A.rows.forEach((r) => r.groups.forEach((v) => { if (v.g === g) { qq += v.qty; ll += v.left; } })); return `<li class="${g === gsel ? "mine" : ""}"><span>Group ${esc(g)}</span><b>${fmtQty(ll)}</b><small>left of ${fmtQty(qq)} · ${esc(groupLabel(g))}</small></li>`; }).join("")}</ul>
+      <ul class="pl-areas ag-tiles">${(A.groups || []).map((g) => { let qq = 0, ll = 0; A.rows.forEach((r) => r.groups.forEach((v) => { if (v.g === g) { qq += v.qty; ll += v.left; } })); return `<li class="${g === gsel ? "mine" : ""}"><span>Group ${esc(g)}</span><b>${fmtQty(ll)}</b><small>${ll !== qq ? `left of ${fmtQty(qq)} · ` : "left · "}${esc(groupLabel(g))}</small></li>`; }).join("")}</ul>
       ${dealerFinderHTML()}
       <div class="alloc-tools">
         <div class="alloc-filters">${groupBtns(gsel)}${areaBtns(mine, "My area")}</div>
@@ -839,7 +839,7 @@
   }
   // who placed what, from which group and area (placements.entries)
   function placementsHTML(A, P) {
-    if (!P.length) return `<p class="alloc-empty">No HP-NB placements have been deducted yet.</p>`;
+    if (!P.length) return `${allocNoteHTML()}<p class="alloc-empty">No placements logged ${esc(A.placements.label || "")} yet.</p>`;
     const mine = allocArea();
     const list = mine ? P.filter((e) => e.area === mine) : P;
     const sum = (arr) => arr.reduce((n, e) => n + e.qty, 0);

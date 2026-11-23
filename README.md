@@ -116,6 +116,7 @@ python tools/build_program_allocation.py \
 - Placements: every file in the sell-out folder, HP-NB invoices from `--since`. Returns and source documents starting with 8 are not deducted. The dealer's group comes from the dealer lists (Ultrium = A; unlisted dealers = C); the area from the Department. If the dealer's group has no qty for a model that is in only one group's program, it comes out of that group (e.g. Silicon Valley / EDS on 15-fc0932AU → Group C). If the model is in several groups, the line is ignored and listed.
 - An area that places more than its share keeps what it placed; the rest of the group is re-split across the other areas. A group that sells more than its program qty shows 0 left and "N over".
 - Add `--valid-from 2026-11-19 --valid-until 2026-11-30 --reallocation 2026-12-01`: the tab shows only "Valid November 19 to November 30, 2026 only. Reallocation on December 1." (no other notes, no program dates) and switches to "Allocation ended …" after the last day. Promo SRP and each group's promo DP are shown next to the qty (from the pricelist). Commit `data/allocation.json` only.
+- `--fresh-from 2026-11-19` starts fresh logging: placements before that date are taken off quietly (the Allocation column starts from what was left) and only placements from that date are shown. Keep passing the same `--fresh-from` on later runs so earlier placements stay hidden.
 - The old per-area tool (`tools/build_allocation.py`, below) is kept for reference.
 
 ### Allocation per area (daily, until Nov 2026)

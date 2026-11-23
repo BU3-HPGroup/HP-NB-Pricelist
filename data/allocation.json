@@ -1,7 +1,7 @@
 {
  "version": 2,
  "program": "CPS Q127 M1 + M2",
- "asOf": "2026-11-19",
+ "asOf": "2026-11-23",
  "validFrom": "2026-11-19",
  "validUntil": "2026-11-30",
  "reallocation": "2026-12-01",
@@ -161,13 +161,13 @@
      ],
      "placedAreas": [
       0,
-      0,
+      10,
       0,
       0,
       0
      ],
-     "placed": 0,
-     "left": 148,
+     "placed": 10,
+     "left": 138,
      "over": 0,
      "rebalanced": false,
      "alloc": [
@@ -179,7 +179,7 @@
      ],
      "areas": [
       38,
-      68,
+      58,
       15,
       18,
       9
@@ -261,8 +261,8 @@
     }
    ],
    "qty": 186,
-   "placed": 22,
-   "left": 167,
+   "placed": 32,
+   "left": 157,
    "open": false
   },
   {
@@ -603,14 +603,14 @@
       2
      ],
      "placedAreas": [
-      0,
+      1,
       0,
       0,
       0,
       0
      ],
-     "placed": 0,
-     "left": 38,
+     "placed": 1,
+     "left": 37,
      "over": 0,
      "rebalanced": false,
      "alloc": [
@@ -621,7 +621,7 @@
       2
      ],
      "areas": [
-      10,
+      9,
       17,
       4,
       5,
@@ -630,8 +630,8 @@
     }
    ],
    "qty": 276,
-   "placed": 62,
-   "left": 214,
+   "placed": 63,
+   "left": 213,
    "open": false
   },
   {
@@ -653,13 +653,13 @@
      ],
      "placedAreas": [
       0,
-      11,
+      14,
       0,
       0,
       0
      ],
-     "placed": 11,
-     "left": 97,
+     "placed": 14,
+     "left": 94,
      "over": 0,
      "rebalanced": false,
      "alloc": [
@@ -671,7 +671,7 @@
      ],
      "areas": [
       28,
-      39,
+      36,
       11,
       13,
       6
@@ -727,24 +727,24 @@
      ],
      "placedAreas": [
       0,
-      3,
+      10,
       0,
       0,
       10
      ],
-     "placed": 13,
-     "left": 1,
-     "over": 0,
+     "placed": 20,
+     "left": 0,
+     "over": 6,
      "rebalanced": true,
      "alloc": [
-      1,
-      3,
+      0,
+      10,
       0,
       0,
       10
      ],
      "areas": [
-      1,
+      0,
       0,
       0,
       0,
@@ -753,8 +753,8 @@
     }
    ],
    "qty": 136,
-   "placed": 24,
-   "left": 112,
+   "placed": 34,
+   "left": 108,
    "open": false
   },
   {
@@ -1045,37 +1045,7 @@
      "g": "A",
      "qty": 20,
      "open": true,
-     "placed": 0,
-     "left": 20,
-     "over": 0,
-     "areas": null
-    },
-    {
-     "g": "B",
-     "qty": 5,
-     "open": true,
-     "placed": 0,
-     "left": 5,
-     "over": 0,
-     "areas": null
-    }
-   ],
-   "qty": 25,
-   "placed": 0,
-   "left": 25,
-   "open": true
-  },
-  {
-   "pn": "DX4J7PA",
-   "model": "HP OmniBook 5 AI PC 14-kf0002TU",
-   "id": "14-kf0002tu",
-   "type": "Omnibook 5",
-   "groups": [
-    {
-     "g": "A",
-     "qty": 18,
-     "open": true,
-     "placed": 0,
+     "placed": 2,
      "left": 18,
      "over": 0,
      "areas": null
@@ -1090,9 +1060,39 @@
      "areas": null
     }
    ],
-   "qty": 23,
-   "placed": 0,
+   "qty": 25,
+   "placed": 2,
    "left": 23,
+   "open": true
+  },
+  {
+   "pn": "DX4J7PA",
+   "model": "HP OmniBook 5 AI PC 14-kf0002TU",
+   "id": "14-kf0002tu",
+   "type": "Omnibook 5",
+   "groups": [
+    {
+     "g": "A",
+     "qty": 18,
+     "open": true,
+     "placed": 1,
+     "left": 17,
+     "over": 0,
+     "areas": null
+    },
+    {
+     "g": "B",
+     "qty": 5,
+     "open": true,
+     "placed": 0,
+     "left": 5,
+     "over": 0,
+     "areas": null
+    }
+   ],
+   "qty": 23,
+   "placed": 1,
+   "left": 22,
    "open": true
   },
   {
@@ -1189,24 +1189,24 @@
      "placedAreas": [
       0,
       0,
-      0,
+      4,
       0,
       13
      ],
-     "placed": 13,
-     "left": 3,
-     "over": 0,
+     "placed": 17,
+     "left": 0,
+     "over": 1,
      "rebalanced": true,
      "alloc": [
-      1,
-      2,
       0,
+      0,
+      4,
       0,
       13
      ],
      "areas": [
-      1,
-      2,
+      0,
+      0,
       0,
       0,
       0
@@ -1214,8 +1214,8 @@
     }
    ],
    "qty": 126,
-   "placed": 31,
-   "left": 95,
+   "placed": 35,
+   "left": 92,
    "open": false
   },
   {
@@ -1378,8 +1378,8 @@
      "g": "A",
      "qty": 13,
      "open": true,
-     "placed": 0,
-     "left": 13,
+     "placed": 3,
+     "left": 10,
      "over": 0,
      "areas": null
     },
@@ -1394,8 +1394,8 @@
     }
    ],
    "qty": 16,
-   "placed": 0,
-   "left": 16,
+   "placed": 3,
+   "left": 13,
    "open": true
   },
   {
@@ -1597,43 +1597,269 @@
      ],
      "placedAreas": [
       0,
-      300,
-      0,
+      370,
+      4,
       10,
-      8
+      13
      ],
-     "placed": 318,
-     "left": 90,
+     "placed": 397,
+     "left": 11,
      "over": 0,
      "rebalanced": true,
      "alloc": [
-      52,
-      300,
-      20,
-      24,
-      12
+      11,
+      370,
+      4,
+      10,
+      13
      ],
      "areas": [
-      52,
+      11,
       0,
-      20,
-      14,
-      4
+      0,
+      0,
+      0
      ]
     }
    ],
    "qty": 408,
-   "placed": 318,
-   "left": 90,
+   "placed": 397,
+   "left": 11,
    "open": false
   }
  ],
  "placements": {
-  "label": "Nov 5–16",
+  "label": "Nov 5–22",
   "since": "2026-11-05",
-  "units": 677,
-  "models": 10,
+  "fresh": false,
+  "units": 787,
+  "models": 13,
   "entries": [
+   {
+    "date": "2026-11-20",
+    "pn": "DW4U9PA",
+    "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+    "id": "14-ht0145tu",
+    "qty": 4,
+    "rep": "Sharimae Tarnate",
+    "dept": "SDC-PROV1",
+    "area": "PROV 1",
+    "customer": "Philcomp Computer Center",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871340417",
+    "src": "0111315166"
+   },
+   {
+    "date": "2026-11-20",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 4,
+    "rep": "Sharimae Tarnate",
+    "dept": "SDC-PROV1",
+    "area": "PROV 1",
+    "customer": "Redquinix Pisobox Computer Center",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871340415",
+    "src": "0111315165"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "E47WPPA",
+    "model": "HP Laptop 15-fc0523AU",
+    "id": "15-fc0523au",
+    "qty": 1,
+    "rep": "Re-Ann Obrigon",
+    "dept": "SDC_GMA1",
+    "area": "GMA 1",
+    "customer": "Clever PC Sales and Services OPC",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339979",
+    "src": "0111314511"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "E2HE2PA",
+    "model": "HP Laptop 15-fd1655TU",
+    "id": "15-fd1655tu",
+    "qty": 5,
+    "rep": "Kent Amen",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Villman Computer Systems Inc.",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339978",
+    "src": "0111314522"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "E2HE2PA",
+    "model": "HP Laptop 15-fd1655TU",
+    "id": "15-fd1655tu",
+    "qty": 5,
+    "rep": "Kent Amen",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Villman Computer Systems Inc.",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339977",
+    "src": "0111314515"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 2,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Laptop Factory Davao Electronics",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339968",
+    "src": "0111314791"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 10,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Laptop Factory Davao Electronics",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339968",
+    "src": "0111314791"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 5,
+    "rep": "Christine Falcon",
+    "dept": "SDC_PROV3",
+    "area": "PROV 3",
+    "customer": "Emcor, Inc.,",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339967",
+    "src": "0111314548"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 5,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Golden Laptops Incorporated",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339922",
+    "src": "0111314802"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 35,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Golden Laptops Incorporated",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339922",
+    "src": "0111314802"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DJ8T8PA",
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "qty": 3,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "SLEF (Laptop Factory) Enterprises",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339921",
+    "src": "0111314801"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DM8L6PA",
+    "model": "HP Laptop 15-fc0932AU",
+    "id": "15-fc0932au",
+    "qty": 25,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "SLEF (Laptop Factory) Enterprises",
+    "dealerGroup": "A",
+    "group": "C",
+    "doc": "0871339921",
+    "src": "0111314801"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DU5R6PA",
+    "model": "HP OmniBook 5 Flip 14-fp0162TU",
+    "id": "14-fp0162tu",
+    "qty": 2,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "SLEF (Laptop Factory) Enterprises",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339921",
+    "src": "0111314801"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DU5S6PA",
+    "model": "HP OmniBook X Flip NG AI PC 14-kb0105TU",
+    "id": "14-kb0105tu",
+    "qty": 3,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "SLEF (Laptop Factory) Enterprises",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339921",
+    "src": "0111314801"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DX4J7PA",
+    "model": "HP OmniBook 5 AI PC 14-kf0002TU",
+    "id": "14-kf0002tu",
+    "qty": 1,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "SLEF (Laptop Factory) Enterprises",
+    "dealerGroup": "A",
+    "group": "A",
+    "doc": "0871339921",
+    "src": "0111314801"
+   },
    {
     "date": "2026-11-12",
     "pn": "E4PN6PA",
@@ -2494,6 +2720,118 @@
   ],
   "ignored": [
    {
+    "date": "2026-11-19",
+    "pn": "DU5S8PA",
+    "model": "HP OmniBook X Flip NG AI PC 14-kb0107TU",
+    "id": "14-kb0107tu",
+    "qty": 1,
+    "rep": "Raquel Pacadar",
+    "dept": "SDC_PROV2",
+    "area": "PROV 2",
+    "customer": "Asia Pacific Computers OPC",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339976",
+    "src": "0111314584",
+    "why": "No Group C program qty for this model"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DU5R6PA",
+    "model": "HP OmniBook 5 Flip 14-fp0162TU",
+    "id": "14-fp0162tu",
+    "qty": 2,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Laptop Factory Davao Electronics",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339968",
+    "src": "0111314791",
+    "why": "No Group C program qty for this model"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DU5S6PA",
+    "model": "HP OmniBook X Flip NG AI PC 14-kb0105TU",
+    "id": "14-kb0105tu",
+    "qty": 2,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Laptop Factory Davao Electronics",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339968",
+    "src": "0111314791",
+    "why": "No Group C program qty for this model"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DX4J7PA",
+    "model": "HP OmniBook 5 AI PC 14-kf0002TU",
+    "id": "14-kf0002tu",
+    "qty": 1,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Laptop Factory Davao Electronics",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339968",
+    "src": "0111314791",
+    "why": "No Group C program qty for this model"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DU5R6PA",
+    "model": "HP OmniBook 5 Flip 14-fp0162TU",
+    "id": "14-fp0162tu",
+    "qty": 6,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Golden Laptops Incorporated",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339922",
+    "src": "0111314802",
+    "why": "No Group C program qty for this model"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DU5S6PA",
+    "model": "HP OmniBook X Flip NG AI PC 14-kb0105TU",
+    "id": "14-kb0105tu",
+    "qty": 5,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Golden Laptops Incorporated",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339922",
+    "src": "0111314802",
+    "why": "No Group C program qty for this model"
+   },
+   {
+    "date": "2026-11-19",
+    "pn": "DX4J7PA",
+    "model": "HP OmniBook 5 AI PC 14-kf0002TU",
+    "id": "14-kf0002tu",
+    "qty": 3,
+    "rep": "Lady Leslie Bueno",
+    "dept": "SDC_GMA2",
+    "area": "GMA 2",
+    "customer": "Golden Laptops Incorporated",
+    "dealerGroup": "C",
+    "group": "C",
+    "doc": "0871339922",
+    "src": "0111314802",
+    "why": "No Group C program qty for this model"
+   },
+   {
     "date": "2026-11-13",
     "pn": "DU5U6PA",
     "model": "HP Laptop 15-fc0947AU",
@@ -2542,6 +2880,22 @@
     "qty": 32,
     "placed": 50,
     "over": 18
+   },
+   {
+    "model": "HP Laptop 15-fd1618TU",
+    "id": "15-fd1618tu",
+    "group": "C",
+    "qty": 14,
+    "placed": 20,
+    "over": 6
+   },
+   {
+    "model": "HP OmniBook 3 AI PC 14-ht0145TU",
+    "id": "14-ht0145tu",
+    "group": "C",
+    "qty": 16,
+    "placed": 17,
+    "over": 1
    }
   ]
  }
